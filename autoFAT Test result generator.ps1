@@ -9,7 +9,7 @@
 <#
 Initialize global variables, do not change the order.
 #>
-$name = #$env:COMPUTERNAME
+$name = $env:COMPUTERNAME
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
 $result = "E:\RapidHIT ID\Results"
@@ -36,7 +36,7 @@ If ($SerialRegMatch -eq $True)
              {New-Item -Path "Non-linearity Calibration $name.PNG" -ItemType File
              Write-host "Created new file: Non-linearity Calibration $name.PNG"}
     elseif ($nlfs -eq '0')
-             {Write-host "Warning: $nl is empty, reported as $nlfs KB"}
+             {Write-host "Warning: Empty file $nl detected, reported as $nlfs KB"}
              else {
              Write-Host "File: 'Non-linearity Calibration $name.PNG' already exists, skipping, File size is:" $nlfs KB
              }
@@ -44,7 +44,7 @@ If ($SerialRegMatch -eq $True)
              {New-Item -Path "Waves $name.PNG" -ItemType File
              Write-host "Created new file: Waves $name.PNG"}
     elseif ($wvfs -eq '0')
-             {Write-host "Warning: $wv is empty, reported as $wvfs KB"}
+             {Write-host "Warning: Empty file $wv detected, reported as $wvfs KB"}
              else {
              Write-Host "File: 'Waves $name.PNG' already exists, skipping, File size is:" $wvfs KB
              }
@@ -68,7 +68,9 @@ If ($SerialRegMatch -eq $True)
     Start-Process -NoNewWindow -FilePath notepad.exe "TC_verification $name.TXT" -wait
     #%windir%\system32\SnippingTool.exe
     #C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
-} else {
+} 
+    elseif ($SerialRegMatch -eq $False)
+{
 $sn = read-host "
 RapidHIT ID Powershell tools, v0.3,
 Enter Insutrment Serial Number, format should be 0###, eg, 0485,
@@ -76,7 +78,6 @@ Enter again to search local folder E:\RapidHIT ID test result, should use within
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
 Enter 2 to Check production server Boxprep HIDAutolite License key,
 Enter 3 to Check archived U.S. server Boxprep HIDAutolite License key,
-Enter 4 to Create placeholder files to record TC temp data, Waves and Non-Linearity screenshots,
 Enter 5 to Backup Instrument config and calibrated TC data to Local server,
 Enter 6 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
 Enter number to proceed"
