@@ -1,25 +1,25 @@
 <#
-.Title: Powershell AutoFAT test result generator
-.Source: https://github.com/chenyong-ng/AutoFAT-run-data-generator
-.Version: v0.3
-.License: Public Domain
-.Revision Date: 04 AUG 2022
+.Title:			Powershell AutoFAT test result generator
+.Source: 		https://github.com/chenyong-ng/AutoFAT-run-data-generator
+.Version:		v0.3
+.License: 		Public Domain
+.Revision Date: 05 JUL 2022
 #>
 
 <#
 Initialize global variables, do not change the order.
 #>
-$name = $env:COMPUTERNAME
+$name 			= $env:COMPUTERNAME
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
-${get-date} = Get-date
-$result = "E:\RapidHIT ID\Results"
-$nl = "Non-linearity Calibration $name.PNG"
-$wv = "Waves $name.PNG"
-$nlc = Test-Path -Path "Non-linearity Calibration $name.PNG" -PathType Leaf
-$waves = Test-Path -Path "Waves $name.PNG" -PathType Leaf
-$tc = Test-Path -Path "TC_verification $name.TXT" -PathType Leaf
-$nlfs = (Get-Item "Non-linearity Calibration $name.PNG" | % {[math]::ceiling($_.length/1KB)}) 
-$wvfs = (Get-Item "Waves $name.PNG" | % {[math]::ceiling($_.length/1KB)})
+${get-date} 	= Get-date
+$result 		= "E:\RapidHIT ID\Results"
+$nl 			= "Non-linearity Calibration $name.PNG"
+$wv 			= "Waves $name.PNG"
+$nlc 			= Test-Path -Path "Non-linearity Calibration $name.PNG" -PathType Leaf
+$waves 			= Test-Path -Path "Waves $name.PNG" -PathType Leaf
+$tc 			= Test-Path -Path "TC_verification $name.TXT" -PathType Leaf
+$nlfs 			= (Get-Item "Non-linearity Calibration $name.PNG" | % {[math]::ceiling($_.length/1KB)}) 
+$wvfs 			= (Get-Item "Waves $name.PNG" | % {[math]::ceiling($_.length/1KB)})
 
 if ($name -eq "SGSI11-59FKK13")
 {
