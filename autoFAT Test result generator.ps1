@@ -9,42 +9,50 @@
 <#
 Initialize global variables, do not change the order.
 #>
-$name 			= $env:COMPUTERNAME
+$name 			= "RHID-0477"
+#$env:COMPUTERNAME
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
 ${get-date} 	= Get-date
 $result 		= "E:\RapidHIT ID\Results"
 $nl 			= "Non-linearity Calibration $name.PNG"
 $wv 			= "Waves $name.PNG"
-$nlc 			= Test-Path -Path "Non-linearity Calibration $name.PNG" -PathType Leaf
-$waves 			= Test-Path -Path "Waves $name.PNG" -PathType Leaf
-$tc 			= Test-Path -Path "TC_verification $name.TXT" -PathType Leaf
-$nlfs 			= (Get-Item "Non-linearity Calibration $name.PNG" | % {[math]::ceiling($_.length/1KB)}) 
-$wvfs 			= (Get-Item "Waves $name.PNG" | % {[math]::ceiling($_.length/1KB)})
+$tcc            = "TC_verification $name.TXT"
+$nlc 			= Test-Path -Path $result\$nl -PathType Leaf
+$waves 			= Test-Path -Path $result\$wv -PathType Leaf
+$tc		    	= Test-Path -Path $result\$tcc -PathType Leaf
+$internal       = Test-Path -Path "U:\$name\Internal\"
+if ($waves -eq $True) {$wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB)})}
+if ($nlc -eq $True)   {$nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB)})}
 
 if ($name -eq "SGSI11-59FKK13")
 {
-    set-variable -name "path" -value "S:\RHID"
+    $path = "S:\RHID"
 } else {
-    set-variable -name "path" -value "U:\RHID"
+    $path = "U:\RHID"
 }
 
 If ($SerialRegMatch -eq $True)
 {
-    Write-host "RapidHIT Instrument detected"
+    Write-host "RapidHIT Instrument detected, creating run folder in server, Non-linearity Calibration and Waves place-holder files."
+    if ($internal -eq $True) {
+    Write-host "Folder: U:\$name\Internal\ already exists in server, skipping"
+    } else {mkdir U:\"$name"\Internal\}
     Set-Location $result
     if ($nlc -eq $False) 
              {New-Item -Path "Non-linearity Calibration $name.PNG" -ItemType File
-             Write-host "Created new file: Non-linearity Calibration $name.PNG"}
+             Write-host "Created placeholder file: Non-linearity Calibration $name.PNG"}
     elseif ($nlfs -eq '0')
-             {Write-host "Warning: Empty file $nl detected, reported as $nlfs KB"}
+             {
+             Write-host "Warning: Empty file $nl detected, reported as $nlfs KB"}
              else {
              Write-Host "File: 'Non-linearity Calibration $name.PNG' already exists, skipping, File size is:" $nlfs KB
              }
     if ($waves -eq $False) 
              {New-Item -Path "Waves $name.PNG" -ItemType File
-             Write-host "Created new file: Waves $name.PNG"}
+             Write-host "Created placeholder file: Waves $name.PNG"}
     elseif ($wvfs -eq '0')
-             {Write-host "Warning: Empty file $wv detected, reported as $wvfs KB"}
+             {
+             Write-host "Warning: Empty file $wv detected, reported as $wvfs KB"}
              else {
              Write-Host "File: 'Waves $name.PNG' already exists, skipping, File size is:" $wvfs KB
              }
@@ -58,14 +66,14 @@ If ($SerialRegMatch -eq $True)
     Stage 2:   °C
     Stage 3:   °C
     Stage 4:   °C
-    Airleak Test: NA/Passed" >> "TC_verification $name.TXT"
-    Write-host "Created new file: TC_verification $name.TXT"}
+    Airleak Test: NA/Passed" > "TC_verification $name.TXT"
+    Write-host "Created placeholder file: TC_verification $name.TXT"}
     else {
     Write-Host "File: 'TC_verification $name.TXT' already exists, skipping
     Read content from file: TC_verification $name.TXT"
     Get-Content -Path "TC_verification $name.TXT"
     }
-    Start-Process -NoNewWindow -FilePath notepad.exe "TC_verification $name.TXT" -wait
+    #Start-Process -NoNewWindow -FilePath notepad.exe "TC_verification $name.TXT" -wait
     #%windir%\system32\SnippingTool.exe
     #C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
 } 
@@ -121,7 +129,7 @@ elseif (
 elseif (
     $sn -eq '6'
 ) {
-    mkdir U:\"$name\Internal\RapidHIT ID"\Results\
+    mkdir U:\"$name"\Internal\
     Copy-Item -Force -Recurse -Exclude "System Volume Information","*RECYCLE.BIN","bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
 }
 elseif (
@@ -164,7 +172,7 @@ function pd {
 
 Write-Host "c" 6>$null
 function c {
-    "Instrument S/N: $env:COMPUTERNAME"
+    If ($SerialRegMatch -eq $True) {Write-host "Instrument S/N: $env:COMPUTERNAME"}
     Get-ChildItem "$serverdir" -I  MachineConfig.xml, TC_Calibration.xml -R | Select-String "MachineName", "HWVersion", "MachineConfiguration", "DataServerUploadPath", "<HP_HardstopZeroForce_mm>", "<HP_Hardstop100Percent_mm>",
     "FluidicHomeOffset", "PreMixHomeOffset", "DiluentHomeOffset", "SyringePumpStallCurrent", "SyringePumpResetCalibration", "LastBEC_TagID", "double", "RunsSinceLastGelFill", "DeliveredSamples", "LaserHours", "<Offsets>"
     Get-ChildItem "$serverdir\Internal\RapidHIT ID" -I  TC_verification*.* -R  | Select-String "Temp" , "Ambient" , "TC Probe ID", "Stage", "Airleak"
@@ -228,7 +236,6 @@ Enter 'h2' to clear screen and show this list of commands
 
 Getting data from folder $serverdir"
 }
-
 Write-host "Enter h2 to show list of commands"
 
 <#
