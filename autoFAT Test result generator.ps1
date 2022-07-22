@@ -27,7 +27,7 @@ else {
 } #RHID Workststion laptop has differnt network drive path
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-$name = $env:COMPUTERNAME
+$name = "RHID-0477" #$env:COMPUTERNAME
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
 $rhid = "E:\RapidHIT ID"
@@ -49,25 +49,12 @@ $exicode = "Null"
 if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
 if ($nlc -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
 
-. \Modules\Set-WindowStyle.ps1
-. \Modules\XML_and_Config.ps1
-. \Modules\MainFunction.ps1
+. $PSScriptRoot\Modules\Set-WindowStyle.ps1
+. $PSScriptRoot\Modules\XML_and_Config.ps1
+. $PSScriptRoot\Modules\MainFunction.ps1
 
 If ($SerialRegMatch -eq $True) {
 (Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-}
-
-function network {
-    Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
-    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
-    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
-}
-
-function w {
-    Get-WmiObject Win32_BaseBoard
-    Get-WmiObject win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize
-    Get-Disk | Where-Object -FilterScript { $_.Bustype -or "SATA" -or "NVME" -or "RAID" -or "USB" }
-    Get-Timezone
 }
 
 function j { 
@@ -79,29 +66,6 @@ function j {
     
 }
 
-function debug {
-    $D = "DEBUG"
-    "[$D] Path           : $env:Path"
-    "[$D] Sn             : $sn"
-    "[$D] Computer Name  : $env:COMPUTERNAME"
-    "[$D] name           : $name"
-    "[$D] SerialRegMatch : $SerialRegMatch" 
-    "[$D] get-date       : ${get-date}"
-    "[$D] rhid           : $rhid"
-    "[$D] result         : $result"
-    "[$D] nl             : $nl"
-    "[$D] wv             : $wv"
-    "[$D] tcc            : $tcc"
-    "[$D] MachineConfig  : $MachineConfig"
-    "[$D] nlc            : $nlc"
-    "[$D] waves          : $waves"
-    "[$D] tc             : $tc"
-    "[$D] mcleaf         : $mcleaf"
-    "[$D] internal       : $internal"
-    "[$D] serverdir      : $serverdir"
-    "[$D] danno          : $danno"
-    "[$D] exicode        : $exicode"
-}
 debug
 Main
 

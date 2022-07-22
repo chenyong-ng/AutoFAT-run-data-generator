@@ -6,13 +6,14 @@ function Main {
         $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
         if ($Win10patch_leaf -eq "True") {
             $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
+            Write-host "[Info   ]: $Win10patch Installed" -ForegroundColor Magenta
         }
         else {
             Write-host "[Warning]: Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
         }
         Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder, Non-linearity Calibration and Waves place-holder file."
         "[Info   ]: Force audio volume to 50%"
-        . U:\"RHID Troubleshooting\Modules"\set-volume.ps1
+        . $PSScriptRoot\set-volume.ps1
         [audio]::Volume = 0.5
         if ([Bool] ($StatusData_leaf) -eq "True" ) {
             "[Info   ]: Found $StatusData in these folders"
@@ -24,7 +25,6 @@ function Main {
             Get-ChildItem -Path "$path$name\*" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
         }
         else { Write-host "[Info   ]: $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
-        Write-host "[Info   ]: $Win10patch Installed" -ForegroundColor Magenta
         if ($internal -eq $True) {
             Write-host "[Info   ]: U:\$name\Internal\ already exists in server, skipping"
         }
@@ -69,7 +69,6 @@ function Main {
             Write-Host "[Info   ]: 'TC_verification $name.TXT' already exists, skipping"
             Get-Content "TC_verification $name.TXT"
         }
-
         $keypress = read-host "[Info   ]: Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "[Info   ]: Make sure AutoFAT is not running, as Waves will cause resource conflict"
         if ($keypress -eq 'y') {

@@ -44,3 +44,40 @@ Enter 'i'  to show HIDAuto Lite 2.9.5 for IntegenX trail license status,
 Enter 'j'  to show Boxprep SoftGenetics License activation status,
 Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
+
+function debug {
+    $D = "DEBUG"
+    "[$D] Path           : $env:Path"
+    "[$D] Sn             : $sn"
+    "[$D] Computer Name  : $env:COMPUTERNAME"
+    "[$D] name           : $name"
+    "[$D] SerialRegMatch : $SerialRegMatch" 
+    "[$D] get-date       : ${get-date}"
+    "[$D] rhid           : $rhid"
+    "[$D] result         : $result"
+    "[$D] nl             : $nl"
+    "[$D] wv             : $wv"
+    "[$D] tcc            : $tcc"
+    "[$D] MachineConfig  : $MachineConfig"
+    "[$D] nlc            : $nlc"
+    "[$D] waves          : $waves"
+    "[$D] tc             : $tc"
+    "[$D] mcleaf         : $mcleaf"
+    "[$D] internal       : $internal"
+    "[$D] serverdir      : $serverdir"
+    "[$D] danno          : $danno"
+    "[$D] exicode        : $exicode"
+}
+
+function network {
+    Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
+    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
+    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
+}
+
+function w {
+    Get-WmiObject Win32_BaseBoard
+    Get-WmiObject win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize
+    Get-Disk | Where-Object -FilterScript { $_.Bustype -or "SATA" -or "NVME" -or "RAID" -or "USB" }
+    Get-Timezone
+}
