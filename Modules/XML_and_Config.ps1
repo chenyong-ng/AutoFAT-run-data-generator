@@ -76,8 +76,13 @@ function network {
 }
 
 function w {
-    Get-WmiObject Win32_BaseBoard
-    Get-WmiObject win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize
-    Get-Disk | Where-Object -FilterScript { $_.Bustype -or "SATA" -or "NVME" -or "RAID" -or "USB" }
-    Get-Timezone
+    $Motherboard = Get-WmiObject Win32_BaseBoard | Format-Table -Property Product , SerialNumber  -HideTableHeaders
+    $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
+    $Disk = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "RAID"} | Format-Table -Property Friendly*, Size -HideTableHeaders
+    $tz = Get-Timezone | Format-Table Id,BaseUtcOffset -HideTableHeaders -wrap
+    $Motherboard
+    "$Ram GB"
+    $disk
+    $tz
+
 }
