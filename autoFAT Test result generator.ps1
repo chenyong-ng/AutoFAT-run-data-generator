@@ -49,160 +49,12 @@ $exicode = "Null"
 if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
 if ($nlc -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
 
-function Set-WindowStyle {
-    param(
-        [Parameter()]
-        [ValidateSet('FORCEMINIMIZE', 'HIDE', 'MAXIMIZE', 'MINIMIZE', 'RESTORE', 
-            'SHOW', 'SHOWDEFAULT', 'SHOWMAXIMIZED', 'SHOWMINIMIZED', 
-            'SHOWMINNOACTIVE', 'SHOWNA', 'SHOWNOACTIVATE', 'SHOWNORMAL')]
-        $Style = 'SHOW',
-        [Parameter()]
-        $MainWindowHandle = (Get-Process -Id $pid).MainWindowHandle
-    )
-    $WindowStates = @{
-        FORCEMINIMIZE = 11; HIDE = 0
-        MAXIMIZE = 3; MINIMIZE = 6
-        RESTORE = 9; SHOW = 5
-        SHOWDEFAULT = 10; SHOWMAXIMIZED = 3
-        SHOWMINIMIZED = 2; SHOWMINNOACTIVE = 7
-        SHOWNA = 8; SHOWNOACTIVATE = 4
-        SHOWNORMAL = 1
-    }
-    Write-Verbose ("Set Window Style {1} on handle {0}" -f $MainWindowHandle, $($WindowStates[$style]))
+. \Modules\Set-WindowStyle.ps1
+. \Modules\XML_and_Config.ps1
+. \Modules\MainFunction.ps1
 
-    $Win32ShowWindowAsync = Add-Type –memberDefinition @” 
-    [DllImport("user32.dll")] 
-    public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-“@ -name “Win32ShowWindowAsync” -namespace Win32Functions –passThru
-
-    $Win32ShowWindowAsync::ShowWindowAsync($MainWindowHandle, $WindowStates[$Style]) | Out-Null
-}
 If ($SerialRegMatch -eq $True) {
 (Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-}
-
-function MachineConfigXML {
-    Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
-<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <MachineName>$name</MachineName>
-  <HWVersion>ID18-3</HWVersion>
-  <MachineConfiguration>NoFLSpring V2SCI</MachineConfiguration>
-  <DataServerUploadPath>U:\</DataServerUploadPath>
-  <HP_HardstopZeroForce_mm>-1</HP_HardstopZeroForce_mm>
-  <HP_Hardstop100Percent_mm>-1</HP_Hardstop100Percent_mm>
-  <SCIState>
-    <moduleID>Cartridge Interface</moduleID>
-    <Clamp>IsDisengaged</Clamp>
-    <Contamination>Clean</Contamination>
-    <LastKnownValveState>Unknown</LastKnownValveState>
-  </SCIState>
-</InstrumentSettings>"
-} #MachineConfig XML Creation
-
-function TC_verification {
-    Write-Output "Instrument SN  : $name
-Time Created    : ${get-date}
-Ambient + Probe : °C,  °C
-Temp + Humidity : °C,  %
-TC Probe ID   M :  [-----SPEC----]
-Stage 1     °C  :  [95.0 ± 0.25°C]
-Stage 2     °C  :  [61.5 ± 0.25°C]
-Stage 3     °C  :  [94.0 ± 0.25°C]
-Stage 4     °C  :  [61.5 ± 0.25°C]
-Airleak Test    : Passed/NA
-Laser LD_488 S/N: "
-} #for recording TC verification data
-
-function Help2 {
-    Write-Host "
-Enter 'e'  to search specific text,
-Enter 'd'  to show Critical Diagnostic Code,
-Enter 'v'  to show Gel Void Volume,
-Enter 'v2' to show Gel Void Volume with BEC ID,
-Enter 'p'  to show Test Progress,
-Enter 'b'  to show only Bolus test result in server,
-Enter 'b2' to show all Bolus test result,
-Enter 't'  to show temp and humidity data fron DannoGUI,
-Enter 'i'  to show HIDAuto Lite 2.9.5 for IntegenX trail license status,
-Enter 'j'  to show Boxprep SoftGenetics License activation status,
-Enter 'w'  to show Istrument hardware info, Timezone setting"
-} # to listing secondary option
-
-function Main {
-    If ($SerialRegMatch -eq $True) {
-        $StatusData_leaf = Get-ChildItem -Path "$path$name\" -I $StatusData  -R | Test-path -PathType Leaf
-        $GM_Analysis_leaf = Get-ChildItem -Path "$path$name\" -I $GM_Analysis -R | Test-path -PathType Leaf
-        $Win10patch = Get-ItemPropertyValue 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1' 'DisplayName'
-        Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder, Non-linearity Calibration and Waves place-holder file."
-        "[Info   ]: Force audio volume to 50%"
-        . U:\"RHID Troubleshooting"\Modules\set-volume.ps1
-        [audio]::Volume = 0.5
-        if ([Bool] ($StatusData_leaf) -eq "True" ) {
-            "[Info   ]: Found $StatusData in these folders"
-            Get-ChildItem -Path "$path$name\*" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-        }
-        else { Write-host "[Info   ]: $StatusData not found, PDF not exported or no full run has been performed" -ForegroundColor yellow }
-        if ([Bool] ($GM_Analysis_leaf) -eq "True" ) {
-            "[Info   ]: Found $GM_Analysis in these folders"
-            Get-ChildItem -Path "$path$name\*" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-        }
-        else { Write-host "[Info   ]: $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
-        Write-host "[Info   ]: $Win10patch Installed" -ForegroundColor Magenta
-        if ($internal -eq $True) {
-            Write-host "[Info   ]: U:\$name\Internal\ already exists in server, skipping"
-        }
-        elseif ($internal -eq $False) {
-            mkdir U:\"$name"\Internal\
-            Write-host "[Info   ]: Server path $internal sucessfully created."
-        }
-        #Write-host "[Warning]: U Drive not detected or mapped, script will only excecute in local mode, most of the fuctions will be disabled"}
-        Set-Location $result
-        if ($nlc -eq $False) {
-            New-Item -Path "Non-linearity Calibration $name.PNG" -ItemType File
-            Write-host "[Info   ]: Created placeholder file: Non-linearity Calibration $name.PNG"
-        }
-        elseif ($nlfs -eq '0') {
-            Write-host "[Warning]: Empty file $nl detected, reported as $nlfs KB" -ForegroundColor red
-        }
-        else {
-            Write-Host "[Info   ]: 'Non-linearity Calibration $name.PNG' already exists, skipping, File size is:" $nlfs KB
-        }
-        if ($waves -eq $False) {
-            New-Item -Path "Waves $name.PNG" -ItemType File
-            Write-host "[Info   ]: Created placeholder file: Waves $name.PNG"
-        }
-        elseif ($wvfs -eq '0') {
-            Write-host "[Warning]: Empty file $wv detected, reported as $wvfs KB" -ForegroundColor red
-        }
-        else {
-            Write-Host "[Info   ]: 'Waves $name.PNG' already exists, skipping, File size is:" $wvfs KB
-        }
-
-        if ($mcleaf -eq $False) {
-            MachineConfigXML > $rhid\$MachineConfig
-            Write-host "[Info   ]: '$MachineConfig' created"
-        }
-        else {
-            Write-Host "[Info   ]: '$MachineConfig' already exists, skipping"
-        }
-        if ($tc -eq $False) {
-            TC_verification > "TC_verification $name.TXT"
-            Write-host "[Info   ] : Created placeholder file: TC_verification $name.TXT"
-        }
-        else {
-            Write-Host "[Info   ]: 'TC_verification $name.TXT' already exists, skipping"
-            Get-Content "TC_verification $name.TXT"
-        }
-
-        $keypress = read-host "[Info   ]: Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
-        "[Info   ]: Make sure AutoFAT is not running, as Waves will cause resource conflict"
-        if ($keypress -eq 'y') {
-            Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $name.TXT"
-            Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
-            Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
-            Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
-        }
-    } # Main function to check whether if it's RHID instrument or Workstation
 }
 
 function network {
@@ -250,8 +102,6 @@ function debug {
     "[$D] danno          : $danno"
     "[$D] exicode        : $exicode"
 }
-
-
 debug
 Main
 
@@ -379,5 +229,5 @@ RHID_GelSyringe = GEL
 $env:Path                             # shows the actual content
 $env:Path = 'C:\foo;' + $env:Path     # attach to the beginning
 $env:Path += ';C:\foo'                # attach to the end
-
+#>
 #>

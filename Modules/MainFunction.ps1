@@ -1,13 +1,19 @@
 function Main {
     If ($SerialRegMatch -eq $True) {
-        (Get-Process -Name PowerShell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         $StatusData_leaf = Get-ChildItem -Path "$path$name\" -I $StatusData  -R | Test-path -PathType Leaf
         $GM_Analysis_leaf = Get-ChildItem -Path "$path$name\" -I $GM_Analysis -R | Test-path -PathType Leaf
+        $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
+        $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
+        if ($Win10patch_leaf -eq "True") {
+            $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
+        }
+        else {
+            Write-host "[Warning]: Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
+        }
         Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder, Non-linearity Calibration and Waves place-holder file."
         "[Info   ]: Force audio volume to 50%"
-        . U:\"RHID Troubleshooting"\set-volume.ps1
+        . U:\"RHID Troubleshooting\Modules"\set-volume.ps1
         [audio]::Volume = 0.5
-        Set-MpPreference -DisableRealtimeMonitoring $true
         if ([Bool] ($StatusData_leaf) -eq "True" ) {
             "[Info   ]: Found $StatusData in these folders"
             Get-ChildItem -Path "$path$name\*" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
@@ -18,6 +24,7 @@ function Main {
             Get-ChildItem -Path "$path$name\*" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
         }
         else { Write-host "[Info   ]: $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
+        Write-host "[Info   ]: $Win10patch Installed" -ForegroundColor Magenta
         if ($internal -eq $True) {
             Write-host "[Info   ]: U:\$name\Internal\ already exists in server, skipping"
         }
@@ -66,10 +73,10 @@ function Main {
         $keypress = read-host "[Info   ]: Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "[Info   ]: Make sure AutoFAT is not running, as Waves will cause resource conflict"
         if ($keypress -eq 'y') {
-            Start-Process -WindowStyle Minimized -FilePath notepad.exe "TC_verification $name.TXT"
-            Start-Process -WindowStyle Minimized -FilePath SnippingTool.exe
-            Start-Process -WindowStyle Minimized -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
-            Start-Process -WindowStyle Minimized -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
+            Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $name.TXT"
+            Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
+            Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
+            Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
         }
     } # Main function to check whether if it's RHID instrument or Workstation
 }
