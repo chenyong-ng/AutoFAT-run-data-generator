@@ -77,12 +77,12 @@ function network {
 
 function w {
     $Motherboard = Get-WmiObject Win32_BaseBoard | Format-Table -Property Product , SerialNumber  -HideTableHeaders
-    $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
-    $Disk = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "RAID"} | Format-Table -Property Friendly*, Size -HideTableHeaders
-    $tz = Get-Timezone | Format-Table Id,BaseUtcOffset -HideTableHeaders -wrap
+    $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
+    $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"} | Measure-Object -Property size -Sum).sum /1GB)
+    $tz = Get-Timezone | Format-Table Id,BaseUtcOffset -HideTableHeaders -wrap -AutoSize
     $Motherboard
     "$Ram GB"
-    $disk
+    "$disk GB"
     $tz
 
 }
