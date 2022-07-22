@@ -363,7 +363,8 @@ if ($input -eq "w") {w -and $exicode = "Null"}
 } while ($exicode = "Null")
 
 
-
+ $InstalledSoftware = Get-ChildItem "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+foreach($obj in $InstalledSoftware){write-host $obj.GetValue('DisplayName') -NoNewline; write-host " - " -NoNewline; write-host $obj.GetValue('DisplayVersion')}
 
 RHID_GFESampleCartridgePLUS = PURPLE CARTRIDGE
 RHID_GFEControlCartridgePLUS = BLUE CARTRIDGE / ALLELIC LADDER
