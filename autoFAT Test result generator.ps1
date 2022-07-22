@@ -4,7 +4,7 @@
 .Version      :	v0.4
 .License      : Public Domain
 .Revision Date: 10 JUL 2022
-.Todo         : Set display resolution, change to display 2, check exported PDF  leaf from full run, add win10 patch autorun
+.Todo         : Set display resolution, change to display 2, check exported PDF  leaf from full run
 #>
 
 <#
@@ -77,6 +77,9 @@ function Set-WindowStyle {
 
     $Win32ShowWindowAsync::ShowWindowAsync($MainWindowHandle, $WindowStates[$Style]) | Out-Null
 }
+If ($SerialRegMatch -eq $True) {
+(Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
+}
 
 function MachineConfigXML {
     Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
@@ -127,14 +130,13 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 
 function Main {
     If ($SerialRegMatch -eq $True) {
-        (Get-Process -Name PowerShell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         $StatusData_leaf = Get-ChildItem -Path "$path$name\" -I $StatusData  -R | Test-path -PathType Leaf
         $GM_Analysis_leaf = Get-ChildItem -Path "$path$name\" -I $GM_Analysis -R | Test-path -PathType Leaf
+        $Win10patch = Get-ItemPropertyValue 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1' 'DisplayName'
         Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder, Non-linearity Calibration and Waves place-holder file."
         "[Info   ]: Force audio volume to 50%"
-        . U:\"RHID Troubleshooting"\set-volume.ps1
+        . U:\"RHID Troubleshooting"\Modules\set-volume.ps1
         [audio]::Volume = 0.5
-        Set-MpPreference -DisableRealtimeMonitoring $true
         if ([Bool] ($StatusData_leaf) -eq "True" ) {
             "[Info   ]: Found $StatusData in these folders"
             Get-ChildItem -Path "$path$name\*" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
@@ -145,7 +147,7 @@ function Main {
             Get-ChildItem -Path "$path$name\*" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
         }
         else { Write-host "[Info   ]: $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
-        Get-ItemPropertyValue 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1' 'DisplayName'
+        Write-host "[Info   ]: $Win10patch Installed" -ForegroundColor Magenta
         if ($internal -eq $True) {
             Write-host "[Info   ]: U:\$name\Internal\ already exists in server, skipping"
         }
@@ -153,6 +155,7 @@ function Main {
             mkdir U:\"$name"\Internal\
             Write-host "[Info   ]: Server path $internal sucessfully created."
         }
+        #Write-host "[Warning]: U Drive not detected or mapped, script will only excecute in local mode, most of the fuctions will be disabled"}
         Set-Location $result
         if ($nlc -eq $False) {
             New-Item -Path "Non-linearity Calibration $name.PNG" -ItemType File
@@ -194,10 +197,10 @@ function Main {
         $keypress = read-host "[Info   ]: Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "[Info   ]: Make sure AutoFAT is not running, as Waves will cause resource conflict"
         if ($keypress -eq 'y') {
-            Start-Process -WindowStyle Minimized -FilePath notepad.exe "TC_verification $name.TXT"
-            Start-Process -WindowStyle Minimized -FilePath SnippingTool.exe
-            Start-Process -WindowStyle Minimized -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
-            Start-Process -WindowStyle Minimized -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
+            Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $name.TXT"
+            Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
+            Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
+            Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
         }
     } # Main function to check whether if it's RHID instrument or Workstation
 }
@@ -363,9 +366,9 @@ if ($input -eq "i") {i -and $exicode = "Null"}
 if ($input -eq "w") {w -and $exicode = "Null"}
 } while ($exicode = "Null")
 
+Get-ItemPropertyValue 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1' 'DisplayName'
 
- $InstalledSoftware = Get-ChildItem "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
-foreach($obj in $InstalledSoftware){write-host $obj.GetValue('DisplayName') -NoNewline; write-host " - " -NoNewline; write-host $obj.GetValue('DisplayVersion')}
+"C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\DataCheck.exe" 7C0469C3-1269-42C8-B779-4FB6E8D0F527 35
 
 RHID_GFESampleCartridgePLUS = PURPLE CARTRIDGE
 RHID_GFEControlCartridgePLUS = BLUE CARTRIDGE / ALLELIC LADDER
