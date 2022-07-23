@@ -45,23 +45,7 @@ Enter 'j'  to show Boxprep SoftGenetics License activation status,
 Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
-function info_screens {
-Add-Type -AssemblyName System.Windows.Forms
-$screen_cnt  = [System.Windows.Forms.Screen]::AllScreens.Count
-$col_screens = [system.windows.forms.screen]::AllScreens
-
-$info_screens = ($col_screens | ForEach-Object {
-if ("$($_.Primary)" -eq "True") {$monitor_type = "Primary Monitor    "} else {$monitor_type = "Secondary Monitor  "}
-if ("$($_.Bounds.Width)" -gt "$($_.Bounds.Height)") {$monitor_orientation = "Landscape"} else {$monitor_orientation = "Portrait"}
-$monitor_type + "(Bounds)                          " + "$($_.Bounds)"
-$monitor_type + "(Primary)                         " + "$($_.Primary)"
-$monitor_type + "(Device Name)                     " + "$($_.DeviceName)"
-$monitor_type + "(Bounds Width x Bounds Height)    " + "$($_.Bounds.Width) x $($_.Bounds.Height) ($monitor_orientation)"
-$monitor_type + "(Bits Per Pixel)                  " + "$($_.BitsPerPixel)"
-$monitor_type + "(Working Area)                    " + "$($_.WorkingArea)"
-}
-)
-}
+. $PSScriptRoot\Info_Screens.ps1
 
 function network {
     Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
@@ -74,8 +58,9 @@ function network {
     $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"} | Measure-Object -Property size -Sum).sum /1GB)
     $DiskType = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"}  | select-object Friendly* | format-table -HideTableHeaders
     $tz = Get-Timezone | Format-Table DisplayName , BaseUtcOffset -HideTableHeaders -autosize
+    $mp = Get-MpPreference | select-object DisableRealtimeMonitoring 
 
-    function debug {
+function debug {
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
     "[$D] Sn             : $sn"
@@ -100,6 +85,6 @@ function network {
     "[$D] Disk           : $Disk GB"
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
-    $DIMM, $tz,  $DiskType
+    $DIMM, $tz,  $DiskType, $mp
     $info_screens
 }
