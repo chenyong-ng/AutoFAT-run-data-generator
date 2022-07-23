@@ -49,12 +49,15 @@ $exicode = "Null"
 if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
 if ($nlc -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
 
+<#Set-WindowStyle.ps1 and XML_and_Config.ps1 must be saved in UTF-8 BOM encoding,
+otherwise output will be result in gibberish #>
 . $PSScriptRoot\Modules\Set-WindowStyle.ps1
 . $PSScriptRoot\Modules\XML_and_Config.ps1
 . $PSScriptRoot\Modules\MainFunction.ps1
 
 If ($SerialRegMatch -eq $True) {
 (Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
+#Set-ScreenResolution -Width 1920 -Height 1080 -DeviceID 0
 }
 
 function j { 

@@ -1,4 +1,4 @@
-function MachineConfigXML {
+﻿function MachineConfigXML {
     Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
 <InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$name</MachineName>
@@ -69,6 +69,25 @@ function debug {
     "[$D] exicode        : $exicode"
 }
 
+Add-Type -AssemblyName System.Windows.Forms
+$screen_cnt  = [System.Windows.Forms.Screen]::AllScreens.Count
+$col_screens = [system.windows.forms.screen]::AllScreens
+
+$info_screens = ($col_screens | ForEach-Object {
+if ("$($_.Primary)" -eq "True") {$monitor_type = "Primary Monitor    "} else {$monitor_type = "Secondary Monitor  "}
+if ("$($_.Bounds.Width)" -gt "$($_.Bounds.Height)") {$monitor_orientation = "Landscape"} else {$monitor_orientation = "Portrait"}
+$monitor_type + "(Bounds)                          " + "$($_.Bounds)"
+$monitor_type + "(Primary)                         " + "$($_.Primary)"
+$monitor_type + "(Device Name)                     " + "$($_.DeviceName)"
+$monitor_type + "(Bounds Width x Bounds Height)    " + "$($_.Bounds.Width) x $($_.Bounds.Height) ($monitor_orientation)"
+$monitor_type + "(Bits Per Pixel)                  " + "$($_.BitsPerPixel)"
+$monitor_type + "(Working Area)                    " + "$($_.WorkingArea)"
+}
+)
+
+Write-Host "TOTAL SCREEN COUNT: $screen_cnt"
+$info_screens
+
 function network {
     Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
@@ -76,11 +95,10 @@ function network {
 }
 
 function w {
-    $Motherboard = Get-WmiObject Win32_BaseBoard | Format-Table -Property Product , SerialNumber  -HideTableHeaders
+    # $Motherboard = Get-WmiObject Win32_BaseBoard | Format-Table -Property Product , SerialNumber  -HideTableHeaders
     $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
-    $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"} | Measure-Object -Property size -Sum).sum /1GB)
+    $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
     $tz = Get-Timezone | Format-Table Id,BaseUtcOffset -HideTableHeaders -wrap -AutoSize
-    $Motherboard
     "$Ram GB"
     "$disk GB"
     $tz

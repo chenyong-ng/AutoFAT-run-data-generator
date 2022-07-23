@@ -1,4 +1,4 @@
-function Set-WindowStyle {
+﻿function Set-WindowStyle {
     param(
         [Parameter()]
         [ValidateSet('FORCEMINIMIZE', 'HIDE', 'MAXIMIZE', 'MINIMIZE', 'RESTORE', 
