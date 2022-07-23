@@ -57,7 +57,7 @@ otherwise output will be result in gibberish #>
 
 If ($SerialRegMatch -eq $True) {
 (Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-Set-MpPreference -DisableRealtimeMonitoring $true
+#Set-MpPreference -DisableRealtimeMonitoring $true
 #Set-ScreenResolution -Width 1920 -Height 1080 -DeviceID 0
 }
 
@@ -67,7 +67,6 @@ function j {
     # add more function to check single, or multiple license key
     $sn2 = read-host "Enter Instrument Serial number to check HID Autolite License key"
     Get-ChildItem "$danno\RHID-$sn2" -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is"
-    
 }
 
 debug

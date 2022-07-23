@@ -45,7 +45,37 @@ Enter 'j'  to show Boxprep SoftGenetics License activation status,
 Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
-function debug {
+function info_screens {
+Add-Type -AssemblyName System.Windows.Forms
+$screen_cnt  = [System.Windows.Forms.Screen]::AllScreens.Count
+$col_screens = [system.windows.forms.screen]::AllScreens
+
+$info_screens = ($col_screens | ForEach-Object {
+if ("$($_.Primary)" -eq "True") {$monitor_type = "Primary Monitor    "} else {$monitor_type = "Secondary Monitor  "}
+if ("$($_.Bounds.Width)" -gt "$($_.Bounds.Height)") {$monitor_orientation = "Landscape"} else {$monitor_orientation = "Portrait"}
+$monitor_type + "(Bounds)                          " + "$($_.Bounds)"
+$monitor_type + "(Primary)                         " + "$($_.Primary)"
+$monitor_type + "(Device Name)                     " + "$($_.DeviceName)"
+$monitor_type + "(Bounds Width x Bounds Height)    " + "$($_.Bounds.Width) x $($_.Bounds.Height) ($monitor_orientation)"
+$monitor_type + "(Bits Per Pixel)                  " + "$($_.BitsPerPixel)"
+$monitor_type + "(Working Area)                    " + "$($_.WorkingArea)"
+}
+)
+}
+
+function network {
+    Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
+    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
+    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
+}
+
+    $DIMM = Get-CimInstance Win32_PhysicalMemory |select-object Manufacturer, PartNumber | Format-Table -HideTableHeaders -autosize
+    $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
+    $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"} | Measure-Object -Property size -Sum).sum /1GB)
+    $DiskType = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"}  | select-object Friendly* | format-table -HideTableHeaders
+    $tz = Get-Timezone | Format-Table DisplayName , BaseUtcOffset -HideTableHeaders -autosize
+
+    function debug {
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
     "[$D] Sn             : $sn"
@@ -66,41 +96,10 @@ function debug {
     "[$D] internal       : $internal"
     "[$D] serverdir      : $serverdir"
     "[$D] danno          : $danno"
+    "[$D] Ram            : $Ram GB"
+    "[$D] Disk           : $Disk GB"
     "[$D] exicode        : $exicode"
-}
-
-Add-Type -AssemblyName System.Windows.Forms
-$screen_cnt  = [System.Windows.Forms.Screen]::AllScreens.Count
-$col_screens = [system.windows.forms.screen]::AllScreens
-
-$info_screens = ($col_screens | ForEach-Object {
-if ("$($_.Primary)" -eq "True") {$monitor_type = "Primary Monitor    "} else {$monitor_type = "Secondary Monitor  "}
-if ("$($_.Bounds.Width)" -gt "$($_.Bounds.Height)") {$monitor_orientation = "Landscape"} else {$monitor_orientation = "Portrait"}
-$monitor_type + "(Bounds)                          " + "$($_.Bounds)"
-$monitor_type + "(Primary)                         " + "$($_.Primary)"
-$monitor_type + "(Device Name)                     " + "$($_.DeviceName)"
-$monitor_type + "(Bounds Width x Bounds Height)    " + "$($_.Bounds.Width) x $($_.Bounds.Height) ($monitor_orientation)"
-$monitor_type + "(Bits Per Pixel)                  " + "$($_.BitsPerPixel)"
-$monitor_type + "(Working Area)                    " + "$($_.WorkingArea)"
-}
-)
-
-Write-Host "TOTAL SCREEN COUNT: $screen_cnt"
-$info_screens
-
-function network {
-    Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
-    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
-    Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
-}
-
-function w {
-    # $Motherboard = Get-WmiObject Win32_BaseBoard | Format-Table -Property Product , SerialNumber  -HideTableHeaders
-    $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
-    $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
-    $tz = Get-Timezone | Format-Table Id,BaseUtcOffset -HideTableHeaders -wrap -AutoSize
-    "$Ram GB"
-    "$disk GB"
-    $tz
-
+    "[$D] Display        : $screen_cnt"
+    $DIMM, $tz,  $DiskType
+    $info_screens
 }
