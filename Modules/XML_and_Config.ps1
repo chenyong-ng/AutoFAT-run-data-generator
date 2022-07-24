@@ -55,12 +55,10 @@ function network {
 
     $DIMM = Get-CimInstance Win32_PhysicalMemory |select-object Manufacturer, PartNumber | Format-Table -HideTableHeaders -autosize
     $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
-    $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"} | Measure-Object -Property size -Sum).sum /1GB)
-    $DiskType = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"}  | select-object Friendly* | format-table -HideTableHeaders
+    $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
+    $DiskType = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"}  | select-object Friendly* | format-table -HideTableHeaders
     $tz = [System.TimeZoneInfo]::Local.DisplayName
-    $mp = Get-MpPreference | select-object DisableRealtimeMonitoring 
-    [System.Convert]::ToString($mp)
-    [bool] ($mp | select-string false)
+    [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
 
 function debug {
     $D = "DEBUG"
@@ -85,7 +83,7 @@ function debug {
     "[$D] serverdir      : $serverdir"
     "[$D] danno          : $danno"
     "[$D] Ram            : $Ram GB"
-    "[$D] Disk           : $Disk GB"
+    "[$D] SystemDisk     : $Disk GB"
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
     $DIMM, $DiskType, $mp
