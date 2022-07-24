@@ -46,6 +46,7 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
 . $PSScriptRoot\Info_Screens.ps1
+. $PSScriptRoot\AdapterTypes.ps1
 
 function network {
     Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
@@ -58,7 +59,7 @@ function network {
     $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
     $DiskType = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"}  | select-object Friendly* | format-table -HideTableHeaders
     $tz = [System.TimeZoneInfo]::Local.DisplayName
-    [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
+    $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
 
 function debug {
     $D = "DEBUG"
@@ -66,6 +67,7 @@ function debug {
     "[$D] Sn             : $sn"
     "[$D] Timezone       : $tz"
     "[$D] Computer Name  : $env:COMPUTERNAME"
+    "[$D] Antimalware Scanner  : $RealtimeProtection"
     "[$D] name           : $name"
     "[$D] SerialRegMatch : $SerialRegMatch" 
     "[$D] get-date       : ${get-date}"
@@ -87,5 +89,5 @@ function debug {
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
     $DIMM, $DiskType, $mp
-    $col_screens
+    $col_screens, $adapterTypes
 }
