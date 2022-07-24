@@ -1,7 +1,9 @@
 function Main {
     If ($SerialRegMatch -eq $True) {
+        if ($internal -eq $True) {
         $StatusData_leaf = Get-ChildItem -Path "$path$name\" -I $StatusData  -R | Test-path -PathType Leaf
         $GM_Analysis_leaf = Get-ChildItem -Path "$path$name\" -I $GM_Analysis -R | Test-path -PathType Leaf
+        }
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
         $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
         if ($Win10patch_leaf -eq "True") {

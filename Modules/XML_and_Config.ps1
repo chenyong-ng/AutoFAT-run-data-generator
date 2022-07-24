@@ -57,16 +57,16 @@ function network {
     $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
     $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"} | Measure-Object -Property size -Sum).sum /1GB)
     $DiskType = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "NVME"}  | select-object Friendly* | format-table -HideTableHeaders
-    $tz = Get-Timezone |select-object Id |Format-Table  -HideTableHeaders -autosize
+    $tz = [System.TimeZoneInfo]::Local.DisplayName
     $mp = Get-MpPreference | select-object DisableRealtimeMonitoring 
     [System.Convert]::ToString($mp)
     [bool] ($mp | select-string false)
-    [Regex]::Replace([System.TimeZoneInfo]::Local.StandardName, '([A-Z])\w+\s*', '$1')
 
 function debug {
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
     "[$D] Sn             : $sn"
+    "[$D] Timezone       : $tz"
     "[$D] Computer Name  : $env:COMPUTERNAME"
     "[$D] name           : $name"
     "[$D] SerialRegMatch : $SerialRegMatch" 
@@ -88,6 +88,6 @@ function debug {
     "[$D] Disk           : $Disk GB"
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
-    $DIMM, $tz,  $DiskType, $mp
+    $DIMM, $DiskType, $mp
     $col_screens
 }

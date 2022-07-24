@@ -27,7 +27,7 @@ else {
 } #RHID Workststion laptop has differnt network drive path
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-$name = "RHID-0477" #$env:COMPUTERNAME
+$name = "$env:COMPUTERNAME"
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
 $rhid = "E:\RapidHIT ID"
@@ -57,7 +57,6 @@ otherwise output will be result in gibberish #>
 
 If ($SerialRegMatch -eq $True) {
 (Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-Get-MpPreference
 #Set-ScreenResolution -Width 1920 -Height 1080 -DeviceID 0
 }
 
