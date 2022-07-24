@@ -28,15 +28,15 @@ $connections = gwmi WmiMonitorConnectionParams -Namespace root/wmi
 foreach ($monitor in $monitors)
 {
     $manufacturer = $monitor.ManufacturerName
-    $name = $monitor.UserFriendlyName
+    $FriendlyName = $monitor.UserFriendlyName
     $connectionType = ($connections | ? {$_.InstanceName -eq $monitor.InstanceName}).VideoOutputTechnology
 
     if ($manufacturer -ne $null) {$manufacturer =[System.Text.Encoding]::ASCII.GetString($manufacturer -ne 0)}
-	if ($name -ne $null) {$name =[System.Text.Encoding]::ASCII.GetString($name -ne 0)}
+    if ($FriendlyName -ne $null) { $FriendlyName = [System.Text.Encoding]::ASCII.GetString($name -ne 0) }
     $connectionType = $adapterTypes."$connectionType"
     if ($connectionType -eq $null){$connectionType = 'Unknown'}
 
-    if(($manufacturer -ne $null) -or ($name -ne $null)){$arrMonitors += "$manufacturer $name ($connectionType)"}
+    if (($manufacturer -ne $null) -or ($FriendlyName -ne $null)) { $arrMonitors += "$manufacturer $name ($connectionType)"}
 
 }
 
