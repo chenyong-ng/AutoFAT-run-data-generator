@@ -61,6 +61,7 @@ function network {
     $mp = Get-MpPreference | select-object DisableRealtimeMonitoring 
     [System.Convert]::ToString($mp)
     [bool] ($mp | select-string false)
+    [Regex]::Replace([System.TimeZoneInfo]::Local.StandardName, '([A-Z])\w+\s*', '$1')
 
 function debug {
     $D = "DEBUG"
@@ -88,5 +89,5 @@ function debug {
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
     $DIMM, $tz,  $DiskType, $mp
-    $info_screens
+    $col_screens
 }

@@ -1,4 +1,3 @@
-function info_screens {
 Add-Type -AssemblyName System.Windows.Forms
 $screen_cnt  = [System.Windows.Forms.Screen]::AllScreens.Count
 $col_screens = [system.windows.forms.screen]::AllScreens
@@ -14,4 +13,3 @@ $monitor_type + "(Bits Per Pixel)                  " + "$($_.BitsPerPixel)"
 $monitor_type + "(Working Area)                    " + "$($_.WorkingArea)"
 }
 )
-}
