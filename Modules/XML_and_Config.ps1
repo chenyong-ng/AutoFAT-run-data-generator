@@ -54,10 +54,10 @@ function network {
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
 }
 
-    $DIMM = Get-CimInstance Win32_PhysicalMemory |select-object Manufacturer, PartNumber | Format-Table -HideTableHeaders -autosize
+    $DIMM = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "dimm 0")
     $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
     $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
-    $DiskType = Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"}  | select-object Friendly* | format-table -HideTableHeaders
+    $DiskType = [string](wmic diskdrive get InterfaceType,Model,Name | select-string nvme)
     $tz = [System.TimeZoneInfo]::Local.DisplayName
     $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
 
@@ -85,9 +85,10 @@ function debug {
     "[$D] serverdir      : $serverdir"
     "[$D] danno          : $danno"
     "[$D] Ram            : $Ram GB"
-    "[$D] SystemDisk     : $Disk GB"
+    "[$D] SystemDiskSize : $Disk GB"
+    "[$D] SystemDiskinfo : $Disktype"
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
-    $DIMM, $DiskType, $mp
+    "[$D] DIMM           : $DIMM"
     $col_screens, $strMonitors
 }
