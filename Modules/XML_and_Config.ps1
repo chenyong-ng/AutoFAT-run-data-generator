@@ -89,5 +89,5 @@ function debug {
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
     $DIMM, $DiskType, $mp
-    $col_screens, $adapterTypes
+    $col_screens, $strMonitors
 }
