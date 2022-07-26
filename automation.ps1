@@ -22,7 +22,7 @@ if ($name -eq "SGSI11-59FKK13") {
     $US_danno = "Y:\Dano Planning\Test Data"
 }
 else {
-    $path = "U:\"
+    $path = "U:\RHID"
     $danno = "U:\Dano Planning\Test Data"
 } #RHID Workststion laptop has differnt network drive path
 
@@ -55,10 +55,7 @@ otherwise output will be result in gibberish #>
 . $PSScriptRoot\Modules\XML_and_Config.ps1
 . $PSScriptRoot\Modules\MainFunction.ps1
 
-If ($SerialRegMatch -eq $True) {
-(Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-#Set-ScreenResolution -Width 1920 -Height 1080 -DeviceID 0
-}
+
 
 function j { 
     #     $sn2 = read-host "Checking archived U.S. server Boxprep SoftGenetics License key, Enter Instrument Serial number"
@@ -68,7 +65,6 @@ function j {
     Get-ChildItem "$danno\RHID-$sn2" -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is"
 }
 
-debug
 Main
 
 $sn = read-host "

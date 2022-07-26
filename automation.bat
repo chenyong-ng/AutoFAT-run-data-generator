@@ -1,3 +1,4 @@
+@Title RapidHIT ID Powershell Automation and Troubleshooting Tools
 @echo off
 If Exist "%~dp0\automation.ps1" (
 	PowerShell -Command "& {Set-ExecutionPolicy unrestricted -Scope CurrentUser}"

@@ -1,8 +1,13 @@
 function Main {
     If ($SerialRegMatch -eq $True) {
-        if ($internal -eq $True) {
-        $StatusData_leaf = Get-ChildItem -Path "$path$name\" -I $StatusData  -R | Test-path -PathType Leaf
-        $GM_Analysis_leaf = Get-ChildItem -Path "$path$name\" -I $GM_Analysis -R | Test-path -PathType Leaf
+. $PSScriptRoot\set-volume.ps1
+. $PSScriptRoot\Set-ScreenResolutionEx.ps1
+(Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
+Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
+debug
+        if ($name -eq $True) {
+        $StatusData_leaf = Get-ChildItem -Path "$name" -I $StatusData  -R | Test-path -PathType Leaf
+        $GM_Analysis_leaf = Get-ChildItem -Path "$name" -I $GM_Analysis -R | Test-path -PathType Leaf
         }
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
         $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
@@ -15,16 +20,16 @@ function Main {
         }
         Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder, Non-linearity Calibration and Waves place-holder file."
         "[Info   ]: Force audio volume to 50%"
-        . $PSScriptRoot\set-volume.ps1
+        
         [audio]::Volume = 0.5
         if ([Bool] ($StatusData_leaf) -eq "True" ) {
             "[Info   ]: Found $StatusData in these folders"
-            Get-ChildItem -Path "$path$name\*" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
+            Get-ChildItem -Path "$name" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
         }
         else { Write-host "[Info   ]: $StatusData not found, PDF not exported or no full run has been performed" -ForegroundColor yellow }
         if ([Bool] ($GM_Analysis_leaf) -eq "True" ) {
             "[Info   ]: Found $GM_Analysis in these folders"
-            Get-ChildItem -Path "$path$name\*" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
+            Get-ChildItem -Path "$name" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
         }
         else { Write-host "[Info   ]: $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
         if ($internal -eq $True) {
