@@ -1,1 +1,1 @@
-(Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Lysis Heater FAT")[-1].Matches[0].Groups[1].Value
+Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Lysis Heater FAT"  | Select-Object -Last 1
