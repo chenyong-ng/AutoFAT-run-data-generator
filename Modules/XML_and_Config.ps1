@@ -54,10 +54,10 @@ function network {
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
 }
 
-    $DIMM = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "dimm 0")
+    $DIMM = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "A1_DIMM0","A1_DIMM1")
     $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
     $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
-    $DiskType = [string](wmic diskdrive get InterfaceType,Model,Name | select-string nvme)
+    $DiskType = [string](wmic diskdrive get InterfaceType,Model,Name | select-string "SATA", "IDE")
     $tz = [System.TimeZoneInfo]::Local.DisplayName
     $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
 
