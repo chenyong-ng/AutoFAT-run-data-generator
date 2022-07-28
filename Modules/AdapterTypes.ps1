@@ -29,14 +29,14 @@ foreach ($monitor in $monitors)
 {
     $manufacturer = $monitor.ManufacturerName
     $FriendlyName = $monitor.UserFriendlyName
-    $connectionType = ($connections | ? {$_.InstanceName -eq $monitor.InstanceName}).VideoOutputTechnology
+    $connectionType = ($connections | Where-Object {$_.InstanceName -eq $monitor.InstanceName}).VideoOutputTechnology
 
-    if ($manufacturer -ne $null) {$manufacturer =[System.Text.Encoding]::ASCII.GetString($manufacturer -ne 0)}
-    if ($FriendlyName -ne $null) { $FriendlyName = [System.Text.Encoding]::ASCII.GetString($name -ne 0) }
+    if ($null -ne $manufacturer) {$manufacturer =[System.Text.Encoding]::ASCII.GetString($manufacturer -ne 0)}
+    if ($null -ne $FriendlyName) { $FriendlyName = [System.Text.Encoding]::ASCII.GetString($FriendlyName -ne 0) }
     $connectionType = $adapterTypes."$connectionType"
-    if ($connectionType -eq $null){$connectionType = 'Unknown'}
+    if ($null -eq $connectionType){$connectionType = 'Unknown'}
 
-    if (($manufacturer -ne $null) -or ($FriendlyName -ne $null)) { $arrMonitors += "$manufacturer $name ($connectionType)"}
+    if (($null -ne $manufacturer) -or ($null -ne $FriendlyName)) { $arrMonitors += "$manufacturer $name ($connectionType)"}
 
 }
 
