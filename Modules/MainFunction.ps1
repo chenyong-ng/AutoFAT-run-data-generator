@@ -2,7 +2,7 @@ function Main {
     If ($SerialRegMatch -eq $True) {
 . $PSScriptRoot\set-volume.ps1
 . $PSScriptRoot\Set-ScreenResolutionEx.ps1
-(Get-Process -Name CMD).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
+(Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
 Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
 debug
         if ($name -eq $True) {
