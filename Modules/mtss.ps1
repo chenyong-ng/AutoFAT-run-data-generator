@@ -5,7 +5,10 @@ $storyboard | Select-String "Main board firmware version" | Select-Object -Last 
 $storyboard | Select-String "Mezz board firmware version" | Select-Object -Last 1
 
 # Heater tests
-[bool]$storyboard | Select-String "Lysis Heater FAT"  | Select-Object -Last 1
+$MTSS_Lysis_Heater_FAT = [bool]($storyboard | Select-String "Lysis Heater FAT" | select-string "PASS"  | Select-Object -Last 1)
+if ("$MTSS_Lysis_Heater_FAT" -eq "True")
+{ Write-Host "Lysis Heater FAT test PASSED" -ForegroundColor green}
+else { Write-Host "Lysis Heater FAT test FAILED" -ForegroundColor red}
 $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
 $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1 
 $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
