@@ -48,5 +48,6 @@ $storyboard | Select-String "Bring Up: Lysate Pull" | Select-Object -Last 1
 $storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1
 
 # Bolus tests  ([0-9]{1,3}\.\d\d[s])
-Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test", "% in DN", "Volume  =", "Timing =", "Bolus Current"
-(Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I storyboard*.* -R  | Select-String "Bolus Devliery Test" | select-string "PASS").count
+$MTSS_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
+$MTSS_Bolus
+Write-host Passed Bolus test count: $MTSS_Bolus.count

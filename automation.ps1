@@ -14,18 +14,6 @@ Initialize global variables, do not change the order.
 #$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 #$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-
-if ($name -eq "SGSI11-59FKK13") {
-    $path = "S:\"
-    $danno = "S:\Dano Planning\Test Data"
-    $US_Path = "Y:\"
-    $US_danno = "Y:\Dano Planning\Test Data"
-}
-else {
-    $path = "U:\RHID"
-    $danno = "U:\Dano Planning\Test Data"
-} #RHID Workststion laptop has differnt network drive path
-
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $name = "$env:COMPUTERNAME"
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
@@ -45,6 +33,17 @@ $mcleaf = Test-Path -Path $rhid\$MachineConfig -PathType Leaf
 $internal = Test-Path -Path "U:\$name\Internal\"
 $exicode = "Null"
 
+if ($name -eq "SGSI11-59FKK13") {
+    $path = "S:\"
+    $danno = "S:\Dano Planning\Test Data"
+    $US_Path = "Y:\"
+    $US_danno = "Y:\Dano Planning\Test Data"
+}
+else {
+    $path = "U:\RHID"
+    $danno = "U:\Dano Planning\Test Data"
+} #RHID Workststion laptop has differnt network drive path
+
 #File detection and file size calculation
 if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
 if ($nlc -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
@@ -54,8 +53,6 @@ otherwise output will be result in gibberish #>
 . $PSScriptRoot\Modules\Set-WindowStyle.ps1
 . $PSScriptRoot\Modules\XML_and_Config.ps1
 . $PSScriptRoot\Modules\MainFunction.ps1
-
-
 
 function j { 
     #     $sn2 = read-host "Checking archived U.S. server Boxprep SoftGenetics License key, Enter Instrument Serial number"
