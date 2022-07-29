@@ -15,11 +15,12 @@ $storyboard | Select-String "Gel Cooling FAT"   | Select-Object -Last 1
 $storyboard | Select-String "Ambient FAT"       | Select-Object -Last 1
 
 # SCI tests
-$storyboard | Select-String "SCI Sensor/CAM FAT"             | Select-Object -Last 1
+$storyboard | Select-String "CAM FAT"             | Select-Object -Last 1
+$storyboard | Select-String "SCI Insertion FAT" | Select-Object -Last 1
 $storyboard | Select-String "FRONT END FAT"                  | Select-Object -Last 1
 $storyboard | Select-String "Bring Up: FE Motor Calibration" | Select-Object -Last 1
 $storyboard | Select-String "Bring Up: FE Motor Test"        | Select-Object -Last 1
-$storyboard | Select-String "Bring Up: Homing Error Test"    | Select-Object -Last 1
+$storyboard | Select-String "Bring Up: Homing Erro r Test"    | Select-Object -Last 1
 $storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | Select-Object -Last 1
 $storyboard | Select-String "SCI Antenna Test"               | Select-Object -Last 1
 
