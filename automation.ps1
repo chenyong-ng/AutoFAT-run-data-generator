@@ -34,9 +34,9 @@ $internal = Test-Path -Path "U:\$name\Internal\"
 $exicode = "Null"
 
 if ($name -eq "SGSI11-59FKK13") {
-    $path = "S:\"
+    $path = "S:\RHID"
     $danno = "S:\Dano Planning\Test Data"
-    $US_Path = "Y:\"
+    $US_Path = "Y:\RHID"
     $US_danno = "Y:\Dano Planning\Test Data"
 }
 else {
