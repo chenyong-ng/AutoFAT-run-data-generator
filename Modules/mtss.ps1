@@ -9,7 +9,7 @@ if ([bool]"$MTSS_Mainboard_FW" -eq "True") {
     Write-Host "$MTSS_Mainboard_str : 1001.4.79" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Mainboard_str not updated" -ForegroundColor Red }
-if ([bool]"$MTSS_Mainboard_FW" -eq "True") {
+if ([bool]"$MTSS_Mezzbaord_FW" -eq "True") {
     Write-Host "$MTSS_Mezzbaord_str : 1001.4.79" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Mezzbaord_str not updated" -ForegroundColor Red }
