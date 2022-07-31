@@ -3,8 +3,8 @@ $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R
 #($storyboard | Select-String "Q-mini serial number" | Select-Object -Last 1)
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
-$MTSS_Mainboard_FW = ($storyboard | Select-String $MTSS_Mainboard_str | select-string "1001.4.79" | Select-Object -Last 1)
-$MTSS_Mezzbaord_FW = ($storyboard | Select-String $MTSS_Mezzbaord_str | select-string "1001.4.79" | Select-Object -Last 1)
+$MTSS_Mainboard_FW = ($storyboard | Select-String $MTSS_Mainboard_str | Select-Object -Last 1) | select-string "1001.4.79"
+$MTSS_Mezzbaord_FW = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-Object -Last 1) | select-string "1001.4.79"
 if ([bool]"$MTSS_Mainboard_FW" -eq "True") {
     Write-Host "$MTSS_Mainboard_str : 1001.4.79" -ForegroundColor Green }
 else {
@@ -14,8 +14,10 @@ if ([bool]"$MTSS_Mezzbaord_FW" -eq "True") {
 else {
     Write-Host "$MTSS_Mezzbaord_str not updated" -ForegroundColor Red }
 
-$MTSS_Lysis_Heater_FAT = ($storyboard | Select-String "Lysis Heater FAT" | Select-Object -Last 1) | Select-String "Pass"
-if ([bool]$MTSS_Lysis_Heater_FAT -eq "True") {
+$MTSS_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT" | Select-Object -Last 1
+if (($MTSS_Lysis_Heater_FAT).count -eq "") {
+    Write-Host "Lysis Heater FAT test: N/A" -ForegroundColor Yellow }
+elseif ([bool]($MTSS_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
     Write-Host "Lysis Heater FAT test: PASSED" -ForegroundColor Green }
 else {
     Write-Host "Lysis Heater FAT test FAILED" -ForegroundColor Red }
