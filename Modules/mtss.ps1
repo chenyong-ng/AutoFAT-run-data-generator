@@ -19,7 +19,7 @@ $MTSS_Lysis_Heater_FAT = ($storyboard | Select-String "Lysis Heater FAT" | selec
 if ([bool]"$MTSS_Lysis_Heater_FAT" -eq "True") {
     Write-Host "Lysis Heater FAT test: PASSED" -ForegroundColor Green }
 else {
-    Write-Host "Lysis Heater FAT test FAILED" -ForegroundColor Red }
+    Write-Host "Lysis Heater FAT test: FAILED" -ForegroundColor Red }
 
 ($storyboard | Select-String "DN FAT"            | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "PCR FAT"           | select-string "PASS"| Select-Object -Last 1)
