@@ -17,17 +17,19 @@
 } #MachineConfig XML Creation
 
 function TC_verification {
-    Write-Output "Instrument SN  : $name
+Write-Output "
+Instrument SN   : $name
 Time Created    : ${get-date}
 Ambient + Probe : °C,  °C
 Temp + Humidity : °C,  %
-TC Probe ID   M :  [-----SPEC----]
-Stage 1     °C  :  [95.0 ± 0.25°C]
-Stage 2     °C  :  [61.5 ± 0.25°C]
-Stage 3     °C  :  [94.0 ± 0.25°C]
-Stage 4     °C  :  [61.5 ± 0.25°C]
+TC Probe ID   M :  
+TC Stage 1  °C  :  [95.0 ± 0.25°C]
+TC Stage 2  °C  :  [61.5 ± 0.25°C]
+TC Stage 3  °C  :  [94.0 ± 0.25°C]
+TC Stage 4  °C  :  [61.5 ± 0.25°C]
 Airleak Test    : Passed/NA
-Laser LD_488 S/N: "
+Laser LD_488 S/N: 
+"
 } #for recording TC verification data
 
 function Help2 {
@@ -60,6 +62,7 @@ function network {
     $DiskType = [string](wmic diskdrive get InterfaceType,Model,Name | select-string "SATA", "IDE")
     $tz = [System.TimeZoneInfo]::Local.DisplayName
     $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
+    # add function to check USB device status
 
 function debug {
     $D = "DEBUG"

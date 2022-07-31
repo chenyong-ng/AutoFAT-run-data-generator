@@ -2,6 +2,7 @@ function Main {
     If ($SerialRegMatch -eq $True) {
 . $PSScriptRoot\set-volume.ps1
 . $PSScriptRoot\Set-ScreenResolutionEx.ps1
+ # CHR RHID-0486 (Internal) disable if internal CHR detected
 (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
 Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
 debug
@@ -76,6 +77,7 @@ debug
             Write-Host "[Info   ]: 'TC_verification $name.TXT' already exists, skipping"
             Get-Content "TC_verification $name.TXT"
         }
+        if (($wvfs -eq 0) -or ($nlfs -eq 0)) {
         $keypress = read-host "[Info   ]: Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "[Info   ]: Make sure AutoFAT is not running, as Waves will cause resource conflict"
         if ($keypress -eq 'y') {
@@ -83,6 +85,7 @@ debug
             Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
             Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
             Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
+        }
         }
     } # Main function to check whether if it's RHID instrument or Workstation
 }
