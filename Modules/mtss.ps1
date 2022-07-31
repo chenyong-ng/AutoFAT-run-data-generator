@@ -14,12 +14,11 @@ if ([bool]"$MTSS_Mezzbaord_FW" -eq "True") {
 else {
     Write-Host "$MTSS_Mezzbaord_str not updated" -ForegroundColor Red }
 
-# Heater tests
-$MTSS_Lysis_Heater_FAT = ($storyboard | Select-String "Lysis Heater FAT" | select-string "PASS" | Select-Object -Last 1)
-if ([bool]"$MTSS_Lysis_Heater_FAT" -eq "True") {
+$MTSS_Lysis_Heater_FAT = ($storyboard | Select-String "Lysis Heater FAT" | Select-Object -Last 1) | Select-String "Pass"
+if ([bool]$MTSS_Lysis_Heater_FAT -eq "True") {
     Write-Host "Lysis Heater FAT test: PASSED" -ForegroundColor Green }
 else {
-    Write-Host "Lysis Heater FAT test: FAILED" -ForegroundColor Red }
+    Write-Host "Lysis Heater FAT test FAILED" -ForegroundColor Red }
 
 ($storyboard | Select-String "DN FAT"            | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "PCR FAT"           | select-string "PASS"| Select-Object -Last 1)
