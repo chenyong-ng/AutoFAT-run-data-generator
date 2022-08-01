@@ -68,3 +68,5 @@ else {
 $MTSS_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
 # $MTSS_Bolus[2,3,4,5,6,7,8,9,0,1]
 Write-host Passed Bolus test count: $MTSS_Bolus.count
+
+# Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc.
