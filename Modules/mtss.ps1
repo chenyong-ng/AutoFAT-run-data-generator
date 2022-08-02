@@ -4,17 +4,17 @@ $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R
 $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
-$Firmware79         = "1001.4.79"
-$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-Object -Last 1)
-$MTSS_Mainboard_FW  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-Object -Last 1) | select-string $Firmware79
-$MTSS_Mezzbaord_FW  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-Object -Last 1) | select-string $Firmware79
-Write-Host "$MTSS_QMini_SN" -ForegroundColor Green
+$Firmware           = "1001.4.79"
+$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":"" ") | Select-object -last 1
+$MTSS_Mainboard_FW  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
+$MTSS_Mezzbaord_FW  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
+Write-Host "$MTSS_QMini_str : $MTSS_QMini_SN" -ForegroundColor Green
 if ([bool]"$MTSS_Mainboard_FW" -eq "True") {
-    Write-Host "$MTSS_Mainboard_str : $Firmware79" -ForegroundColor Green }
+    Write-Host "$MTSS_Mainboard_str : $Firmware" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Mainboard_str not updated" -ForegroundColor Red }
 if ([bool]"$MTSS_Mezzbaord_FW" -eq "True") {
-    Write-Host "$MTSS_Mezzbaord_str : $Firmware79" -ForegroundColor Green }
+    Write-Host "$MTSS_Mezzbaord_str : $Firmware" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Mezzbaord_str not updated" -ForegroundColor Red }
 
