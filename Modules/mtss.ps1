@@ -1,10 +1,13 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 
 #($storyboard | Select-String "Q-mini serial number" | Select-Object -Last 1)
+$MTSS_QMini_str = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
+$MTSS_QMini_SN = ($storyboard | Select-String $MTSS_QMini_str | Select-Object -Last 1)
 $MTSS_Mainboard_FW = ($storyboard | Select-String $MTSS_Mainboard_str | Select-Object -Last 1) | select-string "1001.4.79"
 $MTSS_Mezzbaord_FW = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-Object -Last 1) | select-string "1001.4.79"
+Write-Host "$MTSS_QMini_SN" -ForegroundColor Green
 if ([bool]"$MTSS_Mainboard_FW" -eq "True") {
     Write-Host "$MTSS_Mainboard_str : 1001.4.79" -ForegroundColor Green }
 else {
@@ -14,7 +17,11 @@ if ([bool]"$MTSS_Mezzbaord_FW" -eq "True") {
 else {
     Write-Host "$MTSS_Mezzbaord_str not updated" -ForegroundColor Red }
 
-$MTSS_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT" | Select-Object -Last 1
+$MTSS_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT"  | Select-Object -Last 1
+$MTSS_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
+$MTSS_PRC_Heater_FAT    = $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1
+$MTSS_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
+
 if (($MTSS_Lysis_Heater_FAT).count -eq "") {
     Write-Host "Lysis Heater FAT test: N/A" -ForegroundColor Yellow }
 elseif ([bool]($MTSS_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
@@ -22,9 +29,26 @@ elseif ([bool]($MTSS_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "Lysis Heater FAT test FAILED" -ForegroundColor Red }
 
-($storyboard | Select-String "DN FAT"            | select-string "PASS"| Select-Object -Last 1)
-($storyboard | Select-String "PCR FAT"           | select-string "PASS"| Select-Object -Last 1)
-($storyboard | Select-String "Optics Heater FAT" | select-string "PASS"| Select-Object -Last 1)
+if (($MTSS_DN_Heater_FAT).count -eq "") {
+    Write-Host "DN Heater FAT test: N/A" -ForegroundColor Yellow }
+elseif ([bool]($MTSS_DN_Heater_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "DN Heater FAT test: PASSED" -ForegroundColor Green }
+else {
+    Write-Host "DN Heater FAT test FAILED" -ForegroundColor Red }
+
+if (($MTSS_PRC_Heater_FAT).count -eq "") {
+    Write-Host "PRC Heater FAT test: N/A" -ForegroundColor Yellow }
+elseif ([bool]($MTSS_PRC_Heater_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "PRC Heater FAT test: PASSED" -ForegroundColor Green }
+else {
+    Write-Host "PRC Heater FAT test FAILED" -ForegroundColor Red }
+
+if (($MTSS_Optics_Heater_FAT).count -eq "") {
+    Write-Host "Optics Heater FAT test: N/A" -ForegroundColor Yellow }
+elseif ([bool]($MTSS_Optics_Heater_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "Optics Heater FAT test: PASSED" -ForegroundColor Green }
+else {
+    Write-Host "Optiocs Heater FAT test FAILED" -ForegroundColor Red }
 
 # Mainboard tests
 ($storyboard | Select-String "Gel Cooling FAT"   | select-string "PASS"| Select-Object -Last 1)
@@ -69,4 +93,4 @@ $MTSS_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.
 # $MTSS_Bolus[2,3,4,5,6,7,8,9,0,1]
 Write-host Passed Bolus test count: $MTSS_Bolus.count
 
-# Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc.
+# Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
