@@ -1,5 +1,19 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 
+# Checking Q-mini non-linear calibration
+# 2022-07-18 03:48:53.1526, Optics Monitor           ,         Coefficients: 0.8955298, 1.395941E-05, -3.896028E-10, 1.783251E-15
+# 2022-07-18 03:48:53.1809, Optics Monitor           ,         Inflection Points: 124733.1 20919.51
+<#
+Estimated gel void volume = 4.3 uL (0.25 mm)
+2022-07-18 04:02:55.2942, Instrument               ,     Re-priming of gel completed
+2022-07-18 04:02:55.3284, Script Highlight         , Qualifying Gel Integrity
+2022-07-18 04:02:55.3625, Anode Module             ,         Gel residence time in anode 0 days with and estimated accumulated gel purge of 501.1 uL
+2022-07-18 04:02:55.3906, Anode Module             ,         Encoder indicates 501.1 uL which may actually be more accurate
+2022-07-18 04:02:55.4225, Instrument               ,     Gel integrity check passed (no extra purging necessary)
+2022-07-18 04:02:55.4566, Script Highlight         , BEC Reinsert completed - putting the instrument in a ready state
+2022-07-18 04:02:55.4876, Instrument               ,         The gel in the capillary already invalidated from further use
+#>
+
 $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
@@ -93,11 +107,14 @@ else {
 ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "low"  | Select-Object -Last 1)
 ($storyboard | Select-String "Syringe Stallout FAT"  | select-string "PASS" | Select-Object -Last 1)
 ($storyboard | Select-String "Mezzboard FAT"     | select-string "PASS"| Select-Object -Last 1)
+($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1)
+($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1)
+($storyboard | Select-String "BEC Reinsert completed" | Select-Object -Last 1)
+($storyboard | Select-String "Estimated gel void volume" | Select-Object -Last 1)
     
 ($storyboard | Select-String "Piezo FAT" | select-string "PASS" | Select-Object -Last 1)
 ($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1)
 ($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1)
-($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS"| Select-Object -Last 1)
 
 ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "Plug detected" | Select-Object -Last 1)
@@ -106,9 +123,10 @@ else {
 ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "Lysis Volume" | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "Bring Up: Lysate Pull" | select-string "PASS"| Select-Object -Last 1)
-($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "PASS"| Select-Object -Last 1)
 
-# Bolus tests  ([0-9]{1,3}\.\d\d[s])
+($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "Completed" | Select-Object -Last 1)
+($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1)
+
 $MTSS_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
 # $MTSS_Bolus[2,3,4,5,6,7,8,9,0,1]
 Write-host Passed Bolus test count: $MTSS_Bolus.count
