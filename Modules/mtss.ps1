@@ -78,7 +78,19 @@ else {
     Write-Host "$MTSS_Ambient_str test: FAILED" -ForegroundColor Red    }
 
 # SCI tests
-($storyboard | Select-String "CAM FAT"           | select-string "PASS"| Select-Object -Last 1)
+$MTSS_CAM_FAT_str = "CAM FAT"
+#$MTSS_Ambient_str    = "Ambient FAT"  
+$MTSS_CAM_FAT = ($storyboard | Select-String $MTSS_CAM_FAT_str           | select-string "PASS" | Select-Object -Last 1)
+#$MTSS_Ambient_FAT    = $storyboard | Select-String $MTSS_Ambient_str    | Select-Object -Last 1
+
+if (($MTSS_CAM_FAT).count -eq "") {
+    Write-Host "$MTSS_CAM_FAT_str test: N/A"    -ForegroundColor Yellow }
+elseif ([bool] ($MTSS_CAM_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$MTSS_CAM_FAT_str test: PASSED" -ForegroundColor Green }
+else {
+    Write-Host "$MTSS_CAM_FAT_str test: FAILED" -ForegroundColor Red    }
+
+
 ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS"| Select-Object -Last 1)
