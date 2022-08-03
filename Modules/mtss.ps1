@@ -99,7 +99,7 @@ else {
 ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "SCI Antenna Test"               | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 
-# Mezzboard Motor
+# Mezzboard PCB
 ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
@@ -119,7 +119,7 @@ else {
 ($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 
 ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",")
+($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",")| Select-Object -Last 2
 ($storyboard | Select-String "Bring Up: Lysis Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Buffer Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
