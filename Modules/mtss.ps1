@@ -112,7 +112,7 @@ else {
 ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1)
 ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1)
 ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -Last 1)
-($storyboard | Select-String "Estimated gel void volume" | Select-Object -Last 1)
+($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=") | Select-object -last 1
     
 ($storyboard | Select-String "Piezo FAT" | select-string "PASS" | Select-Object -Last 1)
 ($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1)
