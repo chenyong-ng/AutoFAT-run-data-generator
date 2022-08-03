@@ -1,21 +1,17 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 
-# Checking Q-mini non-linear calibration
-# 2022-07-18 03:48:53.1526, Optics Monitor           ,         Coefficients: 0.8955298, 1.395941E-05, -3.896028E-10, 1.783251E-15
-# 2022-07-18 03:48:53.1809, Optics Monitor           ,         Inflection Points: 124733.1 20919.51
-
 $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
 $Firmware79         = "1001.4.79"
 $MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":"" ") | Select-object -last 1
-$MTSS_QMini_Coeff      = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line | Select-object -last 1
-$MTSS_QMini_Infl      = ($storyboard | Select-String "Inflection Point"     | Select-object -last 1).line.split(" "",") | Select-object -last 1
+$MTSS_QMini_Coeff       = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line.split(":") | Select-object -last 1
+$MTSS_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":") | Select-object -last 1
 $MTSS_Mainboard_FW_Ver  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
 $MTSS_Mezzbaord_FW_Ver  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
 Write-Host "[Optics] $MTSS_QMini_str : $MTSS_QMini_SN" -ForegroundColor Green
-Write-Host "[Optics] $MTSS_QMini_Coeff" -ForegroundColor Green
-Write-Host "[Optics] $MTSS_QMini_Infl" -ForegroundColor Green
+Write-Host "[Optics] Coefficients: $MTSS_QMini_Coeff" -ForegroundColor Green
+Write-Host "[Optics] Inflection Point: $MTSS_QMini_Infl" -ForegroundColor Green
 if ([bool]"$MTSS_Mainboard_FW_Ver" -eq "True") {
     Write-Host "[PCBA] $MTSS_Mainboard_str : $MTSS_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
