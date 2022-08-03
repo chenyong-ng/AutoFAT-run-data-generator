@@ -9,15 +9,19 @@ $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
 $Firmware79         = "1001.4.79"
 $MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":"" ") | Select-object -last 1
-$MTSS_Mainboard_FW  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
-$MTSS_Mezzbaord_FW  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
-Write-Host "$MTSS_QMini_str : $MTSS_QMini_SN" -ForegroundColor Green
-if ([bool]"$MTSS_Mainboard_FW" -eq "True") {
-    Write-Host "$MTSS_Mainboard_str : $Firmware" -ForegroundColor Green }
+$MTSS_QMini_Coeff      = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line | Select-object -last 1
+$MTSS_QMini_Infl      = ($storyboard | Select-String "Inflection Point"     | Select-object -last 1).line.split(" "",") | Select-object -last 1
+$MTSS_Mainboard_FW_Ver  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
+$MTSS_Mezzbaord_FW_Ver  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
+Write-Host "[Optics] $MTSS_QMini_str : $MTSS_QMini_SN" -ForegroundColor Green
+Write-Host "[Optics] $MTSS_QMini_Coeff" -ForegroundColor Green
+Write-Host "[Optics] $MTSS_QMini_Infl" -ForegroundColor Green
+if ([bool]"$MTSS_Mainboard_FW_Ver" -eq "True") {
+    Write-Host "[PCBA] $MTSS_Mainboard_str : $MTSS_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Mainboard_str not updated" -ForegroundColor Red }
-if ([bool]"$MTSS_Mezzbaord_FW" -eq "True") {
-    Write-Host "$MTSS_Mezzbaord_str : $Firmware" -ForegroundColor Green }
+if ([bool]"$MTSS_Mezzbaord_FW_Ver" -eq "True") {
+    Write-Host "[PCBA] $MTSS_Mezzbaord_str : $MTSS_Mezzbaord_FW_Ver" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Mezzbaord_str not updated" -ForegroundColor Red }
 
@@ -67,13 +71,13 @@ $MTSS_Ambient_FAT    = $storyboard | Select-String $MTSS_Ambient_str    | Select
 if (($MTSS_Gel_Cooler_FAT).count -eq "") {
     Write-Host "$MTSS_Gel_Cooler_str test: N/A"    -ForegroundColor Yellow }
 elseif ([bool] ($MTSS_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$MTSS_Gel_Cooler_str test: PASSED" -ForegroundColor Green }
+    Write-Host "[Coolant Pump] $MTSS_Gel_Cooler_str test: PASSED" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Gel_Cooler_str test: FAILED" -ForegroundColor Red    }
 if (($MTSS_Ambient_FAT).count -eq "") {
     Write-Host "$MTSS_Ambient_str test: N/A"    -ForegroundColor Yellow }
 elseif ([bool] ($MTSS_Ambient_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$MTSS_Ambient_str test: PASSED" -ForegroundColor Green }
+    Write-Host "[Sensor] $MTSS_Ambient_str test: PASSED" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Ambient_str test: FAILED" -ForegroundColor Red    }
 
@@ -86,9 +90,9 @@ $MTSS_CAM_FAT = ($storyboard | Select-String $MTSS_CAM_FAT_str           | selec
 if (($MTSS_CAM_FAT).count -eq "") {
     Write-Host "$MTSS_CAM_FAT_str test: N/A"    -ForegroundColor Yellow }
 elseif ([bool] ($MTSS_CAM_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$MTSS_CAM_FAT_str test: PASSED" -ForegroundColor Green }
+    Write-Host "[SCI] $MTSS_CAM_FAT_str test: PASSED" -ForegroundColor Green }
 else {
-    Write-Host "$MTSS_CAM_FAT_str test: FAILED" -ForegroundColor Red    }
+    Write-Host "[SCI] $MTSS_CAM_FAT_str test: FAILED" -ForegroundColor Red    }
 
 
 ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
