@@ -33,28 +33,28 @@ $MTSS_Optics_Heater_FAT = $storyboard | Select-String $MTSS_Optics_Heater_str | 
 if (($MTSS_Lysis_Heater_FAT).count -eq "") {
     Write-Host "$MTSS_Lysis_Heater_str test: N/A"    -ForegroundColor Yellow }
 elseif ([bool] ($MTSS_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$MTSS_Lysis_Heater_str test: PASSED" -ForegroundColor Green  }
+    Write-Host "[Heater] $MTSS_Lysis_Heater_str test: PASSED" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Lysis_Heater_str test: FAILED" -ForegroundColor Red    }
 
 if (($MTSS_DN_Heater_FAT).count -eq "") {
     Write-Host "$MTSS_DN_Heater_str test: N/A"    -ForegroundColor Yellow }
 elseif ([bool] ($MTSS_DN_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$MTSS_DN_Heater_str test: PASSED" -ForegroundColor Green  }
+    Write-Host "[Heater] $MTSS_DN_Heater_str test: PASSED" -ForegroundColor Green }
 else {
-    Write-Host "$MTSS_DN_Heater_str test FAILED"  -ForegroundColor Red    }
+    Write-Host "[Heater] $MTSS_DN_Heater_str test: FAILED"  -ForegroundColor Red    }
 
 if (($MTSS_PCR_Heater_FAT).count -eq "") {
     Write-Host "$MTSS_PCR_Heater_str test: N/A"    -ForegroundColor Yellow }
 elseif ([bool] ($MTSS_PCR_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$MTSS_PCR_Heater_str test: PASSED" -ForegroundColor Green  }
+    Write-Host "[Heater] $MTSS_PCR_Heater_str test: PASSED" -ForegroundColor Green  }
 else {
     Write-Host "$MTSS_PCR_Heater_str test: FAILED" -ForegroundColor Red    }
 
 if (($MTSS_Optics_Heater_FAT).count -eq "") {
     Write-Host "$MTSS_Optics_Heater_str test: N/A"    -ForegroundColor Yellow }
 elseif ([bool] ($MTSS_Optics_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$MTSS_Optics_Heater_str test: PASSED" -ForegroundColor Green  }
+    Write-Host "[Heater] $MTSS_Optics_Heater_str test: PASSED" -ForegroundColor Green }
 else {
     Write-Host "$MTSS_Optics_Heater_str test: FAILED" -ForegroundColor Red    }
 
