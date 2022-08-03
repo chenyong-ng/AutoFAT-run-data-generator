@@ -3,16 +3,6 @@ $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R
 # Checking Q-mini non-linear calibration
 # 2022-07-18 03:48:53.1526, Optics Monitor           ,         Coefficients: 0.8955298, 1.395941E-05, -3.896028E-10, 1.783251E-15
 # 2022-07-18 03:48:53.1809, Optics Monitor           ,         Inflection Points: 124733.1 20919.51
-<#
-Estimated gel void volume = 4.3 uL (0.25 mm)
-2022-07-18 04:02:55.2942, Instrument               ,     Re-priming of gel completed
-2022-07-18 04:02:55.3284, Script Highlight         , Qualifying Gel Integrity
-2022-07-18 04:02:55.3625, Anode Module             ,         Gel residence time in anode 0 days with and estimated accumulated gel purge of 501.1 uL
-2022-07-18 04:02:55.3906, Anode Module             ,         Encoder indicates 501.1 uL which may actually be more accurate
-2022-07-18 04:02:55.4225, Instrument               ,     Gel integrity check passed (no extra purging necessary)
-2022-07-18 04:02:55.4566, Script Highlight         , BEC Reinsert completed - putting the instrument in a ready state
-2022-07-18 04:02:55.4876, Instrument               ,         The gel in the capillary already invalidated from further use
-#>
 
 $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
