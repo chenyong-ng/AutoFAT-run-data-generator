@@ -4,11 +4,11 @@ $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
 $Firmware79         = "1001.4.79"
-$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":"" ") | Select-object -last 1
-$MTSS_QMini_Coeff       = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line.split(":") | Select-object -last 1
-$MTSS_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":") | Select-object -last 1
-$MTSS_Mainboard_FW_Ver  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
-$MTSS_Mezzbaord_FW_Ver  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-object -last 1).line.split(":"" ") | Select-object -last 1
+$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
+$MTSS_QMini_Coeff       = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
+$MTSS_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
+$MTSS_Mainboard_FW_Ver  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
+$MTSS_Mezzbaord_FW_Ver  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
 Write-Host "[Optics] $MTSS_QMini_str : $MTSS_QMini_SN" -ForegroundColor Green
 Write-Host "[Optics] Coefficients: $MTSS_QMini_Coeff" -ForegroundColor Green
 Write-Host "[Optics] Inflection Point: $MTSS_QMini_Infl" -ForegroundColor Green
@@ -90,7 +90,6 @@ elseif ([bool] ($MTSS_CAM_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "[SCI] $MTSS_CAM_FAT_str test: FAILED" -ForegroundColor Red    }
 
-
 ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
@@ -108,23 +107,23 @@ else {
 ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "high" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "low"  | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Syringe Stallout FAT"  | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(":")| Select-Object -Last 1
+($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
 ($storyboard | Select-String "Mezzboard FAT"     | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=")| Select-Object -Last 1
-($storyboard | Select-String "BEC Reinsert completed" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=")| Select-Object -Last 1
+($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1).line.split(",")| Select-Object -Last 1 #First BEC Insertion
+($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split(",").TrimStart()| Select-Object -Last 1
+($storyboard | Select-String "BEC Reinsert completed" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
+($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split(",").TrimStart()| Select-Object -Last 1
     
 ($storyboard | Select-String "Piezo FAT" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 
-($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",")| Select-Object -Last 2
+$MTSS_Water_Prime = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+$MTSS_Water_Prime_Plug = ($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
 ($storyboard | Select-String "Bring Up: Lysis Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Buffer Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Lysis Volume" | Select-Object -Last 1).line.split("=")| Select-Object -Last 1
+($storyboard | Select-String "Lysis Volume" | Select-Object -Last 1).line.Split(",").TrimStart()| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Lysate Pull" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 
 ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "Completed" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
