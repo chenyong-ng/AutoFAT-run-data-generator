@@ -22,8 +22,9 @@ $adapterTypes = @{ #https://www.magnumdb.com/search?q=parent:D3DKMDT_VIDEO_OUTPU
 
 $arrMonitors = @()
 
-$monitors = gwmi WmiMonitorID -Namespace root/wmi
-$connections = gwmi WmiMonitorConnectionParams -Namespace root/wmi
+#gwmi
+$monitors = Get-WmiObject WmiMonitorID -Namespace root/wmi
+$connections = Get-WmiObject WmiMonitorConnectionParams -Namespace root/wmi
 
 foreach ($monitor in $monitors)
 {

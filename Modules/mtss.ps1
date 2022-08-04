@@ -108,7 +108,7 @@ else {
 ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "high" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "low"  | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Syringe Stallout FAT"  | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(":")| Select-Object -Last 1
 ($storyboard | Select-String "Mezzboard FAT"     | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=")| Select-Object -Last 1
@@ -124,7 +124,7 @@ else {
 ($storyboard | Select-String "Bring Up: Lysis Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Buffer Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Lysis Volume" | select-string "PASS"| Select-Object -Last 1).line
+($storyboard | Select-String "Lysis Volume" | Select-Object -Last 1).line.split("=")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Lysate Pull" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 
 ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "Completed" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
