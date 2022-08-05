@@ -104,9 +104,9 @@ else {
 ($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 IF (($storyboard | Select-String "Anode Motor FAT").count -eq ("0")) {
-    Write-Host "Anode Motor FAT test: N/A"    -ForegroundColor Yellow }
+    Write-Host "[Mezzplate] Anode Motor FAT test: N/A"    -ForegroundColor Yellow }
 elseif ([bool]($storyboard | Select-String "Anode Motor FAT") -eq ("True")) {
-($storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+    $MTSS_Anode_Motor_FAT = ($storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
     Write-Host "[Mezzplate] Anode Motor FAT test: PASSED" -ForegroundColor Green }
 else {
     Write-Host "[Mezzplate] Anode Motor FAT test: FAILED" -ForegroundColor Red    }
