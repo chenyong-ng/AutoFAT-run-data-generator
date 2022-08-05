@@ -5,7 +5,8 @@ $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
 $Firmware79         = "1001.4.79"
-$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
+$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1)
+# .line.split(":").TrimStart()  | Select-object -last 1
 $MTSS_QMini_Coeff       = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
 $MTSS_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
 $MTSS_Mainboard_FW_Ver  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
@@ -91,13 +92,14 @@ elseif ([bool] ($MTSS_CAM_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "[SCI] $MTSS_CAM_FAT_str test: FAILED" -ForegroundColor Red    }
 
-$MTSS_SCI_Insertion_FAT     = ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-$MTSS_FRONT_END_FAT         = ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-$MTSS_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-$MTSS_FE_Motor_Test             = ($storyboard | Select-String "Bring Up: FE Motor Test"        | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-$MTSS_Homing_Error_Test         = ($storyboard | Select-String "Bring Up: Homing Error Test"    | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-$MTSS_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-$MTSS_SCI_Antenna_Test          = ($storyboard | Select-String "SCI Antenna Test"               | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+    # .line.split(",") | Select-Object -Last 1
+$MTSS_SCI_Insertion_FAT     = ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS" | Select-Object -Last 1)
+$MTSS_FRONT_END_FAT         = ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS" | Select-Object -Last 1)
+$MTSS_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS" | Select-Object -Last 1)
+$MTSS_FE_Motor_Test             = ($storyboard | Select-String "Bring Up: FE Motor Test"        | select-string "PASS" | Select-Object -Last 1)
+$MTSS_Homing_Error_Test         = ($storyboard | Select-String "Bring Up: Homing Error Test"    | select-string "PASS" | Select-Object -Last 1)
+$MTSS_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS" | Select-Object -Last 1)
+$MTSS_SCI_Antenna_Test          = ($storyboard | Select-String "SCI Antenna Test"               | select-string "PASS" | Select-Object -Last 1)
 
 $MTSS_SCI_Insertion_FAT
 $MTSS_FRONT_END_FAT
@@ -107,10 +109,10 @@ $MTSS_Homing_Error_Test
 $MTSS_FL_Homing_Error_wCAM_Test
 $MTSS_SCI_Antenna_Test 
 
-# Mezzboard PCB
-($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+# Mezzboard PCB .line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1)
+($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1)
+($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1)
 IF (($storyboard | Select-String "Anode Motor FAT").count -eq ("0")) {
     Write-Host "[Mezzplate] Anode Motor FAT test: N/A"    -ForegroundColor Yellow }
 elseif ([bool]($storyboard | Select-String "Anode Motor FAT") -eq ("True")) {
@@ -119,33 +121,36 @@ elseif ([bool]($storyboard | Select-String "Anode Motor FAT") -eq ("True")) {
 else {
     Write-Host "[Mezzplate] Anode Motor FAT test: FAILED" -ForegroundColor Red    }
 
-($storyboard | Select-String "BEC Interlock FAT" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "high" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "low"  | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Syringe Stallout FAT"  | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+    #.line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "BEC Interlock FAT" | select-string "PASS"| Select-Object -Last 1)
+($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "high" | Select-Object -Last 1)
+($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "low"  | Select-Object -Last 1)
+($storyboard | Select-String "Syringe Stallout FAT"  | select-string "PASS" | Select-Object -Last 1)
 ($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
-($storyboard | Select-String "Mezzboard FAT"     | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "Mezzboard FAT"     | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1).line.split(",")| Select-Object -Last 1 #First BEC Insertion
 ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split(",").TrimStart()| Select-Object -Last 1
 ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
 ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split(",").TrimStart()| Select-Object -Last 1
-    
-($storyboard | Select-String "Piezo FAT" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+
+# .line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "Piezo FAT" | select-string "PASS" | Select-Object -Last 1)
+($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1)
+($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1)
 
 $MTSS_Water_Prime = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 $MTSS_Water_Prime_Plug = ($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
 $MTSS_Water_Prime
 $MTSS_Water_Prime_Plug
-($storyboard | Select-String "Bring Up: Lysis Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: Buffer Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+# .line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "Bring Up: Lysis Prime" | select-string "PASS"| Select-Object -Last 1)
+($storyboard | Select-String "Bring Up: Buffer Prime" | select-string "PASS"| Select-Object -Last 1)
+($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1)
 ($storyboard | Select-String "Lysis Volume" | Select-Object -Last 1).line.Split(",").TrimStart()| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: Lysate Pull" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "Bring Up: Lysate Pull" | select-string "PASS"| Select-Object -Last 1)
 
-($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "Completed" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "Completed" | Select-Object -Last 1)
+($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1)
 
 $MTSS_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
 # $MTSS_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1).line.split(",") | select-object -last 1
