@@ -99,6 +99,14 @@ $MTSS_Homing_Error_Test         = ($storyboard | Select-String "Bring Up: Homing
 $MTSS_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
 $MTSS_SCI_Antenna_Test          = ($storyboard | Select-String "SCI Antenna Test"               | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
 
+$MTSS_SCI_Insertion_FAT
+$MTSS_FRONT_END_FAT
+$MTSS_FE_Motor_Calibration
+$MTSS_FE_Motor_Test
+$MTSS_Homing_Error_Test
+$MTSS_FL_Homing_Error_wCAM_Test
+$MTSS_SCI_Antenna_Test 
+
 # Mezzboard PCB
 ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
