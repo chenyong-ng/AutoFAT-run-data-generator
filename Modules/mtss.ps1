@@ -1,5 +1,6 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 
+# add check machine name first, last from log and compare with $env:computername
 $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
