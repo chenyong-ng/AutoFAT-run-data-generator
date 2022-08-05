@@ -5,8 +5,7 @@ $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
 $Firmware79         = "1001.4.79"
-$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1)
-# .line.split(":").TrimStart()  | Select-object -last 1
+$MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
 $MTSS_QMini_Coeff       = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
 $MTSS_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
 $MTSS_Mainboard_FW_Ver  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
