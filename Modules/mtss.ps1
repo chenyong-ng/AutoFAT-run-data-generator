@@ -138,7 +138,7 @@ else {
 ($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1)
 ($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1)
 
-$MTSS_Water_Prime = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+$MTSS_Water_Prime = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1)
 $MTSS_Water_Prime_Plug = ($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
 $MTSS_Water_Prime
 $MTSS_Water_Prime_Plug
