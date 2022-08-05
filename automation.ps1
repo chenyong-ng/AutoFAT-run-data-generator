@@ -30,7 +30,7 @@ $nlc = Test-Path -Path $result\$nl -PathType Leaf
 $waves = Test-Path -Path $result\$wv -PathType Leaf
 $tc = Test-Path -Path $result\$tcc -PathType Leaf
 $mcleaf = Test-Path -Path $rhid\$MachineConfig -PathType Leaf
-$internal = Test-Path -Path "U:\$name\Int0814ernal\"
+$internal = Test-Path -Path "U:\$name\Internal\"
 $exicode = "Null"
 
 if ($name -eq "SGSI11-59FKK13") {
