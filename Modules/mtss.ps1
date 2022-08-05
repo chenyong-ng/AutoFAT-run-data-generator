@@ -102,7 +102,16 @@ else {
 ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Anode Motor FAT"   | select-string "PASS"  | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+IF (($storyboard | Select-String "Anode Motor FAT").count -ne ("")) {
+$MTSS_Anode_Motor_FAT = ($storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1}
+
+if ($MTSS_Anode_Motor_FAT.count -eq "") {
+    Write-Host "Anode Motor FAT test: N/A"    -ForegroundColor Yellow }
+elseif ([bool] ($MTSS_Anode_Motor_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "[Mezzplate] Anode Motor FAT test: PASSED" -ForegroundColor Green }
+else {
+    Write-Host "[Mezzplate] Anode Motor FAT test: FAILED" -ForegroundColor Red    }
+
 ($storyboard | Select-String "BEC Interlock FAT" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "high" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
 ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "low"  | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
