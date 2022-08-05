@@ -11,8 +11,8 @@ $MTSS_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Sele
 $MTSS_Mainboard_FW_Ver  = ($storyboard | Select-String $MTSS_Mainboard_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
 $MTSS_Mezzbaord_FW_Ver  = ($storyboard | Select-String $MTSS_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
 Write-Host "[Optics] $MTSS_QMini_str : $MTSS_QMini_SN" -ForegroundColor Green
-Write-Host "[Optics] Coefficients: $MTSS_QMini_Coeff" -ForegroundColor Green
-Write-Host "[Optics] Inflection Point: $MTSS_QMini_Infl" -ForegroundColor Green
+Write-Host "[Optics] Coefficients : $MTSS_QMini_Coeff" -ForegroundColor Green
+Write-Host "[Optics] Inflection Point : $MTSS_QMini_Infl" -ForegroundColor Green
 if ([bool]"$MTSS_Mainboard_FW_Ver" -eq "True") {
     Write-Host "[PCBA] $MTSS_Mainboard_str : $MTSS_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
@@ -91,13 +91,13 @@ elseif ([bool] ($MTSS_CAM_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "[SCI] $MTSS_CAM_FAT_str test: FAILED" -ForegroundColor Red    }
 
-($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: FE Motor Test"        | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: Homing Error Test"   | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
-($storyboard | Select-String "SCI Antenna Test"               | select-string "PASS"| Select-Object -Last 1).line.split(",")| Select-Object -Last 1
+$MTSS_SCI_Insertion_FAT     = ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+$MTSS_FRONT_END_FAT         = ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+$MTSS_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+$MTSS_FE_Motor_Test             = ($storyboard | Select-String "Bring Up: FE Motor Test"        | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+$MTSS_Homing_Error_Test         = ($storyboard | Select-String "Bring Up: Homing Error Test"    | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+$MTSS_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+$MTSS_SCI_Antenna_Test          = ($storyboard | Select-String "SCI Antenna Test"               | select-string "PASS" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
 
 # Mezzboard PCB
 ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1).line.split(",")| Select-Object -Last 1
