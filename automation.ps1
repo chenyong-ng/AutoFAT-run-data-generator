@@ -1,18 +1,17 @@
 <#
-.Title        : Powershell Utility for RHID Instrument
-.Source       : https://github.com/chenyong-ng/AutoFAT-run-data-generator
-.Version      :	v0.4
-.License      : Public Domain
-.Revision Date: 10 JUL 2022
-.Todo         : Set display resolution, change to display 2, check exported PDF  leaf from full run
+.Title          : Powershell Utility for RHID Instrument
+.Source         : https://github.com/chenyong-ng/AutoFAT-run-data-generator
+.Version        :	v0.4
+.License        : Public Domain
+.Revision Date  : 10 JUL 2022
+.Todo           : Set display resolution, change to display 2, check exported PDF  leaf from full  [DONE]
+                : Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
+
 #>
 
 <#
 Initialize global variables, do not change the order.
 #>
-
-#$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-#$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $name = "$env:COMPUTERNAME"

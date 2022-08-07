@@ -62,6 +62,8 @@ function network {
     $DiskType = [string](wmic diskdrive get InterfaceType,Model,Name | select-string "SATA", "IDE")
     $tz = [System.TimeZoneInfo]::Local.DisplayName
     $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    $AdminMode = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     # add function to check USB device status
 
 function debug {
@@ -70,7 +72,7 @@ function debug {
     "[$D] Sn             : $sn"
     "[$D] Timezone       : $tz"
     "[$D] Computer Name  : $env:COMPUTERNAME"
-    "[$D] Antimalware Scanner  : $RealtimeProtection"
+    "[$D] MalwareScanner : $RealtimeProtection"
     "[$D] name           : $name"
     "[$D] SerialRegMatch : $SerialRegMatch" 
     "[$D] get-date       : ${get-date}"
@@ -93,5 +95,6 @@ function debug {
     "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"
     "[$D] DIMM           : $DIMM"
+    "[$D] Administrator? : $AdminMode"
     $col_screens, $strMonitors
 }
