@@ -1,10 +1,11 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 
 # add check machine name first, last from log and compare with $env:computername
+
 $MTSS_QMini_str     = "Q-mini serial number"
 $MTSS_Mainboard_str = "Main board firmware version"
 $MTSS_Mezzbaord_str = "Mezz board firmware version"
-$Firmware79         = "1001.4.79"
+$Firmware           = "1001.4.79"
 $MTSS_QMini_SN      = ($storyboard | Select-String $MTSS_QMini_str     | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
 $MTSS_QMini_Coeff       = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
 $MTSS_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
@@ -92,6 +93,7 @@ else {
     Write-Host "[SCI] $MTSS_CAM_FAT_str test: FAILED" -ForegroundColor Red    }
 
     # .line.split(",") | Select-Object -Last 1
+$Pass_Filter = select-string "PASS" | Select-Object -Last 1
 $MTSS_SCI_Insertion_FAT     = ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS" | Select-Object -Last 1)
 $MTSS_FRONT_END_FAT         = ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS" | Select-Object -Last 1)
 $MTSS_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS" | Select-Object -Last 1)
