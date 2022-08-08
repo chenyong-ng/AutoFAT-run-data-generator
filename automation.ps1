@@ -91,7 +91,7 @@ elseif ($sn -eq '') {
 else 
 { set-variable -name "serverdir" -value "$path-$sn" }
 
-. $PSScriptRoot\Modules\mtss.ps1 
+. $PSScriptRoot\Modules\mtss.ps1 >> $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
 <# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
 #>
 function d {
