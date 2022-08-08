@@ -47,14 +47,15 @@ Enter 'j'  to show Boxprep SoftGenetics License activation status,
 Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
-. $PSScriptRoot\Info_Screens.ps1
-. $PSScriptRoot\AdapterTypes.ps1
-
 function network {
     Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
 }
+
+function debug {
+. $PSScriptRoot\Info_Screens.ps1
+. $PSScriptRoot\AdapterTypes.ps1
 
     $DIMM       = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "A1_DIMM0","A1_DIMM1")
     $Ram        = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
@@ -66,7 +67,6 @@ function network {
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     # add function to check USB device status
 
-function debug {
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
     "[$D] Sn             : $sn"
