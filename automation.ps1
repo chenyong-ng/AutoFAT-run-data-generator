@@ -49,7 +49,7 @@ otherwise output will be result in gibberish #>
 . $PSScriptRoot\Modules\Set-WindowStyle.ps1
 . $PSScriptRoot\Modules\XML_and_Config.ps1
 . $PSScriptRoot\Modules\MainFunction.ps1
-
+(Get-Process -Name CMD, Powershell, WindowsTerminal).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
 
 function j { 
     #     $sn2 = read-host "Checking archived U.S. server Boxprep SoftGenetics License key, Enter Instrument Serial number"
