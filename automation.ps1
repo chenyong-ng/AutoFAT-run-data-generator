@@ -53,6 +53,7 @@ otherwise output will be result in gibberish #>
 . $PSScriptRoot\Modules\XML_and_Config.ps1
 . $PSScriptRoot\Modules\MainFunction.ps1
 
+
 function j { 
     #     $sn2 = read-host "Checking archived U.S. server Boxprep SoftGenetics License key, Enter Instrument Serial number"
     #     set-variable -name "serverdir" -value "Y:\Dano Planning\Test Data\RHID-$sn2"
@@ -90,7 +91,9 @@ elseif ($sn -eq '') {
 else 
 { set-variable -name "serverdir" -value "$path-$sn" }
 
-<# text string searching/filtering #>
+. $PSScriptRoot\Modules\mtss.ps1
+<# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
+#>
 function d {
     Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Critical diagnostics code"
 }

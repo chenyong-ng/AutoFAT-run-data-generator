@@ -36,7 +36,7 @@ function Help2 {
     Write-Host "
 Enter 'e'  to search specific text,
 Enter 'd'  to show Critical Diagnostic Code,
-Enter 'v'  to show Gel Void Volume,
+Enter 'v'  to show Verbose infomation of Gel Void Volume,
 Enter 'v2' to show Gel Void Volume with BEC ID,
 Enter 'p'  to show Test Progress,
 Enter 'b'  to show only Bolus test result in server,
