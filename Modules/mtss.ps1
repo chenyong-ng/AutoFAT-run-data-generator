@@ -1,5 +1,6 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
-
+$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
+Write-Host "[RapidHIT ID MTSS] Gathering Instrument $MachineName for result" -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
 
 $MTSS_QMini_str     = "Q-mini serial number"
@@ -140,7 +141,7 @@ $MTSS_Laser_FAT = ($storyboard | Select-String "Laser FAT" | select-string "PASS
 $MTSS_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1)
 $MTSS_Water_Prime_Plug = ($storyboard | Select-String "Plug detected"         | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
 $MTSS_Water_Prime
-$MTSS_Water_Prime_Plug
+Write-Host "[ Wet-Test ] $MTSS_Water_Prime_Plug" -ForegroundColor Cyan
 # .line.split(",")| Select-Object -Last 1
 $MTSS_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime"         | select-string "PASS"| Select-Object -Last 1)
 $MTSS_Buffer_Prime   = ($storyboard | Select-String "Bring Up: Buffer Prime"        | select-string "PASS"| Select-Object -Last 1)
@@ -152,26 +153,40 @@ $MTSS_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Ge
 $MTSS_Raman               = ($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1)
 
 $MTSS_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
-Write-host [Bolus] Passed Bolus test count: ($MTSS_Bolus | select-string "PASS").count
+Write-host "[   Bolus  ] Passed Bolus test count:" ($MTSS_Bolus | select-string "PASS").count -ForegroundColor Green
 
 $StatusData_leaf  = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
 $GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
 
-if ([Bool] ($StatusData_leaf) -eq "True" ) {
+if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $MTSS_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-    "[Full-Run ] $StatusData Found in these folders"
+    Write-Host "[ Full-Run ] $StatusData Found in these folders" -ForegroundColor Green
     $MTSS_StatusData_PDF
 }
 else {
-    Write-host "[Full-Run ] $StatusData not found, PDF not exported or no full run has been performed" -ForegroundColor yellow }
+    Write-host "[ Full-Run ] $StatusData not found, PDF not exported or no full run has been performed" -ForegroundColor yellow }
 
-if ([Bool] ($GM_Analysis_leaf) -eq "True" ) {
+if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
     $MTSS_GM_Analysis = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-    "[Full-Run ] $GM_Analysis Found in these folders"
+    Write-Host "[ Full-Run ] $GM_Analysis Found in these folders" -ForegroundColor Green
     $MTSS_GM_Analysis
 }
-else {
-    Write-host "[Full-Run ] $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
+else {Write-host "[ Full-Run ] $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
 
+# "$danno\RHID-$sn2" 
+$Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
+$Danno_Input_leaf = Test-Path -Path "$danno\RHID-$sn2"
+IF ($Danno_Local_leaf -eq "True") {
+    $MTSS_Danno_Path = "$danno\$MachineName"}
+    elseif ($Danno_Input_leaf -eq "True") {
+    $MTSS_Danno_Path = "$danno\RHID-$sn2"
+    } Else {
+        Write-Host "[ BoxPrep ] Boxprep not yet Initialized, or HIDAutolite failed to acticate" -ForegroundColor Yellow
+    }
+$Danno_leaf = Test-Path -Path $MTSS_Danno_Path
+If ($Danno_leaf -eq "True") {
+    $MTSS_HIDAutolite = (Get-ChildItem $MTSS_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1).Line.Split("is").TrimStart() | Select-Object -Last 1
+Write-Host "[HIDAutolite]" HIDAutolite License key provided is: $MTSS_HIDAutolite -ForegroundColor Green
+}
 # $MTSS_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
 #  $bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Timing" |  Select-Object -ExpandProperty Line  | ForEach-Object -MemberName Split -ArgumentList "="

@@ -61,7 +61,7 @@ function j {
     #     set-variable -name "serverdir" -value "Y:\Dano Planning\Test Data\RHID-$sn2"
     # add more function to check single, or multiple license key
     $sn2 = read-host "Enter Instrument Serial number to check HID Autolite License key"
-    Get-ChildItem "$danno\RHID-$sn2" -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is"
+    Get-ChildItem "$danno\RHID-$sn2" -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1
 }
 
 Main

@@ -86,8 +86,6 @@ function debug {
     "[$D] waves          : $waves"
     "[$D] tc             : $tc"
     "[$D] mcleaf         : $mcleaf"
-    "[$D] StatusData_leaf   : $StatusData_leaf"
-    "[$D] GM_Analysis_leaf  : $GM_Analysis_leaf"
     "[$D] internal       : $internal"
     "[$D] serverdir      : $serverdir"
     "[$D] danno          : $danno"
