@@ -103,24 +103,6 @@ function v2 {
     Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Gel syringe record" , "Cartridge Type" , "ID Number" , "Estimated gel void volume"
 }
 
-function b {
-    Get-ChildItem "$serverdir"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test", "% in DN", "Volume  =", "Timing =", "Bolus Current"
-}
-
-<#"Cartridge Type" , "ID Number"#>
-function p {
-    Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Lysis Heater FAT", "DN FAT", "PCR FAT", "Optics Heater FAT", "Gel Cooling FAT", "Ambient FAT", 
-    "SCI Sensor/CAM FAT", "FRONT END FAT", "Bring Up: FE Motor Calibration", "Bring Up: FE Motor Test", "Bring Up: Homing Error Test", "Bring Up: FL Homing Error w/CAM Test", "SCI Antenna Test",
-    "MEZZ test", "LP FAT", "HP FAT", "Anode Motor FAT", "BEC Interlock FAT", "Bring Up: Gel Antenna", "Syringe Stallout FAT", "Mezzboard FAT",
-    "Piezo FAT", "HV FAT", "Laser FAT", "Bring Up: Verify Raman" , "Bring Up: Lysate Pull Test", "Lysis Volume", "Bring Up: Water Prime", " Bring Up: Lysis Prime", "Bring Up: Buffer Prime", "Bring Up: Capillary Gel Prime"
-}
-
-function pd {
-    Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Lysis Heater FAT: PASS", "DN FAT: PASS", "PCR FAT: PASS", "Optics Heater FAT: PASS", "Gel Cooling FAT", "Ambient FAT", 
-    "SCI Sensor/CAM FAT", "FRONT END FAT", "MEZZ test", "LP FAT", "HP FAT", "Anode Motor FAT", "BEC Interlock FAT", "Bring Up: Gel Antenna", "Syringe Stallout FAT", "Mezzboard FAT",
-    "Piezo FAT", "HV FAT", "Laser FAT", "Bring Up: Verify Raman" , "Bring Up: Lysate Pull Test" , "Lysis Volume", "Bring Up: Water Prime", " Bring Up: Lysis Prime", "Bring Up: Buffer Prime", "Bring Up: Capillary Gel Prime"
-}
-
 #"$serverdir\Internal\RapidHIT ID"
 function config {
     If ($SerialRegMatch -eq $True) {
@@ -137,10 +119,6 @@ function e {
       ($custom = read-host "Enter specific text to search, for example 'Q-mini serial number: 2531',
 Optics Monitor, Raman line Gaussian fit, etc, seach range limited to Storyboard, MachineConfig, TC Calibation and Boxpreplog") -and (set-variable -name "custom" -value "$custom")
     Get-ChildItem "$serverdir"  -I  storyboard*.* , MachineConfig.xml, TC_Calibration.xml, *BoxPrepLog_RHID* -R | Select-String "$custom"
-}
-
-function b2 {
-    Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test", "% in DN", "Volume  =", "Timing =", "Bolus Current"
 }
 
 function t {
