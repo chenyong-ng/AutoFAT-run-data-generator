@@ -6,31 +6,12 @@
 .Revision Date  : 10 JUL 2022
 .Todo           : Set display resolution, change to display 2, check exported PDF  leaf from full  [DONE]
                 : Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
-                : add method to check folderand run function if found
+                : add method to check folderand run function if found 
 
 Initialize global variables, do not change the order.
 #>
 
-$PSDefaultParameterValues['*:Encoding'] = 'utf8'
-$name = "$env:COMPUTERNAME"
-$SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
-${get-date} = Get-date
-$rhid = "E:\RapidHIT ID"
-$result = "E:\RapidHIT ID\Results"
-$nl = "Non-linearity Calibration $name.PNG"
-$wv = "Waves $name.PNG"
-$tcc = "TC_verification $name.TXT"
-$MachineConfig = "MachineConfig.xml"
-$StatusData = "StatusData_Graphs.pdf"
-$GM_Analysis = "GM_Analysis.sgf"
-$nlc = Test-Path -Path $result\$nl -PathType Leaf
-$waves = Test-Path -Path $result\$wv -PathType Leaf
-$tc = Test-Path -Path $result\$tcc -PathType Leaf
-$mcleaf = Test-Path -Path $rhid\$MachineConfig -PathType Leaf
-$internal = Test-Path -Path "U:\$name\Internal\"
-$exicode = "Null"
-
-if ($name -eq "SGSI11-59FKK13") {
+if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $path = "S:\RHID"
     $danno = "S:\Dano Planning\Test Data"
     $US_Path = "Y:\RHID"
@@ -40,6 +21,28 @@ else {
     $path = "U:\RHID"
     $danno = "U:\Dano Planning\Test Data"
 } #RHID Workststion laptop has differnt network drive path
+
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+$name = "$env:COMPUTERNAME"
+$SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
+${get-date} = Get-date
+$rhid   = "E:\RapidHIT ID"
+$result = "E:\RapidHIT ID\Results"
+$nl     = "Non-linearity Calibration $name.PNG"
+$wv     = "Waves $name.PNG"
+$tcc    = "TC_verification $name.TXT"
+$MachineConfig  = "MachineConfig.xml"
+$StatusData     = "StatusData_Graphs.pdf"
+$GM_Analysis    = "GM_Analysis.sgf"
+$nlc    = Test-Path -Path $result\$nl -PathType Leaf
+$waves  = Test-Path -Path $result\$wv -PathType Leaf
+$tc     = Test-Path -Path $result\$tcc -PathType Leaf
+$mcleaf = Test-Path -Path $rhid\$MachineConfig -PathType Leaf
+$internal      = Test-Path -Path "U:\$name\Internal\"
+$US_internal   = Test-Path -Path "Y:\$name\Internal\"
+$Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
+$US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
+$exicode = $Null
 
 #File detection and file size calculation
 if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
