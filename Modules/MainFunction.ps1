@@ -5,7 +5,7 @@ function Main {
  # CHR RHID-0486 (Internal) disable if internal CHR detected
 (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
 Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
-debug
+
         if ($name -eq $True) {
         $StatusData_leaf = Get-ChildItem -Path "$name" -I $StatusData  -R | Test-path -PathType Leaf
         $GM_Analysis_leaf = Get-ChildItem -Path "$name" -I $GM_Analysis -R | Test-path -PathType Leaf
@@ -19,7 +19,8 @@ debug
         else {
             Write-host "[Warning]: Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
         }
-        Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder, Non-linearity Calibration and Waves place-holder file."
+        Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder"
+        "[Info   ]: Non-linearity Calibration and Waves place-holder file."
         "[Info   ]: Force audio volume to 50%"
         
         [audio]::Volume = 0.5
