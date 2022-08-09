@@ -7,6 +7,7 @@
 .Todo           : Set display resolution, change to display 2, check exported PDF  leaf from full  [DONE]
                 : Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
                 : add method to check folderand run function if found 
+                : Add more meaningful error message, add USB devices detection
 
 Initialize global variables, do not change the order.
 #>
@@ -88,6 +89,7 @@ elseif ($sn -eq '6') {
 }
 elseif ($sn -eq '') {
     set-variable -name "serverdir" -value "E:\RapidHIT ID"
+    Write-Host "Local Folder Selected"
 }
 else 
 { set-variable -name "serverdir" -value "$path-$sn" }

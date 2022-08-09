@@ -152,6 +152,26 @@ $MTSS_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Ge
 $MTSS_Raman               = ($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1)
 
 $MTSS_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
+Write-host [Bolus] Passed Bolus test count: ($MTSS_Bolus | select-string "PASS").count
+
+$StatusData_leaf  = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
+$GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
+
+if ([Bool] ($StatusData_leaf) -eq "True" ) {
+    $MTSS_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
+    "[Full-Run ] $StatusData Found in these folders"
+    $MTSS_StatusData_PDF
+}
+else {
+    Write-host "[Full-Run ] $StatusData not found, PDF not exported or no full run has been performed" -ForegroundColor yellow }
+
+if ([Bool] ($GM_Analysis_leaf) -eq "True" ) {
+    $MTSS_GM_Analysis = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
+    "[Full-Run ] $GM_Analysis Found in these folders"
+    $MTSS_GM_Analysis
+}
+else {
+    Write-host "[Full-Run ] $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
+
 # $MTSS_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
-Write-host Passed Bolus test count: ($MTSS_Bolus | select-string "PASS").count
 #  $bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Timing" |  Select-Object -ExpandProperty Line  | ForEach-Object -MemberName Split -ArgumentList "="
