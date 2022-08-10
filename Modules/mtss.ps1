@@ -181,7 +181,7 @@ IF ($Danno_Local_leaf -eq "True") {
     elseif ($Danno_Input_leaf -eq "True") {
     $MTSS_Danno_Path = "$danno\RHID-$sn2"
     } Else {
-        Write-Host "[ BoxPrep ] Boxprep not yet Initialized, or HIDAutolite failed to acticate" -ForegroundColor Yellow
+        Write-Host "[ BoxPrep ] Boxprep not yet Initialized" -ForegroundColor Yellow
     }
 $Danno_leaf = Test-Path -Path $MTSS_Danno_Path
 If ($Danno_leaf -eq "True") {
