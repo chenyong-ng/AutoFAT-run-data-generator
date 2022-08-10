@@ -1,6 +1,6 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
-Write-Host "[RapidHIT ID MTSS] Gathering Instrument $MachineName for result" -ForegroundColor Magenta
+Write-Host "[RapidHIT ID MTSS] Gathering Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
 
 $MTSS_QMini_str     = "Q-mini serial number"
@@ -183,8 +183,7 @@ IF ($Danno_Local_leaf -eq "True") {
     } Else {
         Write-Host "[ BoxPrep ] Boxprep not yet Initialized" -ForegroundColor Yellow
     }
-$Danno_leaf = Test-Path -Path $MTSS_Danno_Path
-If ($Danno_leaf -eq "True") {
+If ($MTSS_Danno_Path -ne "") {
     $MTSS_HIDAutolite = (Get-ChildItem $MTSS_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
 Write-Host "[HIDAutolite]" HIDAutolite License key provided is: $MTSS_HIDAutolite -ForegroundColor Green
 }

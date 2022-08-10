@@ -8,6 +8,7 @@
                 : Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
                 : add method to check folderand run function if found 
                 : Add more meaningful error message, add USB devices detection
+                add auto backup, add folder check
 
 Initialize global variables, do not change the order.
 #>
