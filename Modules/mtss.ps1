@@ -185,7 +185,7 @@ IF ($Danno_Local_leaf -eq "True") {
     }
 $Danno_leaf = Test-Path -Path $MTSS_Danno_Path
 If ($Danno_leaf -eq "True") {
-    $MTSS_HIDAutolite = (Get-ChildItem $MTSS_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1).Line.Split("is").TrimStart() | Select-Object -Last 1
+    $MTSS_HIDAutolite = (Get-ChildItem $MTSS_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
 Write-Host "[HIDAutolite]" HIDAutolite License key provided is: $MTSS_HIDAutolite -ForegroundColor Green
 }
 # $MTSS_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
