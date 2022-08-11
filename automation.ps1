@@ -9,8 +9,6 @@
                 : add method to check folderand run function if found 
                 : Add more meaningful error message, add USB devices detection
                 add auto backup, add folder check
-"{0:N4} MB" -f ((gci –force U:\RHID-0818\Internal –Recurse -ErrorAction SilentlyContinue| measure Length -sum ).sum / 1Mb)
-
 
 Initialize global variables, do not change the order.
 #>
@@ -46,6 +44,7 @@ $internal      = Test-Path -Path "U:\$name\Internal\"
 $US_internal   = Test-Path -Path "Y:\$name\Internal\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
+
 $exicode = $Null
 
 #File detection and file size calculation
@@ -59,24 +58,19 @@ otherwise output will be result in gibberish #>
 . $PSScriptRoot\Modules\MainFunction.ps1
 (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
 
-function j { 
-    #     $sn2 = read-host "Checking archived U.S. server Boxprep SoftGenetics License key, Enter Instrument Serial number"
-    #     set-variable -name "serverdir" -value "Y:\Dano Planning\Test Data\RHID-$sn2"
-    # add more function to check single, or multiple license key
-    $sn2 = read-host "Enter Instrument Serial number to check HID Autolite License key"
-    Get-ChildItem "$danno\RHID-$sn2" -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1
-}
-
 Main
 
+if ($SerialRegMatch -eq "True") {
+    set-variable -name "serverdir" -value "E:\RapidHIT ID"
+    Write-Host "Reading from local folder"
+}
+else {
 $sn = read-host "
-Enter Insutrment Serial Number, format should be 0###, eg, 0485,
-Enter again to search local folder E:\RapidHIT ID test result, should use within Instrument only,
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
 Enter 5 to Backup Instrument config and calibrated TC data to Local server,
 Enter 6 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
-Enter number to proceed"
-
+Enter number or Instrument Serial Number (4 digits) to proceed"
+}
 if ($sn -eq '1') {
     $sn = read-host "Enter Folder Path"
     set-variable -name "serverdir" -value "$sn"
@@ -97,9 +91,22 @@ elseif ($sn -eq '') {
 else 
 { set-variable -name "serverdir" -value "$path-$sn" }
 
+$ServerDir_Leaf = Test-Path -Path "$serverdir"
+if ($ServerDir_Leaf -eq "True") {
 . $PSScriptRoot\Modules\mtss.ps1
+} else {
+    Write-Host "[Error!] Selected Instrument Serial Do not exists" -ForegroundColor Yellow
+}
 <# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
 #>
+
+function j { 
+    #     $sn2 = read-host "Checking archived U.S. server Boxprep SoftGenetics License key, Enter Instrument Serial number"
+    #     set-variable -name "serverdir" -value "Y:\Dano Planning\Test Data\RHID-$sn2"
+    # add more function to check single, or multiple license key
+    $sn2 = read-host "Enter Instrument Serial number to check HID Autolite License key"
+    Get-ChildItem "$danno\RHID-$sn2" -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1
+}
 function d {
     Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Critical diagnostics code"
 }
