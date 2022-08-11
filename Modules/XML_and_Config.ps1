@@ -65,6 +65,8 @@ function debug {
     $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
     $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    $Local = "{0:N4} MB" -f ((gci –force "E:\RapidHIT ID" –Recurse -ErrorAction SilentlyContinue| measure Length -sum ).sum / 1Mb)
+    $Remote = "{0:N4} MB" -f ((gci –force "U:\$MachineName\Internal\"  –Recurse -ErrorAction SilentlyContinue| measure Length -sum ).sum / 1Mb)
     # add function to check USB device status
 
     $D = "DEBUG"
@@ -96,5 +98,7 @@ function debug {
     "[$D] Display        : $screen_cnt"
     "[$D] DIMM           : $DIMM"
     "[$D] Administrator? : $AdminMode"
+    "[$D] Local Size ?   : $Local"
+    "[$D] Remote Size?   : $Remote"
     $col_screens, $strMonitors
 }
