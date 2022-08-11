@@ -9,6 +9,8 @@
                 : add method to check folderand run function if found 
                 : Add more meaningful error message, add USB devices detection
                 add auto backup, add folder check
+"{0:N4} MB" -f ((gci –force U:\RHID-0818\Internal –Recurse -ErrorAction SilentlyContinue| measure Length -sum ).sum / 1Mb)
+
 
 Initialize global variables, do not change the order.
 #>
