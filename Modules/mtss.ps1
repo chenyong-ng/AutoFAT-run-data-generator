@@ -173,6 +173,9 @@ if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
 }
 else {Write-host "[ Full-Run ] $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
 
+$MTSS_Shipping_BEC = ($storyboard | Select-String "Shipping BEC engaged") | Select-Object -Last 1
+$MTSS_Shipping_BEC
+
 # "$danno\RHID-$sn2" 
 $Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
 $Danno_Input_leaf = Test-Path -Path "$danno\RHID-$sn2"
