@@ -44,32 +44,14 @@ $internal      = Test-Path -Path "U:\$name\Internal\"
 $US_internal   = Test-Path -Path "Y:\$name\Internal\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
-
+$Debug = "On"
 $exicode = $Null
 
-#File detection and file size calculation
-if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-if ($nlc -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-
-<#Set-WindowStyle.ps1 and XML_and_Config.ps1 must be saved in UTF-8 BOM encoding,
-otherwise output will be result in gibberish #>
-. $PSScriptRoot\Modules\Set-WindowStyle.ps1
 . $PSScriptRoot\Modules\XML_and_Config.ps1
 
-(Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-
 if ($SerialRegMatch -eq "True") {
-    set-variable -name "serverdir" -value "E:\RapidHIT ID"
-    Write-Host "Reading from local folder"
     . $PSScriptRoot\Modules\MainFunction.ps1
-    Main
-    <#
-    . $PSScriptRoot\set-volume.ps1
-    . $PSScriptRoot\Set-ScreenResolutionEx.ps1
-    # CHR RHID-0486 (Internal) disable if internal CHR detected
-(Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-    Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
-    #>
+    MainFunction
 }
 else {
 $sn = read-host "
@@ -100,7 +82,7 @@ else
 
 $ServerDir_Leaf = Test-Path -Path "$serverdir"
 if ($ServerDir_Leaf -eq "True") {
-. $PSScriptRoot\Modules\mtss.ps1
+    . $PSScriptRoot\Modules\mtss.ps1
 } else {
     Write-Host "[Error!] Selected instrument Serial number does not exist, or moved to US server" -ForegroundColor Yellow
 }

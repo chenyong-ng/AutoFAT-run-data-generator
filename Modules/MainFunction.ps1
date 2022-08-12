@@ -1,12 +1,14 @@
-function Main {
-    If ($SerialRegMatch -eq $True) {
-. $PSScriptRoot\set-volume.ps1
-. $PSScriptRoot\Set-ScreenResolutionEx.ps1
- # CHR RHID-0486 (Internal) disable if internal CHR detected
-(Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
-Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
-
+function MainFunction {
+    set-variable -name "serverdir" -value "E:\RapidHIT ID"
+    Write-Host "Reading from local folder"
+    . $PSScriptRoot\Set-WindowStyle.ps1
+    . $PSScriptRoot\set-volume.ps1
+    . $PSScriptRoot\Set-ScreenResolutionEx.ps1 # CHR RHID-0486 (Internal) disable if internal CHR detected
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
+        if ([System.TimeZoneInfo]::Local.DisplayName -eq "(UTC+08:00) Kuala Lumpur, Singapore" ) {
+            "wrong TZ setting"
+        } else {
+            "wazzup"}
         $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
         if ($Win10patch_leaf -eq "True") {
             $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
@@ -17,10 +19,12 @@ Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
         }
         Write-host "[Info   ]: RapidHIT Instrument $name detected, creating Server folder"
         "[Info   ]: Non-linearity Calibration and Waves place-holder file."
-        "[Info   ]: Force audio volume to 50%"
-        
+        "[Info   ]: Force audio volume to 50%, maximize display and console size"
+        If ($Debug -eq "Off") {
         [audio]::Volume = 0.5
-
+        Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
+        (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
+        }
         if ($internal -eq $True) {
             Write-host "[Info   ]: U:\$name\Internal\ already exists in server, skipping"
         }
@@ -29,6 +33,8 @@ Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
             Write-host "[Info   ]: Server path $internal sucessfully created."
         }
         Set-Location $result
+        if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($nlc   -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($nlc -eq $False) {
             New-Item -Path "Non-linearity Calibration $name.PNG" -ItemType File
             Write-host "[Info   ]: Created placeholder file: Non-linearity Calibration $name.PNG"
@@ -75,5 +81,4 @@ Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
             Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
         }
         }
-    } # Main function to check whether if it's RHID instrument or Workstation
-}
+} # Main function to check whether if it's RHID instrument or Workstation

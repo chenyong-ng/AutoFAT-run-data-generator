@@ -131,7 +131,6 @@ function debug {
     "[$D] nl             : $nl"
     "[$D] wv             : $wv"
     "[$D] tcc            : $tcc"
-    "[$D] MachineConfig  : $MachineConfig"
     "[$D] nlc            : $nlc"
     "[$D] waves          : $waves"
     "[$D] tc             : $tc"
