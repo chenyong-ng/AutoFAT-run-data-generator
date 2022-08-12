@@ -58,8 +58,6 @@ otherwise output will be result in gibberish #>
 
 (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
 
-
-
 if ($SerialRegMatch -eq "True") {
     set-variable -name "serverdir" -value "E:\RapidHIT ID"
     Write-Host "Reading from local folder"
