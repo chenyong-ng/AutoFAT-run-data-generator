@@ -75,6 +75,7 @@ function t {
 
 function i {
   Get-ChildItem "$serverdir"  -I execution_withLadders.log -R | Select-String "Error", "Your trial has"
+  Get-ChildItem "$serverdir"  -I RunSummary.csv -R | Select-String "GM_ILS_Score_1"
 }
 
 function Help2 {

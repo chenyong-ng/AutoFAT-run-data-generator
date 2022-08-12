@@ -102,7 +102,7 @@ $ServerDir_Leaf = Test-Path -Path "$serverdir"
 if ($ServerDir_Leaf -eq "True") {
 . $PSScriptRoot\Modules\mtss.ps1
 } else {
-    Write-Host "[Error!] Selected instrument Serial number does not exist in Production Server, or moved to US server" -ForegroundColor Yellow
+    Write-Host "[Error!] Selected instrument Serial number does not exist, or moved to US server" -ForegroundColor Yellow
 }
 <# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
 #>
