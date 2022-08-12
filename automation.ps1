@@ -55,14 +55,16 @@ if ($nlc -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::c
 otherwise output will be result in gibberish #>
 . $PSScriptRoot\Modules\Set-WindowStyle.ps1
 . $PSScriptRoot\Modules\XML_and_Config.ps1
-. $PSScriptRoot\Modules\MainFunction.ps1
+
 (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
 
-Main
+
 
 if ($SerialRegMatch -eq "True") {
     set-variable -name "serverdir" -value "E:\RapidHIT ID"
     Write-Host "Reading from local folder"
+    . $PSScriptRoot\Modules\MainFunction.ps1
+    Main
     <#
     . $PSScriptRoot\set-volume.ps1
     . $PSScriptRoot\Set-ScreenResolutionEx.ps1
