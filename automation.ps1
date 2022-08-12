@@ -100,55 +100,6 @@ if ($ServerDir_Leaf -eq "True") {
 <# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
 #>
 
-function j { 
-    #     $sn2 = read-host "Checking archived U.S. server Boxprep SoftGenetics License key, Enter Instrument Serial number"
-    #     set-variable -name "serverdir" -value "Y:\Dano Planning\Test Data\RHID-$sn2"
-    # add more function to check single, or multiple license key
-    $sn2 = read-host "Enter Instrument Serial number to check HID Autolite License key"
-    Get-ChildItem "$danno\RHID-$sn2" -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1
-}
-function d {
-    Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Critical diagnostics code"
-}
-
-function v {
-    Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Estimated gel void volume"
-}
-
-function v2 {
-    Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Gel syringe record" , "Cartridge Type" , "ID Number" , "Estimated gel void volume"
-}
-
-#"$serverdir\Internal\RapidHIT ID"
-function config {
-    If ($SerialRegMatch -eq $True) {
-        Write-host "Instrument S/N: $name"
-        set-variable -name "serverdir" -value "E:\RapidHIT ID"
-    }
-    Get-ChildItem "$serverdir" -I  MachineConfig.xml, TC_Calibration.xml -R | Select-String "MachineName", "HWVersion", "MachineConfiguration", "DataServerUploadPath", "<HP_HardstopZeroForce_mm>", "<HP_Hardstop100Percent_mm>",
-    "FluidicHomeOffset", "PreMixHomeOffset", "DiluentHomeOffset", "SyringePumpStallCurrent", "SyringePumpResetCalibration", "LastBEC_TagID", "double", "RunsSinceLastGelFill", "DeliveredSamples", "LaserHours", "<Offsets>"
-    Get-Childitem "$serverdir" -I TC_verification*.* -R | Get-Content
-    #Get-Content -Path "TC_verification $name.TXT"
-}
-
-function e {
-      ($custom = read-host "Enter specific text to search, for example 'Q-mini serial number: 2531',
-Optics Monitor, Raman line Gaussian fit, etc, seach range limited to Storyboard, MachineConfig, TC Calibation and Boxpreplog") -and (set-variable -name "custom" -value "$custom")
-    Get-ChildItem "$serverdir"  -I  storyboard*.* , MachineConfig.xml, TC_Calibration.xml, *BoxPrepLog_RHID* -R | Select-String "$custom"
-}
-
-function t {
-    Get-ChildItem "$serverdir"  -I DannoGUIState.xml -R | Select-String "<UserName>", "<RunStartAmbientTemperatureC>", "<RunEndAmbientTemperatureC>", "<RunStartRelativeHumidityPercent>", "<RunEndRelativeHumidityPercent>"
-}
-
-function i {
-    Get-ChildItem "$serverdir"  -I execution_withLadders.log -R | Select-String "Error", "Your trial has"
-}
-
-Help2
-
-
-
 <#
 do {
 debug
