@@ -182,6 +182,7 @@ IF ($Danno_Local_leaf -eq "True") {
     $MTSS_Danno_Path = "$danno\RHID-$sn2"
     } Else {
         Write-Host "[ BoxPrep ] Boxprep not yet Initialized" -ForegroundColor Yellow
+        $MTSS_Danno_Path = ""
     }
 If ($MTSS_Danno_Path -ne "") {
     $MTSS_HIDAutolite = (Get-ChildItem $MTSS_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String "SoftGenetics License number provided is" | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
