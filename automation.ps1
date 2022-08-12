@@ -63,6 +63,13 @@ Main
 if ($SerialRegMatch -eq "True") {
     set-variable -name "serverdir" -value "E:\RapidHIT ID"
     Write-Host "Reading from local folder"
+    <#
+    . $PSScriptRoot\set-volume.ps1
+    . $PSScriptRoot\Set-ScreenResolutionEx.ps1
+    # CHR RHID-0486 (Internal) disable if internal CHR detected
+(Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
+    Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
+    #>
 }
 else {
 $sn = read-host "
@@ -95,7 +102,7 @@ $ServerDir_Leaf = Test-Path -Path "$serverdir"
 if ($ServerDir_Leaf -eq "True") {
 . $PSScriptRoot\Modules\mtss.ps1
 } else {
-    Write-Host "[Error!] Selected instrument Serial number does not exist" -ForegroundColor Yellow
+    Write-Host "[Error!] Selected instrument Serial number does not exist in Production Server, or moved to US server" -ForegroundColor Yellow
 }
 <# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
 #>
