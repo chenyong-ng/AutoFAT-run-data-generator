@@ -1,5 +1,5 @@
 
-    set-variable -nameMainFunction "serverdir" -value "E:\RapidHIT ID"
+    set-variable -name "serverdir" -value "E:\RapidHIT ID"
     Write-Host "Reading from local folder"
     . $PSScriptRoot\Set-WindowStyle.ps1
     . $PSScriptRoot\set-volume.ps1
