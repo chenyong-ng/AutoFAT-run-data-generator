@@ -8,7 +8,7 @@
         if ([System1.TimeZoneInfo]::Local.DisplayName -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
             Write-host "[Error] Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
         } else {
-            Write-Host "[Info  ]" [System.TimeZoneInfo]::Local.DisplayName }
+            Write-Host "[Info  ]", [System.TimeZoneInfo]::Local.DisplayName }
         $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
         if ($Win10patch_leaf -eq "True") {
             $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
