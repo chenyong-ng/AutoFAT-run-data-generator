@@ -3,7 +3,9 @@
     Write-Host "Reading from local folder"
     . $PSScriptRoot\Set-WindowStyle.ps1
     . $PSScriptRoot\set-volume.ps1
-    . $PSScriptRoot\Set-ScreenResolutionEx.ps1 # CHR RHID-0486 (Internal) disable if internal CHR detected (UTC-08:00) Pacific Time (US & Canada)
+    . $PSScriptRoot\Set-ScreenResolutionEx.ps1
+    . $PSScriptRoot\AdapterTypes.ps1
+    $strMonitors # CHR RHID-0486 (Internal) disable if internal CHR detected (UTC-08:00) Pacific Time (US & Canada)
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
         if ([System.TimeZoneInfo]::Local.DisplayName -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
             Write-host "[Error] Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
