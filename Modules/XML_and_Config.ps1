@@ -93,6 +93,30 @@ Enter 'j'  to show Boxprep SoftGenetics License activation status,
 Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
+$sn = read-host "
+Enter 1 to Paste folder path, can be folder in server or instrument local folder,
+Enter 2 to Backup Instrument config and calibrated TC data to Local server,
+Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
+Enter number or Instrument Serial Number (4 digits) to proceed"
+
+function Option1 {
+if ($sn -eq '1') {
+  $sn = read-host "Enter Folder Path"
+  set-variable -name "serverdir" -value "$sn"
+}
+elseif ($sn -eq '2') {
+  mkdir U:\"$name\Internal\RapidHIT ID"\Results\
+  Copy-Item E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
+  Copy-Item E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
+}
+elseif ($sn -eq '3') {
+  mkdir U:\"$name"\Internal\
+  Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
+}
+else 
+{ set-variable -name "serverdir" -value "$path-$sn" }
+}
+
 function network {
     Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
