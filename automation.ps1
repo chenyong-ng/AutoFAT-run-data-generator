@@ -52,6 +52,7 @@ $exicode = $Null
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\Modules\MainFunction.ps1
     MainFunction
+    . $PSScriptRoot\Modules\mtss.ps1
 }
 else {
 $sn = read-host "
@@ -82,7 +83,7 @@ else
 
 $ServerDir_Leaf = Test-Path -Path "$serverdir"
 if ($ServerDir_Leaf -eq "True") {
-    . $PSScriptRoot\Modules\mtss.ps1
+    
 } else {
     Write-Host "[Error!] Selected instrument Serial number does not exist, or moved to US server" -ForegroundColor Yellow
 }
