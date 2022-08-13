@@ -114,7 +114,9 @@ elseif ($sn -eq '3') {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
 }
 else 
-{ set-variable -name "serverdir" -value "$path-$sn" }
+{ set-variable -name "serverdir" -value "$path-$sn" 
+    . $PSScriptRoot\mtss.ps1
+  } 
 }
 
 function network {

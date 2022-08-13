@@ -52,8 +52,9 @@ $exicode = $Null
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\Modules\MainFunction.ps1
     . $PSScriptRoot\Modules\mtss.ps1
-}
-else { Option1 }
+} else {Option1
+} 
+ 
 
 <#
 $ServerDir_Leaf = Test-Path -Path "$serverdir"

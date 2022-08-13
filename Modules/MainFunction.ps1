@@ -1,5 +1,5 @@
 
-    set-variable -name "serverdir" -value "E:\RapidHIT ID"
+    set-variable -nameMainFunction "serverdir" -value "E:\RapidHIT ID"
     Write-Host "Reading from local folder"
     . $PSScriptRoot\Set-WindowStyle.ps1
     . $PSScriptRoot\set-volume.ps1
@@ -79,6 +79,7 @@
             Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
             Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
             Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
-        }
-        }
+        }    
+    }
+
  # Main function to check whether if it's RHID instrument or Workstation
