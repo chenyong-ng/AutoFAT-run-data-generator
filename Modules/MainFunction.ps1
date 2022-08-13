@@ -1,5 +1,5 @@
     set-variable -name "serverdir" -value "E:\RapidHIT ID"
-    Write-Host "[Info   ]: Reading from local folder"
+    Write-Host "[Info   ]: Reading from local machine $env:COMPUTERNAME folder"
     . $PSScriptRoot\Set-WindowStyle.ps1
     . $PSScriptRoot\set-volume.ps1
     . $PSScriptRoot\Set-ScreenResolutionEx.ps1
