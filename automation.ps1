@@ -56,26 +56,22 @@ if ($SerialRegMatch -eq "True") {
 else {
 $sn = read-host "
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
-Enter 5 to Backup Instrument config and calibrated TC data to Local server,
-Enter 6 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
+Enter 2 to Backup Instrument config and calibrated TC data to Local server,
+Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
 Enter number or Instrument Serial Number (4 digits) to proceed"
 }
 if ($sn -eq '1') {
     $sn = read-host "Enter Folder Path"
     set-variable -name "serverdir" -value "$sn"
 }
-elseif ($sn -eq '5') {
+elseif ($sn -eq '2') {
     mkdir U:\"$name\Internal\RapidHIT ID"\Results\
     Copy-Item E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
     Copy-Item E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
 }
-elseif ($sn -eq '6') {
+elseif ($sn -eq '3') {
     mkdir U:\"$name"\Internal\
     Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
-}
-elseif ($sn -eq '') {
-    set-variable -name "serverdir" -value "E:\RapidHIT ID"
-    Write-Host "Local Folder Selected"
 }
 else 
 { set-variable -name "serverdir" -value "$path-$sn" }
