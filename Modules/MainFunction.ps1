@@ -6,12 +6,11 @@
     . $PSScriptRoot\AdapterTypes.ps1
     if ($strMonitors -ne $InteralDisplay) {
         Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
-        Write-Host "[Info   ]: Display set to 1920, 1080" }
+        Write-Host "[Info   ]: Display Resolution set to 1920 x 1080" }
         Write-Host "[Info   ]: Display Type: $strMonitors"
-    # disable if internal CHR detected (UTC-08:00) Pacific Time (US & Canada)
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
         if ($SystemTimeZone -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
-            Write-host "[Error]: Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
+            Write-host "[Warning]: Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
         } else {
             Write-Host "[Info   ]: System Timezone $SystemTimeZone" }
         $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
