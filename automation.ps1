@@ -44,14 +44,13 @@ $internal      = Test-Path -Path "U:\$name\Internal\"
 $US_internal   = Test-Path -Path "Y:\$name\Internal\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
-$Debug = "On"
+$Debug = "Off"
 $exicode = $Null
 
 . $PSScriptRoot\Modules\XML_and_Config.ps1
 
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\Modules\MainFunction.ps1
-    MainFunction
     . $PSScriptRoot\Modules\mtss.ps1
 }
 else {
