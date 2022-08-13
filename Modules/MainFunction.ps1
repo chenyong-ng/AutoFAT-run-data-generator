@@ -5,7 +5,8 @@
     . $PSScriptRoot\Set-ScreenResolutionEx.ps1
     . $PSScriptRoot\AdapterTypes.ps1
     if ($strMonitors -ne $InteralDisplay) {
-        Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0}
+        Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
+        Write-Host "[Info   ]: Display set to 1920, 1080" }
         Write-Host "[Info   ]: Display Type: $strMonitors"
     # disable if internal CHR detected (UTC-08:00) Pacific Time (US & Canada)
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
