@@ -3,19 +3,18 @@ $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 
 Write-Host "[RapidHIT ID]: Collecting Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
 
-$Optics_Str = "[Optiics]"
-$PCBA_Str   = "[PCBA]"
-$Error_str  = "[Error!]"
-$Heater_str = "[ Heater ]"
-$SCI_Str    = "[SCI]"
-$Sensor_Str = "[Sensor}"
-
-$Full_Run_Str = "[ Full-Run ]"
-$Test_Failed_Str = "Test FAILED"
-$Test_Passed_Str = "Test PASSED"
-$Test_NA_Str = "Test : N/A"
-
+$Optics_Str       = "[ Optiics    ]"
+$PCBA_Str         = "[ PCBA       ]"
+$Error_str        = "[ Error!     ]"
+$Heater_str       = "[ Heater     ]"
+$SCI_Str          = "[ SCI        ]"
+$Sensor_Str       = "[ Sensor     ]"
 $Coolant_Pump_str = "[Coolant Pump]"
+$Full_Run_Str     = "[ Full-Run   ]"
+$Test_Failed_Str  = "Test : FAILED"
+$Test_Passed_Str  = "Test : PASSED"
+$Test_NA_Str      = "Test : N/A"
+
 $RHID_QMini_str     = "Q-mini serial number"
 $RHID_Mainboard_str = "Main board firmware version"
 $RHID_Mezzbaord_str = "Mezz board firmware version"
@@ -172,21 +171,23 @@ Write-host "[   Bolus  ]: Passed Bolus test count:" ($RHID_Bolus | select-string
 
 $StatusData_leaf  = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
 $GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
+$File_not_Found = "not found or no full run has been performed"
+$File_found = "Files found in these folders"
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-    Write-Host "$Full_Run_Str : $StatusData Found in these folders" -ForegroundColor Green
+    Write-Host "$Full_Run_Str : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
 }
 else {
-    Write-host "$Full_Run_Str : $StatusData not found, PDF not exported or no full run has been performed" -ForegroundColor yellow }
+    Write-host "$Full_Run_Str : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_GM_Analysis = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-    Write-Host "$Full_Run_Str : $GM_Analysis Found in these folders" -ForegroundColor Green
+    Write-Host "$Full_Run_Str : $GM_Analysis $File_found" -ForegroundColor Green
     $RHID_GM_Analysis
 }
-else {Write-host "$Full_Run_Str : $GM_Analysis not found or no full run has been performed" -ForegroundColor yellow }
+else {Write-host "$Full_Run_Str : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
 
 $RHID_Shipping_BEC = ($storyboard | Select-String "Shipping BEC engaged") | Select-Object -Last 1
 $RHID_Shipping_BEC
