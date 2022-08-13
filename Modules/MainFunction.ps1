@@ -1,4 +1,4 @@
-function MainFunction {
+
     set-variable -name "serverdir" -value "E:\RapidHIT ID"
     Write-Host "Reading from local folder"
     . $PSScriptRoot\Set-WindowStyle.ps1
@@ -81,4 +81,4 @@ function MainFunction {
             Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
         }
         }
-} # Main function to check whether if it's RHID instrument or Workstation
+ # Main function to check whether if it's RHID instrument or Workstation

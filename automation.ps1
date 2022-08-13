@@ -81,6 +81,7 @@ elseif ($sn -eq '') {
 else 
 { set-variable -name "serverdir" -value "$path-$sn" }
 
+<#
 $ServerDir_Leaf = Test-Path -Path "$serverdir"
 if ($ServerDir_Leaf -eq "True") {
     
