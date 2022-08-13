@@ -123,16 +123,18 @@ $RHID_FL_Homing_Error_wCAM_Test
 $RHID_SCI_Antenna_Test 
 
 # Mezzboard PCB .line.split(",")| Select-Object -Last 1
+$Anode_Motor_Str = "Anode Motor FAT"
+$Mezz_Plate = "[Mezz_Plate]"
 $RHID_Mezz_test = ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1)
 $RHID_HP_FAT    = ($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1)
 $RHID_LP_FAT    = ($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1)
-IF (($storyboard | Select-String "Anode Motor FAT").count -eq ("0")) {
-    Write-Host "[Mezzplate]: Anode Motor FAT $Test_NA_Str"    -ForegroundColor Yellow }
-elseif ([bool]($storyboard | Select-String "Anode Motor FAT") -eq ("True")) {
-    $RHID_Anode_Motor_FAT = ($storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-    Write-Host "[Mezzplate]: Anode Motor FAT $Test_Passed_Str" -ForegroundColor Green }
+IF (($storyboard | Select-String "$Anode_Motor_Str").count -eq ("0")) {
+    Write-Host "$Mezz_Plate $Anode_Motor_Str $Test_NA_Str"    -ForegroundColor Yellow }
+elseif ([bool]($storyboard | Select-String "$Anode_Motor_Str") -eq ("True")) {
+    $RHID_Anode_Motor_FAT = ($storyboard | Select-String "$Anode_Motor_Str" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+    Write-Host "$Mezz_Plate $Anode_Motor_Str $Test_Passed_Str" -ForegroundColor Green }
 else {
-    Write-Host "[Mezzplate]: Anode Motor FAT $Test_Failed_Str" -ForegroundColor Red   }
+    Write-Host "$Mezz_Plate $Anode_Motor_Str $Test_Failed_Str" -ForegroundColor Red   }
 
     #.line.split(",")| Select-Object -Last 1
 $RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT"     | select-string "PASS"| Select-Object -Last 1)
