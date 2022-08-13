@@ -53,28 +53,7 @@ if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\Modules\MainFunction.ps1
     . $PSScriptRoot\Modules\mtss.ps1
 }
-else {
-$sn = read-host "
-Enter 1 to Paste folder path, can be folder in server or instrument local folder,
-Enter 2 to Backup Instrument config and calibrated TC data to Local server,
-Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
-Enter number or Instrument Serial Number (4 digits) to proceed"
-}
-if ($sn -eq '1') {
-    $sn = read-host "Enter Folder Path"
-    set-variable -name "serverdir" -value "$sn"
-}
-elseif ($sn -eq '2') {
-    mkdir U:\"$name\Internal\RapidHIT ID"\Results\
-    Copy-Item E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
-    Copy-Item E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
-}
-elseif ($sn -eq '3') {
-    mkdir U:\"$name"\Internal\
-    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
-}
-else 
-{ set-variable -name "serverdir" -value "$path-$sn" }
+else { Option1 }
 
 <#
 $ServerDir_Leaf = Test-Path -Path "$serverdir"
