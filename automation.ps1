@@ -26,6 +26,7 @@ else {
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $name = "$env:COMPUTERNAME"
+$SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
 $rhid   = "E:\RapidHIT ID"

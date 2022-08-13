@@ -1,16 +1,18 @@
-
     set-variable -name "serverdir" -value "E:\RapidHIT ID"
-    Write-Host "Reading from local folder"
+    Write-Host "[Info   ]: Reading from local folder"
     . $PSScriptRoot\Set-WindowStyle.ps1
     . $PSScriptRoot\set-volume.ps1
     . $PSScriptRoot\Set-ScreenResolutionEx.ps1
     . $PSScriptRoot\AdapterTypes.ps1
-    $strMonitors # CHR RHID-0486 (Internal) disable if internal CHR detected (UTC-08:00) Pacific Time (US & Canada)
+    if ($strMonitors -ne "CHR $env:COMPUTERNAME (Internal)") {
+        Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0 
+    } else {Write-Host "[Info   ]: Display Type: $strMonitors"}
+    # disable if internal CHR detected (UTC-08:00) Pacific Time (US & Canada)
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
-        if ([System.TimeZoneInfo]::Local.DisplayName -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
-            Write-host "[Error] Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
+        if ($SystemTimeZone -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
+            Write-host "[Error]: Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
         } else {
-            [System.TimeZoneInfo]::Local.DisplayName }
+            Write-Host "[Info   ]: System Timezone $SystemTimeZone" }
         $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
         if ($Win10patch_leaf -eq "True") {
             $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
@@ -24,7 +26,6 @@
         "[Info   ]: Force audio volume to 50%, maximize display and console size"
         If ($Debug -eq "Off") {
         [audio]::Volume = 0.5
-        Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
         (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         }
         if ($internal -eq $True) {
