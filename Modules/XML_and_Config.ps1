@@ -115,7 +115,7 @@ elseif ($sn -eq '3') {
 }
 else 
 { set-variable -name "serverdir" -value "$path-$sn" 
-    . $PSScriptRoot\mtss.ps1
+    . $PSScriptRoot\rhid.ps1
   } 
 }
 
