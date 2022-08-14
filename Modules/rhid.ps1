@@ -1,6 +1,6 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
-Write-Host "[RapidHIT ID]: Collecting Instrument $MachineName run data for result..." -ForegroundColor Magenta
+Write-Host "[ RapidHIT ID]: Collecting Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
 
 $Optics_Str       = "[ Optics     ]"
@@ -43,7 +43,7 @@ if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA_Str : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
     Write-Host "$PCBA_Str : $Error_str $RHID_Mainboard_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
-if ("$RHID_Mezzbaord_FW_Ver" -eq $Firmware79) {
+if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA_Str : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
 else {
     Write-Host "$PCBA_Str : $Error_str $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }

@@ -103,19 +103,16 @@ Enter number or Instrument Serial Number (4 digits) to proceed"
 if ($sn -eq '1') {
   $sn = read-host "Enter Folder Path"
   set-variable -name "serverdir" -value "$sn"
-}
-elseif ($sn -eq '2') {
+} elseif ($sn -eq '2') {
   mkdir U:\"$name\Internal\RapidHIT ID"\Results\
   Copy-Item E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
   Copy-Item E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
-}
-elseif ($sn -eq '3') {
+} elseif ($sn -eq '3') {
   mkdir U:\"$name"\Internal\
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
-}
-else 
-{ set-variable -name "serverdir" -value "$path-$sn" 
-    . $PSScriptRoot\rhid.ps1
+} else { set-variable -name "serverdir" -value "$path-$sn" 
+  Clear-Host
+  . $PSScriptRoot\rhid.ps1
   } 
 }
 
