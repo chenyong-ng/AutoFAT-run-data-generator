@@ -93,7 +93,7 @@ Enter 'j'  to show Boxprep SoftGenetics License activation status,
 Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
-function Option1 {
+function MainOptions {
 $sn = read-host "
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
 Enter 2 to Backup Instrument config and calibrated TC data to Local server,
