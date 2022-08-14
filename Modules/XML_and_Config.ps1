@@ -110,10 +110,12 @@ if ($sn -eq '1') {
 } elseif ($sn -eq '3') {
   mkdir U:\"$name"\Internal\
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
-} else { set-variable -name "serverdir" -value "$path-$sn" 
+} elseif ((Test-Path -Path "$path-$sn") -eq "True") {
+  set-variable -name "serverdir" -value "$path-$sn"
   Clear-Host
   . $PSScriptRoot\rhid.ps1
-  } 
+} Else {
+    Write-Host "[ RapidHIT ID]: selected Instrument S/N $sn does not have record in Server" -ForegroundColor Red}
 }
 
 function network {

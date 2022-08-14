@@ -1,8 +1,3 @@
-$serverdir_leaf = Test-Path -Path "$serverdir"
-if ($serverdir_leaf -eq "True") {
-    $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R }
-    Else {
-    Write-Host "[ RapidHIT ID]: selected  $MachineName does not exist" -ForegroundColor Red}
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID]: Collecting Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
