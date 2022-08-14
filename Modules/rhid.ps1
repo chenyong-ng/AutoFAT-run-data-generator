@@ -22,7 +22,7 @@ $RHID_HIDAutolite_Str = "SoftGenetics License number provided is"
 $Test_Failed_Str  = "Test : FAILED"
 $Test_Passed_Str  = "Test : PASSED"
 $Test_NA_Str      = "Test : N/A"
-$File_not_Found   = "not found or no full run has been performed"
+$File_not_Found   = "Not found or no full run has been performed"
 $File_found       = "Files found in these folders"
 
 $RHID_QMini_str = "Q-mini serial number"
