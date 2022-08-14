@@ -179,10 +179,15 @@ $RHID_Raman               = ($storyboard | Select-String "Bring Up: Verify Raman
 
 $RHID_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
 Write-host "$Bolus_Str : Passed Bolus test count:" ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
-
+ 
+$RHID_Temp_Rdr = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+$RHID_Hum_Rdr  = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+Write-Host "[Temp Sensor] :  Run end Ambient temp reading in °C : $RHID_Temp_Rdr" -ForegroundColor Green
+Write-Host "[Humidity Sensor] : Run end Humidity reading in % : $RHID_Hum_Rdr" -ForegroundColor Green
+ 
 $StatusData_leaf  = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
-$GM_Analysis_leaf = Get-ChildItem -Exclude "$serverdir\*Internal*" -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
-# $GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -Recurse -I $GM_Analysis | Where-Object { $_.PsIsContainer -and $_.FullName -notmatch 'Internal' } | Test-path -PathType Leaf
+#$GM_Analysis_leaf = Get-ChildItem -Exclude "$serverdir\*Internal*" -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
+ $GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -Recurse -I $GM_Analysis | Where-Object { $_.NameString -notmatch "Internal" } | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
