@@ -3,9 +3,8 @@ $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 
 Write-Host "[RapidHIT ID]: Collecting Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
 
-$Optics_Str       = "[ Optiics    ]"
+$Optics_Str       = "[ Optics     ]"
 $PCBA_Str         = "[ PCBA       ]"
-$Error_str        = "[ Error!     ]"
 $Heater_str       = "[ Heater     ]"
 $SCI_Str          = "[ SCI        ]"
 $Sensor_Str       = "[ Sensor     ]"
@@ -16,8 +15,7 @@ $Bolus_Str        = "[ Bolus      ]"
 $WetTest_Str      = "[ Wet Test   ]"
 $BoxPrep_Str      = "[ BoxPrep    ]"
 $HIDAutolite_Str  = "[ HIDAutolite]"
-
-$RHID_HIDAutolite_Str = "SoftGenetics License number provided is"
+$Error_str        = "[ Error! ]"
 
 $Test_Failed_Str  = "Test : FAILED"
 $Test_Passed_Str  = "Test : PASSED"
@@ -31,6 +29,8 @@ $RHID_Infl_Str  = "Inflection Point"
 $RHID_Mainboard_str = "Main board firmware version"
 $RHID_Mezzbaord_str = "Mezz board firmware version"
 $RHID_Firmware79    = "1001.4.79"
+$RHID_HIDAutolite_Str = "SoftGenetics License number provided is"
+
 $RHID_QMini_SN          = ($storyboard | Select-String $RHID_QMini_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
