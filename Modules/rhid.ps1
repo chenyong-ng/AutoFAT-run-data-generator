@@ -11,6 +11,8 @@ $SCI_Str          = "[ SCI        ]"
 $Sensor_Str       = "[ Sensor     ]"
 $Coolant_Pump_str = "[Coolant Pump]"
 $Full_Run_Str     = "[ Full-Run   ]"
+$Mezz_Plate       = "[ Mezz_Plate ]"
+
 $Test_Failed_Str  = "Test : FAILED"
 $Test_Passed_Str  = "Test : PASSED"
 $Test_NA_Str      = "Test : N/A"
@@ -18,7 +20,7 @@ $Test_NA_Str      = "Test : N/A"
 $RHID_QMini_str     = "Q-mini serial number"
 $RHID_Mainboard_str = "Main board firmware version"
 $RHID_Mezzbaord_str = "Mezz board firmware version"
-$Firmware79           = "1001.4.79"
+$Firmware79         = "1001.4.79"
 $RHID_QMini_SN      = ($storyboard | Select-String $RHID_QMini_str     | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
 $RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients"     | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
 $RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
@@ -122,8 +124,7 @@ $RHID_FL_Homing_Error_wCAM_Test
 $RHID_SCI_Antenna_Test 
 
 # Mezzboard PCB .line.split(",")| Select-Object -Last 1
-$Anode_Motor_Str = "Anode Motor FAT"
-$Mezz_Plate = "[Mezz_Plate]"
+$Anode_Motor_Str= "Anode Motor FAT"
 $RHID_Mezz_test = ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1)
 $RHID_HP_FAT    = ($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1)
 $RHID_LP_FAT    = ($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1)
