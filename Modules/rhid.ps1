@@ -31,13 +31,13 @@ $RHID_Infl_Str  = "Inflection Point"
 $RHID_Mainboard_str = "Main board firmware version"
 $RHID_Mezzbaord_str = "Mezz board firmware version"
 $RHID_Firmware79    = "1001.4.79"
-$RHID_QMini_SN      = ($storyboard | Select-String $RHID_QMini_str     | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
-$RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
-$RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-object -last 1).line.split(":").TrimStart()   | Select-object -last 1
-$RHID_Mainboard_FW_Ver  = ($storyboard | Select-String $RHID_Mainboard_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
-$RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String $RHID_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart()  | Select-object -last 1
-Write-Host "$Optics_Str : $RHID_QMini_str : $RHID_QMini_SN" -ForegroundColor Green
-Write-Host "$Optics_Str : $RHID_Coeff_Str : $RHID_QMini_Coeff" -ForegroundColor Green
+$RHID_QMini_SN          = ($storyboard | Select-String $RHID_QMini_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_Mainboard_FW_Ver  = ($storyboard | Select-String $RHID_Mainboard_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String $RHID_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+Write-Host "$Optics_Str : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
+Write-Host "$Optics_Str : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
 Write-Host "$Optics_Str : $RHID_Infl_Str  : $RHID_QMini_Infl" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA_Str : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
