@@ -7,8 +7,8 @@ $Optics_Str       = "[ Optics     ]"
 $PCBA_Str         = "[ PCBA       ]"
 $Heater_str       = "[ Heater     ]"
 $SCI_Str          = "[ SCI        ]"
-$Sensor_Str       = "[ Sensor     ]"
-$Coolant_Pump_str = "[Coolant Pump]"
+$Ambient_str      = "[ Ambient_Sr ]"
+$Gel_Cooler_str   = "[ Gel Cooler ]"
 $Full_Run_Str     = "[ Full-Run   ]"
 $Mezz_Plate       = "[ Mezz_Plate ]"
 $Bolus_Str        = "[ Bolus      ]"
@@ -92,17 +92,17 @@ $RHID_Gel_Cooler_FAT = $storyboard | Select-String $RHID_Gel_Cooler_str | Select
 $RHID_Ambient_FAT    = $storyboard | Select-String $RHID_Ambient_str    | Select-Object -Last 1
 
 if (($RHID_Gel_Cooler_FAT).count -eq "") {
-    Write-Host "$Coolant_Pump_str : $RHID_Gel_Cooler_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Gel_Cooler_str : $RHID_Gel_Cooler_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Coolant_Pump_str : $RHID_Gel_Cooler_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$Gel_Cooler_str : $RHID_Gel_Cooler_str $Test_Passed_Str" -ForegroundColor Green }
 else {
-    Write-Host "$Coolant_Pump_str : $RHID_Gel_Cooler_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Gel_Cooler_str : $RHID_Gel_Cooler_str $Test_Failed_Str" -ForegroundColor Red    }
 if (($RHID_Ambient_FAT).count -eq "") {
-    Write-Host "$Sensor_Str : $RHID_Ambient_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Ambient_str : $RHID_Ambient_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Ambient_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Sensor_Str : $RHID_Ambient_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$Ambient_str : $RHID_Ambient_str $Test_Passed_Str" -ForegroundColor Green }
 else {
-    Write-Host "$Sensor_Str : $RHID_Ambient_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Ambient_str : $RHID_Ambient_str $Test_Failed_Str" -ForegroundColor Red    }
 
 # SCI tests
 $RHID_CAM_FAT_str = "CAM FAT"
@@ -182,7 +182,7 @@ Write-host "$Bolus_Str : Passed Bolus test count:" ($RHID_Bolus | select-string 
 
 $StatusData_leaf  = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
 $GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
-
+$Danno_Screenshot_leaf = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
@@ -201,18 +201,15 @@ else {Write-host "$Full_Run_Str : $GM_Analysis $File_not_Found" -ForegroundColor
 $RHID_Shipping_BEC = ($storyboard | Select-String "Shipping BEC engaged") | Select-Object -Last 1
 $RHID_Shipping_BEC
 
-# "$danno\RHID-$sn2" 
 $Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
 IF ($Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"
+    $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
+    $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG
+    Write-Host $BoxPrep_Str : Screenshots count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
+    Write-Host "$HIDAutolite_Str : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
 } Else {
     Write-Host "$BoxPrep_Str : Boxprep not yet Initialized" -ForegroundColor Yellow
-    $RHID_Danno_Path = ""
-}
-
-If ($RHID_Danno_Path -ne "") {
-    $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
-    Write-Host "$HIDAutolite_Str : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
 }
 # $RHID_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
 #  $Bolus_Str = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Timing" |  Select-Object -ExpandProperty Line  | ForEach-Object -MemberName Split -ArgumentList "="
