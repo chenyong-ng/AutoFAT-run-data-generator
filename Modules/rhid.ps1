@@ -58,28 +58,28 @@ $RHID_PCR_Heater_FAT    = $storyboard | Select-String $RHID_PCR_Heater_str    | 
 $RHID_Optics_Heater_FAT = $storyboard | Select-String $RHID_Optics_Heater_str | Select-Object -Last 1
 
 if (($RHID_Lysis_Heater_FAT).count -eq "") {
-    Write-Host "$RHID_Lysis_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater_str : $RHID_Lysis_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$Heater_str : $RHID_Lysis_Heater_str $Test_Passed_Str" -ForegroundColor Green }
 else {
-    Write-Host "$RHID_Lysis_Heater_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Heater_str : $RHID_Lysis_Heater_str $Test_Failed_Str" -ForegroundColor Red    }
 
 if (($RHID_DN_Heater_FAT).count -eq "") {
-    Write-Host "$RHID_DN_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater_str : $RHID_DN_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_DN_Heater_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$Heater_str : $RHID_DN_Heater_str $Test_Passed_Str" -ForegroundColor Green }
 else {
     Write-Host "$Heater_str : $RHID_DN_Heater_str $Test_Failed_Str"  -ForegroundColor Red    }
 
 if (($RHID_PCR_Heater_FAT).count -eq "") {
-    Write-Host "$RHID_PCR_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater_str : $RHID_PCR_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_PCR_Heater_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$Heater_str : $RHID_PCR_Heater_str $Test_Passed_Str" -ForegroundColor Green  }
 else {
-    Write-Host "$RHID_PCR_Heater_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Heater_str : $RHID_PCR_Heater_str $Test_Failed_Str" -ForegroundColor Red    }
 
 if (($RHID_Optics_Heater_FAT).count -eq "") {
-    Write-Host "$RHID_Optics_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater_str : $RHID_Optics_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Optics_Heater_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$Heater_str : $RHID_Optics_Heater_str $Test_Passed_Str" -ForegroundColor Green }
 else {
@@ -92,13 +92,13 @@ $RHID_Gel_Cooler_FAT = $storyboard | Select-String $RHID_Gel_Cooler_str | Select
 $RHID_Ambient_FAT    = $storyboard | Select-String $RHID_Ambient_str    | Select-Object -Last 1
 
 if (($RHID_Gel_Cooler_FAT).count -eq "") {
-    Write-Host "$RHID_Gel_Cooler_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Coolant_Pump_str : $RHID_Gel_Cooler_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$Coolant_Pump_str : $RHID_Gel_Cooler_str $Test_Passed_Str" -ForegroundColor Green }
 else {
     Write-Host "$Coolant_Pump_str : $RHID_Gel_Cooler_str $Test_Failed_Str" -ForegroundColor Red    }
 if (($RHID_Ambient_FAT).count -eq "") {
-    Write-Host "$RHID_Ambient_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Sensor_Str : $RHID_Ambient_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Ambient_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$Sensor_Str : $RHID_Ambient_str $Test_Passed_Str" -ForegroundColor Green }
 else {
@@ -109,7 +109,7 @@ $RHID_CAM_FAT_str = "CAM FAT"
 $RHID_CAM_FAT     = ($storyboard | Select-String $RHID_CAM_FAT_str | select-string "PASS" | Select-Object -Last 1)
 
 if (($RHID_CAM_FAT).count -eq "") {
-    Write-Host "$RHID_CAM_FAT_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$SCI_Str : $RHID_CAM_FAT_str $Test_NA_Str"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_CAM_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$SCI_Str : $RHID_CAM_FAT_str $Test_Passed_Str" -ForegroundColor Green }
 else {
