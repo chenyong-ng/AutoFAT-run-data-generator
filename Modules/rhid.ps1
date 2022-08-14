@@ -181,7 +181,8 @@ $RHID_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.
 Write-host "$Bolus_Str : Passed Bolus test count:" ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
 
 $StatusData_leaf  = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
-$GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
+$GM_Analysis_leaf = Get-ChildItem -Exclude "$serverdir\*Internal*" -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
+# $GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -Recurse -I $GM_Analysis | Where-Object { $_.PsIsContainer -and $_.FullName -notmatch 'Internal' } | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
