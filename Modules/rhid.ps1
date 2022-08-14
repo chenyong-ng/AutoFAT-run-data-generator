@@ -188,8 +188,7 @@ if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run_Str : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
-}
-else {
+} else {
     Write-host "$Full_Run_Str : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
@@ -205,11 +204,11 @@ $RHID_Shipping_BEC
 # "$danno\RHID-$sn2" 
 $Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
 IF ($Danno_Local_leaf -eq "True") {
-    $RHID_Danno_Path = "$danno\$MachineName"}
-     Else {
-        Write-Host "$BoxPrep_Str : Boxprep not yet Initialized" -ForegroundColor Yellow
-        $RHID_Danno_Path = ""
-    }
+    $RHID_Danno_Path = "$danno\$MachineName"
+} Else {
+    Write-Host "$BoxPrep_Str : Boxprep not yet Initialized" -ForegroundColor Yellow
+    $RHID_Danno_Path = ""
+}
 
 If ($RHID_Danno_Path -ne "") {
     $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
