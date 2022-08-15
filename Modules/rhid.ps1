@@ -1,4 +1,4 @@
-$storyboard  = Get-ChildItem "$serverdir" -I storyboard*.* -R 
+﻿$storyboard  = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
@@ -193,8 +193,8 @@ $GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal" "$serverdir"  | Get-Chil
 $GM_ILS_Score
 $GM_ILS_Score_Name
 
-$StatusData_leaf = Get-ChildItem -Exclude "Internal" "$serverdir" | Get-ChildItem -I $StatusData  -R | Test-path -PathType Leaf
-$GM_Analysis_leaf = Get-ChildItem -Exclude "Internal" "$serverdir" | Get-ChildItem -I $GM_Analysis -R | Test-path -PathType Leaf
+$StatusData_leaf  = Get-ChildItem "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
+$GM_Analysis_leaf = Get-ChildItem "$serverdir "-I $GM_Analysis -R | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Exclude "Internal" "$serverdir" | Get-ChildItem -I $StatusData -R | Format-table Directory -Autosize -HideTableHeaders -wrap
