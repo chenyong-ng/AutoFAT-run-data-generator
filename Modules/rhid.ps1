@@ -188,7 +188,7 @@ Write-Host "[ Humi Sensor] : Run end Humidity reading in % : $RHID_Hum_Rdr" -For
 # GM_ILS_Score_1,98
 # GM_ILS_Score_1_Name, Trace__Ladder.fsa
 $GM_ILS_Score = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I SampleQuality.txt -R | select-string "Trace__Current", "Trace__Ladder").Line.TrimStart()
-$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal"-path "$serverdir" | Get-ChildItem  -I SampleQuality.txt -R | select-string "Trace__GFE", "Trace__NGM").Line.TrimStart().split(" ")
+$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal"-path "$serverdir" | Get-ChildItem  -I SampleQuality.txt -R | select-string "Trace").Line.TrimStart().split(" ")
 #Write-Host "$Full_Run_Str : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
 $GM_ILS_Score 
 $GM_ILS_Score_Name 
