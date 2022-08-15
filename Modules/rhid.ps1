@@ -199,14 +199,14 @@ $GM_Analysis_leaf = Get-ChildItem -Exclude "Internal" "$serverdir" | Get-ChildIt
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Exclude "Internal" "$serverdir" | Get-ChildItem -I $StatusData -R | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run_Str : $StatusData $File_found" -ForegroundColor Green
-    $RHID_StatusData_PDF
+    $RHID_StatusData_PDF.count
 } else {
     Write-host "$Full_Run_Str : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_GM_Analysis = Get-ChildItem -Exclude "Internal" "$serverdir" | Get-ChildItem -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run_Str : $GM_Analysis $File_found" -ForegroundColor Green
-    $RHID_GM_Analysis
+    $RHID_GM_Analysis.count
 }
 else {Write-host "$Full_Run_Str : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
 
