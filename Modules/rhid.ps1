@@ -185,10 +185,10 @@ $RHID_Hum_Rdr  = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml
 Write-Host "[ Temp Sensor] : Run end Ambient reading in °C : $RHID_Temp_Rdr" -ForegroundColor Green
 Write-Host "[ Humi Sensor] : Run end Humidity reading in % : $RHID_Hum_Rdr" -ForegroundColor Green
 
-#.line.split(",").TrimStart() | Select-Object -First 2 | Select-Object -Last 1
-#.line.split(",").TrimStart() | Select-Object -First 2 | Select-Object -Last 1
-$GM_ILS_Score = (Get-ChildItem -Exclude "Internal" "$serverdir"  | Get-ChildItem -I RunSummary.csv -R | select-string "GM_ILS_Score_2,").Line.TrimStart()
-$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal" "$serverdir"  | Get-ChildItem -I RunSummary.csv -R | select-string "GM_ILS_Score_2_Name,").line.TrimStart() 
+# GM_ILS_Score_1,98
+# GM_ILS_Score_1_Name, Trace__Ladder.fsa
+$GM_ILS_Score = (Get-ChildItem -Exclude "Internal" "$serverdir"  | Get-ChildItem -I RunSummary.csv -R | select-string "GM_ILS_Score_2,").Line.TrimStart() 
+$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal" "$serverdir"  | Get-ChildItem -I RunSummary.csv -R | select-string "GM_ILS_Score_2_Name,").line.TrimStart()  
 #Write-Host "$Full_Run_Str : $GM_ILS_Score_Name GeneMarker ISL Score :" $GM_ILS_Score -ForegroundColor Green
 $GM_ILS_Score
 $GM_ILS_Score_Name
