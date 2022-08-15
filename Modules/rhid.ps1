@@ -194,7 +194,7 @@ $GM_ILS_Score
 $GM_ILS_Score_Name
 
 $StatusData_leaf  = Get-ChildItem "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
-$GM_Analysis_leaf = Get-ChildItem "$serverdir "-I $GM_Analysis -R | Test-path -PathType Leaf
+$GM_Analysis_leaf = Get-ChildItem "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData -R | Format-table Directory -Autosize -HideTableHeaders -wrap
