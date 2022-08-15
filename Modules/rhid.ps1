@@ -204,7 +204,7 @@ if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     Write-host "$Full_Run_Str : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_GM_Analysis = Get-ChildItem -path "$serverdir" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
+    $RHID_GM_Analysis = Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run_Str : $GM_Analysis $File_found" -ForegroundColor Green
     $RHID_GM_Analysis
 }
