@@ -123,7 +123,7 @@ $RHID_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor C
 $RHID_FE_Motor_Test             = ($storyboard | Select-String "Bring Up: FE Motor Test"        | select-string "PASS" | Select-Object -Last 1)
 $RHID_Homing_Error_Test         = ($storyboard | Select-String "Bring Up: Homing Error Test"    | select-string "PASS" | Select-Object -Last 1)
 $RHID_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS" | Select-Object -Last 1)
-$RHID_SCI_Antenna_Test          = ($storyboard | Select-String "SCI Antenna Test"               | select-string "PASS" | Select-Object -Last 1)
+$RHID_SCI_Antenna_Test          = ($storyboard | Select-String "Bring Up: SCI Antenna Test"           | select-string "PASS" | Select-Object -Last 1)
 
 $RHID_SCI_Insertion_FAT
 $RHID_FRONT_END_FAT
@@ -182,12 +182,20 @@ Write-host "$Bolus_Str : Passed Bolus test count:" ($RHID_Bolus | select-string 
  
 $RHID_Temp_Rdr = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
 $RHID_Hum_Rdr  = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
-Write-Host "[Temp Sensor] :  Run end Ambient temp reading in °C : $RHID_Temp_Rdr" -ForegroundColor Green
-Write-Host "[Humidity Sensor] : Run end Humidity reading in % : $RHID_Hum_Rdr" -ForegroundColor Green
- 
+Write-Host "[ Temp Sensor] : Run end Ambient reading in °C : $RHID_Temp_Rdr" -ForegroundColor Green
+Write-Host "[ Humi Sensor] : Run end Humidity reading in % : $RHID_Hum_Rdr" -ForegroundColor Green
+
+#.line.split(",").TrimStart() | Select-Object -First 2 | Select-Object -Last 1
+#.line.split(",").TrimStart() | Select-Object -First 2 | Select-Object -Last 1
+$GM_ILS_Score = (Get-ChildItem "$serverdir" -I RunSummary.csv -R | select-string "GM_ILS_Score_2")
+$GM_ILS_Score_Name = (Get-ChildItem "$serverdir" -I RunSummary.csv -R | select-string "GM_ILS_Score_2_Name")
+#Write-Host "$Full_Run_Str : $GM_ILS_Score_Name GeneMarker ISL Score :" $GM_ILS_Score -ForegroundColor Green
+$GM_ILS_Score
+$GM_ILS_Score_Name
+
 $StatusData_leaf  = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
 #$GM_Analysis_leaf = Get-ChildItem -Exclude "$serverdir\*Internal*" -Path "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
- $GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -Recurse -I $GM_Analysis | Where-Object { $_.NameString -notmatch "Internal" } | Test-path -PathType Leaf
+$GM_Analysis_leaf = Get-ChildItem -Path "$serverdir" -Recurse -I $GM_Analysis | Where-Object { $_.FullName -notmatch "Internal" } | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -Path "$serverdir" -I $StatusData  -R | Format-table Directory -Autosize -HideTableHeaders -wrap
