@@ -2,26 +2,23 @@
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
+# convert everything to functios, execute only if condition is true
 
-$Optics_Str       = "[ Optics     ]"
-$PCBA_Str         = "[ PCBA       ]"
-$Heater_str       = "[ Heater     ]"
-$SCI_Str          = "[ SCI        ]"
-$Ambient_str      = "[ Ambient_Sr ]"
-$Gel_Cooler_str   = "[ Gel Cooler ]"
-$Full_Run_Str     = "[ Full-Run   ]"
-$Mezz_Plate       = "[ Mezz_Plate ]"
-$Bolus_Str        = "[ Bolus      ]"
-$WetTest_Str      = "[ Wet Test   ]"
-$BoxPrep_Str      = "[ BoxPrep    ]"
-$HIDAutolite_Str  = "[ HIDAutolite]"
-$Error_str        = "[ Error! ]"
+$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]"
+$Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]"
+$Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]"
+$Full_Run     = "[ Full-Run   ]" ; $Mezz_Plate   = "[ Mezz_Plate ]"
+$Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]"
+$BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]"
+$USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" 
+$Error_msg    = "[ Error! ]"
 
-$Test_Failed_Str  = "Test : FAILED"
-$Test_Passed_Str  = "Test : PASSED"
-$Test_NA_Str      = "Test : N/A"
-$File_not_Found   = "Not found or no full run has been performed"
-$File_found       = "Files found in these folders"
+$Test_Failed  = "Test : FAILED" ; $Test_Passed  = "Test : PASSED"
+$Test_NA      = "Test : N/A"
+$USB_Temp_RD  = "Run end Ambient reading in °C"
+$USB_Humi_RD  = "Run end Humidity reading in %"
+$File_not_Found = "Not found or no full run has been performed"
+$File_found     = "Files found in these folders"
 
 $RHID_QMini_str = "Q-mini serial number"
 $RHID_Coeff_Str = "Coefficients"
@@ -29,61 +26,62 @@ $RHID_Infl_Str  = "Inflection Point"
 $RHID_Mainboard_str = "Main board firmware version"
 $RHID_Mezzbaord_str = "Mezz board firmware version"
 $RHID_Firmware79    = "1001.4.79"
-$RHID_HIDAutolite_Str = "SoftGenetics License number provided is"
+$RHID_Anode_Motor_Str  = "Anode Motor FAT"
+$RHID_Lysis_Heater_str = "Lysis Heater FAT"
+$RHID_DN_Heater_str    = "DN FAT"
+$RHID_PCR_Heater_str   = "PCR FAT"
+$RHID_Optics_Heater_str = "Optics Heater FAT"
+$RHID_HIDAutolite_Str   = "SoftGenetics License number provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String $RHID_QMini_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String $RHID_Mainboard_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String $RHID_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-Write-Host "$Optics_Str : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
-Write-Host "$Optics_Str : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
-Write-Host "$Optics_Str : $RHID_Infl_Str  : $RHID_QMini_Infl" -ForegroundColor Green
+Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
+Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
+Write-Host "$Optics : $RHID_Infl_Str  : $RHID_QMini_Infl" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
-    Write-Host "$PCBA_Str : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
+    Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
-    Write-Host "$PCBA_Str : $Error_str $RHID_Mainboard_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
+    Write-Host "$PCBA : $Error_msg $RHID_Mainboard_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
 if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
-    Write-Host "$PCBA_Str : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
+    Write-Host "$PCBA : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
 else {
-    Write-Host "$PCBA_Str : $Error_str $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
+    Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
 
-$RHID_Lysis_Heater_str  = "Lysis Heater FAT"
-$RHID_DN_Heater_str     = "DN FAT"
-$RHID_PCR_Heater_str    = "PCR FAT"
-$RHID_Optics_Heater_str = "Optics Heater FAT"
 $RHID_Lysis_Heater_FAT  = $storyboard | Select-String $RHID_Lysis_Heater_str  | Select-Object -Last 1
 $RHID_DN_Heater_FAT     = $storyboard | Select-String $RHID_DN_Heater_str     | Select-Object -Last 1
 $RHID_PCR_Heater_FAT    = $storyboard | Select-String $RHID_PCR_Heater_str    | Select-Object -Last 1
 $RHID_Optics_Heater_FAT = $storyboard | Select-String $RHID_Optics_Heater_str | Select-Object -Last 1
 
 if (($RHID_Lysis_Heater_FAT).count -eq "") {
-    Write-Host "$Heater_str : $RHID_Lysis_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Heater_str : $RHID_Lysis_Heater_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Heater_str : $RHID_Lysis_Heater_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red    }
 
 if (($RHID_DN_Heater_FAT).count -eq "") {
-    Write-Host "$Heater_str : $RHID_DN_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater : $RHID_DN_Heater_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_DN_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Heater_str : $RHID_DN_Heater_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$Heater : $RHID_DN_Heater_str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Heater_str : $RHID_DN_Heater_str $Test_Failed_Str"  -ForegroundColor Red    }
+    Write-Host "$Heater : $RHID_DN_Heater_str $Test_Failed"  -ForegroundColor Red    }
 
 if (($RHID_PCR_Heater_FAT).count -eq "") {
-    Write-Host "$Heater_str : $RHID_PCR_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater : $RHID_PCR_Heater_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_PCR_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Heater_str : $RHID_PCR_Heater_str $Test_Passed_Str" -ForegroundColor Green  }
+    Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Passed" -ForegroundColor Green  }
 else {
-    Write-Host "$Heater_str : $RHID_PCR_Heater_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Failed" -ForegroundColor Red    }
 
 if (($RHID_Optics_Heater_FAT).count -eq "") {
-    Write-Host "$Heater_str : $RHID_Optics_Heater_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Heater : $RHID_Optics_Heater_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Optics_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Heater_str : $RHID_Optics_Heater_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Heater_str : $RHID_Optics_Heater_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    }
 
 # Mainboard tests
 $RHID_Gel_Cooler_str = "Gel Cooling FAT"
@@ -92,28 +90,28 @@ $RHID_Gel_Cooler_FAT = $storyboard | Select-String $RHID_Gel_Cooler_str | Select
 $RHID_Ambient_FAT    = $storyboard | Select-String $RHID_Ambient_str    | Select-Object -Last 1
 
 if (($RHID_Gel_Cooler_FAT).count -eq "") {
-    Write-Host "$Gel_Cooler_str : $RHID_Gel_Cooler_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Gel_Cooler_str : $RHID_Gel_Cooler_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Gel_Cooler_str : $RHID_Gel_Cooler_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    }
 if (($RHID_Ambient_FAT).count -eq "") {
-    Write-Host "$Ambient_str : $RHID_Ambient_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$Ambient : $RHID_Ambient_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Ambient_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Ambient_str : $RHID_Ambient_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$Ambient : $RHID_Ambient_str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Ambient_str : $RHID_Ambient_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    }
 
 # SCI tests
 $RHID_CAM_FAT_str = "CAM FAT"
 $RHID_CAM_FAT     = ($storyboard | Select-String $RHID_CAM_FAT_str | select-string "PASS" | Select-Object -Last 1)
 
 if (($RHID_CAM_FAT).count -eq "") {
-    Write-Host "$SCI_Str : $RHID_CAM_FAT_str $Test_NA_Str"    -ForegroundColor Yellow }
+    Write-Host "$SCI : $RHID_CAM_FAT_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_CAM_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$SCI_Str : $RHID_CAM_FAT_str $Test_Passed_Str" -ForegroundColor Green }
+    Write-Host "$SCI : $RHID_CAM_FAT_str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$SCI_Str : $RHID_CAM_FAT_str $Test_Failed_Str" -ForegroundColor Red    }
+    Write-Host "$SCI : $RHID_CAM_FAT_str $Test_Failed" -ForegroundColor Red    }
 
     # .line.split(",") | Select-Object -Last 1
 #$Pass_Filter = select-string "PASS" | Select-Object -Last 1
@@ -134,17 +132,16 @@ $RHID_FL_Homing_Error_wCAM_Test
 $RHID_SCI_Antenna_Test 
 
 # Mezzboard PCB .line.split(",")| Select-Object -Last 1
-$Anode_Motor_Str= "Anode Motor FAT"
 $RHID_Mezz_test = ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1)
 $RHID_HP_FAT    = ($storyboard | Select-String "HP FAT"    | select-string "PASS" | Select-Object -Last 1)
 $RHID_LP_FAT    = ($storyboard | Select-String "LP FAT"    | select-string "PASS" | Select-Object -Last 1)
-IF (($storyboard | Select-String "$Anode_Motor_Str").count -eq ("0")) {
-    Write-Host "$Mezz_Plate $Anode_Motor_Str $Test_NA_Str"    -ForegroundColor Yellow }
-elseif ([bool]($storyboard | Select-String "$Anode_Motor_Str") -eq ("True")) {
-    $RHID_Anode_Motor_FAT = ($storyboard | Select-String "$Anode_Motor_Str" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
-    Write-Host "$Mezz_Plate $Anode_Motor_Str $Test_Passed_Str" -ForegroundColor Green }
+IF (($storyboard | Select-String "$RHID_Anode_Motor_Str").count -eq ("0")) {
+    Write-Host "$Mezz_Plate $RHID_Anode_Motor_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool]($storyboard | Select-String "$RHID_Anode_Motor_Str") -eq ("True")) {
+    $RHID_Anode_Motor_FAT = ($storyboard | Select-String "$RHID_Anode_Motor_Str" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+    Write-Host "$Mezz_Plate $RHID_Anode_Motor_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Mezz_Plate $Anode_Motor_Str $Test_Failed_Str" -ForegroundColor Red   }
+    Write-Host "$Mezz_Plate $RHID_Anode_Motor_Str $Test_Failed" -ForegroundColor Red   }
 
     #.line.split(",")| Select-Object -Last 1
 $RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT"     | select-string "PASS"| Select-Object -Last 1)
@@ -166,7 +163,7 @@ $RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | select-string "PASS
 $RHID_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1)
 $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected"         | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
 $RHID_Water_Prime
-Write-Host "$WetTest_Str : $RHID_Water_Prime_Plug" -ForegroundColor Cyan
+Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan
 # .line.split(",")| Select-Object -Last 1
 $RHID_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime"         | select-string "PASS"| Select-Object -Last 1)
 $RHID_Buffer_Prime   = ($storyboard | Select-String "Bring Up: Buffer Prime"        | select-string "PASS"| Select-Object -Last 1)
@@ -178,18 +175,18 @@ $RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Ge
 $RHID_Raman               = ($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1)
 
 $RHID_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
-Write-host "$Bolus_Str : Passed Bolus test count:" ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
+Write-host "$Bolus : Passed Bolus test count:" ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
  
-$RHID_Temp_Rdr = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
-$RHID_Hum_Rdr  = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
-Write-Host "[ Temp Sensor] : Run end Ambient reading in °C : $RHID_Temp_Rdr" -ForegroundColor Green
-Write-Host "[ Humi Sensor] : Run end Humidity reading in % : $RHID_Hum_Rdr" -ForegroundColor Green
+$RHID_USB_Temp_Rdr = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+$RHID_USB_Humi_Rdr  = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Green
+Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Green
 
 # GM_ILS_Score_1,98
 # GM_ILS_Score_1_Name, Trace__Ladder.fsa
 $GM_ILS_Score = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I SampleQuality.txt -R | select-string "Trace__Current", "Trace__Ladder").Line.TrimStart()
-$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal"-path "$serverdir" | Get-ChildItem  -I SampleQuality.txt -R | select-string "Trace").Line.TrimStart().split(" ")
-#Write-Host "$Full_Run_Str : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
+$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem  -I SampleQuality.txt -R | select-string "Trace").Line.TrimStart().split(" ")
+#Write-Host "$Full_Run : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
 $GM_ILS_Score 
 $GM_ILS_Score_Name 
 
@@ -198,17 +195,17 @@ $GM_Analysis_leaf = Get-ChildItem "$serverdir" -I $GM_Analysis -R | Test-path -P
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -path "$serverdir" -Exclude "Internal" | Get-ChildItem -I $StatusData -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-    Write-Host "$Full_Run_Str : $StatusData $File_found" -ForegroundColor Green
+    Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
 } else {
-    Write-host "$Full_Run_Str : $StatusData $File_not_Found" -ForegroundColor yellow }
+    Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_GM_Analysis = Get-ChildItem -path "$serverdir" -Exclude "Internal" | Get-ChildItem -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
-    Write-Host "$Full_Run_Str : $GM_Analysis $File_found" -ForegroundColor Green
+    Write-Host "$Full_Run : $GM_Analysis $File_found" -ForegroundColor Green
     $RHID_GM_Analysis
 }
-else {Write-host "$Full_Run_Str : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
+else {Write-host "$Full_Run : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
 
 $RHID_Shipping_BEC = ($storyboard | Select-String "Shipping BEC engaged") | Select-Object -Last 1
 $RHID_Shipping_BEC
@@ -218,10 +215,10 @@ IF ($Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"
     $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
     $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG
-    Write-Host $BoxPrep_Str : Screenshots count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
-    Write-Host "$HIDAutolite_Str : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
+    Write-Host $BoxPrep : Screenshots count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
+    Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
 } Else {
-    Write-Host "$BoxPrep_Str : Boxprep not yet Initialized" -ForegroundColor Yellow
+    Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 # $RHID_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
-#  $Bolus_Str = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Timing" |  Select-Object -ExpandProperty Line  | ForEach-Object -MemberName Split -ArgumentList "="
+#  $Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Timing" |  Select-Object -ExpandProperty Line  | ForEach-Object -MemberName Split -ArgumentList "="
