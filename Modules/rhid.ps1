@@ -31,7 +31,10 @@ $RHID_Lysis_Heater_str = "Lysis Heater FAT"
 $RHID_DN_Heater_str    = "DN FAT"
 $RHID_PCR_Heater_str   = "PCR FAT"
 $RHID_Optics_Heater_str = "Optics Heater FAT"
-$RHID_HIDAutolite_Str   = "SoftGenetics License number provided is"
+$RHID_Gel_Cooler_str    = "Gel Cooling FAT"
+$RHID_Ambient_str       = "Ambient FAT"
+$RHID_CAM_FAT_str       = "CAM FAT"
+$RHID_HIDAutolite_Str   = "SoftGenetics License key provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String $RHID_QMini_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
@@ -84,8 +87,6 @@ else {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    }
 
 # Mainboard tests
-$RHID_Gel_Cooler_str = "Gel Cooling FAT"
-$RHID_Ambient_str    = "Ambient FAT"  
 $RHID_Gel_Cooler_FAT = $storyboard | Select-String $RHID_Gel_Cooler_str | Select-Object -Last 1
 $RHID_Ambient_FAT    = $storyboard | Select-String $RHID_Ambient_str    | Select-Object -Last 1
 
@@ -103,7 +104,6 @@ else {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    }
 
 # SCI tests
-$RHID_CAM_FAT_str = "CAM FAT"
 $RHID_CAM_FAT     = ($storyboard | Select-String $RHID_CAM_FAT_str | select-string "PASS" | Select-Object -Last 1)
 
 if (($RHID_CAM_FAT).count -eq "") {

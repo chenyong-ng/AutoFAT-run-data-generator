@@ -130,6 +130,7 @@ function debug {
 . $PSScriptRoot\Info_Screens.ps1
 . $PSScriptRoot\AdapterTypes.ps1
 
+    $PSversion  = ($PSversionTable | select-object psversion | Format-table -Autosize -HideTableHeaders -wrap)
     $DIMM       = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "A1_DIMM0","A1_DIMM1")
     $Ram        = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
     $Disk       = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
@@ -143,10 +144,8 @@ function debug {
 
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
-    "[$D] Sn             : $sn"
     "[$D] Computer Name  : $env:COMPUTERNAME"
-    "[$D] MalwareScanner : $RealtimeProtection"
-    "[$D] name           : $name"
+    "[$D] name           : $name" ; "[$D] Sn             : $sn"
     "[$D] SerialRegMatch : $SerialRegMatch" 
     "[$D] get-date       : ${get-date}"
     "[$D] rhid           : $rhid"
@@ -165,10 +164,9 @@ function debug {
     "[$D] SystemDiskSize : $Disk GB"
     "[$D] SystemDiskinfo : $Disktype"
     "[$D] exicode        : $exicode"
-    "[$D] Display        : $screen_cnt"
-    "[$D] DIMM           : $DIMM"
-    "[$D] Administrator ?: $AdminMode"
-    "[$D] Local Folder  ?: $Local"
-    "[$D] Remote Folder ?: $Remote"
+    "[$D] Display        : $screen_cnt"; "[$D] DIMM           : $DIMM"
+    "[$D] Administrator ?: $AdminMode" ; "[$D] MalwareScanner : $RealtimeProtection"
+    "[$D] Local Folder  ?: $Local"     ; "[$D] Remote Folder ?: $Remote"
+    "[$D] PSVersion     ?:";" $PSversion"
     $col_screens, $strMonitors
 }
