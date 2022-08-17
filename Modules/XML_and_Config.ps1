@@ -53,14 +53,8 @@ function v2 {
 
 #"$serverdir\Internal\RapidHIT ID"
 function config {
-  If ($SerialRegMatch -eq $True) {
-    Write-host "Instrument S/N: $name"
-    set-variable -name "serverdir" -value "E:\RapidHIT ID"
-  }
-  Get-ChildItem "$serverdir" -I  MachineConfig.xml, TC_Calibration.xml -R | Select-String "MachineName", "HWVersion", "MachineConfiguration", "DataServerUploadPath", "<HP_HardstopZeroForce_mm>", "<HP_Hardstop100Percent_mm>",
-  "FluidicHomeOffset", "PreMixHomeOffset", "DiluentHomeOffset", "SyringePumpStallCurrent", "SyringePumpResetCalibration", "LastBEC_TagID", "double", "RunsSinceLastGelFill", "DeliveredSamples", "LaserHours", "<Offsets>"
-  Get-Childitem "$serverdir" -I TC_verification*.* -R | Get-Content
-  #Get-Content -Path "TC_verification $name.TXT"
+  Get-ChildItem "$serverdir" -I MachineConfig.xml -R | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML } 
+  #, "//HWVersion", "//MachineConfiguration", "//DataServerUploadPath","//SyringePumpResetCalibration_ms", "//SyringePumpStallCurrent", "//double", "//FluidicHomeOffset_mm", "//PreMixHomeOffset_mm", "//DiluentHomeOffset", "//IsBECInsertion" ,"//Water", "//LysisBuffer", "//LastGelPurgeOK", "//RunsSinceLastGelFill", "//LaserHours", "//Signature" | ForEach-Object { $_.node.InnerXML } 
 }
 
 function e {

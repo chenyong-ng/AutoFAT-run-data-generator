@@ -4,14 +4,14 @@ Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data f
 # add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
 
-$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]"
+$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]"
 $Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]"
 $Full_Run     = "[ Full-Run   ]" ; $Mezz_Plate   = "[ Mezz_Plate ]"
 $Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]"
 $BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]"
 $USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" 
-$Error_msg    = "[ Error! ]"
+$SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"
 
 $Test_Failed  = "Test : FAILED" ; $Test_Passed  = "Test : PASSED"
 $Test_NA      = "Test : N/A"
@@ -34,16 +34,36 @@ $RHID_Optics_Heater_str = "Optics Heater FAT"
 $RHID_Gel_Cooler_str    = "Gel Cooling FAT"
 $RHID_Ambient_str       = "Ambient FAT"
 $RHID_CAM_FAT_str       = "CAM FAT"
-$RHID_HIDAutolite_Str   = "SoftGenetics License key provided is"
+$RHID_HIDAutolite_Str   = "SoftGenetics License number provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String $RHID_QMini_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String $RHID_Mainboard_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String $RHID_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_TC_Calibration    = Get-Childitem "$serverdir" -I TC_Calibration.xml -R | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HW     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//MachineName | //HWVersion | //MachineConfiguration | //DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Syring     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Blue     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_SCI     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//FluidicHomeOffset_mm | //PreMixHomeOffset_mm | //DiluentHomeOffset_mm"| ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_BEC     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//IsBECInsertion | //LastGelPurgeOK | //RunsSinceLastGelFill" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Prime     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//Water | //LysisBuffer"| ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Laser     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
+
 Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
 Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
 Write-Host "$Optics : $RHID_Infl_Str  : $RHID_QMini_Infl" -ForegroundColor Green
+Write-Host "[ TC_Cal Val.] : Populated Value : $RHID_TC_Calibration" -ForegroundColor Green
+Write-Host "[MachineConf.] : Populated Value : $RHID_MachineConfig_HW" -ForegroundColor Green
+"Syringe Pump Calibration $RHID_MachineConfig_Syring"
+If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
+    Write-Host "$Raman_Bkg : Blue Background Stashed" -ForegroundColor Green
+}
+else { Write-Host "$Raman_Bkg : Blue Background N/A" -ForegroundColor Yellow }
+"SCI Calibration $RHID_MachineConfig_SCI"
+"BEC $RHID_MachineConfig_BEC"
+"PRimed? $RHID_MachineConfig_Prime"
+"Laser Hour $RHID_MachineConfig_Laser"
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
@@ -51,7 +71,7 @@ else {
 if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
 else {
-    Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
+    Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red } 
 
 $RHID_Lysis_Heater_FAT  = $storyboard | Select-String $RHID_Lysis_Heater_str  | Select-Object -Last 1
 $RHID_DN_Heater_FAT     = $storyboard | Select-String $RHID_DN_Heater_str     | Select-Object -Last 1
@@ -89,7 +109,6 @@ else {
 # Mainboard tests
 $RHID_Gel_Cooler_FAT = $storyboard | Select-String $RHID_Gel_Cooler_str | Select-Object -Last 1
 $RHID_Ambient_FAT    = $storyboard | Select-String $RHID_Ambient_str    | Select-Object -Last 1
-
 if (($RHID_Gel_Cooler_FAT).count -eq "") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
@@ -184,7 +203,7 @@ Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Gree
 
 # GM_ILS_Score_1,98
 # GM_ILS_Score_1_Name, Trace__Ladder.fsa
-$GM_ILS_Score = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I SampleQuality.txt -R | select-string "Trace__Current", "Trace__Ladder").Line.TrimStart()
+#$GM_ILS_Score = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I SampleQuality.txt -R | select-string "Trace__Current", "Trace__Ladder").Line.TrimStart()
 $GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem  -I SampleQuality.txt -R | select-string "Trace").Line.TrimStart().split(" ")
 #Write-Host "$Full_Run : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
 $GM_ILS_Score 
@@ -207,8 +226,11 @@ if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
 }
 else {Write-host "$Full_Run : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
 
-$RHID_Shipping_BEC = ($storyboard | Select-String "Shipping BEC engaged") | Select-Object -Last 1
-$RHID_Shipping_BEC
+$RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
+if ([bool]$RHID_Shipping_BEC -eq "True") {
+    Write-Host "$SHP_BEC : BEC Insertion completed, Shipping BEC engaged" -ForegroundColor Green }
+else {
+    Write-Host "$SHP_BEC : Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
 $Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
 IF ($Danno_Local_leaf -eq "True") {
