@@ -1,5 +1,6 @@
 ﻿$storyboard       = Get-ChildItem "$serverdir" -I storyboard*.* -R 
 $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
+$TC_CalibrationXML= Get-Childitem "$serverdir" -I TC_Calibration.xml -R 
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
@@ -14,7 +15,7 @@ $BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]" ; $Prime    
 $USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" ; $Laser        = "[ Laser      ]" 
 $SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePump  = "[ SyringePump]"
 
-$Test_Failed  = "Test : FAILED" ; $Test_Passed  = "Test : PASSED" ; $Test_NA      = "Test : N/A"
+$Test_Failed  = "Test : FAILED"  ; $Test_Passed  = "Test : PASSED"  ; $Test_NA      = "Test : N/A"
 $USB_Temp_RD  = "Run end Ambient reading in °C"
 $USB_Humi_RD  = "Run end Humidity reading in %"
 $File_not_Found = "Not found or no full run has been performed"
@@ -41,7 +42,7 @@ $RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-
 $RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String $RHID_Mainboard_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String $RHID_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_TC_Calibration    = Get-Childitem "$serverdir" -I TC_Calibration.xml -R | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
+$RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HW     = $MachineConfigXML  | Select-Xml -XPath "//MachineName | //HWVersion | //MachineConfiguration | //DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Syring = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Blue   = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
