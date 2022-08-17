@@ -1,20 +1,20 @@
-﻿$storyboard  = Get-ChildItem "$serverdir" -I storyboard*.* -R 
+﻿$storyboard       = Get-ChildItem "$serverdir" -I storyboard*.* -R 
+$MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
 
-$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]"
-$Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]"
-$Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]"
-$Full_Run     = "[ Full-Run   ]" ; $Mezz_Plate   = "[ Mezz_Plate ]"
-$Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]"
-$BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]"
-$USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" 
-$SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"
+$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" 
+$Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]"
+$Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal Val.]"
+$Full_Run     = "[ Full-Run   ]" ; $Mezz_Plate   = "[ Mezz_Plate ]" ; $SCI_Cal      = "[SCI_Cal Val.]"
+$Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]" ; $BEC_Status   = "[ BEC_Status ]"
+$BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]" ; $Prime        = "[ Prime      ]"
+$USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" ; $Laser        = "[ Laser      ]" 
+$SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePump  = "[ SyringePump]"
 
-$Test_Failed  = "Test : FAILED" ; $Test_Passed  = "Test : PASSED"
-$Test_NA      = "Test : N/A"
+$Test_Failed  = "Test : FAILED" ; $Test_Passed  = "Test : PASSED" ; $Test_NA      = "Test : N/A"
 $USB_Temp_RD  = "Run end Ambient reading in °C"
 $USB_Humi_RD  = "Run end Humidity reading in %"
 $File_not_Found = "Not found or no full run has been performed"
@@ -42,28 +42,31 @@ $RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String $RHID_Mainboard_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String $RHID_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_TC_Calibration    = Get-Childitem "$serverdir" -I TC_Calibration.xml -R | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HW     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//MachineName | //HWVersion | //MachineConfiguration | //DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Syring     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Blue     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_SCI     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//FluidicHomeOffset_mm | //PreMixHomeOffset_mm | //DiluentHomeOffset_mm"| ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_BEC     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//IsBECInsertion | //LastGelPurgeOK | //RunsSinceLastGelFill" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Prime     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//Water | //LysisBuffer"| ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Laser     = Get-ChildItem "$serverdir" -I MachineConfig.xml -R  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HW     = $MachineConfigXML  | Select-Xml -XPath "//MachineName | //HWVersion | //MachineConfiguration | //DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Syring = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Blue   = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_SCI    = $MachineConfigXML  | Select-Xml -XPath "//FluidicHomeOffset_mm | //PreMixHomeOffset_mm | //DiluentHomeOffset_mm"| ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInsertion | //LastGelPurgeOK | //RunsSinceLastGelFill" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Prime  = $MachineConfigXML  | Select-Xml -XPath "//Water | //LysisBuffer"| ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
 
 Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
 Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
 Write-Host "$Optics : $RHID_Infl_Str  : $RHID_QMini_Infl" -ForegroundColor Green
-Write-Host "[ TC_Cal Val.] : Populated Value : $RHID_TC_Calibration" -ForegroundColor Green
-Write-Host "[MachineConf.] : Populated Value : $RHID_MachineConfig_HW" -ForegroundColor Green
-"Syringe Pump Calibration $RHID_MachineConfig_Syring"
+Write-Host "$TC_Cal : Calibrated Value : $RHID_TC_Calibration" -ForegroundColor Green
+Write-Host "$MachineConf : Machine Configuration : $RHID_MachineConfig_HW" -ForegroundColor Green
+Write-Host "$SyringePump : Syringe Pump Calibration $RHID_MachineConfig_Syring" -ForegroundColor Green
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : Blue Background Stashed" -ForegroundColor Green
-}
-else { Write-Host "$Raman_Bkg : Blue Background N/A" -ForegroundColor Yellow }
-"SCI Calibration $RHID_MachineConfig_SCI"
-"BEC $RHID_MachineConfig_BEC"
-"PRimed? $RHID_MachineConfig_Prime"
-"Laser Hour $RHID_MachineConfig_Laser"
+} else {
+    Write-Host "$Raman_Bkg : Blue Background N/A" -ForegroundColor Yellow }
+If ([Bool]$RHID_MachineConfig_SCI -eq "True") {
+Write-Host "$SCI_Cal : SCI Calibration $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
+If ([Bool]$RHID_MachineConfig_BEC -eq "True") {
+Write-Host "$BEC_Status : BEC Insertion, Gel Purge : $RHID_MachineConfig_BEC" -ForegroundColor Green }
+If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
+Write-Host "$Prime : Is Lysis/Water Primed? $RHID_MachineConfig_Prime" -ForegroundColor Green }
+Write-Host "$Laser : Laser Hour $RHID_MachineConfig_Laser" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
