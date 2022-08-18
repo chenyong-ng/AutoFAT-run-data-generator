@@ -161,7 +161,8 @@ $RHID_LP_FAT    = ($storyboard | Select-String "LP FAT"    | select-string "PASS
 IF (($storyboard | Select-String "$RHID_Anode_Motor_Str").count -eq ("0")) {
     Write-Host "$Mezz_Plate $RHID_Anode_Motor_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool]($storyboard | Select-String "$RHID_Anode_Motor_Str") -eq ("True")) {
-    $RHID_Anode_Motor_FAT = ($storyboard | Select-String "$RHID_Anode_Motor_Str" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+$RHID_Anode_Motor_FAT = ($storyboard | Select-String "$RHID_Anode_Motor_Str" | Select-Object -Last 1).line.split(",") | Select-Object -Last 1
+Write-Host "$RHID_Anode_Motor_FAT"
     Write-Host "$Mezz_Plate $RHID_Anode_Motor_Str $Test_Passed" -ForegroundColor Green }
 else {
     Write-Host "$Mezz_Plate $RHID_Anode_Motor_Str $Test_Failed" -ForegroundColor Red   }
