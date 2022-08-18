@@ -210,38 +210,28 @@ Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Gree
 # GM_ILS_Score_1,98
 # GM_ILS_Score_1_Name, Trace__Ladder.fsa .Line.TrimStart().split(" ")
 #$GM_ILS_Score = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I SampleQuality.txt -R | select-string "Trace__Current", "Trace__Ladder").Line.TrimStart()
-<<<<<<< HEAD
 $GM_ILS_Score = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__Ladder", "GFE" , "NGM", "BLANK").Line
 #Write-Host "$Full_Run : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
 Write-Host "$Full_Run : Trace Quality Score" -ForegroundColor Green
 $GM_ILS_Score
-=======
 #$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem  -I SampleQuality.txt -R | select-string "Trace").Line.TrimStart().split(" ")
 #Write-Host "$Full_Run : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
 #$GM_ILS_Score 
 #$GM_ILS_Score_Name 
->>>>>>> 2af67d5f6cf02ba47431675839205a8e261148c9
 
 $StatusData_leaf  = Get-ChildItem "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
 $GM_Analysis_leaf = Get-ChildItem "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
-<<<<<<< HEAD
     $RHID_StatusData_PDF = Get-ChildItem -path "$serverdir" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
-=======
     $RHID_StatusData_PDF = Get-ChildItem -path "$serverdir" -I $StatusData -R | Format-table Directory -Autosize -HideTableHeaders -wrap
->>>>>>> 2af67d5f6cf02ba47431675839205a8e261148c9
     Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
 } else {
     Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
-<<<<<<< HEAD
     $RHID_GM_Analysis = Get-ChildItem -path "$serverdir" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' }| Format-table Directory -Autosize -HideTableHeaders -wrap
-=======
-    $RHID_GM_Analysis = Get-ChildItem -path "$serverdir" -I $GM_Analysis -R | Format-table Directory -Autosize -HideTableHeaders -wrap
->>>>>>> 2af67d5f6cf02ba47431675839205a8e261148c9
     Write-Host "$Full_Run : $GM_Analysis $File_found" -ForegroundColor Green
     $RHID_GM_Analysis
 }
