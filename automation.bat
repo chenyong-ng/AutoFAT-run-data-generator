@@ -2,9 +2,8 @@
 @echo off
 :1
 If Exist "%~dp0\automation.ps1" (
-	Pwsh -Command "& {Set-ExecutionPolicy unrestricted -Scope CurrentUser}"
-	Pwsh.exe -sta -ExecutionPolicy ByPass -File "%~dp0\automation.ps1"
-	clear-host
+	Powershell -Command "& {Set-ExecutionPolicy unrestricted -Scope CurrentUser}"
+	Powershell -sta -ExecutionPolicy ByPass -File "%~dp0\automation.ps1"
 )
 @echo Enter any key to Clear Console screen and check for new instrument.
 @Pause >:null
