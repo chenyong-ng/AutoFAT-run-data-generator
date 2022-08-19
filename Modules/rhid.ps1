@@ -148,13 +148,13 @@ $RHID_Homing_Error_Test         = ($storyboard | Select-String "Bring Up: Homing
 $RHID_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS" | Select-Object -Last 1)
 $RHID_SCI_Antenna_Test          = ($storyboard | Select-String "Bring Up: SCI Antenna Test"           | select-string "PASS" | Select-Object -Last 1)
 
-$RHID_SCI_Insertion_FAT
-$RHID_FRONT_END_FAT
-$RHID_FE_Motor_Calibration
-$RHID_FE_Motor_Test
-$RHID_Homing_Error_Test
-$RHID_FL_Homing_Error_wCAM_Test
-$RHID_SCI_Antenna_Test 
+Write-host $RHID_SCI_Insertion_FAT  -ForegroundColor Green
+Write-host $RHID_FRONT_END_FAT -ForegroundColor Green
+Write-host $RHID_FE_Motor_Calibration -ForegroundColor Green
+Write-host $RHID_FE_Motor_Test -ForegroundColor Green
+Write-host $RHID_Homing_Error_Test -ForegroundColor Green
+Write-host $RHID_FL_Homing_Error_wCAM_Test -ForegroundColor Green
+Write-host $RHID_SCI_Antenna_Test  -ForegroundColor Green
 
 # Mezzboard PCB .line.split(",")| Select-Object -Last 1
 $RHID_Mezz_test = ($storyboard | Select-String "MEZZ test" | select-string "PASS" | Select-Object -Last 1)
