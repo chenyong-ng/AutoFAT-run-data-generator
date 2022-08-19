@@ -129,8 +129,7 @@ else {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    }
 
 # SCI tests
-$RHID_CAM_FAT     = ($storyboard | Select-String $RHID_CAM_FAT_str | select-string "PASS" | Select-Object -Last 1)
-
+$RHID_CAM_FAT     = ($storyboard | Select-String $RHID_CAM_FAT_str  | Select-Object -Last 1)
 if (($RHID_CAM_FAT).count -eq "") {
     Write-Host "$SCI : $RHID_CAM_FAT_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_CAM_FAT | Select-String "Pass") -eq "True") {
