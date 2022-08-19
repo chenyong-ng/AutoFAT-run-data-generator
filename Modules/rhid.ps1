@@ -180,26 +180,45 @@ $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" 
 $RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
 $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split(",").TrimStart()| Select-Object -Last 1
 
+$RHID_BEC_Interlock_FAT
+$RHID_Gel_Antenna_LOW
+$RHID_Gel_Antenna_HIGH
+$RHID_Syringe_Stallout_FAT
+$RHID_Syringe_MIN_CURRENT
+$RHID_Mezzboard_FAT
+$RHID_BEC_Reinsert_First
+$RHID_Gel_Void_First
+$RHID_BEC_Reinsert
+$RHID_Gel_Void
+
 # .line.split(",")| Select-Object -Last 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | select-string "PASS" | Select-Object -Last 1)
 $RHID_HV_FAT    = ($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1)
 $RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1)
 
+$RHID_Piezo_FAT
+$RHID_HV_FAT
+$RHID_Laser_FAT
+
 $RHID_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1)
 $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected"         | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
-$RHID_Water_Prime
-Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan
-# .line.split(",")| Select-Object -Last 1
 $RHID_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime"         | select-string "PASS"| Select-Object -Last 1)
 $RHID_Buffer_Prime   = ($storyboard | Select-String "Bring Up: Buffer Prime"        | select-string "PASS"| Select-Object -Last 1)
 $RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1)
-
 $RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | select-string "PASS"| Select-Object -Last 1)
-
 $RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "Completed" | Select-Object -Last 1)
 $RHID_Raman               = ($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1)
 
-$RHID_Bolus = Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
+$RHID_Water_Prime
+Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan
+$RHID_Lysis_Prime
+$RHID_Buffer_Prime
+$RHID_Lysis_Dispense
+$RHID_Lysate_Pull
+$RHID_Capillary_Gel_Prime
+$RHID_Raman
+
+$RHID_Bolus = Get-ChildItem "U:\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
 Write-host "$Bolus : Passed Bolus test count:" ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
  
 $RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
@@ -224,7 +243,6 @@ $GM_Analysis_leaf = Get-ChildItem "$serverdir" -I $GM_Analysis -R | Test-path -P
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -path "$serverdir" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
-    $RHID_StatusData_PDF = Get-ChildItem -path "$serverdir" -I $StatusData -R | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
 } else {
