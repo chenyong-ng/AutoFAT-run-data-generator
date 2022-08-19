@@ -243,8 +243,8 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
 else {
     Write-Host "$SHP_BEC : Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
-$Remote = "{0:N4} GB" -f ((Get-ChildItem -force "U:\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
-$Local  = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
+$Remote = "{0:N16} KB" -f ((Get-ChildItem -force "U:\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Kb)
+$Local  = "{0:N16} KB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Kb)
 $Local_Folder_Msg  = Write-Host "$boxPrep : Local Folder  "E:\RapidHIT ID" Size            : $Local "
 $Remote_Folder_Msg = Write-Host "$boxPrep : Remote Folder "U:\$MachineName\Internal\" Size : $Remote "
 $Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
