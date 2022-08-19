@@ -1,7 +1,6 @@
 @Title RapidHIT ID Powershell Automation and Troubleshooting Tools
 @echo off
 :1
-clear
 If Exist "%~dp0\automation.ps1" (
 	powershell -Command "& {Set-ExecutionPolicy unrestricted -Scope CurrentUser}"
 	powershell -sta -ExecutionPolicy ByPass -File "%~dp0\automation.ps1"
