@@ -137,9 +137,16 @@ elseif ([bool] ($RHID_CAM_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$SCI : $RHID_CAM_FAT_str $Test_Failed" -ForegroundColor Red    }
 
+$RHID_SCI_Insertion_FAT = ($storyboard | Select-String "SCI Insertion FAT" | Select-Object -Last 1)
+if (($RHID_SCI_Insertion_FAT).count -eq "") {
+    Write-Host "$SCI : $RHID_SCI_Insertion_FAT $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_SCI_Insertion_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$SCI : $RHID_SCI_Insertion_FAT $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$SCI : $RHID_SCI_Insertion_FAT $Test_Failed" -ForegroundColor Red    }
+
     # .line.split(",") | Select-Object -Last 1
 #$Pass_Filter = select-string "PASS" | Select-Object -Last 1
-$RHID_SCI_Insertion_FAT     = ($storyboard | Select-String "SCI Insertion FAT" | select-string "PASS" | Select-Object -Last 1)
 $RHID_FRONT_END_FAT         = ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS" | Select-Object -Last 1)
 $RHID_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS" | Select-Object -Last 1)
 $RHID_FE_Motor_Test             = ($storyboard | Select-String "Bring Up: FE Motor Test"        | select-string "PASS" | Select-Object -Last 1)
