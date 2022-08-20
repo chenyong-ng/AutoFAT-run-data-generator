@@ -52,7 +52,7 @@ $exicode = $Null
 #CHR  (Internal)
 
 . $PSScriptRoot\Modules\XML_and_Config.ps1
-
+Clear-Host
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\Modules\MainFunction.ps1
     . $PSScriptRoot\Modules\rhid.ps1
