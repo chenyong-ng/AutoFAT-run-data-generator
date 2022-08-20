@@ -161,10 +161,27 @@ Write-host $RHID_Homing_Error_Test -ForegroundColor Green
 Write-host $RHID_FL_Homing_Error_wCAM_Test -ForegroundColor Green
 Write-host $RHID_SCI_Antenna_Test  -ForegroundColor Green
 
-# Mezzboard PCB .line.split(",")| Select-Object -Last 1
 $RHID_Mezz_test = $storyboard | Select-String "MEZZ test" | Select-Object -Last 1
+if (($RHID_Mezz_test).count -eq "") {
+    Write-Host "[MEZZ test] : MEZZ test $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Mezz_test | Select-String "Pass") -eq "True") {
+    Write-Host "[MEZZ test] : MEZZ test $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "[MEZZ test] : MEZZ test $Test_Failed" -ForegroundColor Red    }
 $RHID_HP_FAT    = $storyboard | Select-String "HP FAT"    | Select-Object -Last 1
+if (($RHID_HP_FAT).count -eq "") {
+    Write-Host "HP FAT] : HP FAT $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_HP_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "[HP FAT] : HP FAT $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "[HP FAT] : HP FAT $Test_Failed" -ForegroundColor Red    }
 $RHID_LP_FAT    = $storyboard | Select-String "LP FAT"    | Select-Object -Last 1
+if (($RHID_LP_FAT).count -eq "") {
+    Write-Host "[LP FAT] : RHID_LP_FAT $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_LP_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "[LP FAT] : RHID_LP_FAT $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "[LP FAT] : RHID_LP_FAT $Test_Failed" -ForegroundColor Red    }
 $RHID_Anode_Motor_FAT = $storyboard | Select-String "$RHID_Anode_Motor_Str" | Select-Object -Last 1
 if (($RHID_Anode_Motor_FAT).count -eq "") {
     Write-Host "[Anode Motor] : $RHID_Anode_Motor_Str $Test_NA"    -ForegroundColor Yellow }
