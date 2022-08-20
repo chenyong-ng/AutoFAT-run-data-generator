@@ -21,19 +21,25 @@ $HP_FAT       = "[ HP FAT     ]"
 $LP_FAT       = "[ LP FAT     ]"
 $Mezz_PCBA    = "[ MEZZ test  ]"
 
-
-$Test_Failed  = "Test : FAILED"  ; $Test_Passed  = "Test : PASSED"  ; $Test_NA      = "Test : N/A"
-$USB_Temp_RD  = "Run end Ambient reading in °C"
-$USB_Humi_RD  = "Run end Humidity reading in %"
+$RHID_Firmware79            = "1001.4.79"
+$Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA      = ": Test N/A"
+$USB_Temp_RD  = "          Run end Ambient reading in °C"
+$USB_Humi_RD  = "          Run end Humidity reading in %"
+$Bolus_Test_count_Str = "                Passed Bolus test count"
 $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in these folders"
 
-$RHID_QMini_str = "Q-mini serial number"
-$RHID_Coeff_Str = "Coefficients"
-$RHID_Infl_Str  = "Inflection Point"
-$RHID_Mainboard_str = "Main board firmware version"
-$RHID_Mezzbaord_str = "Mezz board firmware version"
-$RHID_Firmware79    = "1001.4.79"
+$Machine_Config_Str         = "                  Machine Configuration"
+$SyringePump_Cal                = "               Syringe Pump Calibration"
+$SCI_Calibration            = "                        SCI Calibration"
+$Bec_Status_Str             = "               BEC Insertion, Gel Purge"
+$Prime_Status               = "               Lysis/Water Prime Status"
+$Laser_Hour                 = "                             Laser Hour"
+$RHID_QMini_str             = "                   Q-mini serial number"
+$RHID_Coeff_Str             = "                           Coefficients"
+$RHID_Infl_Str              = "                       Inflection Point"
+$RHID_Mainboard_str         = "            Main board firmware version"
+$RHID_Mezzbaord_str         = "            Mezz board firmware version"
 $RHID_Anode_Motor_Str       = "                        Anode Motor FAT"
 $RHID_Lysis_Heater_str      = "                       Lysis Heater FAT"
 $RHID_DN_Heater_str         = "                                 DN FAT"
@@ -54,11 +60,11 @@ $RHID_HP_FAT_Str            = "                                 HP FAT"
 $RHID_LP_FAT_Str            = "                                 LP FAT"
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 
-$RHID_QMini_SN          = ($storyboard | Select-String $RHID_QMini_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_QMini_Infl        = ($storyboard | Select-String $RHID_Infl_Str  | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_Mainboard_FW_Ver  = ($storyboard | Select-String $RHID_Mainboard_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String $RHID_Mezzbaord_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_Mainboard_FW_Ver  = ($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HW     = $MachineConfigXML  | Select-Xml -XPath "//MachineName | //HWVersion | //MachineConfiguration | //DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Syring = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
@@ -70,21 +76,21 @@ $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHour
 
 Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
 Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
-Write-Host "$Optics : $RHID_Infl_Str  : $RHID_QMini_Infl" -ForegroundColor Green
-Write-Host "$TC_Cal : Calibrated Thermocycler Value : $RHID_TC_Calibration" -ForegroundColor Green
-Write-Host "$MachineConf : Machine Configuration : $RHID_MachineConfig_HW" -ForegroundColor Green
-Write-Host "$SyringePump : Syringe Pump Calibration : $RHID_MachineConfig_Syring" -ForegroundColor Green
+Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl" -ForegroundColor Green
+Write-Host "$TC_Cal : $RHID_TC_Calibration" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
+Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : Blue Background Stashed" -ForegroundColor Green
 } else {
     Write-Host "$Raman_Bkg : Blue Background N/A" -ForegroundColor Yellow }
 If ([Bool]$RHID_MachineConfig_SCI -eq "True") {
-Write-Host "$SCI_Cal : SCI Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
+Write-Host "$SCI_Cal : $SCI_Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
 If ([Bool]$RHID_MachineConfig_BEC -eq "True") {
-Write-Host "$BEC_Status : BEC Insertion, Gel Purge : $RHID_MachineConfig_BEC" -ForegroundColor Green }
+Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -ForegroundColor Green }
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
-Write-Host "$Prime : Lysis/Water Prime Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
-Write-Host "$Laser : Laser Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
+Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
+Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
@@ -234,9 +240,28 @@ else {
     Write-Host "$Anode_Motor : $RHID_Anode_Motor_Str $Test_Failed" -ForegroundColor Red    }
 
     #.line.split(",")| Select-Object -Last 1
-$RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT"     | select-string "PASS"| Select-Object -Last 1)
-$RHID_Gel_Antenna_LOW   = ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "high" | Select-Object -Last 1)
-$RHID_Gel_Antenna_HIGH  = ($storyboard | Select-String "Bring Up: Gel Antenna" | select-string "PASS"| Select-String "low"  | Select-Object -Last 1)
+$RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT" | Select-Object -Last 1)
+if (($RHID_BEC_Interlock_FAT).count -eq "") {
+    Write-Host "BEC Interlock FAT : BEC Interlock FAT $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_BEC_Interlock_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "BEC Interlock FAT : BEC Interlock FAT $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "BEC Interlock FAT : BEC Interlock FAT $Test_Failed" -ForegroundColor Red    }
+
+$RHID_Gel_Antenna_LOW   = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "high" | Select-Object -Last 1)
+if (($RHID_Gel_Antenna_LOW).count -eq "") {
+    Write-Host "Bring Up: Gel Antenna HIGH : Bring Up: Gel Antenna $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Gel_Antenna_LOW | Select-String "Pass") -eq "True") {
+    Write-Host "Bring Up: Gel Antenna HIGH : Bring Up: Gel Antenna $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "Bring Up: Gel Antenna HIGH : Bring Up: Gel Antenna $Test_Failed" -ForegroundColor Red    }
+$RHID_Gel_Antenna_HIGH  = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "low"  | Select-Object -Last 1)
+if (($RHID_Gel_Antenna_HIGH).count -eq "") {
+    Write-Host "Bring Up: Gel Antenna_LOW : Bring Up: Gel Antenna $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Gel_Antenna_HIGH | Select-String "Pass") -eq "True") {
+    Write-Host "Bring Up: Gel Antenna_LOW : Bring Up: Gel Antenna $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "Bring Up: Gel Antenna_LOW : Bring Up: Gel Antenna $Test_Failed" -ForegroundColor Red    }
 $RHID_Syringe_Stallout_FAT  = ($storyboard | Select-String "Syringe Stallout FAT"  | select-string "PASS" | Select-Object -Last 1)
 $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
 $RHID_Mezzboard_FAT         = ($storyboard | Select-String "Mezzboard FAT"     | select-string "PASS"| Select-Object -Last 1)
@@ -245,9 +270,6 @@ $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" 
 $RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
 $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split(",").TrimStart()| Select-Object -Last 1
 
-Write-host "$RHID_BEC_Interlock_FAT" -ForegroundColor Green
-Write-host "$RHID_Gel_Antenna_LOW" -ForegroundColor Green
-Write-host "$RHID_Gel_Antenna_HIGH" -ForegroundColor Green
 Write-host "$RHID_Syringe_Stallout_FAT" -ForegroundColor Green
 Write-host "$RHID_Syringe_MIN_CURRENT" -ForegroundColor Green
 Write-host "$RHID_Mezzboard_FAT" -ForegroundColor Green
@@ -284,7 +306,7 @@ Write-Host "$RHID_Capillary_Gel_Prime" -ForegroundColor Green
 Write-Host "$RHID_Raman" -ForegroundColor Green
 
 $RHID_Bolus = Get-ChildItem "U:\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
-Write-host "$Bolus : Passed Bolus test count:" ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
+Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
  
 $RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
 $RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
