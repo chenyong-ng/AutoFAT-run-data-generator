@@ -16,6 +16,11 @@ $Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]" ; $BEC_Statu
 $BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]" ; $Prime        = "[ PrimeStatus]"
 $USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" ; $Laser        = "[ Laser      ]" 
 $SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePump  = "[ SyringePump]"
+$Anode_Motor  = "[Anode Motor ]"
+$HP_FAT       = "[ HP FAT     ]"
+$LP_FAT       = "[ LP FAT     ]"
+$Mezz_PCBA    = "[ MEZZ test  ]"
+
 
 $Test_Failed  = "Test : FAILED"  ; $Test_Passed  = "Test : PASSED"  ; $Test_NA      = "Test : N/A"
 $USB_Temp_RD  = "Run end Ambient reading in °C"
@@ -29,15 +34,25 @@ $RHID_Infl_Str  = "Inflection Point"
 $RHID_Mainboard_str = "Main board firmware version"
 $RHID_Mezzbaord_str = "Mezz board firmware version"
 $RHID_Firmware79    = "1001.4.79"
-$RHID_Anode_Motor_Str  = "Anode Motor FAT"
-$RHID_Lysis_Heater_str = "Lysis Heater FAT"
-$RHID_DN_Heater_str    = "DN FAT"
-$RHID_PCR_Heater_str   = "PCR FAT"
-$RHID_Optics_Heater_str = "Optics Heater FAT"
-$RHID_Gel_Cooler_str    = "Gel Cooling FAT"
-$RHID_Ambient_str       = "Ambient FAT"
-$RHID_CAM_FAT_str       = "CAM FAT"
-$RHID_HIDAutolite_Str   = "SoftGenetics License number provided is"
+$RHID_Anode_Motor_Str       = "                        Anode Motor FAT"
+$RHID_Lysis_Heater_str      = "                       Lysis Heater FAT"
+$RHID_DN_Heater_str         = "                                 DN FAT"
+$RHID_PCR_Heater_str        = "                                PCR FAT"
+$RHID_Optics_Heater_str     = "                      Optics Heater FAT"
+$RHID_Gel_Cooler_str        = "                        Gel Cooling FAT"
+$RHID_Ambient_str           = "                            Ambient FAT"
+$RHID_CAM_FAT_str           = "                                CAM FAT"
+$RHID_SCI_Insertion_FAT_Str = "                      SCI Insertion FAT"
+$RHID_FRONT_END_FAT_Str     = "                          FRONT END FAT"
+$RHID_FE_Motor_Calibration_Str = "         Bring Up: FE Motor Calibration"
+$RHID_FE_Motor_Test_Str     = "                Bring Up: FE Motor Test"
+$RHID_Homing_Error_Test_Str = "            Bring Up: Homing Error Test"
+$RHID_FL_Homing_Error_wCAM_Test_Str = "   Bring Up: FL Homing Error w/CAM Test"
+$RHID_SCI_Antenna_Test_Str  = "             Bring Up: SCI Antenna Test"
+$RHID_Mezz_Test_Str         = "                              MEZZ test"
+$RHID_HP_FAT_Str            = "                                 HP FAT"
+$RHID_LP_FAT_Str            = "                                 LP FAT"
+$RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String $RHID_QMini_str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_QMini_Coeff       = ($storyboard | Select-String $RHID_Coeff_Str | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
@@ -58,31 +73,31 @@ Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
 Write-Host "$Optics : $RHID_Infl_Str  : $RHID_QMini_Infl" -ForegroundColor Green
 Write-Host "$TC_Cal : Calibrated Thermocycler Value : $RHID_TC_Calibration" -ForegroundColor Green
 Write-Host "$MachineConf : Machine Configuration : $RHID_MachineConfig_HW" -ForegroundColor Green
-Write-Host "$SyringePump : Syringe Pump Calibration $RHID_MachineConfig_Syring" -ForegroundColor Green
+Write-Host "$SyringePump : Syringe Pump Calibration : $RHID_MachineConfig_Syring" -ForegroundColor Green
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : Blue Background Stashed" -ForegroundColor Green
 } else {
     Write-Host "$Raman_Bkg : Blue Background N/A" -ForegroundColor Yellow }
 If ([Bool]$RHID_MachineConfig_SCI -eq "True") {
-Write-Host "$SCI_Cal : SCI Calibration $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
+Write-Host "$SCI_Cal : SCI Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
 If ([Bool]$RHID_MachineConfig_BEC -eq "True") {
 Write-Host "$BEC_Status : BEC Insertion, Gel Purge : $RHID_MachineConfig_BEC" -ForegroundColor Green }
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
 Write-Host "$Prime : Lysis/Water Prime Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
-Write-Host "$Laser : Laser Hour $RHID_MachineConfig_Laser" -ForegroundColor Green
+Write-Host "$Laser : Laser Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
 else {
     Write-Host "$PCBA : $Error_msg $RHID_Mainboard_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
 if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
-else {
+else {  
     Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red } 
 
-$RHID_Lysis_Heater_FAT  = $storyboard | Select-String $RHID_Lysis_Heater_str  | Select-Object -Last 1
-$RHID_DN_Heater_FAT     = $storyboard | Select-String $RHID_DN_Heater_str     | Select-Object -Last 1
-$RHID_PCR_Heater_FAT    = $storyboard | Select-String $RHID_PCR_Heater_str    | Select-Object -Last 1
-$RHID_Optics_Heater_FAT = $storyboard | Select-String $RHID_Optics_Heater_str | Select-Object -Last 1
+$RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT"  | Select-Object -Last 1
+$RHID_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
+$RHID_PCR_Heater_FAT    = $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1
+$RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
 
 if (($RHID_Lysis_Heater_FAT).count -eq "") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow }
@@ -113,8 +128,9 @@ else {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    }
 
 # Mainboard tests
-$RHID_Gel_Cooler_FAT = $storyboard | Select-String $RHID_Gel_Cooler_str | Select-Object -Last 1
-$RHID_Ambient_FAT    = $storyboard | Select-String $RHID_Ambient_str    | Select-Object -Last 1
+$RHID_Gel_Cooler_FAT = $storyboard | Select-String "Gel Cooling FAT" | Select-Object -Last 1
+$RHID_Ambient_FAT    = $storyboard | Select-String "Ambient FAT"     | Select-Object -Last 1
+
 if (($RHID_Gel_Cooler_FAT).count -eq "") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
@@ -129,7 +145,7 @@ else {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    }
 
 # SCI tests
-$RHID_CAM_FAT     = ($storyboard | Select-String $RHID_CAM_FAT_str  | Select-Object -Last 1)
+$RHID_CAM_FAT     = ($storyboard | Select-String "CAM FAT" | Select-Object -Last 1)
 if (($RHID_CAM_FAT).count -eq "") {
     Write-Host "$SCI : $RHID_CAM_FAT_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_CAM_FAT | Select-String "Pass") -eq "True") {
@@ -139,56 +155,83 @@ else {
 
 $RHID_SCI_Insertion_FAT = ($storyboard | Select-String "SCI Insertion FAT" | Select-Object -Last 1)
 if (($RHID_SCI_Insertion_FAT).count -eq "") {
-    Write-Host "$SCI : $RHID_SCI_Insertion_FAT $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$SCI : $RHID_SCI_Insertion_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_SCI_Insertion_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$SCI : $RHID_SCI_Insertion_FAT $Test_Passed" -ForegroundColor Green }
+    Write-Host "$SCI : $RHID_SCI_Insertion_FAT_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$SCI : $RHID_SCI_Insertion_FAT $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$SCI : $RHID_SCI_Insertion_FAT_Str $Test_Failed" -ForegroundColor Red    }
 
-    # .line.split(",") | Select-Object -Last 1
-#$Pass_Filter = select-string "PASS" | Select-Object -Last 1
-$RHID_FRONT_END_FAT         = ($storyboard | Select-String "FRONT END FAT"                  | select-string "PASS" | Select-Object -Last 1)
-$RHID_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | select-string "PASS" | Select-Object -Last 1)
-$RHID_FE_Motor_Test             = ($storyboard | Select-String "Bring Up: FE Motor Test"        | select-string "PASS" | Select-Object -Last 1)
-$RHID_Homing_Error_Test         = ($storyboard | Select-String "Bring Up: Homing Error Test"    | select-string "PASS" | Select-Object -Last 1)
-$RHID_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | select-string "PASS" | Select-Object -Last 1)
-$RHID_SCI_Antenna_Test          = ($storyboard | Select-String "Bring Up: SCI Antenna Test"           | select-string "PASS" | Select-Object -Last 1)
-
-Write-host $RHID_FRONT_END_FAT -ForegroundColor Green
-Write-host $RHID_FE_Motor_Calibration -ForegroundColor Green
-Write-host $RHID_FE_Motor_Test -ForegroundColor Green
-Write-host $RHID_Homing_Error_Test -ForegroundColor Green
-Write-host $RHID_FL_Homing_Error_wCAM_Test -ForegroundColor Green
-Write-host $RHID_SCI_Antenna_Test  -ForegroundColor Green
+$RHID_FRONT_END_FAT = ($storyboard | Select-String "FRONT END FAT" | Select-Object -Last 1)
+if (($RHID_FRONT_END_FAT).count -eq "") {
+    Write-Host "$SCI : $RHID_FRONT_END_FAT_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_FRONT_END_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$SCI : $RHID_FRONT_END_FAT_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$SCI : $RHID_FRONT_END_FAT_Str $Test_Failed" -ForegroundColor Red    }
+$RHID_FE_Motor_Calibration  = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | Select-Object -Last 1)
+if (($RHID_FE_Motor_Calibration).count -eq "") {
+    Write-Host "$SCI : $RHID_FE_Motor_Calibration_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_FE_Motor_Calibration | Select-String "Pass") -eq "True") {
+    Write-Host "$SCI : $RHID_FE_Motor_Calibration_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$SCI : $RHID_FE_Motor_Calibration_Str $Test_Failed" -ForegroundColor Red    }
+$RHID_FE_Motor_Test = ($storyboard | Select-String "Bring Up: FE Motor Test" | Select-Object -Last 1)
+if (($RHID_FE_Motor_Test).count -eq "") {
+    Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_FE_Motor_Test | Select-String "Pass") -eq "True") {
+    Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_Failed" -ForegroundColor Red    }
+$RHID_Homing_Error_Test = ($storyboard | Select-String "Bring Up: Homing Error Test" | Select-Object -Last 1)
+if (($RHID_Homing_Error_Test).count -eq "") {
+    Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Homing_Error_Test | Select-String "Pass") -eq "True") {
+    Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Failed" -ForegroundColor Red    }
+$RHID_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | Select-Object -Last 1)
+if (($RHID_FL_Homing_Error_wCAM_Test).count -eq "") {
+    Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_FL_Homing_Error_wCAM_Test | Select-String "Pass") -eq "True") {
+    Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_Failed" -ForegroundColor Red    }
+$RHID_SCI_Antenna_Test = ($storyboard | Select-String "Bring Up: SCI Antenna Test" | Select-Object -Last 1)
+if (($RHID_SCI_Antenna_Test).count -eq "") {
+    Write-Host "$SCI : $RHID_SCI_Antenna_Test_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_SCI_Antenna_Test | Select-String "Pass") -eq "True") {
+    Write-Host "$SCI : $RHID_SCI_Antenna_Test_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$SCI : $RHID_SCI_Antenna_Test_Str $Test_Failed" -ForegroundColor Red    }
 
 $RHID_Mezz_test = $storyboard | Select-String "MEZZ test" | Select-Object -Last 1
 if (($RHID_Mezz_test).count -eq "") {
-    Write-Host "[MEZZ test] : MEZZ test $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Mezz_test | Select-String "Pass") -eq "True") {
-    Write-Host "[MEZZ test] : MEZZ test $Test_Passed" -ForegroundColor Green }
+    Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "[MEZZ test] : MEZZ test $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_Failed" -ForegroundColor Red    }
 $RHID_HP_FAT    = $storyboard | Select-String "HP FAT"    | Select-Object -Last 1
 if (($RHID_HP_FAT).count -eq "") {
-    Write-Host "HP FAT] : HP FAT $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$HP_FAT : $RHID_HP_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_HP_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "[HP FAT] : HP FAT $Test_Passed" -ForegroundColor Green }
+    Write-Host "$HP_FAT : $RHID_HP_FAT_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "[HP FAT] : HP FAT $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$HP_FAT : $RHID_HP_FAT_Str $Test_Failed" -ForegroundColor Red    }
 $RHID_LP_FAT    = $storyboard | Select-String "LP FAT"    | Select-Object -Last 1
 if (($RHID_LP_FAT).count -eq "") {
-    Write-Host "[LP FAT] : RHID_LP_FAT $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$LP_FAT : $RHID_LP_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_LP_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "[LP FAT] : RHID_LP_FAT $Test_Passed" -ForegroundColor Green }
+    Write-Host "$LP_FAT : $RHID_LP_FAT_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "[LP FAT] : RHID_LP_FAT $Test_Failed" -ForegroundColor Red    }
-$RHID_Anode_Motor_FAT = $storyboard | Select-String "$RHID_Anode_Motor_Str" | Select-Object -Last 1
+    Write-Host "$LP_FAT : $RHID_LP_FAT_Str $Test_Failed" -ForegroundColor Red    }
+$RHID_Anode_Motor_FAT = $storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1
 if (($RHID_Anode_Motor_FAT).count -eq "") {
-    Write-Host "[Anode Motor] : $RHID_Anode_Motor_Str $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$Anode_Motor : $RHID_Anode_Motor_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Anode_Motor_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "[Anode Motor] : $RHID_Anode_Motor_Str $Test_Passed" -ForegroundColor Green }
+    Write-Host "$Anode_Motor : $RHID_Anode_Motor_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "[Anode Motor] : $RHID_Anode_Motor_Str $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$Anode_Motor : $RHID_Anode_Motor_Str $Test_Failed" -ForegroundColor Red    }
 
     #.line.split(",")| Select-Object -Last 1
 $RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT"     | select-string "PASS"| Select-Object -Last 1)
