@@ -83,7 +83,7 @@ $RHID_Capillary_Gel_Prime_Str = "          Bring Up: Capillary Gel Prime"
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
 $Remote_Str                 = "     Remote U:\$MachineName\Internal\ Size" 
 $Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
-$HIDAutolite_Execution_Str  = "         HIDAutolite Execution"
+$HIDAutolite_Execution_Str  = "  Latest HIDAutolite Execution"
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
