@@ -284,7 +284,9 @@ if (($RHID_Syringe_Stallout_FAT).count -eq "") {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
     $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
-    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Green }
+    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed " -ForegroundColor Green
+    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Green 
+}
 else {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Failed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Red    }
 
@@ -331,9 +333,9 @@ else {
 
 $RHID_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | Select-Object -Last 1)
 if (($RHID_Water_Prime).count -eq "") {
-    Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_NA" -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
-    $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected"         | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 2 | Select-Object -SkipLast 1
+    $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 2 | Select-Object -SkipLast 1
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Passed" -ForegroundColor Green
     Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan }
 else {
@@ -373,9 +375,9 @@ else {
 
 $RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1)
 if (($RHID_Capillary_Gel_Prime).count -eq "") {
-    Write-Host "$WetTest :  $RHID_Capillary_Gel_Prime_Str $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Capillary_Gel_Prime | Select-String "Completed") -eq "True") {
-    Write-Host "$WetTest :  $RHID_Capillary_Gel_Prime_Str : Completed" -ForegroundColor Green }
+    Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str : Completed" -ForegroundColor Green }
 else {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -446,7 +448,7 @@ IF ($Danno_Local_leaf -eq "True") {
 } Else {
     $Local_Folder_Msg
     $Remote_Folder_Msg
-    Write-Host "[Warning] : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
+    Write-Host "[ Warning    ] : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
     Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 # $RHID_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
