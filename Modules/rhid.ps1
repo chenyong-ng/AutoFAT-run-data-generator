@@ -3,6 +3,7 @@ $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
 $TC_CalibrationXML= Get-Childitem "$serverdir" -I TC_Calibration.xml -R 
 $SampleQuality    = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
 $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
+$DxCodeXML        = Get-ChildItem "$serverdir" -I DxCode.xml -R
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
 # add check machine name first, last from log and compare with $env:computername
@@ -19,11 +20,11 @@ $SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePu
 $Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck    = "[ BEC_Intlck ]"
 $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]"
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" 
-$Mezz_PCBA    = "[ MEZZ test  ]"
+$Mezz_PCBA    = "[ MEZZ test  ]" ; $DXCODE_Str   = "[ DXcode     ]"
 $Laser        = "[ Laser      ]" ; 
 $Test_Failed = ": Test FAILED"  ; $Test_Passed = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 
-$RHID_Firmware79            = "1001.4.79"
+$RHID_Firmware79 = "1001.4.79"
 $USB_Temp_RD  = "          Run end Ambient reading in °C"
 $USB_Humi_RD  = "          Run end Humidity reading in %"
 $Bolus_Test_count_Str = "                Passed Bolus test count"
@@ -34,9 +35,10 @@ $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "               Syringe Pump Calibration"
 $Blue_Background_Str        = "                        Blue_Background"
 $SCI_Calibration            = "                        SCI Calibration"
-$Bec_Status_Str             = "               BEC Insertion, Gel Purge"
+$Bec_Status_Str             = "  BEC Insertion, Gel Purge, LastGelFill"
 $Prime_Status               = "               Lysis/Water Prime Status"
 $Laser_Hour                 = "                             Laser Hour"
+$RHID_TC_Calibration_Str    = "               Thermocycler Calibration"
 $RHID_QMini_str             = "                   Q-mini serial number"
 $RHID_Coeff_Str             = "                           Coefficients"
 $RHID_Infl_Str              = "                       Inflection Point"
@@ -61,7 +63,8 @@ $RHID_Mezz_Test_Str         = "                              MEZZ test"
 $RHID_HP_FAT_Str            = "                                 HP FAT"
 $RHID_LP_FAT_Str            = "                                 LP FAT"
 $BEC_Interlock_FAT_Str      = "                      BEC Interlock FAT"
-$RHID_Gel_Antenna           = "                  Bring Up: Gel Antenna"
+$RHID_Gel_Antenna_Str_LOW   = "            Bring Up: Gel Antenna - LOW"
+$RHID_Gel_Antenna_Str_HIGH  = "           Bring Up: Gel Antenna - HIGH"
 $RHID_Syringe_Stallout_FAT_Str = "                   Syringe Stallout FAT"
 $RHID_Mezzboard_FAT_STR     = "                          Mezzboard FAT"
 $RHID_Water_Prime_Str       = "                  Bring Up: Water Prime"
@@ -74,6 +77,9 @@ $RHID_HV_FAT_Str            = "                                 HV FAT"
 $RHID_Laser_FAT_Str         = "                              Laser FAT"
 $RHID_Piezo_FAT_str         = "                              Piezo FAT"
 $RHID_Capillary_Gel_Prime_Str = "          Bring Up: Capillary Gel Prime"
+$Danno_SS_Count             = "          Saved Danno Screenshots Count"
+$Remote_Str                 = "     Remote U:\$MachineName\Internal\ Size" 
+$Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
@@ -90,14 +96,17 @@ $RHID_MachineConfig_SCI    = $MachineConfigXML  | Select-Xml -XPath "//FluidicHo
 $RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInsertion | //LastGelPurgeOK | //RunsSinceLastGelFill" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Prime  = $MachineConfigXML  | Select-Xml -XPath "//Water | //LysisBuffer"| ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
+$RHID_DXCODE               = $DxCodeXML | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
 
 Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
 Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
 Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl" -ForegroundColor Green
-If (($RHID_TC_Calibration | Select-String "NaN") -ne "False") {
-    Write-Host "$TC_Cal : TC_Calibration : Calibrated" -ForegroundColor Green
+
+If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
+    Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
 } else {
-    Write-Host "$TC_Cal : TC_Calibration : N/A" -ForegroundColor Yellow }
+    Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
+
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW2" -ForegroundColor Green
 Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
@@ -271,18 +280,18 @@ else {
 
 $RHID_Gel_Antenna_LOW   = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "Low" | Select-Object -Last 1)
 if (($RHID_Gel_Antenna_LOW).count -eq "") {
-    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna_Str_LOW $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Antenna_LOW | Select-String "Pass") -eq "True") {
-    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Passed" -ForegroundColor Green }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna_Str_LOW $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna_Str_LOW $Test_Failed" -ForegroundColor Red    }
 $RHID_Gel_Antenna_HIGH  = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "High"  | Select-Object -Last 1)
 if (($RHID_Gel_Antenna_HIGH).count -eq "") {
-    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna_Str_HIGH $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Antenna_HIGH | Select-String "Pass") -eq "True") {
-    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Passed" -ForegroundColor Green }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna_Str_HIGH $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna_Str_HIGH $Test_Failed" -ForegroundColor Red    }
 
 $RHID_Syringe_Stallout_FAT  = ($storyboard | Select-String "Syringe Stallout FAT" | Select-Object -Last 1)
 if (($RHID_Syringe_Stallout_FAT).count -eq "") {
@@ -308,10 +317,10 @@ $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" 
 $RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
 $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
 
-Write-host "[BEC Insertion] : $RHID_BEC_Reinsert_First" -ForegroundColor Green
-Write-host "[BEC Insertion] :               Estimated Gel Void Volume: $RHID_Gel_Void_First" -ForegroundColor Green
-Write-host "[BEC Insertion] : $RHID_BEC_Reinsert" -ForegroundColor Green
-Write-host "[BEC Insertion] :               Estimated Gel Void Volume: $RHID_Gel_Void" -ForegroundColor Green
+Write-host "[BEC Insertion] : Cover-Off $RHID_BEC_Reinsert_First" -ForegroundColor Green
+Write-host "[BEC Insertion] :         First Estimated Gel Void Volume: $RHID_Gel_Void_First" -ForegroundColor Green
+Write-host "[BEC Insertion] : Cover-On $RHID_BEC_Reinsert" -ForegroundColor Green
+Write-host "[BEC Insertion] :          Last Estimated Gel Void Volume: $RHID_Gel_Void" -ForegroundColor Green
 
 # .line.split(",")| Select-Object -Last 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
@@ -402,6 +411,10 @@ $RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumi
 Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Green
 Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Green
 
+If ($RHID_DXCODE.Count -ne "0") {
+    $DxCode_Result = "CAUTION" 
+Write-Host $DXCODE_Str : $DxCode_Result $RHID_DXCODE.Count DXCodes Found -ForegroundColor Yellow }
+
 # GM_ILS_Score_1,98
 # GM_ILS_Score_1_Name, Trace__Ladder.fsa .Line.TrimStart().split(" ")
 #$GM_ILS_Score = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I SampleQuality.txt -R | select-string "Trace__Current", "Trace__Ladder").Line.TrimStart()
@@ -439,14 +452,14 @@ else {
 
 $Remote = "{0:N4} GB" -f ((Get-ChildItem -force "U:\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local  = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
-$Local_Folder_Msg  = Write-Host "$boxPrep : Local Folder  "E:\RapidHIT ID" Size            : $Local "
-$Remote_Folder_Msg = Write-Host "$boxPrep : Remote Folder "U:\$MachineName\Internal\" Size : $Remote "
+$Local_Folder_Msg  = Write-Host "$boxPrep : $Local_Str : $Local"
+$Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote"
 $Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
 IF ($Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"
     $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
     $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG
-    Write-Host $BoxPrep : Screenshots count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
+    Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
     $Local_Folder_Msg
     $Remote_Folder_Msg
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
