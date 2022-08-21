@@ -404,8 +404,8 @@ $GM_ILS_Score
 #$GM_ILS_Score 
 #$GM_ILS_Score_Name 
 
-$StatusData_leaf  = Get-ChildItem "$serverdir" -I $StatusData  -R | Test-path -PathType Leaf
-$GM_Analysis_leaf = Get-ChildItem "$serverdir" -I $GM_Analysis -R | Test-path -PathType Leaf
+$StatusData_leaf = Get-ChildItem U:\$MachineName -I $StatusData  -R | Test-path -PathType Leaf
+$GM_Analysis_leaf = Get-ChildItem U:\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -path "$serverdir" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
