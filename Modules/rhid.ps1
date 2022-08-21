@@ -4,6 +4,7 @@ $TC_CalibrationXML= Get-Childitem "$serverdir" -I TC_Calibration.xml -R
 $SampleQuality    = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
 $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
 $ExecutionLOG     = Get-ChildItem "$serverdir" -I execution.log -R
+$GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
 $DxCodeXML        = Get-ChildItem "$serverdir" -I DxCode.xml -R
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
@@ -26,12 +27,12 @@ $Laser        = "[ Laser      ]" ;
 $Test_Failed = ": Test FAILED"  ; $Test_Passed = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 
 $RHID_Firmware79 = "1001.4.79"
-$USB_Temp_RD  = "          Run end Ambient reading in °C"
-$USB_Humi_RD  = "          Run end Humidity reading in %"
-$Bolus_Test_count_Str = "                Passed Bolus test count"
 $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
 
+$USB_Temp_RD                = "  Last 3 Runs end Ambient reading in °C"
+$USB_Humi_RD                = "  Last 3 Runs end Humidity reading in %"
+$Bolus_Test_count_Str       = "                Passed Bolus test count"
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
 $Blue_Background_Str        = "                        Blue_Background"
@@ -82,6 +83,7 @@ $RHID_Capillary_Gel_Prime_Str = "          Bring Up: Capillary Gel Prime"
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
 $Remote_Str                 = "     Remote U:\$MachineName\Internal\ Size" 
 $Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
+$HIDAutolite_Execution_Str  = "         HIDAutolite Execution"
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
@@ -90,6 +92,7 @@ $RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Sele
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_ExecutionLOG      = $ExecutionLOG | Select-String "Your trial has" | Select-object -last 1
+$RHID_GM_Analysis_PeakTable = $GM_Analysis_PeakTable | Select-String "Date/Time:" | Select-object -last 1
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HW     = $MachineConfigXML  | Select-Xml -XPath "//MachineName | //HWVersion" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HW2    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration | //DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
@@ -151,10 +154,11 @@ else {
     Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red } 
 
 IF ([Bool]$RHID_ExecutionLOG -eq "True") {
-        $RHID_ExecutionLOG_Filter = $RHID_ExecutionLOG.Line.Split("-").TrimStart() | Select-Object -Last 1
-        Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
-}
-Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : EXPIRED" -ForegroundColor Red }
+    $RHID_GM_Analysis_PeakTable_Filter = $RHID_GM_Analysis_PeakTable.line
+    $RHID_ExecutionLOG_Filter = $RHID_ExecutionLOG.Line.Split("-").TrimStart() | Select-Object -Last 1
+    Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
+    Write-Host "$HIDAutolite : $HIDAutolite_Execution_Str $RHID_GM_Analysis_PeakTable_Filter "
+} Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or EXPIRED" -ForegroundColor Red }
 
 $RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT"  | Select-Object -Last 1
 $RHID_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
@@ -326,8 +330,7 @@ elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
     $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed " -ForegroundColor Green
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Green 
-}
-else {
+} else {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Failed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Red    }
 
 $RHID_Mezzboard_FAT         = ($storyboard | Select-String "Mezzboard FAT"|  Select-Object -Last 1)
