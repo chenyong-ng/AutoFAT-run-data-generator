@@ -31,17 +31,6 @@ Airleak Test    : Passed/NA
 Laser LD_488 S/N: 
 "
 } #for recording TC verification data
-
-function e {
-      ($custom = read-host "Enter specific text to search, for example 'Q-mini serial number: 2531',
-Optics Monitor, Raman line Gaussian fit, etc, seach range limited to Storyboard, MachineConfig, TC Calibation and Boxpreplog") -and (set-variable -name "custom" -value "$custom")
-  Get-ChildItem "$serverdir"  -I  storyboard*.* , MachineConfig.xml, TC_Calibration.xml, *BoxPrepLog_RHID* -R | Select-String "$custom"
-}
-function i {
-  Get-ChildItem "$serverdir"  -I execution_withLadders.log -R | Select-String "Error", "Your trial has"
-  Get-ChildItem "$serverdir"  -I RunSummary.csv -R | Select-String "GM_ILS_Score_1"
-}
-
 function Help2 {
     Write-Host "
 Enter 'e'  to search specific text,
@@ -101,8 +90,6 @@ function debug {
     $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
     $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-    $Local  = "{0:N4} MB" -f ((Get-ChildItem -force "E:\RapidHIT ID" -Recurse -ErrorAction SilentlyContinue| Measure-Object Length -sum ).sum / 1Mb)
-    $Remote = "{0:N4} MB" -f ((Get-ChildItem -force "U:\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue| Measure-Object Length -sum ).sum / 1Mb)
     # add function to check USB device status
 
     $D = "DEBUG"
