@@ -32,18 +32,6 @@ Laser LD_488 S/N:
 "
 } #for recording TC verification data
 
-function d {
-  Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Critical diagnostics code"
-}
-
-function v {
-  Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Estimated gel void volume"
-}
-
-function v2 {
-  Get-ChildItem "$serverdir" -I storyboard*.* -R | Select-String "Gel syringe record" , "Cartridge Type" , "ID Number" , "Estimated gel void volume"
-}
-
 function e {
       ($custom = read-host "Enter specific text to search, for example 'Q-mini serial number: 2531',
 Optics Monitor, Raman line Gaussian fit, etc, seach range limited to Storyboard, MachineConfig, TC Calibation and Boxpreplog") -and (set-variable -name "custom" -value "$custom")

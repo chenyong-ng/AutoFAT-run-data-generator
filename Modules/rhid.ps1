@@ -3,6 +3,7 @@ $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
 $TC_CalibrationXML= Get-Childitem "$serverdir" -I TC_Calibration.xml -R 
 $SampleQuality    = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
 $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
+$ExecutionLOG     = Get-ChildItem "$serverdir" -I execution.log -R
 $DxCodeXML        = Get-ChildItem "$serverdir" -I DxCode.xml -R
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
@@ -44,6 +45,7 @@ $RHID_Coeff_Str             = "                           Coefficients"
 $RHID_Infl_Str              = "                       Inflection Point"
 $RHID_Mainboard_str         = "            Main board firmware version"
 $RHID_Mezzbaord_str         = "            Mezz board firmware version"
+$RHID_HIDAutolite_Trial     = "                      HIDAutolite Trail"
 $RHID_Anode_Motor_Str       = "                        Anode Motor FAT"
 $RHID_Lysis_Heater_str      = "                       Lysis Heater FAT"
 $RHID_DN_Heater_str         = "                                 DN FAT"
@@ -87,6 +89,7 @@ $RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-o
 $RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1)
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_ExecutionLOG      = $ExecutionLOG | Select-String "Your trial has" | Select-object -last 1
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HW     = $MachineConfigXML  | Select-Xml -XPath "//MachineName | //HWVersion" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HW2    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration | //DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
@@ -133,8 +136,10 @@ If ([Bool]$RHID_MachineConfig_SCI -eq "True") {
 
 If ([Bool]$RHID_MachineConfig_BEC -eq "True") {
 Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -ForegroundColor Green }
+
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
 Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
+
 Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
@@ -144,6 +149,12 @@ if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
 else {  
     Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red } 
+
+IF ([Bool]$RHID_ExecutionLOG -eq "True") {
+        $RHID_ExecutionLOG_Filter = $RHID_ExecutionLOG.Line.Split("-").TrimStart() | Select-Object -Last 1
+        Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
+}
+Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : EXPIRED" -ForegroundColor Red }
 
 $RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT"  | Select-Object -Last 1
 $RHID_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
