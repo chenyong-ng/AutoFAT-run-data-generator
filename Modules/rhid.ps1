@@ -269,14 +269,14 @@ elseif ([bool] ($RHID_BEC_Interlock_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$BEC_Itlck : $BEC_Interlock_FAT_Str $Test_Failed" -ForegroundColor Red    }
 
-$RHID_Gel_Antenna_LOW   = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "high" | Select-Object -Last 1)
+$RHID_Gel_Antenna_LOW   = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "Low" | Select-Object -Last 1)
 if (($RHID_Gel_Antenna_LOW).count -eq "") {
     Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Antenna_LOW | Select-String "Pass") -eq "True") {
     Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Passed" -ForegroundColor Green }
 else {
     Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Failed" -ForegroundColor Red    }
-$RHID_Gel_Antenna_HIGH  = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "low"  | Select-Object -Last 1)
+$RHID_Gel_Antenna_HIGH  = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "High"  | Select-Object -Last 1)
 if (($RHID_Gel_Antenna_HIGH).count -eq "") {
     Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Antenna_HIGH | Select-String "Pass") -eq "True") {
