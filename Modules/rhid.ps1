@@ -82,9 +82,9 @@ $Remote_Str                 = "     Remote U:\$MachineName\Internal\ Size"
 $Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 
-$RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
+$RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
+$RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1)
+$RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1)
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
@@ -98,12 +98,24 @@ $RHID_MachineConfig_Prime  = $MachineConfigXML  | Select-Xml -XPath "//Water | /
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
 $RHID_DXCODE               = $DxCodeXML | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
 
-Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
-Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
-Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl" -ForegroundColor Green
+IF ([Bool]$RHID_QMini_SN -eq "True") {
+    $RHID_QMini_SN_Filter = $RHID_QMini_SN.line.split(":").TrimStart() | Select-object -last 1
+    Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN_Filter" -ForegroundColor Green}
+    Else { Write-Host "$Optics : $RHID_QMini_str : Not Available" -ForegroundColor Yellow}
+
+IF ([Bool]$RHID_QMini_Coeff -eq "True") {
+    $RHID_QMini_Coeff_Filter = $RHID_QMini_Coeff.line.split(":").TrimStart() | Select-object -last 1
+    Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff_Filter" -ForegroundColor Green}
+    Else{ Write-Host "$Optics : $RHID_Coeff_Str : Not Available" -ForegroundColor Yellow}
+
+IF ([Bool]$RHID_QMini_Infl -eq "True") {
+    $RHID_QMini_Infl_Filter = $RHID_QMini_Infl.line.split(":").TrimStart() | Select-object -last 1
+    Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Filter" -ForegroundColor Green }
+    Else{ Write-Host "$Optics : $RHID_Infl_Str : Not Available" -ForegroundColor Yellow}
 
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
+    Write-Host "$TC_Cal :       WARNING: Unpopulated TC_Calibration.XML Found" -ForegroundColor RED
 } else {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
 
