@@ -411,14 +411,14 @@ $StatusData_leaf = Get-ChildItem U:\$MachineName -I $StatusData  -R | Test-path 
 $GM_Analysis_leaf = Get-ChildItem U:\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_StatusData_PDF = Get-ChildItem -path "$serverdir" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
+    $RHID_StatusData_PDF = Get-ChildItem -path "U:\$MachineName" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
 } else {
     Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_GM_Analysis = Get-ChildItem -path "$serverdir" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' }| Format-table Directory -Autosize -HideTableHeaders -wrap
+    $RHID_GM_Analysis = Get-ChildItem -path "U:\$MachineName" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $GM_Analysis $File_found" -ForegroundColor Green
     $RHID_GM_Analysis
 }
@@ -446,7 +446,7 @@ IF ($Danno_Local_leaf -eq "True") {
 } Else {
     $Local_Folder_Msg
     $Remote_Folder_Msg
-    "Backup Instrument folder before Boxprep !!!"
+    Write-Host "[Warning] : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
     Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 # $RHID_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
