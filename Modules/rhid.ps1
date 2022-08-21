@@ -28,10 +28,11 @@ $USB_Temp_RD  = "          Run end Ambient reading in °C"
 $USB_Humi_RD  = "          Run end Humidity reading in %"
 $Bolus_Test_count_Str = "                Passed Bolus test count"
 $File_not_Found = "Not found or no full run has been performed"
-$File_found     = "Files found in these folders"
+$File_found     = "Files found in Remote folders"
 
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "               Syringe Pump Calibration"
+$Blue_Background_Str        = "                        Blue_Background"
 $SCI_Calibration            = "                        SCI Calibration"
 $Bec_Status_Str             = "               BEC Insertion, Gel Purge"
 $Prime_Status               = "               Lysis/Water Prime Status"
@@ -96,9 +97,9 @@ Write-Host "$TC_Cal : $RHID_TC_Calibration" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
 Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
-    Write-Host "$Raman_Bkg : Blue Background Stashed" -ForegroundColor Green
+    Write-Host "$Raman_Bkg : $Blue_Background_Str : Stashed" -ForegroundColor Green
 } else {
-    Write-Host "$Raman_Bkg : Blue Background N/A" -ForegroundColor Yellow }
+    Write-Host "$Raman_Bkg : $Blue_Background_Str : N/A" -ForegroundColor Yellow }
 If ([Bool]$RHID_MachineConfig_SCI -eq "True") {
 Write-Host "$SCI_Cal : $SCI_Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
 If ([Bool]$RHID_MachineConfig_BEC -eq "True") {
