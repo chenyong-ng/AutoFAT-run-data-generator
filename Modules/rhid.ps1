@@ -300,8 +300,10 @@ $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" 
 $RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
 $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
 
-Write-host "[BEC Insertion] : $RHID_BEC_Reinsert_First : Estimated Gel Void Volume: $RHID_Gel_Void_First" -ForegroundColor Green
-Write-host "[BEC Insertion] : $RHID_BEC_Reinsert : Estimated Gel Void Volume: $RHID_Gel_Void" -ForegroundColor Green
+Write-host "[BEC Insertion] : $RHID_BEC_Reinsert_First" -ForegroundColor Green
+Write-host "[BEC Insertion] :               Estimated Gel Void Volume: $RHID_Gel_Void_First" -ForegroundColor Green
+Write-host "[BEC Insertion] : $RHID_BEC_Reinsert" -ForegroundColor Green
+Write-host "[BEC Insertion] :               Estimated Gel Void Volume: $RHID_Gel_Void" -ForegroundColor Green
 
 # .line.split(",")| Select-Object -Last 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
