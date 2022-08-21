@@ -33,7 +33,7 @@ $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
 
 $Machine_Config_Str         = "                  Machine Configuration"
-$SyringePump_Cal            = "               Syringe Pump Calibration"
+$SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
 $Blue_Background_Str        = "                        Blue_Background"
 $SCI_Calibration            = "                        SCI Calibration"
 $Bec_Status_Str             = "  BEC Insertion, Gel Purge, LastGelFill"
