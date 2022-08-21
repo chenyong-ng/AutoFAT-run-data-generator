@@ -94,7 +94,10 @@ $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHour
 Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN"   -ForegroundColor Green
 Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff"-ForegroundColor Green
 Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl" -ForegroundColor Green
-Write-Host "$TC_Cal : $RHID_TC_Calibration" # ( | Select-String "NaN")
+If (($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
+    Write-Host "$TC_Cal : $RHID_TC_Calibration : Passed" -ForegroundColor Green
+} else {
+    Write-Host "$TC_Cal : $RHID_TC_Calibration : N/A" -ForegroundColor Yellow }
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW2" -ForegroundColor Green
 Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
