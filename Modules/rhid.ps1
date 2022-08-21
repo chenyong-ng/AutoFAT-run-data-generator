@@ -279,10 +279,10 @@ else {
     Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Failed" -ForegroundColor Red    }
 
 $RHID_Syringe_Stallout_FAT  = ($storyboard | Select-String "Syringe Stallout FAT" | Select-Object -Last 1)
-$RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
 if (($RHID_Syringe_Stallout_FAT).count -eq "") {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
+    $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Green }
 else {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Failed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Red    }
@@ -330,11 +330,11 @@ $RHID_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | 
 if (($RHID_Water_Prime).count -eq "") {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
-    Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Passed" -ForegroundColor Green }
+    $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected"         | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 2 | Select-Object -SkipLast 1
+    Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan }
 else {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Failed" -ForegroundColor Red    }
-$RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected"         | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
-Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan
 
 $RHID_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime" | Select-Object -Last 1)
 if (($RHID_Lysis_Prime).count -eq "") {
