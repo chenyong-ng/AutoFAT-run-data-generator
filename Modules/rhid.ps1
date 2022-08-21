@@ -16,13 +16,14 @@ $Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]" ; $BEC_Statu
 $BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]" ; $Prime        = "[ PrimeStatus]"
 $USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" ; $Laser        = "[ Laser      ]" 
 $SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePump  = "[ SyringePump]"
-$Anode_Motor  = "[Anode Motor ]"
-$HP_FAT       = "[ HP FAT     ]"
-$LP_FAT       = "[ LP FAT     ]"
+$Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck    = "[ BEC_Intlck ]"
+$HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]"
+$LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" 
 $Mezz_PCBA    = "[ MEZZ test  ]"
+$Laser        = "[ Laser      ]" ; 
+$Test_Failed = ": Test FAILED"  ; $Test_Passed = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 
 $RHID_Firmware79            = "1001.4.79"
-$Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA      = ": Test N/A"
 $USB_Temp_RD  = "          Run end Ambient reading in °C"
 $USB_Humi_RD  = "          Run end Humidity reading in %"
 $Bolus_Test_count_Str = "                Passed Bolus test count"
@@ -30,7 +31,7 @@ $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in these folders"
 
 $Machine_Config_Str         = "                  Machine Configuration"
-$SyringePump_Cal                = "               Syringe Pump Calibration"
+$SyringePump_Cal            = "               Syringe Pump Calibration"
 $SCI_Calibration            = "                        SCI Calibration"
 $Bec_Status_Str             = "               BEC Insertion, Gel Purge"
 $Prime_Status               = "               Lysis/Water Prime Status"
@@ -58,6 +59,20 @@ $RHID_SCI_Antenna_Test_Str  = "             Bring Up: SCI Antenna Test"
 $RHID_Mezz_Test_Str         = "                              MEZZ test"
 $RHID_HP_FAT_Str            = "                                 HP FAT"
 $RHID_LP_FAT_Str            = "                                 LP FAT"
+$BEC_Interlock_FAT_Str      = "                      BEC Interlock FAT"
+$RHID_Gel_Antenna           = "                  Bring Up: Gel Antenna"
+$RHID_Syringe_Stallout_FAT_Str = "                   Syringe Stallout FAT"
+$RHID_Mezzboard_FAT_STR     = "                          Mezzboard FAT"
+$RHID_Water_Prime_Str       = "                  Bring Up: Water Prime"
+$RHID_Lysis_Prime_Str       = "                  Bring Up: Lysis Prime"
+$RHID_Verify_Raman_Str      = "                 Bring Up: Verify Raman"
+$RHID_Buffer_Prime_Str      = "                 Bring Up: Buffer Prime"
+$RHID_Lysis_Dispense_Str    = "          Bring Up: Lysis Dispense Test"
+$RHID_Lystate_Pull_Str      = "                  Bring Up: Lysate Pull"
+$RHID_HV_FAT_Str            = "                                 HV FAT"
+$RHID_Laser_FAT_Str         = "                              Laser FAT"
+$RHID_Piezo_FAT_str         = "                              Piezo FAT"
+$RHID_Capillary_Gel_Prime_Str = "          Bring Up: Capillary Gel Prime"
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
@@ -231,6 +246,7 @@ elseif ([bool] ($RHID_LP_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$LP_FAT : $RHID_LP_FAT_Str $Test_Passed" -ForegroundColor Green }
 else {
     Write-Host "$LP_FAT : $RHID_LP_FAT_Str $Test_Failed" -ForegroundColor Red    }
+
 $RHID_Anode_Motor_FAT = $storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1
 if (($RHID_Anode_Motor_FAT).count -eq "") {
     Write-Host "$Anode_Motor : $RHID_Anode_Motor_Str $Test_NA"    -ForegroundColor Yellow }
@@ -239,71 +255,134 @@ elseif ([bool] ($RHID_Anode_Motor_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Anode_Motor : $RHID_Anode_Motor_Str $Test_Failed" -ForegroundColor Red    }
 
-    #.line.split(",")| Select-Object -Last 1
 $RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT" | Select-Object -Last 1)
 if (($RHID_BEC_Interlock_FAT).count -eq "") {
-    Write-Host "BEC Interlock FAT : BEC Interlock FAT $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$BEC_Itlck : $BEC_Interlock_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_BEC_Interlock_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "BEC Interlock FAT : BEC Interlock FAT $Test_Passed" -ForegroundColor Green }
+    Write-Host "$BEC_Itlck : $BEC_Interlock_FAT_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "BEC Interlock FAT : BEC Interlock FAT $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$BEC_Itlck : $BEC_Interlock_FAT_Str $Test_Failed" -ForegroundColor Red    }
 
 $RHID_Gel_Antenna_LOW   = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "high" | Select-Object -Last 1)
 if (($RHID_Gel_Antenna_LOW).count -eq "") {
-    Write-Host "Bring Up: Gel Antenna HIGH : Bring Up: Gel Antenna $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Antenna_LOW | Select-String "Pass") -eq "True") {
-    Write-Host "Bring Up: Gel Antenna HIGH : Bring Up: Gel Antenna $Test_Passed" -ForegroundColor Green }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "Bring Up: Gel Antenna HIGH : Bring Up: Gel Antenna $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Failed" -ForegroundColor Red    }
 $RHID_Gel_Antenna_HIGH  = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "low"  | Select-Object -Last 1)
 if (($RHID_Gel_Antenna_HIGH).count -eq "") {
-    Write-Host "Bring Up: Gel Antenna_LOW : Bring Up: Gel Antenna $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Gel_Antenna_HIGH | Select-String "Pass") -eq "True") {
-    Write-Host "Bring Up: Gel Antenna_LOW : Bring Up: Gel Antenna $Test_Passed" -ForegroundColor Green }
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "Bring Up: Gel Antenna_LOW : Bring Up: Gel Antenna $Test_Failed" -ForegroundColor Red    }
-$RHID_Syringe_Stallout_FAT  = ($storyboard | Select-String "Syringe Stallout FAT"  | select-string "PASS" | Select-Object -Last 1)
-$RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
-$RHID_Mezzboard_FAT         = ($storyboard | Select-String "Mezzboard FAT"     | select-string "PASS"| Select-Object -Last 1)
-$RHID_BEC_Reinsert_First    = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1).line.split(",")| Select-Object -Last 1 #First BEC Insertion
-$RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split(",").TrimStart()| Select-Object -Last 1
-$RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
-$RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split(",").TrimStart()| Select-Object -Last 1
+    Write-Host "$Gel_RFID : $RHID_Gel_Antenna $Test_Failed" -ForegroundColor Red    }
 
-Write-host "$RHID_Syringe_Stallout_FAT" -ForegroundColor Green
-Write-host "$RHID_Syringe_MIN_CURRENT" -ForegroundColor Green
-Write-host "$RHID_Mezzboard_FAT" -ForegroundColor Green
-Write-host "$RHID_BEC_Reinsert_First" -ForegroundColor Green
-Write-host "$RHID_Gel_Void_First" -ForegroundColor Green
-Write-host "$RHID_BEC_Reinsert" -ForegroundColor Green
-Write-host "$RHID_Gel_Void" -ForegroundColor Green
+$RHID_Syringe_Stallout_FAT  = ($storyboard | Select-String "Syringe Stallout FAT" | Select-Object -Last 1)
+$RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
+if (($RHID_Syringe_Stallout_FAT).count -eq "") {
+    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Green }
+else {
+    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Failed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Red    }
+
+$RHID_Mezzboard_FAT         = ($storyboard | Select-String "Mezzboard FAT"|  Select-Object -Last 1)
+if (($RHID_Mezzboard_FAT).count -eq "") {
+    Write-Host "$Mezz_PCBA : $RHID_Mezzboard_FAT_STR $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Mezzboard_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$Mezz_PCBA : $RHID_Mezzboard_FAT_STR $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$Mezz_PCBA : $RHID_Mezzboard_FAT_STR $Test_Failed" -ForegroundColor Red    }
+
+$RHID_BEC_Reinsert_First    = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1).line.split(",")| Select-Object -Last 1 #First BEC Insertion
+$RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart()| Select-Object -Last 1
+$RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
+$RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
+
+Write-host "[BEC Insertion] : $RHID_BEC_Reinsert_First : Estimated Gel Void Volume: $RHID_Gel_Void_First" -ForegroundColor Green
+Write-host "[BEC Insertion] : $RHID_BEC_Reinsert : Estimated Gel Void Volume: $RHID_Gel_Void" -ForegroundColor Green
 
 # .line.split(",")| Select-Object -Last 1
-$RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | select-string "PASS" | Select-Object -Last 1)
-$RHID_HV_FAT    = ($storyboard | Select-String "HV FAT"    | select-string "PASS" | Select-Object -Last 1)
-$RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | select-string "PASS" | Select-Object -Last 1)
+$RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
+if (($RHID_Piezo_FAT).count -eq "") {
+    Write-Host "$Piezo : $RHID_Piezo_FAT_str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Piezo_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$Piezo : $RHID_Piezo_FAT_str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$Piezo : $RHID_Piezo_FAT_str $Test_Failed" -ForegroundColor Red    }
+$RHID_HV_FAT    = ($storyboard | Select-String "HV FAT" | Select-Object -Last 1)
+if (($RHID_HV_FAT).count -eq "") {
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_HV_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Failed" -ForegroundColor Red    }
+$RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last 1)
+if (($RHID_Laser_FAT).count -eq "") {
+    Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
+    Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Failed" -ForegroundColor Red    }
 
-Write-Host "$RHID_Piezo_FAT" -ForegroundColor Green
-Write-Host "$RHID_HV_FAT" -ForegroundColor Green
-Write-Host "$RHID_Laser_FAT" -ForegroundColor Green
-
-$RHID_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | select-string "PASS"| Select-Object -Last 1)
+$RHID_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | Select-Object -Last 1)
+if (($RHID_Water_Prime).count -eq "") {
+    Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
+    Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Failed" -ForegroundColor Red    }
 $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected"         | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 2 | Select-Object -SkipLast 1
-$RHID_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime"         | select-string "PASS"| Select-Object -Last 1)
-$RHID_Buffer_Prime   = ($storyboard | Select-String "Bring Up: Buffer Prime"        | select-string "PASS"| Select-Object -Last 1)
-$RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | select-string "PASS"| Select-Object -Last 1)
-$RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | select-string "PASS"| Select-Object -Last 1)
-$RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | select-string "Completed" | Select-Object -Last 1)
-$RHID_Raman               = ($storyboard | Select-String "Bring Up: Verify Raman" | select-string "PASS" | Select-Object -Last 1)
-
-Write-Host "$RHID_Water_Prime" -ForegroundColor Green
 Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan
-Write-Host "$RHID_Lysis_Prime" -ForegroundColor Green
-Write-Host "$RHID_Buffer_Prime" -ForegroundColor Green
-Write-Host "$RHID_Lysis_Dispense" -ForegroundColor Green
-Write-Host "$RHID_Lysate_Pull" -ForegroundColor Green
-Write-Host "$RHID_Capillary_Gel_Prime" -ForegroundColor Green
-Write-Host "$RHID_Raman" -ForegroundColor Green
+
+$RHID_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime" | Select-Object -Last 1)
+if (($RHID_Lysis_Prime).count -eq "") {
+    Write-Host "$WetTest : $RHID_Lysis_Prime_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Lysis_Prime | Select-String "Pass") -eq "True") {
+    Write-Host "$WetTest : $RHID_Lysis_Prime_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$WetTest : $RHID_Lysis_Prime_Str $Test_Failed" -ForegroundColor Red    }
+
+$RHID_Buffer_Prime   = ($storyboard | Select-String "Bring Up: Buffer Prime" |  Select-Object -Last 1)
+if (($RHID_Buffer_Prime).count -eq "") {
+    Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Buffer_Prime | Select-String "Pass") -eq "True") {
+    Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_Failed" -ForegroundColor Red    }
+
+$RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Test"| Select-Object -Last 1)
+if (($RHID_Lysis_Dispense).count -eq "") {
+    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Lysis_Dispense | Select-String "Pass") -eq "True") {
+    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Failed" -ForegroundColor Red    }
+
+$RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | Select-Object -Last 1)
+if (($RHID_Lysate_Pull).count -eq "") {
+    Write-Host "$WetTest : $RHID_Lystate_Pull_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Lysate_Pull | Select-String "Pass") -eq "True") {
+    Write-Host "$WetTest : $RHID_Lystate_Pull_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$WetTest : $RHID_Lystate_Pull_Str $Test_Failed" -ForegroundColor Red    }
+
+$RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1)
+if (($RHID_Capillary_Gel_Prime).count -eq "") {
+    Write-Host "$WetTest :  $RHID_Capillary_Gel_Prime_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Capillary_Gel_Prime | Select-String "Completed") -eq "True") {
+    Write-Host "$WetTest :  $RHID_Capillary_Gel_Prime_Str : Completed" -ForegroundColor Green }
+else {
+    Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_Failed" -ForegroundColor Red    }
+
+$RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
+if (($RHID_Raman).count -eq "") {
+    Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_NA"    -ForegroundColor Yellow }
+elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
+    Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Passed" -ForegroundColor Green }
+else {
+    Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    }
 
 $RHID_Bolus = Get-ChildItem "U:\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
 Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
