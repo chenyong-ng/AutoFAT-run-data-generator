@@ -126,8 +126,11 @@ If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : $Blue_Background_Str : Stashed" -ForegroundColor Green
 } else {
     Write-Host "$Raman_Bkg : $Blue_Background_Str : N/A" -ForegroundColor Yellow }
+
 If ([Bool]$RHID_MachineConfig_SCI -eq "True") {
-Write-Host "$SCI_Cal : $SCI_Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
+    Write-Host "$SCI_Cal : $SCI_Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
+    Else {Write-Host $SCI_Cal : $SCI_Calibration : Uncalibrated -ForegroundColor Red}
+
 If ([Bool]$RHID_MachineConfig_BEC -eq "True") {
 Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -ForegroundColor Green }
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
@@ -324,15 +327,21 @@ elseif ([bool] ($RHID_Mezzboard_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Mezz_PCBA : $RHID_Mezzboard_FAT_STR $Test_Failed" -ForegroundColor Red    }
 
-$RHID_BEC_Reinsert_First    = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1).line.split(",")| Select-Object -Last 1 #First BEC Insertion
-$RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart()| Select-Object -Last 1
-$RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1).line.split(",")| Select-Object -Last 1 #Cover-on BEC Insertion
-$RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
+$RHID_BEC_Reinsert_First    = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1) #First BEC Insertion
+$RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) #Cover-on BEC Insertion
 
-Write-host "[BEC Insertion] : Cover-Off $RHID_BEC_Reinsert_First" -ForegroundColor Green
-Write-host "[BEC Insertion] :         First Estimated Gel Void Volume: $RHID_Gel_Void_First" -ForegroundColor Green
-Write-host "[BEC Insertion] : Cover-On $RHID_BEC_Reinsert" -ForegroundColor Green
-Write-host "[BEC Insertion] :          Last Estimated Gel Void Volume: $RHID_Gel_Void" -ForegroundColor Green
+If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
+    $RHID_BEC_Reinsert_First_Filter = $RHID_BEC_Reinsert_First.line.split(",") | Select-Object -Last 1
+    $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
+    Write-host "[BEC Insertion] : Cover-Off $RHID_BEC_Reinsert_First_Filter" -ForegroundColor Green
+    Write-host "[BEC Insertion] :        First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Green}
+    Else {Write-host "[BEC Insertion] : Cover-Off BEC Insertion : NA" -ForegroundColor Yellow}
+IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
+    $RHID_BEC_Reinsert_Filter = $RHID_BEC_Reinsert.line.split(",") | Select-Object -Last 1
+    $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
+    Write-host "[BEC Insertion] : Cover-On $RHID_BEC_Reinsert_Filter" -ForegroundColor Green
+    Write-host "[BEC Insertion] :         Last Estimated Gel Void Volume : $RHID_Gel_Void" -ForegroundColor Green }
+    Else {Write-host "[BEC Insertion] : Cover-On BEC Insertion : NA" -ForegroundColor Yellow}
 
 # .line.split(",")| Select-Object -Last 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
