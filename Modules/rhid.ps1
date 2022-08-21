@@ -424,7 +424,7 @@ elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    }
 
-$RHID_Bolus = Get-ChildItem "U:\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
+$RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
 Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
  
 $RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
@@ -433,8 +433,7 @@ Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Gree
 Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Green
 
 If ($RHID_DXCODE.Count -ne "0") {
-    $DxCode_Result = "CAUTION" 
-Write-Host $DXCODE_Str : $DxCode_Result $RHID_DXCODE.Count DXCodes Found -ForegroundColor Yellow }
+    Write-Host $DXCODE_Str : CAUTION $RHID_DXCODE.Count DXCodes Found -ForegroundColor Yellow }
 
 # GM_ILS_Score_1,98
 # GM_ILS_Score_1_Name, Trace__Ladder.fsa .Line.TrimStart().split(" ")
@@ -452,26 +451,25 @@ $StatusData_leaf = Get-ChildItem U:\$MachineName -I $StatusData  -R | Test-path 
 $GM_Analysis_leaf = Get-ChildItem U:\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
 
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_StatusData_PDF = Get-ChildItem -path "U:\$MachineName" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
+    $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
-} else {
+    } else {
     Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow }
 
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_GM_Analysis = Get-ChildItem -path "U:\$MachineName" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
+    $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $GM_Analysis $File_found" -ForegroundColor Green
-    $RHID_GM_Analysis
-}
-else {Write-host "$Full_Run : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
+    $RHID_GM_Analysis }
+    else {Write-host "$Full_Run : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
 
 $RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
 if ([bool]$RHID_Shipping_BEC -eq "True") {
     Write-Host "$SHP_BEC : BEC Insertion completed, Shipping BEC engaged" -ForegroundColor Green }
-else {
+    else {
     Write-Host "$SHP_BEC : Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
-$Remote = "{0:N4} GB" -f ((Get-ChildItem -force "U:\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
+$Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local  = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local_Folder_Msg  = Write-Host "$boxPrep : $Local_Str : $Local"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote"
