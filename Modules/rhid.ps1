@@ -410,7 +410,9 @@ $RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Te
 if (($RHID_Lysis_Dispense).count -eq "") {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Lysis_Dispense | Select-String "Pass") -eq "True") {
-    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Passed" -ForegroundColor Green }
+    $RHID_Lysis_Dispense_Volume = $storyboard | Select-String "Lysis Volume ="  | Select-Object -Last 1
+    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $RHID_Lysis_Dispense_Volume.line.split("=") | Select-object -last 1" -ForegroundColor Green }
 else {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -430,6 +432,7 @@ elseif ([bool] ($RHID_Capillary_Gel_Prime | Select-String "Completed") -eq "True
 else {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_Failed" -ForegroundColor Red    }
 
+    #Raman Signal: Lysis Volume =
 $RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
 if (($RHID_Raman).count -eq "") {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_NA"    -ForegroundColor Yellow }
