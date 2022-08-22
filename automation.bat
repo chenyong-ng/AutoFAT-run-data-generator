@@ -6,5 +6,5 @@ If Exist "%~dp0\automation.ps1" (
 	powershell -sta -ExecutionPolicy ByPass -File "%~dp0\automation.ps1"
 )
 @echo Enter any key to Clear Console screen and check for new instrument.
-@Pause >:null
+Pause >:null
 goto 1
