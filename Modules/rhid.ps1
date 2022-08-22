@@ -369,14 +369,18 @@ $RHID_HV_FAT    = ($storyboard | Select-String "HV FAT" | Select-Object -Last 1)
 if (($RHID_HV_FAT).count -eq "") {
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_HV_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green }
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green}
 else {
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_Failed" -ForegroundColor Red    }
 $RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last 1)
 if (($RHID_Laser_FAT).count -eq "") {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green }
+    $RHID_Raman_Signal = ($storyboard | Select-String "Raman =").Line.Split("=") | Select-Object -Last 1
+    $RHID_Raman_Bin = ($storyboard | Select-String "Bin =").Line.Split("=") | Select-Object -Last 1
+    Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$Laser :               Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
+}
 else {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -410,9 +414,9 @@ $RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Te
 if (($RHID_Lysis_Dispense).count -eq "") {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Lysis_Dispense | Select-String "Pass") -eq "True") {
-    $RHID_Lysis_Dispense_Volume = $storyboard | Select-String "Lysis Volume ="  | Select-Object -Last 1
+    $RHID_Lysis_Dispense_Volume = ($storyboard | Select-String "Lysis Volume ="  | Select-Object -Last 1).line.split("=").TrimStart() | Select-object -last 1
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $RHID_Lysis_Dispense_Volume.line.split("=") | Select-object -last 1" -ForegroundColor Green }
+    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str : $RHID_Lysis_Dispense_Volume" -ForegroundColor Green }
 else {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -432,12 +436,12 @@ elseif ([bool] ($RHID_Capillary_Gel_Prime | Select-String "Completed") -eq "True
 else {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_Failed" -ForegroundColor Red    }
 
-    #Raman Signal: Lysis Volume =
 $RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
 if (($RHID_Raman).count -eq "") {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
-    Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Passed" -ForegroundColor Green }
+    Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Passed" -ForegroundColor Green
+}
 else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -452,17 +456,52 @@ Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Gree
 If ($RHID_DXCODE.Count -ne "0") {
     Write-Host $DXCODE_Str : CAUTION $RHID_DXCODE.Count DXCodes Found -ForegroundColor Yellow }
 
-# GM_ILS_Score_1,98
-# GM_ILS_Score_1_Name, Trace__Ladder.fsa .Line.TrimStart().split(" ")
-#$GM_ILS_Score = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem -I SampleQuality.txt -R | select-string "Trace__Current", "Trace__Ladder").Line.TrimStart()
-$GM_ILS_Score = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__Ladder", "GFE" , "NGM", "BLANK").Line
-#Write-Host "$Full_Run : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
-Write-Host "$Full_Run : Trace Quality Score" -ForegroundColor Green
-$GM_ILS_Score
-#$GM_ILS_Score_Name = (Get-ChildItem -Exclude "Internal" -path "$serverdir" | Get-ChildItem  -I SampleQuality.txt -R | select-string "Trace").Line.TrimStart().split(" ")
-#Write-Host "$Full_Run : $GM_ILS_Score_Name GeneMarker ISL Score:" $GM_ILS_Score -ForegroundColor Green
-#$GM_ILS_Score 
-#$GM_ILS_Score_Name 
+$GM_ILS_Score_GFE_36cycles = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles")
+$GM_ILS_Score_GFE_BV = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV")
+$GM_ILS_Score_Allelic_Ladder = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__Ladder.fsa")
+$GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE")
+$GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM")
+$GM_ILS_Score_BLANK   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK")
+
+$GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
+$GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
+$GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
+$GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
+$GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
+$GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
+
+$GM_ILS_Score_GFE_36cycles_Name = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -First 1
+$GM_ILS_Score_GFE_BV_Name = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -First 1
+$GM_ILS_Score_Allelic_Ladder_Name = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -First 1
+$GM_ILS_Score_GFE_007_Name = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -First 1
+$GM_ILS_Score_NGM_007_Name = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -First 1
+$GM_ILS_Score_BLANK_Name = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -First 1
+
+"
+GFE_36cycles Trace Quality Score : 
+        $GM_ILS_Score_GFE_36cycles_Name = $GM_ILS_Score_GFE_36cycles_Score"
+
+"
+Cover-Off Blank Trace Quality Score : 
+        $GM_ILS_Score_GFE_BV_Name = $GM_ILS_Score_GFE_BV_Score"
+
+"
+Allelic Ladder Trace Quality Score : 
+        $GM_ILS_Score_Allelic_Ladder_Name = $GM_ILS_Score_Allelic_Ladder_Score"
+
+"
+GFE_007 Trace Quality Score : 
+        $GM_ILS_Score_GFE_007_Name = $GM_ILS_Score_GFE_007_Score"
+
+"
+NGM_007 Trace Quality Score : 
+        $GM_ILS_Score_NGM_007_Name = $GM_ILS_Score_NGM_007_Score"
+
+"
+BLANK Trace Quality Score : 
+        $GM_ILS_Score_BLANK_Name = $GM_ILS_Score_BLANK_Score
+        "
+
 
 $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData  -R | Test-path -PathType Leaf
 $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
