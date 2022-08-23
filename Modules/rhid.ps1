@@ -349,7 +349,7 @@ If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
     Write-host "$BEC_Insertion : Cover-Off $RHID_BEC_Reinsert_First_Filter" -ForegroundColor Green
     Write-host "$BEC_Insertion :        First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Green}
-    Else {Write-host "[BEC Insertion] : Cover-Off BEC Insertion : NA" -ForegroundColor Yellow}
+    Else {Write-host "$BEC_Insertion : Cover-Off BEC Insertion : NA" -ForegroundColor Yellow}
 IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     $RHID_BEC_Reinsert_Filter = $RHID_BEC_Reinsert.line.split(",") | Select-Object -Last 1
     $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
