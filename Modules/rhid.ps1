@@ -376,8 +376,8 @@ $RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last
 if (($RHID_Laser_FAT).count -eq "") {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
-    $RHID_Raman_Signal = ($storyboard | Select-String "Raman =").Line.Split("=") | Select-Object -Last 1
-    $RHID_Raman_Bin = ($storyboard | Select-String "Bin =").Line.Split("=") | Select-Object -Last 1
+    $RHID_Raman_Signal = ($storyboard | Select-String "Raman =").Line.Split("=").TrimStart() | Select-Object -Last 1
+    $RHID_Raman_Bin = ($storyboard | Select-String "Bin =").Line.Split("=").TrimStart() | Select-Object -Last 1
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green
     Write-Host "$Laser :               Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
 }
