@@ -23,7 +23,7 @@ $Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck
 $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]"
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" 
 $Mezz_PCBA    = "[ MEZZ test  ]" ; $DXCODE_Str   = "[ DXcode     ]"
-$Laser        = "[ Laser      ]" ; 
+$Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BEC Insertion]"
 $Test_Failed = ": Test FAILED"  ; $Test_Passed = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 
 $RHID_Firmware79 = "1001.4.79"
@@ -81,7 +81,7 @@ $RHID_Laser_FAT_Str         = "                              Laser FAT"
 $RHID_Piezo_FAT_str         = "                              Piezo FAT"
 $RHID_Capillary_Gel_Prime_Str = "          Bring Up: Capillary Gel Prime"
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
-$Remote_Str                 = "     Remote U:\$MachineName\Internal\ Size" 
+$Remote_Str                 = "Remote$Drive\$MachineName\Internal\ Size" 
 $Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
 $HIDAutolite_Execution_Str  = "  Latest HIDAutolite Execution"
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
@@ -347,15 +347,15 @@ $RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     $RHID_BEC_Reinsert_First_Filter = $RHID_BEC_Reinsert_First.line.split(",") | Select-Object -Last 1
     $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
-    Write-host "[BEC Insertion] : Cover-Off $RHID_BEC_Reinsert_First_Filter" -ForegroundColor Green
-    Write-host "[BEC Insertion] :        First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Green}
+    Write-host "$BEC_Insertion : Cover-Off $RHID_BEC_Reinsert_First_Filter" -ForegroundColor Green
+    Write-host "$BEC_Insertion :        First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Green}
     Else {Write-host "[BEC Insertion] : Cover-Off BEC Insertion : NA" -ForegroundColor Yellow}
 IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     $RHID_BEC_Reinsert_Filter = $RHID_BEC_Reinsert.line.split(",") | Select-Object -Last 1
     $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
-    Write-host "[BEC Insertion] : Cover-On $RHID_BEC_Reinsert_Filter" -ForegroundColor Green
-    Write-host "[BEC Insertion] :         Last Estimated Gel Void Volume : $RHID_Gel_Void" -ForegroundColor Green }
-    Else {Write-host "[BEC Insertion] : Cover-On BEC Insertion : NA" -ForegroundColor Yellow}
+    Write-host "$BEC_Insertion : Cover-On $RHID_BEC_Reinsert_Filter" -ForegroundColor Green
+    Write-host "$BEC_Insertion :         Last Estimated Gel Void Volume : $RHID_Gel_Void" -ForegroundColor Green }
+    Else {Write-host "$BEC_Insertion : Cover-On BEC Insertion : NA" -ForegroundColor Yellow}
 
 # .line.split(",")| Select-Object -Last 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
@@ -541,7 +541,7 @@ IF ($Danno_Local_leaf -eq "True") {
 } Else {
     $Local_Folder_Msg
     $Remote_Folder_Msg
-    Write-Host "[ Warning    ] : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
+    Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
     Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 # $RHID_Bolus[2,3,4,5,6,7,8,9,0,1] (Get-ChildItem "$serverdir\*Bolus Delivery Test*"  -I  storyboard*.* -R |  select-string "Timing" | Select-Object -Last 1) ForEach-Object -MemberName Split -ArgumentList "." -ExpandProperty Line
