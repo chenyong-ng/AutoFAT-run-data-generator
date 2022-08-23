@@ -23,15 +23,15 @@ $Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck
 $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]"
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" 
 $Mezz_PCBA    = "[ MEZZ test  ]" ; $DXCODE_Str   = "[ DXcode     ]"
-$Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BEC Insertion]"
+$Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]"
 $Test_Failed = ": Test FAILED"  ; $Test_Passed = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 
 $RHID_Firmware79 = "1001.4.79"
 $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
 
-$USB_Temp_RD                = "  Last 3 Runs end Ambient reading in °C"
-$USB_Humi_RD                = "  Last 3 Runs end Humidity reading in %"
+$USB_Temp_RD                = " Last 3 Runs end Ambient  reading in °C"
+$USB_Humi_RD                = " Last 3 Runs end Humidity reading in  %"
 $Bolus_Test_count_Str       = "                Passed Bolus test count"
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
@@ -42,11 +42,11 @@ $Prime_Status               = "               Lysis/Water Prime Status"
 $Laser_Hour                 = "                             Laser Hour"
 $RHID_TC_Calibration_Str    = "               Thermocycler Calibration"
 $RHID_QMini_str             = "                   Q-mini serial number"
-$RHID_Coeff_Str             = "Non-Linearity Calibration/ Coefficients"
+$RHID_Coeff_Str             = "  Coefficients"
 $RHID_Infl_Str              = "                       Inflection Point"
 $RHID_Mainboard_str         = "            Main board firmware version"
 $RHID_Mezzbaord_str         = "            Mezz board firmware version"
-$RHID_HIDAutolite_Trial     = "                      HIDAutolite Trail"
+$RHID_HIDAutolite_Trial     = "             HIDAutolite License Status"
 $RHID_Anode_Motor_Str       = "                        Anode Motor FAT"
 $RHID_Lysis_Heater_str      = "                       Lysis Heater FAT"
 $RHID_DN_Heater_str         = "                                 DN FAT"
@@ -58,30 +58,30 @@ $RHID_CAM_FAT_str           = "                                CAM FAT"
 $RHID_SCI_Insertion_FAT_Str = "                      SCI Insertion FAT"
 $RHID_FRONT_END_FAT_Str     = "                          FRONT END FAT"
 $RHID_FE_Motor_Calibration_Str = "         Bring Up: FE Motor Calibration"
-$RHID_FE_Motor_Test_Str     = "          Bring Up:       FE Motor Test"
-$RHID_Homing_Error_Test_Str = "          Bring Up:   Homing Error Test"
+$RHID_FE_Motor_Test_Str     = "         Bring Up:        FE Motor Test"
+$RHID_Homing_Error_Test_Str = "         Bring Up:    Homing Error Test"
 $RHID_FL_Homing_Error_wCAM_Test_Str = "   Bring Up: FL Homing Error w/CAM Test"
-$RHID_SCI_Antenna_Test_Str  = "          Bring Up:    SCI Antenna Test"
+$RHID_SCI_Antenna_Test_Str  = "         Bring Up:     SCI Antenna Test"
 $RHID_Mezz_Test_Str         = "                              MEZZ test"
 $RHID_HP_FAT_Str            = "                                 HP FAT"
 $RHID_LP_FAT_Str            = "                                 LP FAT"
 $BEC_Interlock_FAT_Str      = "                      BEC Interlock FAT"
-$RHID_Gel_Antenna_Str_LOW   = "          Bring Up: Gel Antenna - LOW"
-$RHID_Gel_Antenna_Str_HIGH  = "          Bring Up: Gel Antenna - HIGH"
+$RHID_Gel_Antenna_Str_LOW   = "         Bring Up:   Gel Antenna -  LOW"
+$RHID_Gel_Antenna_Str_HIGH  = "         Bring Up:   Gel Antenna - HIGH"
 $RHID_Syringe_Stallout_FAT_Str = "                   Syringe Stallout FAT"
 $RHID_Mezzboard_FAT_STR     = "                          Mezzboard FAT"
-$RHID_Water_Prime_Str       = "          Bring Up:         Water Prime"
-$RHID_Lysis_Prime_Str       = "          Bring Up:         Lysis Prime"
-$RHID_Verify_Raman_Str      = "          Bring Up:        Verify Raman"
-$RHID_Buffer_Prime_Str      = "          Bring Up:  Buffe Buffer Prime"
-$RHID_Lysis_Dispense_Str    = "          Bring Up: Lysis Dispense Test"
-$RHID_Lystate_Pull_Str      = "          Bring Up:         Lysate Pull"
+$RHID_Water_Prime_Str       = "         Bring Up:          Water Prime"
+$RHID_Lysis_Prime_Str       = "         Bring Up:          Lysis Prime"
+$RHID_Verify_Raman_Str      = "         Bring Up:         Verify Raman"
+$RHID_Buffer_Prime_Str      = "         Bring Up:   Buffe Buffer Prime"
+$RHID_Lysis_Dispense_Str    = "         Bring Up:  Lysis Dispense Test"
+$RHID_Lystate_Pull_Str      = "         Bring Up:          Lysate Pull"
 $RHID_HV_FAT_Str            = "                                 HV FAT"
 $RHID_Laser_FAT_Str         = "                              Laser FAT"
 $RHID_Piezo_FAT_str         = "                              Piezo FAT"
-$RHID_Capillary_Gel_Prime_Str = "          Bring Up: Capillary Gel Prime"
+$RHID_Capillary_Gel_Prime_Str = "         Bring Up:  Capillary Gel Prime"
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
-$Remote_Str                 = "Remote$Drive\$MachineName\Internal\ Size" 
+$Remote_Str                 = "     Remote $Drive\$MachineName\Internal\ Size" 
 $Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
 $HIDAutolite_Execution_Str  = "  Latest HIDAutolite Execution"
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
@@ -122,9 +122,14 @@ IF ([Bool]$RHID_QMini_Infl -eq "True") {
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
     Write-Host "$TC_Cal :       WARNING: Unpopulated TC_Calibration.XML Found" -ForegroundColor RED
-} else {
+} elseif ($RHID_TC_Calibration.count -eq "0") {
+    Write-Host "$TC_Cal :               WARNING: TC_Calibration.XML Not Found" -ForegroundColor RED
+} else { 
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
 
+if ($RHID_MachineConfig_HW.count -eq "0") {
+    Write-Host "$MachineConf :               WARNING: MachineConfig.XML Not Found" -ForegroundColor RED
+}
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW2" -ForegroundColor Green
 Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
@@ -329,7 +334,7 @@ if (($RHID_Syringe_Stallout_FAT).count -eq "") {
 elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
     $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed " -ForegroundColor Green
-    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Green 
+    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Cyan 
 } else {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Failed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Red    }
 
@@ -342,20 +347,13 @@ else {
     Write-Host "$Mezz_PCBA : $RHID_Mezzboard_FAT_STR $Test_Failed" -ForegroundColor Red    }
 
 $RHID_BEC_Reinsert_First    = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1) #First BEC Insertion
-$RHID_BEC_Reinsert   = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) #Cover-on BEC Insertion
-
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
-    $RHID_BEC_Reinsert_First_Filter = $RHID_BEC_Reinsert_First.line.split(",") | Select-Object -Last 1
     $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
-    Write-host "$BEC_Insertion : Cover-Off $RHID_BEC_Reinsert_First_Filter" -ForegroundColor Green
-    Write-host "$BEC_Insertion :        First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Green}
-    Else {Write-host "$BEC_Insertion : Cover-Off BEC Insertion : NA" -ForegroundColor Yellow}
-IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
-    $RHID_BEC_Reinsert_Filter = $RHID_BEC_Reinsert.line.split(",") | Select-Object -Last 1
-    $RHID_Gel_Void       = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart()| Select-Object -Last 1
-    Write-host "$BEC_Insertion : Cover-On $RHID_BEC_Reinsert_Filter" -ForegroundColor Green
-    Write-host "$BEC_Insertion :         Last Estimated Gel Void Volume : $RHID_Gel_Void" -ForegroundColor Green }
-    Else {Write-host "$BEC_Insertion : Cover-On BEC Insertion : NA" -ForegroundColor Yellow}
+    Write-host "$BEC_Insertion :                  Cover-Off BEC Reinsert : Completed"
+    Write-host "$BEC_Insertion :         First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Cyan}
+    Else {
+    Write-host "$BEC_Insertion :                 Cover-Off BEC Insertion : NA" -ForegroundColor Yellow}
+                               #"[6]           BLANK Trace Quality Score"
 
 # .line.split(",")| Select-Object -Last 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
@@ -390,7 +388,7 @@ if (($RHID_Water_Prime).count -eq "") {
 elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
     $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 2 | Select-Object -SkipLast 1
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$WetTest : $RHID_Water_Prime_Plug" -ForegroundColor Cyan }
+    Write-Host "$WetTest :          $RHID_Water_Prime_Plug" -ForegroundColor Cyan }
 else {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -416,7 +414,7 @@ if (($RHID_Lysis_Dispense).count -eq "") {
 elseif ([bool] ($RHID_Lysis_Dispense | Select-String "Pass") -eq "True") {
     $RHID_Lysis_Dispense_Volume = ($storyboard | Select-String "Lysis Volume ="  | Select-Object -Last 1).line.split("=").TrimStart() | Select-object -last 1
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str : $RHID_Lysis_Dispense_Volume" -ForegroundColor Green }
+    Write-Host "$WetTest : $RHID_Lysis_Dispense_Str : $RHID_Lysis_Dispense_Volume" -ForegroundColor Cyan }
 else {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -447,14 +445,15 @@ else {
 
 $RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
 Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
- 
-$RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
-$RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
-Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Green
-Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Green
 
-If ($RHID_DXCODE.Count -ne "0") {
-    Write-Host $DXCODE_Str : CAUTION $RHID_DXCODE.Count DXCodes Found -ForegroundColor Yellow }
+$RHID_BEC_Reinsert = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) #Cover-on BEC Insertion
+IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
+    $RHID_Gel_Void = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart() | Select-Object -Last 1
+    Write-host "$BEC_Insertion :                   Cover-On BEC Reinsert : Completed"
+    Write-host "$BEC_Insertion :          Last Estimated Gel Void Volume : $RHID_Gel_Void" -ForegroundColor Cyan 
+}
+Else {
+    Write-host "$BEC_Insertion :                  Cover-On BEC Insertion : NA" -ForegroundColor Yellow }
 
 $GM_ILS_Score_GFE_36cycles = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles") | Select-Object -Last 1
 $GM_ILS_Score_GFE_BV = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV") | Select-Object -Last 1
@@ -477,31 +476,20 @@ $GM_ILS_Score_GFE_007_Name = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Obje
 $GM_ILS_Score_NGM_007_Name = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -First 1
 $GM_ILS_Score_BLANK_Name = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -First 1
 
-"
-GFE_36cycles Trace Quality Score : 
-        $GM_ILS_Score_GFE_36cycles_Name = $GM_ILS_Score_GFE_36cycles_Score"
+$GFE_36cycles_Trace_Str   = "[1]    GFE_36cycles Trace Quality Score"
+$GFE_BV_Trace_Str         = "[2] Cover-Off Blank Trace Quality Score"
+$Allelic_Ladder_Trace_Str = "[3]  Allelic Ladder Trace Quality Score"
+$GFE_007_Trace_Str        = "[4]         GFE_007 Trace Quality Score"
+$NGM_007_Trace_Str        = "[5]         NGM_007 Trace Quality Score"
+$BLANK_Trace_Str          = "[6]           BLANK Trace Quality Score"
+$GM_ILS                   = "[ GeneMarker ]"
 
-"
-Cover-Off Blank Trace Quality Score : 
-        $GM_ILS_Score_GFE_BV_Name = $GM_ILS_Score_GFE_BV_Score"
-
-"
-Allelic Ladder Trace Quality Score : 
-        $GM_ILS_Score_Allelic_Ladder_Name = $GM_ILS_Score_Allelic_Ladder_Score"
-
-"
-GFE_007 Trace Quality Score : 
-        $GM_ILS_Score_GFE_007_Name = $GM_ILS_Score_GFE_007_Score"
-
-"
-NGM_007 Trace Quality Score : 
-        $GM_ILS_Score_NGM_007_Name = $GM_ILS_Score_NGM_007_Score"
-
-"
-BLANK Trace Quality Score : 
-        $GM_ILS_Score_BLANK_Name = $GM_ILS_Score_BLANK_Score
-        "
-
+Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score"
+Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score"
+Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score"
+Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score"
+Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score"
+Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score"
 
 $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData  -R | Test-path -PathType Leaf
 $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
@@ -519,11 +507,21 @@ if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_GM_Analysis }
     else {Write-host "$Full_Run : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
 
+$RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+$RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Blue
+Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Blue
+
 $RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
 if ([bool]$RHID_Shipping_BEC -eq "True") {
-    Write-Host "$SHP_BEC : BEC Insertion completed, Shipping BEC engaged" -ForegroundColor Green }
+    Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green }
+                       #  "[6]           BLANK Trace Quality Score"
     else {
-    Write-Host "$SHP_BEC : Shipping BEC not yet inserted" -ForegroundColor Yellow }
+    Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
+
+If ($RHID_DXCODE.Count -ne "0") {
+    Write-Host "$DXCODE_Str :          Caution, No. of DXCodes Found : "$RHID_DXCODE.Count }
+                          #"[6]           BLANK Trace Quality Score"
 
 $Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local  = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
