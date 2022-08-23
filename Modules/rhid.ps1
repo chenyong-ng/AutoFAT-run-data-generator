@@ -14,7 +14,7 @@ Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data f
 $Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" 
 $Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]"
-$Full_Run     = "[ Full-Run   ]" ; $Mezz_Plate   = "[ Mezz_Plate ]" ; $SCI_Cal      = "[ SCI_Cal    ]"
+$Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]"
 $Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]" ; $BEC_Status   = "[ BEC_Status ]"
 $BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]" ; $Prime        = "[ PrimeStatus]"
 $USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" ; $Laser        = "[ Laser      ]" 
@@ -468,13 +468,6 @@ $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	"
 $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
 $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
 $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
-
-$GM_ILS_Score_GFE_36cycles_Name = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -First 1
-$GM_ILS_Score_GFE_BV_Name = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -First 1
-$GM_ILS_Score_Allelic_Ladder_Name = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -First 1
-$GM_ILS_Score_GFE_007_Name = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -First 1
-$GM_ILS_Score_NGM_007_Name = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -First 1
-$GM_ILS_Score_BLANK_Name = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -First 1
 
 $GFE_36cycles_Trace_Str   = "[1]    GFE_36cycles Trace Quality Score"
 $GFE_BV_Trace_Str         = "[2] Cover-Off Blank Trace Quality Score"
