@@ -527,6 +527,7 @@ $Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\" 
 $Local  = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local_Folder_Msg  = Write-Host "$boxPrep : $Local_Str : $Local"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote"
+If ($Remote -eq "0") {"Enter y to backup instrument folder"}
 $Danno_Local_leaf = Test-Path -Path "$danno\$MachineName"
 IF ($Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"
