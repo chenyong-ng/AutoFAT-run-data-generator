@@ -58,24 +58,24 @@ $RHID_CAM_FAT_str           = "                                CAM FAT"
 $RHID_SCI_Insertion_FAT_Str = "                      SCI Insertion FAT"
 $RHID_FRONT_END_FAT_Str     = "                          FRONT END FAT"
 $RHID_FE_Motor_Calibration_Str = "         Bring Up: FE Motor Calibration"
-$RHID_FE_Motor_Test_Str     = "                Bring Up: FE Motor Test"
-$RHID_Homing_Error_Test_Str = "            Bring Up: Homing Error Test"
+$RHID_FE_Motor_Test_Str     = "          Bring Up:       FE Motor Test"
+$RHID_Homing_Error_Test_Str = "          Bring Up:   Homing Error Test"
 $RHID_FL_Homing_Error_wCAM_Test_Str = "   Bring Up: FL Homing Error w/CAM Test"
-$RHID_SCI_Antenna_Test_Str  = "             Bring Up: SCI Antenna Test"
+$RHID_SCI_Antenna_Test_Str  = "          Bring Up:    SCI Antenna Test"
 $RHID_Mezz_Test_Str         = "                              MEZZ test"
 $RHID_HP_FAT_Str            = "                                 HP FAT"
 $RHID_LP_FAT_Str            = "                                 LP FAT"
 $BEC_Interlock_FAT_Str      = "                      BEC Interlock FAT"
-$RHID_Gel_Antenna_Str_LOW   = "            Bring Up: Gel Antenna - LOW"
-$RHID_Gel_Antenna_Str_HIGH  = "           Bring Up: Gel Antenna - HIGH"
+$RHID_Gel_Antenna_Str_LOW   = "          Bring Up: Gel Antenna - LOW"
+$RHID_Gel_Antenna_Str_HIGH  = "          Bring Up: Gel Antenna - HIGH"
 $RHID_Syringe_Stallout_FAT_Str = "                   Syringe Stallout FAT"
 $RHID_Mezzboard_FAT_STR     = "                          Mezzboard FAT"
-$RHID_Water_Prime_Str       = "                  Bring Up: Water Prime"
-$RHID_Lysis_Prime_Str       = "                  Bring Up: Lysis Prime"
-$RHID_Verify_Raman_Str      = "                 Bring Up: Verify Raman"
-$RHID_Buffer_Prime_Str      = "                 Bring Up: Buffer Prime"
+$RHID_Water_Prime_Str       = "          Bring Up:         Water Prime"
+$RHID_Lysis_Prime_Str       = "          Bring Up:         Lysis Prime"
+$RHID_Verify_Raman_Str      = "          Bring Up:        Verify Raman"
+$RHID_Buffer_Prime_Str      = "          Bring Up:  Buffe Buffer Prime"
 $RHID_Lysis_Dispense_Str    = "          Bring Up: Lysis Dispense Test"
-$RHID_Lystate_Pull_Str      = "                  Bring Up: Lysate Pull"
+$RHID_Lystate_Pull_Str      = "          Bring Up:         Lysate Pull"
 $RHID_HV_FAT_Str            = "                                 HV FAT"
 $RHID_Laser_FAT_Str         = "                              Laser FAT"
 $RHID_Piezo_FAT_str         = "                              Piezo FAT"
@@ -379,7 +379,7 @@ elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
     $RHID_Raman_Signal = ($storyboard | Select-String "Raman =").Line.Split("=").TrimStart() | Select-Object -Last 1
     $RHID_Raman_Bin = ($storyboard | Select-String "Bin =").Line.Split("=").TrimStart() | Select-Object -Last 1
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$Laser :               Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
+    Write-Host "$Laser :                Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
 }
 else {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Failed" -ForegroundColor Red    }
