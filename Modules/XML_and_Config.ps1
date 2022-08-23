@@ -16,6 +16,48 @@
 </InstrumentSettings>"
 } #MachineConfig XML Creation
 
+
+function TC_CalibrationXML {
+  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
+<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <MachineName>$name</MachineName>
+  <TC_Calibration>
+    <Offsets>GFE, NaN</Offsets>
+    <!-- GFE protocols should have 9 comma separated numbers after the GFE identifier-->
+    <Offsets>NGM, NaN, NaN</Offsets>
+    <!-- NGM protocols should have 10 comma separated numbers after the NGM identifier -->
+  </TC_Calibration>
+</InstrumentSettings>"
+}
+
+function OverrideSettingsXML {
+  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
+<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <Protocols_GFE>
+    <GFEProtocol>
+      <Name>GFE-300uL-36cycles</Name>
+      <TC_CycleRepeats>35</TC_CycleRepeats>
+      <LysisVolume_uL>300</LysisVolume_uL>
+    </GFEProtocol>
+    <GFEProtocol>
+      <Name>GFE-BV-3cycles</Name>
+      <TC_CycleRepeats>2</TC_CycleRepeats>
+    </GFEProtocol>
+  </Protocols_GFE>
+  <Protocols_NGM>
+    <NGMProtocol>
+      <Name>NGM-300uL-36cycles</Name>
+      <TC_CycleRepeats>35</TC_CycleRepeats>
+      <LysisVolume_uL>300</LysisVolume_uL>
+    </NGMProtocol>
+    <NGMProtocol>
+      <Name>NGM-BV-3cycles</Name>
+      <TC_CycleRepeats>2</TC_CycleRepeats>
+    </NGMProtocol>
+  </Protocols_NGM>
+</InstrumentSettings>"
+}
+
 function TC_verification {
 Write-Output "
 Instrument SN   : $name
