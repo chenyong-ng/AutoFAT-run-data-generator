@@ -353,9 +353,7 @@ If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     Write-host "$BEC_Insertion :         First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Cyan}
     Else {
     Write-host "$BEC_Insertion :                 Cover-Off BEC Insertion : NA" -ForegroundColor Yellow}
-                               #"[6]           BLANK Trace Quality Score"
 
-# .line.split(",")| Select-Object -Last 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
 if (($RHID_Piezo_FAT).count -eq "") {
     Write-Host "$Piezo : $RHID_Piezo_FAT_str $Test_NA"    -ForegroundColor Yellow }
@@ -508,13 +506,12 @@ Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Blue
 $RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
 if ([bool]$RHID_Shipping_BEC -eq "True") {
     Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green }
-                       #  "[6]           BLANK Trace Quality Score"
+
     else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
 If ($RHID_DXCODE.Count -ne "0") {
     Write-Host "$DXCODE_Str :          Caution, No. of DXCodes Found : "$RHID_DXCODE.Count }
-                          #"[6]           BLANK Trace Quality Score"
 
 $Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local  = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
