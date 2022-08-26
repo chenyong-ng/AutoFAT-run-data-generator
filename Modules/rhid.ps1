@@ -460,13 +460,6 @@ $GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $
 $GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM") | Select-Object -Last 1
 $GM_ILS_Score_BLANK   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK")| Select-Object -Last 1
 
-$GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
-$GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
-$GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
-$GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
-$GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
-$GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
-
 $GFE_36cycles_Trace_Str   = "[1]    GFE_36cycles Trace Quality Score"
 $GFE_BV_Trace_Str         = "[2] Cover-Off Blank Trace Quality Score"
 $Allelic_Ladder_Trace_Str = "[3]  Allelic Ladder Trace Quality Score"
@@ -475,12 +468,41 @@ $NGM_007_Trace_Str        = "[5]         NGM_007 Trace Quality Score"
 $BLANK_Trace_Str          = "[6]           BLANK Trace Quality Score"
 $GM_ILS                   = "[ GeneMarker ]"
 
-Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score"
-Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score"
-Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score"
-Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score"
-Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score"
-Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score"
+IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+    $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
+    Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score"}
+Else {Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow}
+
+IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
+    $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
+    Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score"
+}
+Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
+
+IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
+    $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
+    Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score"
+}
+Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
+
+IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+    $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
+    Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score"
+}
+Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
+
+IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+    $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
+    Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score"
+}
+Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
+
+IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+    $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
+    Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score"
+}
+Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
+
 
 $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData  -R | Test-path -PathType Leaf
 $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
