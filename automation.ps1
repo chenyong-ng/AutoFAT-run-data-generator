@@ -10,6 +10,7 @@
                 : Add more meaningful error message, add USB devices detection
                 : add auto backup, add folder check
                 : Add more meaningful error message, add error code and instrument troubleshooting information
+                get data from run summary, then grep on sample quality data
 
 Initialize global variables, do not change the order.
 #>
