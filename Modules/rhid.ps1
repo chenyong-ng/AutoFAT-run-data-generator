@@ -5,7 +5,6 @@ $SampleQuality    = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
 $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
 $ExecutionLOG     = Get-ChildItem "$serverdir" -I execution.log -R
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
-$RunSummaryCSV = Get-ChildItem "$serverdir" -I RunSummary.csv -R
 $DxCodeXML        = Get-ChildItem "$serverdir" -I DxCode.xml -R
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
@@ -104,11 +103,7 @@ $RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInse
 $RHID_MachineConfig_Prime  = $MachineConfigXML  | Select-Xml -XPath "//Water | //LysisBuffer"| ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
 $RHID_DXCODE               = $DxCodeXML | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
-$RHID_RunType = $RunSummaryCSV | Select-String "Run_Type" Select-object -last 1
-$RHID_Cartridge_ID = $RunSummaryCSV | Select-String "Cartridge_ID" Select-object -last 1
-$RHID_Cartridge_Type = $RunSummaryCSV | Select-String "Cartridge_Type" Select-object -last 1
-$RHID_Cartridge_Type = $RunSummaryCSV | Select-String "SampleName" Select-object -last 1
-$RHID_Cartridge_Type = $RunSummaryCSV | Select-String "Protocol_Setting" Select-object -last 1
+
 <#Bolus_Current,53.93
 Bolus_Timing,15.8#>
 
@@ -461,59 +456,84 @@ IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
 Else {
     Write-host "$BEC_Insertion :                  Cover-On BEC Insertion : NA" -ForegroundColor Yellow }
 
-$GM_ILS_Score_GFE_36cycles = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles") | Select-Object -Last 1
-$GM_ILS_Score_GFE_BV = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV") | Select-Object -Last 1
+$GM_ILS_Score_GFE_36cycles   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles") | Select-Object -Last 1
+$GM_ILS_Score_GFE_BV  = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV") | Select-Object -Last 1
 $GM_ILS_Score_Allelic_Ladder = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__Ladder.fsa") | Select-Object -Last 1
 $GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE_007") | Select-Object -Last 1
 $GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM") | Select-Object -Last 1
 $GM_ILS_Score_BLANK   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK")| Select-Object -Last 1
 
-$GFE_36cycles_Trace_Str   = "[1]    GFE_36cycles Trace Quality Score"
-$GFE_BV_Trace_Str         = "[2] Cover-Off Blank Trace Quality Score"
-$Allelic_Ladder_Trace_Str = "[3]  Allelic Ladder Trace Quality Score"
-$GFE_007_Trace_Str        = "[4]         GFE_007 Trace Quality Score"
-$NGM_007_Trace_Str        = "[5]         NGM_007 Trace Quality Score"
-$BLANK_Trace_Str          = "[6]           BLANK Trace Quality Score"
-$GM_ILS                   = "[ GeneMarker ]"
+$GFE_36cycles_Trace_Str   = "[1]    GFE_36cycles Trace Quality Score" ; $GFE_BV_Trace_Str         = "[2] Cover-Off Blank Trace Quality Score"
+$Allelic_Ladder_Trace_Str = "[3]  Allelic Ladder Trace Quality Score" ; $GFE_007_Trace_Str        = "[4]         GFE_007 Trace Quality Score"
+$NGM_007_Trace_Str        = "[5]         NGM_007 Trace Quality Score" ; $BLANK_Trace_Str          = "[6]           BLANK Trace Quality Score"
+$GM_ILS           = "[ GeneMarker ]" ; $SampleName       = "[ Sample Name]"
+$Cartridge_Type   = "[ Ctrg. Type ]" ; $Protocol_Setting = "[ Protocol   ]"
+$Cartridge_ID     = "[ Ctrg. Lot  ]" ; $Run_Type         = "[ Run Type   ]"
+
+    $RHID_RunType = ($RunSummaryCSV | Select-String "Run_Type" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
+    $RHID_Cartridge_ID = ($RunSummaryCSV | Select-String "Cartridge_ID" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
+    $RHID_Cartridge_Type = ($RunSummaryCSV | Select-String "Cartridge_Type" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
+    $RHID_SampleName = ($RunSummaryCSV | Select-String "SampleName" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
+    $RHID_Protocol_Setting = ($RunSummaryCSV | Select-String "Protocol_Setting" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
 
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
     $DxCode2 = Get-ChildItem "$serverdir\*GFE-300uL-36cycles*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
-    Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score $DxCode2" }
+    $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-300uL-36cycles*" -I RunSummary.csv -R
+    Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score $DxCode2"
+    "$SampleName : $RHID_SampleName"
+    "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
+}
 Else {Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow}
 
 IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     $DxCode2 = Get-ChildItem "$serverdir\*GFE-BV*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-BV*" -I RunSummary.csv -R
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score $DxCode2"
+    "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
 }
 Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
+    $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-BV Allelic Ladder*" -I RunSummary.csv -R
     $DxCode2 = Get-ChildItem "$serverdir\*GFE-BV Allelic Ladder*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score $DxCode2"
+    "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
     $DxCode2 = Get-ChildItem "$serverdir\*GFE_007*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE_007*" -I RunSummary.csv -R
     Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score $DxCode2" 
+    "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     $DxCode2 = Get-ChildItem "$serverdir\*NGM_007*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem "$serverdir\*NGM_007*" -I RunSummary.csv -R
     Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score $DxCode2"
+    "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     $DxCode2 = Get-ChildItem "$serverdir\*BLANK*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem "$serverdir\*BLANK*" -I RunSummary.csv -R
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode2"
+    "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 
