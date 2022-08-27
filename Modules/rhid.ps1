@@ -486,19 +486,19 @@ IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
 
-IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
     Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
-IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score"
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
-IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score"
 }
