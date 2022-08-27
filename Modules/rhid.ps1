@@ -109,6 +109,8 @@ $RHID_Cartridge_ID = $RunSummaryCSV | Select-String "Cartridge_ID" Select-object
 $RHID_Cartridge_Type = $RunSummaryCSV | Select-String "Cartridge_Type" Select-object -last 1
 $RHID_Cartridge_Type = $RunSummaryCSV | Select-String "SampleName" Select-object -last 1
 $RHID_Cartridge_Type = $RunSummaryCSV | Select-String "Protocol_Setting" Select-object -last 1
+<#Bolus_Current,53.93
+Bolus_Timing,15.8#>
 
 IF ([Bool]$RHID_QMini_SN -eq "True") {
     $RHID_QMini_SN_Filter = $RHID_QMini_SN.line.split(":").TrimStart() | Select-object -last 1
@@ -450,7 +452,7 @@ else {
 $RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
 Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
 
-$RHID_BEC_Reinsert = ($storyboard | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) #Cover-on BEC Insertion
+$RHID_BEC_Reinsert = (Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R  | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) #Cover-on BEC Insertion 
 IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     $RHID_Gel_Void = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart() | Select-Object -Last 1
     Write-host "$BEC_Insertion :                   Cover-On BEC Reinsert : Completed"
