@@ -104,6 +104,11 @@ $RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInse
 $RHID_MachineConfig_Prime  = $MachineConfigXML  | Select-Xml -XPath "//Water | //LysisBuffer"| ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
 $RHID_DXCODE               = $DxCodeXML | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+$RHID_RunType = $RunSummaryCSV | Select-String "Run_Type" Select-object -last 1
+$RHID_Cartridge_ID = $RunSummaryCSV | Select-String "Cartridge_ID" Select-object -last 1
+$RHID_Cartridge_Type = $RunSummaryCSV | Select-String "Cartridge_Type" Select-object -last 1
+$RHID_Cartridge_Type = $RunSummaryCSV | Select-String "SampleName" Select-object -last 1
+$RHID_Cartridge_Type = $RunSummaryCSV | Select-String "Protocol_Setting" Select-object -last 1
 
 IF ([Bool]$RHID_QMini_SN -eq "True") {
     $RHID_QMini_SN_Filter = $RHID_QMini_SN.line.split(":").TrimStart() | Select-object -last 1
