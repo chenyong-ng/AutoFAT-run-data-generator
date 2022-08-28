@@ -31,7 +31,6 @@ $File_found     = "Files found in Remote folders"
 
 $USB_Temp_RD                = " Last 3 Runs end Ambient  reading in °C"
 $USB_Humi_RD                = " Last 3 Runs end Humidity reading in  %"
-$Bolus_Test_count_Str       = "                Passed Bolus test count"
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
 $Blue_Background_Str        = "                        Blue_Background"
@@ -46,7 +45,6 @@ $RHID_Infl_Str              = "                       Inflection Point"
 $RHID_Mainboard_str         = "            Main board firmware version"
 $RHID_Mezzbaord_str         = "            Mezz board firmware version"
 $RHID_HIDAutolite_Trial     = "             HIDAutolite License Status"
-$RHID_Anode_Motor_Str       = "                        Anode Motor FAT"
 $RHID_Lysis_Heater_str      = "                       Lysis Heater FAT"
 $RHID_DN_Heater_str         = "                                 DN FAT"
 $RHID_PCR_Heater_str        = "                                PCR FAT"
@@ -59,14 +57,16 @@ $RHID_FRONT_END_FAT_Str     = "                          FRONT END FAT"
 $RHID_FE_Motor_Calibration_Str = "         Bring Up: FE Motor Calibration"
 $RHID_FE_Motor_Test_Str     = "         Bring Up:        FE Motor Test"
 $RHID_Homing_Error_Test_Str = "         Bring Up:    Homing Error Test"
-$RHID_FL_Homing_Error_wCAM_Test_Str = "   Bring Up: FL Homing Error w/CAM Test"
+$RHID_FL_Homing_Error_wCAM_Test_Str
+                            = "        Bring Up: FL Homing Error w/CAM"
 $RHID_SCI_Antenna_Test_Str  = "         Bring Up:     SCI Antenna Test"
 $RHID_Mezz_Test_Str         = "                              MEZZ test"
 $RHID_HP_FAT_Str            = "                                 HP FAT"
 $RHID_LP_FAT_Str            = "                                 LP FAT"
+$RHID_Anode_Motor_Str       = "                        Anode Motor FAT"
 $BEC_Interlock_FAT_Str      = "                      BEC Interlock FAT"
-$RHID_Gel_Antenna_Str_LOW   = "         Bring Up:   Gel Antenna -  LOW"
 $RHID_Gel_Antenna_Str_HIGH  = "         Bring Up:   Gel Antenna - HIGH"
+$RHID_Gel_Antenna_Str_LOW   = "         Bring Up:   Gel Antenna -  LOW"
 $RHID_Syringe_Stallout_FAT_Str = "                   Syringe Stallout FAT"
 $RHID_Mezzboard_FAT_STR     = "                          Mezzboard FAT"
 $RHID_Water_Prime_Str       = "         Bring Up:          Water Prime"
@@ -79,6 +79,7 @@ $RHID_HV_FAT_Str            = "                                 HV FAT"
 $RHID_Laser_FAT_Str         = "                              Laser FAT"
 $RHID_Piezo_FAT_str         = "                              Piezo FAT"
 $RHID_Capillary_Gel_Prime_Str = "         Bring Up:  Capillary Gel Prime"
+$Bolus_Test_count_Str       = "                Passed Bolus test Count"
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
 $Remote_Str                 = "     Remote $Drive\$MachineName\Internal\ Size" 
 $Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
@@ -109,6 +110,41 @@ $RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Sele
 
 $RHID_Gel_Cooler_FAT = $storyboard | Select-String "Gel Cooling FAT" | Select-Object -Last 1
 $RHID_Ambient_FAT    = $storyboard | Select-String "Ambient FAT"     | Select-Object -Last 1
+
+$RHID_CAM_FAT = ($storyboard | Select-String "CAM FAT" | Select-Object -Last 1)
+$RHID_SCI_Insertion_FAT = ($storyboard | Select-String "SCI Insertion FAT" | Select-Object -Last 1)
+$RHID_FRONT_END_FAT = ($storyboard | Select-String "FRONT END FAT" | Select-Object -Last 1)
+$RHID_FE_Motor_Calibration = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | Select-Object -Last 1)
+$RHID_FE_Motor_Test = ($storyboard | Select-String "Bring Up: FE Motor Test" | Select-Object -Last 1)
+$RHID_Homing_Error_Test = ($storyboard | Select-String "Bring Up: Homing Error Test" | Select-Object -Last 1)
+$RHID_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | Select-Object -Last 1)
+
+$RHID_SCI_Antenna_Test = ($storyboard | Select-String "Bring Up: SCI Antenna Test" | Select-Object -Last 1)
+$RHID_Mezz_test = $storyboard | Select-String "MEZZ test" | Select-Object -Last 1
+
+$RHID_HP_FAT    = $storyboard | Select-String "HP FAT"    | Select-Object -Last 1
+$RHID_LP_FAT    = $storyboard | Select-String "LP FAT"    | Select-Object -Last 1
+$RHID_Anode_Motor_FAT = $storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1
+
+$RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT" | Select-Object -Last 1)
+$RHID_Gel_Antenna_LOW = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "Low" | Select-Object -Last 1)
+$RHID_Gel_Antenna_HIGH = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "High"  | Select-Object -Last 1)
+$RHID_Syringe_Stallout_FAT = ($storyboard | Select-String "Syringe Stallout FAT" | Select-Object -Last 1)
+$RHID_Mezzboard_FAT = ($storyboard | Select-String "Mezzboard FAT" |  Select-Object -Last 1)
+
+$RHID_BEC_Reinsert_First = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1) #First BEC Insertion
+$RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
+$RHID_HV_FAT = ($storyboard | Select-String "HV FAT" | Select-Object -Last 1)
+$RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last 1)
+
+$RHID_Water_Prime      = ($storyboard | Select-String "Bring Up: Water Prime" | Select-Object -Last 1)
+$RHID_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime" | Select-Object -Last 1)
+$RHID_Buffer_Prime   = ($storyboard | Select-String "Bring Up: Buffer Prime" |  Select-Object -Last 1)
+$RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | Select-Object -Last 1)
+$RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | Select-Object -Last 1)
+$RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1)
+$RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
+$RHID_BEC_Reinsert = (Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R  | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) #Cover-on BEC Insertion 
 
 $GM_ILS_Score_GFE_36cycles   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles") | Select-Object -Last 1
 $GM_ILS_Score_GFE_BV  = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV") | Select-Object -Last 1
