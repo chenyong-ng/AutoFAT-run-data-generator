@@ -458,12 +458,11 @@ $GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $
 $GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM") | Select-Object -Last 1
 $GM_ILS_Score_BLANK   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK")| Select-Object -Last 1
 
-$GFE_36cycles_Trace_Str   = "[1/1]        GFE_36cycles Trace Quality" ; $GFE_BV_Trace_Str         = "[2/1]     Cover-Off Blank Trace Quality"
-$Allelic_Ladder_Trace_Str = "[3/1]      Allelic Ladder Trace Quality" ; $GFE_007_Trace_Str        = "[4/1]             GFE_007 Trace Quality"
-$NGM_007_Trace_Str        = "[5/1]             NGM_007 Trace Quality" ; $BLANK_Trace_Str          = "[6/1]               BLANK Trace Quality"
+$GFE_36cycles_Trace_Str   = "[1/1]        GFE_36cycles Trace Quality" ; $GFE_BV_Trace_Str         = "[1/2]     Cover-Off Blank Trace Quality"
+$Allelic_Ladder_Trace_Str = "[1/3]      Allelic Ladder Trace Quality" ; $GFE_007_Trace_Str        = "[1/4]             GFE_007 Trace Quality"
+$NGM_007_Trace_Str        = "[1/5]             NGM_007 Trace Quality" ; $BLANK_Trace_Str          = "[1/6]               BLANK Trace Quality"
 $GM_ILS           = "[ GeneMarker ]" ; $SampleName       = "[ Sample Name]"
 $Cartridge_Type   = "[ Ctrg. Info ]" ; $Protocol_Setting = "[ Protocol   ]"
-$Cartridge_ID     = "[ Ctrg. Lot  ]"
 $Bolus_Timing     = "[Bolus_Timing]" ; $Date_Time        = "[ Run Date   ]" 
 
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
@@ -472,10 +471,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-300uL-36cycles*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [1/2] $RHID_Date_Time"
-    "$SampleName : [1/3] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [1/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [1/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/1] $RHID_Date_Time"
+    "$SampleName : [3/1] $RHID_SampleName ; [Type] : $RHID_RunType"
+    "$Cartridge_Type : [4/1] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
+    "$Protocol_Setting : [5/1] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else {Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow}
 
@@ -485,10 +484,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score $DxCode"-ForegroundColor Green
-    "$Date_Time : [1/2] $RHID_Date_Time"
-    "$SampleName : [1/3] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [1/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [1/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/2] $RHID_Date_Time"
+    "$SampleName : [3/2] $RHID_SampleName ; [Type] : $RHID_RunType"
+    "$Cartridge_Type : [4/2] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
+    "$Protocol_Setting : [5/2] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -498,10 +497,9 @@ IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $DxCode = Get-ChildItem "$serverdir\*GFE-BV Allelic Ladder*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score $DxCode"-ForegroundColor Green
-    "$Date_Time : [1/2] $RHID_Date_Time"
-    "$SampleName : [1/3] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [1/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [1/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/3] $RHID_Date_Time; [ Run Type   ] : $RHID_RunType"
+    Write-Host "$Cartridge_Type : [3/3] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID" -ForegroundColor Cyan
+    "$Protocol_Setting : [4/3] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -511,10 +509,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE_007*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [1/2] $RHID_Date_Time"
-    "$SampleName : [1/3] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [1/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [1/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/4] $RHID_Date_Time"
+    "$SampleName : [3/4] $RHID_SampleName ; [Type] : $RHID_RunType"
+    "$Cartridge_Type : [4/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
+    "$Protocol_Setting : [5/4] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -524,10 +522,10 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $RunSummaryCSV = Get-ChildItem "$serverdir\*NGM_007*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [1/2] $RHID_Date_Time"
-    "$SampleName : [1/3] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [1/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [1/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/5] $RHID_Date_Time"
+    "$SampleName : [3/5] $RHID_SampleName ; [Type] : $RHID_RunType"
+    Write-Host "$Cartridge_Type : [4/5] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID" -ForegroundColor Green
+    "$Protocol_Setting : [5/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -537,10 +535,10 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $RunSummaryCSV = Get-ChildItem "$serverdir\*BLANK*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [1/2] $RHID_Date_Time"
-    "$SampleName : [1/3] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [1/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [1/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/6] $RHID_Date_Time"
+    "$SampleName : [3/6] $RHID_SampleName ; [Type] : $RHID_RunType"
+    "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
+    "$Protocol_Setting : [5/6] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 
