@@ -59,7 +59,7 @@ $exicode = $Null
 Clear-Host
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\Modules\MainFunction.ps1
-    . $PSScriptRoot\Modules\rhid.ps1
+    . $PSScriptRoot\Modules\RHID_Reports.ps1
 } else { MainOptions } 
 <#
 $ServerDir_Leaf = Test-Path -Path "$serverdir"
