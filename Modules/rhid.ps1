@@ -467,6 +467,7 @@ $Bolus_Timing     = "[Bolus_Timing]" ; $Date_Time        = "[ Run Date   ]"
 
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
+    $serverdir = "$Drive\$MachineName"
     $DxCode = Get-ChildItem "$serverdir\*GFE-300uL-36cycles*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-300uL-36cycles*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
@@ -479,9 +480,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
 Else {Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow}
 
 IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
+    $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
+    $serverdir = "$Drive\$MachineName"
     $DxCode = Get-ChildItem "$serverdir\*GFE-BV_*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-BV_*" -I RunSummary.csv -R
-    $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score $DxCode"-ForegroundColor Green
     "$Date_Time : [2/2] $RHID_Date_Time"
@@ -493,8 +495,9 @@ Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
-    $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-BV Allelic Ladder*" -I RunSummary.csv -R
+    $serverdir = "$Drive\$MachineName"
     $DxCode = Get-ChildItem "$serverdir\*GFE-BV Allelic Ladder*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE-BV Allelic Ladder*" -I RunSummary.csv -R   
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score $DxCode"-ForegroundColor Green
     "$Date_Time : [2/3] $RHID_Date_Time; [ Run Type   ] : $RHID_RunType"
@@ -505,6 +508,7 @@ Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Y
 
 IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
+    $serverdir = "$Drive\$MachineName"
     $DxCode = Get-ChildItem "$serverdir\*GFE_007*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem "$serverdir\*GFE_007*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
@@ -518,6 +522,7 @@ Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
+    $serverdir = "$Drive\$MachineName"
     $DxCode = Get-ChildItem "$serverdir\*NGM_007*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem "$serverdir\*NGM_007*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
@@ -531,6 +536,7 @@ Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
+    $serverdir = "$Drive\$MachineName"
     $DxCode = Get-ChildItem "$serverdir\*BLANK*"  -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem "$serverdir\*BLANK*" -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
