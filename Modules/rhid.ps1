@@ -103,9 +103,6 @@ $RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInse
 $RHID_MachineConfig_Prime  = $MachineConfigXML  | Select-Xml -XPath "//Water | //LysisBuffer"| ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours " | ForEach-Object { $_.node.InnerXML }
 
-<#Bolus_Current,53.93
-Bolus_Timing,15.8#>
-
 IF ([Bool]$RHID_QMini_SN -eq "True") {
     $RHID_QMini_SN_Filter = $RHID_QMini_SN.line.split(":").TrimStart() | Select-object -last 1
     Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN_Filter" -ForegroundColor Green}
@@ -462,14 +459,14 @@ $GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $
 $GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM") | Select-Object -Last 1
 $GM_ILS_Score_BLANK   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK")| Select-Object -Last 1
 
-$GFE_36cycles_Trace_Str   = "[1]    GFE_36cycles Trace Quality Score" ; $GFE_BV_Trace_Str         = "[2] Cover-Off Blank Trace Quality Score"
-$Allelic_Ladder_Trace_Str = "[3]  Allelic Ladder Trace Quality Score" ; $GFE_007_Trace_Str        = "[4]         GFE_007 Trace Quality Score"
-$NGM_007_Trace_Str        = "[5]         NGM_007 Trace Quality Score" ; $BLANK_Trace_Str          = "[6]           BLANK Trace Quality Score"
+$GFE_36cycles_Trace_Str   = "[1]          GFE_36cycles Trace Quality" ; $GFE_BV_Trace_Str         = "[2]       Cover-Off Blank Trace Quality"
+$Allelic_Ladder_Trace_Str = "[3]        Allelic Ladder Trace Quality" ; $GFE_007_Trace_Str        = "[4]               GFE_007 Trace Quality"
+$NGM_007_Trace_Str        = "[5]               NGM_007 Trace Quality" ; $BLANK_Trace_Str          = "[6]                 BLANK Trace Quality"
 $GM_ILS           = "[ GeneMarker ]" ; $SampleName       = "[ Sample Name]"
 $Cartridge_Type   = "[ Ctrg. Type ]" ; $Protocol_Setting = "[ Protocol   ]"
 $Cartridge_ID     = "[ Ctrg. Lot  ]" ; $Run_Type         = "[ Run Type   ]"
-$RHID_BEC_ID = "BEC_ID"
-$RHID_Bolus_Timing = "Bolus_Timing"
+$BEC_ID           = "[ BEC_ID     ]"
+$Bolus_Timing     = "[Bolus_Timing]"
 
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
@@ -479,7 +476,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score $DxCode2" -ForegroundColor Green
     "$SampleName : $RHID_SampleName"
     Write-Host "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID" -ForegroundColor Cyan
-    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType ; $RHID_Bolus_Timing $RHID_BEC_ID"
 }
 Else {Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow}
 
@@ -491,7 +488,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score $DxCode2"-ForegroundColor Green
     "$SampleName : $RHID_SampleName"
     Write-Host "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID" -ForegroundColor Cyan
-    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType ; $RHID_Bolus_Timing $RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -503,7 +500,7 @@ IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score $DxCode2"-ForegroundColor Green
     "$SampleName : N/A"
     Write-Host "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID" -ForegroundColor Cyan
-    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType ; $RHID_Bolus_Timing $RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -515,7 +512,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score $DxCode2" -ForegroundColor Green
     "$SampleName : $RHID_SampleName"
     Write-Host "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID" -ForegroundColor Cyan
-    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType ; $RHID_Bolus_Timing $RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -527,7 +524,7 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score $DxCode2" -ForegroundColor Green
     "$SampleName : $RHID_SampleName"
     Write-Host "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID" -ForegroundColor Cyan
-    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType ; $RHID_Bolus_Timing $RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -539,7 +536,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode2" -ForegroundColor Green
     "$SampleName : $RHID_SampleName"
     Write-Host "$Cartridge_Type : $RHID_Cartridge_Type ; $Cartridge_ID : $RHID_Cartridge_ID" -ForegroundColor Cyan
-    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType"
+    "$Protocol_Setting : $RHID_Protocol_Setting ; $Run_Type : $RHID_RunType ; $RHID_Bolus_Timing $RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 
