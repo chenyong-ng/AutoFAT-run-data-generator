@@ -17,14 +17,14 @@ Initialize global variables, do not change the order.
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $path = "S:\RHID"
-    $danno = "S:\Dano Planning\Test Data"
+    $danno = "S:\Dano Planning\Test Data\"
     $US_Path = "Y:\RHID"
-    $US_danno = "Y:\Dano Planning\Test Data"
+    $US_danno = "Y:\Dano Planning\Test Data\"
     $Drive = "S:"
 }
 else {
     $path = "U:\RHID"
-    $danno = "U:\Dano Planning\Test Data"
+    $danno = "U:\Dano Planning\Test Data\"
     $Drive = "U:"
 } #RHID Workststion laptop has differnt network drive path
 
