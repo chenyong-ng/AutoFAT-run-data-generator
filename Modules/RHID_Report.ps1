@@ -214,7 +214,7 @@ if (($RHID_Syringe_Stallout_FAT).count -eq "") {
 elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
     $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed " -ForegroundColor Green
-    Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Cyan 
+    Write-Host "$Syrg_Pmp : $RHID_Syringe_Cal : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Cyan 
 } else {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Failed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Red    }
 
@@ -227,10 +227,10 @@ else {
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
-    Write-host "$BEC_Insertion :                  Cover-Off BEC Reinsert : Completed"
-    Write-host "$BEC_Insertion :         First Estimated Gel Void Volume : $RHID_Gel_Void_First" -ForegroundColor Cyan}
+    Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed"
+    Write-host "$BEC_Insertion : $RHID_First_Gel_Void : $RHID_Gel_Void_First" -ForegroundColor Cyan }
     Else {
-    Write-host "$BEC_Insertion :                 Cover-Off BEC Insertion : N/A" -ForegroundColor Yellow}
+    Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : N/A" -ForegroundColor Yellow }
 
 if (($RHID_Piezo_FAT).count -eq "") {
     Write-Host "$Piezo : $RHID_Piezo_FAT_str $Test_NA"    -ForegroundColor Yellow }
@@ -252,7 +252,7 @@ elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
     $RHID_Raman_Signal = ($storyboard | Select-String "Raman =").Line.Split("=").TrimStart() | Select-Object -Last 1
     $RHID_Raman_Bin = ($storyboard | Select-String "Bin =").Line.Split("=").TrimStart() | Select-Object -Last 1
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$Laser :                Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
+    Write-Host "$Laser : $RHID_Laser_Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
 }
 else {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Failed" -ForegroundColor Red    }
@@ -262,7 +262,7 @@ if (($RHID_Water_Prime).count -eq "") {
 elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
     $RHID_Water_Prime_Plug = ($storyboard | Select-String "Plug detected" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 2 | Select-Object -SkipLast 1
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$WetTest :          $RHID_Water_Prime_Plug" -ForegroundColor Cyan }
+    Write-Host "$WetTest : [32/41]  $RHID_Water_Prime_Plug" -ForegroundColor Cyan }
 else {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Failed" -ForegroundColor Red    }
 
@@ -322,11 +322,11 @@ Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS
 
 IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     $RHID_Gel_Void = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart() | Select-Object -Last 1
-    Write-host "$BEC_Insertion :                   Cover-On BEC Reinsert : Completed"
-    Write-host "$BEC_Insertion :          Last Estimated Gel Void Volume : $RHID_Gel_Void" -ForegroundColor Cyan 
+    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : Completed"
+    Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : $RHID_Gel_Void" -ForegroundColor Cyan 
 }
 Else {
-    Write-host "$BEC_Insertion :                  Cover-On BEC Insertion : N/A" -ForegroundColor Yellow }
+    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
