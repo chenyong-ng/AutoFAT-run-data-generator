@@ -360,10 +360,9 @@ Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 
 IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
-    $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder"
-    Set-Location -Path $serverdir_Ladder
-    $DxCode = Get-ChildItem -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
-    $RunSummaryCSV = Get-ChildItem -I RunSummary.csv -R
+    $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
+    $DxCode = Get-ChildItem $serverdir_Ladder -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem $serverdir_Ladder -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/3] $RHID_Date_Time; [Type] : $RHID_RunType"
