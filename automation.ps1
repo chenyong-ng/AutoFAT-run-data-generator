@@ -11,6 +11,7 @@
                 : add auto backup, add folder check
                 : Add more meaningful error message, add error code and instrument troubleshooting information
                 get data from run summary, then grep on sample quality data
+                REVERT set-location on full run, set auto backup
 
 Initialize global variables, do not change the order.
 #>
@@ -59,7 +60,7 @@ $exicode = $Null
 Clear-Host
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\Modules\MainFunction.ps1
-    . $PSScriptRoot\Modules\RHID_Reports.ps1
+    . $PSScriptRoot\Modules\RHID_Report.ps1
 } else { MainOptions } 
 <#
 $ServerDir_Leaf = Test-Path -Path "$serverdir"
