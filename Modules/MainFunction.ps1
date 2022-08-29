@@ -74,6 +74,11 @@
             Write-Host "[Info   ]: 'TC_verification $name.TXT' already exists, skipping"
             Get-Content "TC_verification $name.TXT"
         }
+        if (($wvfs -eq 1) -and ($nlfs -eq1)) {
+        mkdir U:\"$name\Internal\RapidHIT ID"\Results\
+        Copy-Item -Force E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
+        Copy-Item -Force E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
+        }
         if (($wvfs -eq 0) -or ($nlfs -eq 0)) {
         $keypress = read-host "[Info   ]: Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "[Info   ]: Make sure AutoFAT is not running, as Waves will cause resource conflict"
