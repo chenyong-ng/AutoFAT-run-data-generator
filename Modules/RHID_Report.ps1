@@ -429,7 +429,8 @@ Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Cyan
 
 $RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
 if ([bool]$RHID_Shipping_BEC -eq "True") {
-    Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green 
+    Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green
+    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination $Drive\$MachineName\Internal\
 }
 else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow 
@@ -439,10 +440,6 @@ $Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\" 
 $Local = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote"
-<#If ($Remote -eq "0.0000 GB") {
-        mkdir $Drive\$MachineName\Internal\
-    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination $Drive\$MachineName\Internal\
-    }#>
 $Danno_Local_leaf = Test-Path -Path "$danno$MachineName"
 IF ([Bool]$Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"

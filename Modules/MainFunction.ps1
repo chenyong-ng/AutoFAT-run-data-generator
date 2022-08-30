@@ -74,8 +74,11 @@
             Write-Host "[Info   ]: 'TC_verification $name.TXT' already exists, skipping"
             Get-Content "TC_verification $name.TXT"
         }
+        If ([bool]$result_leaf -eq $False) {
+        $MKDir_Result = mkdir U:\"$name\Internal\RapidHIT ID"\Results\
+        }
         if (($wvfs -gt 1) -and ($nlfs -gt 1)) {
-        mkdir U:\"$name\Internal\RapidHIT ID"\Results\
+        $MKDir_Result
         Copy-Item -Force E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
         Copy-Item -Force E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
         }
