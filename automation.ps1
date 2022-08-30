@@ -82,9 +82,9 @@ Selection
 Help2
 $input = read-host "select a function from list above"
 
+ Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | select-object "FriendlyName" | Select-String "Creative")
 
-Get-ChildItem -Path $folder -r  | 
-? { $_.PsIsContainer -and $_.FullName -notmatch 'archive' }
+gwmi Win32_USBControllerDevice |%{[wmi]($_.Dependent)} | Sort Manufacturer,Description,DeviceID | Ft -GroupBy Manufacturer Description,Service,DeviceID
 
 if ($input -eq "config") {config $exicode = "Null"}
 if ($input -eq "i") {i -and $exicode = "Null"}

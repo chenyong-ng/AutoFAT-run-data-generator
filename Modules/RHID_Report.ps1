@@ -337,10 +337,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $RunSummaryCSV = Get-ChildItem $serverdir36cycles -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [2/1] $RHID_Date_Time"
-    "$SampleName : [3/1] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [4/1] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [5/1] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/1] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$SampleName : [3/1] $RHID_SampleName"
+    "$Cartridge_Type : [4/1] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
+    "$Protocol_Setting : [5/1] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
@@ -351,10 +351,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     $RunSummaryCSV = Get-ChildItem $serverdir_GFE_BV -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score $DxCode"-ForegroundColor Green
-    "$Date_Time : [2/2] $RHID_Date_Time"
-    "$SampleName : [3/2] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [4/2] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [5/2] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/2] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$SampleName : [3/2] $RHID_SampleName"
+    "$Cartridge_Type : [4/2] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
+    "$Protocol_Setting : [5/2] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
@@ -365,9 +365,9 @@ IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $RunSummaryCSV = Get-ChildItem $serverdir_Ladder -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : $GM_ILS_Score_Allelic_Ladder_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [2/3] $RHID_Date_Time; [Type] : $RHID_RunType"
-    Write-Host "$Cartridge_Type : [3/3] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID" -ForegroundColor Cyan
-    "$Protocol_Setting : [4/3] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/3] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
+    Write-Host "$Cartridge_Type : [3/3] $RHID_Cartridge_Type ; [Type] : $RHID_RunType" -ForegroundColor Cyan
+    "$Protocol_Setting : [4/3] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
@@ -378,10 +378,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $RunSummaryCSV = Get-ChildItem $serverdir_GFE_007 -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [2/4] $RHID_Date_Time"
-    "$SampleName : [3/4] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [4/4] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [5/4] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/4] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$SampleName : [3/4] $RHID_SampleName"
+    "$Cartridge_Type : [4/4] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
+    "$Protocol_Setting : [5/4] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_SeparatoR
@@ -392,10 +392,10 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $RunSummaryCSV = Get-ChildItem $serverdir_NGM_007 -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [2/5] $RHID_Date_Time"
-    "$SampleName : [3/5] $RHID_SampleName ; [Type] : $RHID_RunType"
-    Write-Host "$Cartridge_Type : [4/5] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID" -ForegroundColor Green
-    "$Protocol_Setting : [5/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/5] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$SampleName : [3/5] $RHID_SampleName"
+    Write-Host "$Cartridge_Type : [4/5] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"-ForegroundColor Green
+    "$Protocol_Setting : [5/5] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
@@ -406,10 +406,10 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $RunSummaryCSV = Get-ChildItem $serverdir_BLANK -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode" -ForegroundColor Green
-    "$Date_Time : [2/6] $RHID_Date_Time"
-    "$SampleName : [3/6] $RHID_SampleName ; [Type] : $RHID_RunType"
-    "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Lot] $RHID_Cartridge_ID ; [BEC ID] : $RHID_BEC_ID"
-    "$Protocol_Setting : [5/6] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$Date_Time : [2/6] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
+    "$SampleName : [3/6] $RHID_SampleName"
+    "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
+    "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
@@ -419,7 +419,7 @@ if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF
     } else {
     Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow }
-
+$Section_Separator
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $GM_Analysis $File_found" -ForegroundColor Green
@@ -428,20 +428,24 @@ if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
 
 Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Cyan
 Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Cyan
-
-$RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
-if ([bool]$RHID_Shipping_BEC -eq "True") {
-    Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green
-    #Backup
-}
-else {
-    Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow 
-}
+$Section_Separator
 
 $Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
-$Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local"
-$Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote"
+$RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse | Measure-Object).Count 
+$localFileCount = (Get-ChildItem "E:\RapidHIT ID"  -Recurse | Measure-Object).Count 
+$RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
+if ([bool]$RHID_Shipping_BEC -eq "True") {
+    Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green
+}else {
+    Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
+
+if (($remote -lt $Local) -and ($SerialRegMatch = "True")) {
+    Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green 
+    Backup }
+
+$Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local ; Files : $LocalFileCount"
+$Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote ; Files : $RemoteFileCount"
 $Danno_Local_leaf = Test-Path -Path "$danno$MachineName"
 IF ([Bool]$Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"

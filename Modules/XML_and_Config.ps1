@@ -96,7 +96,7 @@ Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup befo
 Enter number or Instrument Serial Number (4 digits) to proceed"
 
 function Backup {
-  Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination $Drive\$MachineName\Internal\
+    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "M:\[Son YeEun]28sets\*" -Destination "U:\$MachineName\Internal\"
 }
 
 if ($sn -eq '1') {
@@ -113,7 +113,7 @@ if ($sn -eq '1') {
   set-variable -name "serverdir" -value "$path-$sn"
   . $PSScriptRoot\RHID_Report.ps1
 } Else {
-    Write-Host "[ RapidHIT ID]: selected Instrument S/N $sn does not have record in Server" -ForegroundColor Red}
+    Write-Host "[ RapidHIT ID]: selected Instrument S/N $sn does not have record in Server" -ForegroundColor Yellow}
 }
 
 function network {
