@@ -60,7 +60,7 @@ IF ([Bool]$RHID_ExecutionLOG -eq "True") {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
     Write-Host "$HIDAutolite : $HIDAutolite_Execution_Str $RHID_GM_Analysis_PeakTable_Filter "
 } Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or EXPIRED" -ForegroundColor Red }
-
+$Section_Separator
 if (($RHID_Lysis_Heater_FAT).count -eq "") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
@@ -102,7 +102,7 @@ elseif ([bool] ($RHID_Ambient_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    }
 
-# SCI tests
+$Section_Separator
 if (($RHID_CAM_FAT).count -eq "") {
     Write-Host "$SCI : $RHID_CAM_FAT_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_CAM_FAT | Select-String "Pass") -eq "True") {
@@ -159,13 +159,14 @@ elseif ([bool] ($RHID_SCI_Antenna_Test | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$SCI : $RHID_SCI_Antenna_Test_Str $Test_Failed" -ForegroundColor Red    }
 
+$Section_Separator
+
 if (($RHID_Mezz_test).count -eq "") {
     Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Mezz_test | Select-String "Pass") -eq "True") {
     Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_Passed" -ForegroundColor Green }
 else {
     Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_Failed" -ForegroundColor Red    }
-
 
 if (($RHID_HP_FAT).count -eq "") {
     Write-Host "$HP_FAT : $RHID_HP_FAT_Str $Test_NA"    -ForegroundColor Yellow }
@@ -257,6 +258,8 @@ elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Failed" -ForegroundColor Red    }
 
+$Section_Separator
+
 if (($RHID_Water_Prime).count -eq "") {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_NA" -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
@@ -265,7 +268,6 @@ elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
     Write-Host "$WetTest : [32/41]  $RHID_Water_Prime_Plug" -ForegroundColor Cyan }
 else {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Failed" -ForegroundColor Red    }
-
 
 if (($RHID_Lysis_Prime).count -eq "") {
     Write-Host "$WetTest : $RHID_Lysis_Prime_Str $Test_NA"    -ForegroundColor Yellow }
