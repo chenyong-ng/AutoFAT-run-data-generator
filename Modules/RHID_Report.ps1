@@ -327,7 +327,7 @@ IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
 }
 Else {
     Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow }
-
+$Section_Separator
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
     $serverdir36cycles = "$Drive\$MachineName\*GFE-300uL-36cycles*"
@@ -341,7 +341,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     "$Protocol_Setting : [5/1] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow }
-
+$Section_Separator
 IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_BV = "$Drive\$MachineName\*GFE-BV_*"
@@ -355,7 +355,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     "$Protocol_Setting : [5/2] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
-
+$Section_Separator
 IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
     $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
@@ -368,7 +368,7 @@ IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     "$Protocol_Setting : [4/3] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
-
+$Section_Separator
 IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_007 = "$Drive\$MachineName\*GFE_007*"
@@ -382,7 +382,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     "$Protocol_Setting : [5/4] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
-
+$Section_Separato
 IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
@@ -396,7 +396,7 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     "$Protocol_Setting : [5/5] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
-
+$Section_Separator
 IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
@@ -410,7 +410,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
-
+$Section_Separator
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green

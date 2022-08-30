@@ -23,7 +23,7 @@ $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo    
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" 
 $Mezz_PCBA    = "[ MEZZ test  ]"
 $Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]"
-$Test_Failed = ": Test FAILED"  ; $Test_Passed = ": Test PASSED"  ; $Test_NA = ": Test N/A"
+$Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 
 $RHID_Firmware79 = "1001.4.79"
 $File_not_Found = "Not found or no full run has been performed"
@@ -83,7 +83,7 @@ $RHID_Verify_Raman_Str      = "[38/41]  Bring Up:         Verify Raman"
 $Bolus_Test_count_Str       = "[39/41]         Passed Bolus test Count"
 $RHID_CoverOn_BEC_Reinsert  = "[40/41]           Cover-On BEC Reinsert"
 $RHID_Last_Gel_Void         = "[41/41]  Last Estimated Gel Void Volume"
-
+$Section_Separator          = "=================================================================="
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
 $USB_Temp_RD                = " Last 3 Runs end Ambient  reading in °C"
 $USB_Humi_RD                = " Last 3 Runs end Humidity reading in  %"
