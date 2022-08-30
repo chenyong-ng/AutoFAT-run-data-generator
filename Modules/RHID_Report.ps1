@@ -382,7 +382,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     "$Protocol_Setting : [5/4] $RHID_Protocol_Setting ; $Bolus_Timing : $RHID_Bolus_Timing"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
-$Section_Separato
+$Section_SeparatoR
 IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
