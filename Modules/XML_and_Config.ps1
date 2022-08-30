@@ -95,6 +95,10 @@ Enter 2 to Backup Instrument config and calibrated TC data to Local server,
 Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
 Enter number or Instrument Serial Number (4 digits) to proceed"
 
+function Backup {
+  Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination $Drive\$MachineName\Internal\
+}
+
 if ($sn -eq '1') {
   $sn = read-host "Enter Folder Path"
   set-variable -name "serverdir" -value "$sn"

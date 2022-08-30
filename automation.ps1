@@ -49,7 +49,6 @@ $tc     = Test-Path -Path $result\$tcc -PathType Leaf
 $mcleaf = Test-Path -Path $rhid\$MachineConfig -PathType Leaf
 $internal      = Test-Path -Path "U:\$name\Internal\"
 $US_internal   = Test-Path -Path "Y:\$name\Internal\"
-$result_leaf = Test-Path -Path "U:\"$name\Internal\RapidHIT ID"\Results\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
 $Debug = "Off"

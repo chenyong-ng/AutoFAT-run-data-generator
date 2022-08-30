@@ -430,7 +430,7 @@ Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Cyan
 $RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
 if ([bool]$RHID_Shipping_BEC -eq "True") {
     Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green
-    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination $Drive\$MachineName\Internal\
+    #Backup
 }
 else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow 
