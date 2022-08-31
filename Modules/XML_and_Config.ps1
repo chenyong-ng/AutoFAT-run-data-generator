@@ -62,14 +62,14 @@ function TC_verification {
 Write-Output "
 Instrument SN   : $name
 Time Created    : ${get-date}
-Ambient + Probe : °C,  °C
-Temp + Humidity : °C,  %
+Ambient + Probe :  °C,  °C
+Temp + Humidity :  °C,  %
 TC Probe ID   M :  
-TC Stage 1  °C  :  [95.0 ± 0.25°C]
-TC Stage 2  °C  :  [61.5 ± 0.25°C]
-TC Stage 3  °C  :  [94.0 ± 0.25°C]
-TC Stage 4  °C  :  [61.5 ± 0.25°C]
-Airleak Test    : Passed/NA
+TC Step 1    °C :  [95.0 ± 0.25°C]
+TC Step 2    °C :  [61.5 ± 0.25°C]
+TC Step 3    °C :  [94.0 ± 0.25°C]
+TC Step 4    °C :  [61.5 ± 0.25°C]
+Airleak Test    :  Passed/NA
 Laser LD_488 S/N: 
 "
 } #for recording TC verification data
@@ -95,10 +95,6 @@ Enter 2 to Backup Instrument config and calibrated TC data to Local server,
 Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
 Enter number or Instrument Serial Number (4 digits) to proceed"
 
-function Backup {
-    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "M:\[Son YeEun]28sets\*" -Destination "U:\$MachineName\Internal\"
-}
-
 if ($sn -eq '1') {
   $sn = read-host "Enter Folder Path"
   set-variable -name "serverdir" -value "$sn"
@@ -108,12 +104,16 @@ if ($sn -eq '1') {
   Copy-Item E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
 } elseif ($sn -eq '3') {
   mkdir U:\"$name"\Internal\
-  Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\
+    Backup
 } elseif ((Test-Path -Path "$path-$sn") -eq "True") {
   set-variable -name "serverdir" -value "$path-$sn"
   . $PSScriptRoot\RHID_Report.ps1
 } Else {
     Write-Host "[ RapidHIT ID]: selected Instrument S/N $sn does not have record in Server" -ForegroundColor Yellow}
+}
+
+function Backup {
+  Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"
 }
 
 function network {
