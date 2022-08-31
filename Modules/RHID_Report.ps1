@@ -442,7 +442,7 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
 
 if (($remote -lt $Local) -and ($SerialRegMatch = "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green 
-    Backup }
+    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\ }
 
 $Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local ; Files : $LocalFileCount"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote ; Files : $RemoteFileCount"
