@@ -20,14 +20,14 @@ If ([Bool]$RHID_FP_Sensor -eq "True") { "$FP : $FP_Sensor_Str : Present" } else 
 
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
-    Write-Host "$TC_Cal :       WARNING: Unpopulated TC_Calibration.XML Found" -ForegroundColor RED
+    Write-Host "$TC_Cal :      $Warning : Unpopulated TC_Calibration.XML Found" -ForegroundColor RED
 } elseif ($RHID_TC_Calibration.count -eq "0") {
-    Write-Host "$TC_Cal :               WARNING: TC_Calibration.XML Not Found" -ForegroundColor RED
+    Write-Host "$TC_Cal :               $Warning : TC_Calibration.XML Not Found" -ForegroundColor RED
 } else { 
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
 
 if ($RHID_MachineConfig_HW.count -eq "0") {
-    Write-Host "$MachineConf :               WARNING: MachineConfig.XML Not Found" -ForegroundColor RED
+    Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW2" -ForegroundColor Green
