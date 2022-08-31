@@ -85,11 +85,7 @@ $input = read-host "select a function from list above"
 
 Get-ChildItem -Path $folder -r  | 
 ? { $_.PsIsContainer -and $_.FullName -notmatch 'archive' }
-
-if ($input -eq "config") {config $exicode = "Null"}
-if ($input -eq "i") {i -and $exicode = "Null"}
-if ($input -eq "w") {w -and $exicode = "Null"}
-} while ($exicode = "Null")
+[bool](Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "DELL DA300" )
 
 Get-ItemPropertyValue 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1' 'DisplayName'
 
