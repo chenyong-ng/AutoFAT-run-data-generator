@@ -85,7 +85,7 @@ $input = read-host "select a function from list above"
 
 Get-ChildItem -Path $folder -r  | 
 ? { $_.PsIsContainer -and $_.FullName -notmatch 'archive' }
-[bool](Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "DELL DA300" )
+[bool](Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor" )
 
 Get-ItemPropertyValue 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1' 'DisplayName'
 
