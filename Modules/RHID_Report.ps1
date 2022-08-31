@@ -14,7 +14,7 @@ IF ([Bool]$RHID_QMini_Infl -eq "True") {
     $RHID_QMini_Infl_Filter = $RHID_QMini_Infl.line.split(":").TrimStart() | Select-object -last 1
     Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Filter" -ForegroundColor Green }
     Else{ Write-Host "$Optics : $RHID_Infl_Str : Not Available" -ForegroundColor Yellow}
-
+If ([Bool]$FP_Sensor -eq "True") {"FP Sorsor present"}
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
     Write-Host "$TC_Cal :       WARNING: Unpopulated TC_Calibration.XML Found" -ForegroundColor RED
@@ -432,8 +432,9 @@ $Section_Separator
 
 $Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
 $Local = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
-$RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse | Measure-Object).Count 
-$localFileCount = (Get-ChildItem "E:\RapidHIT ID"  -Recurse | Measure-Object).Count 
+$RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
+$localFileCount = (Get-ChildItem "E:\RapidHIT ID"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
+
 $RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
 if ([bool]$RHID_Shipping_BEC -eq "True") {
     Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green
@@ -442,15 +443,15 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
 
 if (($remote -lt $Local) -and ($SerialRegMatch = "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green 
-    Backup }
+    Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\ }
 
 $Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local ; Files : $LocalFileCount"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote ; Files : $RemoteFileCount"
 $Danno_Local_leaf = Test-Path -Path "$danno$MachineName"
 IF ([Bool]$Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"
-    $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R  -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
-    $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG  -ErrorAction SilentlyContinue
+    $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
+    $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
     Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
     $Local_Folder_Msg
     $Remote_Folder_Msg
