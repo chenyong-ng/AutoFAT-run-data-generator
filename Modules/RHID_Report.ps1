@@ -54,7 +54,7 @@ else {
     Write-Host "$PCBA : $Error_msg $RHID_Mainboard_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
 if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
-else {  
+else {   
     Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red } 
 
 IF ([Bool]$RHID_ExecutionLOG -eq "True") {
@@ -62,7 +62,7 @@ IF ([Bool]$RHID_ExecutionLOG -eq "True") {
     $RHID_ExecutionLOG_Filter = $RHID_ExecutionLOG.Line.Split("-").TrimStart() | Select-Object -Last 1
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
     Write-Host "$HIDAutolite : $HIDAutolite_Execution_Str $RHID_GM_Analysis_PeakTable_Filter "
-} Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or EXPIRED" -ForegroundColor Red }
+} Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or Expired" -ForegroundColor Red }
 $Section_Separator
 if (($RHID_Lysis_Heater_FAT).count -eq "") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow }
