@@ -53,14 +53,12 @@ $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
 $Debug = "Off"
 $exicode = $Null
-#DEL  (VGA)
-#CHR  (Internal)
 
-. $PSScriptRoot\Modules\XML_and_Config.ps1
+. $PSScriptRoot\XML_and_Config.ps1
 Clear-Host
 if ($SerialRegMatch -eq "True") {
-    . $PSScriptRoot\Modules\MainFunction.ps1
-    . $PSScriptRoot\Modules\RHID_Report.ps1
+    . $PSScriptRoot\MainFunction.ps1
+    . $PSScriptRoot\RHID_Report.ps1
 } else { MainOptions } 
 <#
 $ServerDir_Leaf = Test-Path -Path "$serverdir"

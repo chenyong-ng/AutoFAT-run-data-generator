@@ -60,15 +60,15 @@ function OverrideSettingsXML {
 
 function TC_verification {
 Write-Output "
-Instrument SN   : $name
+Instrument SN   : $env:COMPUTERNAME
 Time Created    : ${get-date}
-Ambient + Probe :  °C,  °C
-Temp + Humidity :  °C,  %
-TC Probe ID   M :  
-TC Step 1    °C :  [95.0 ± 0.25°C]
-TC Step 2    °C :  [61.5 ± 0.25°C]
-TC Step 3    °C :  [94.0 ± 0.25°C]
-TC Step 4    °C :  [61.5 ± 0.25°C]
+Ambient + Probe :   °C,   °C
+Temp + Humidity :   °C,   %
+TC Probe ID     : M
+TC Step 1       :   °C [95.0 ± 0.25°C]
+TC Step 2       :   °C [61.5 ± 0.25°C]
+TC Step 3       :   °C [94.0 ± 0.25°C]
+TC Step 4       :   °C [61.5 ± 0.25°C]
 Airleak Test    :  Passed/NA
 Laser LD_488 S/N: 
 "
@@ -91,18 +91,13 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 function MainOptions {
 $sn = read-host "
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
-Enter 2 to Backup Instrument config and calibrated TC data to Local server,
-Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
+Enter 2 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
 Enter number or Instrument Serial Number (4 digits) to proceed"
 
 if ($sn -eq '1') {
   $sn = read-host "Enter Folder Path"
   set-variable -name "serverdir" -value "$sn"
 } elseif ($sn -eq '2') {
-  mkdir U:\"$name\Internal\RapidHIT ID"\Results\
-  Copy-Item E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
-  Copy-Item E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
-} elseif ($sn -eq '3') {
   mkdir U:\"$name"\Internal\
     Backup
 } elseif ((Test-Path -Path "$path-$sn") -eq "True") {
