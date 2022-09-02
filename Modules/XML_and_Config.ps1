@@ -91,18 +91,13 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 function MainOptions {
 $sn = read-host "
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
-Enter 2 to Backup Instrument config and calibrated TC data to Local server,
-Enter 3 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
+Enter 2 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
 Enter number or Instrument Serial Number (4 digits) to proceed"
 
 if ($sn -eq '1') {
   $sn = read-host "Enter Folder Path"
   set-variable -name "serverdir" -value "$sn"
 } elseif ($sn -eq '2') {
-  mkdir U:\"$name\Internal\RapidHIT ID"\Results\
-  Copy-Item E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
-  Copy-Item E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
-} elseif ($sn -eq '3') {
   mkdir U:\"$name"\Internal\
     Backup
 } elseif ((Test-Path -Path "$path-$sn") -eq "True") {
