@@ -39,7 +39,7 @@
             Write-host "$info : Created placeholder file: Non-linearity Calibration $name.PNG"
         }
         elseif ($nlfs -eq '0') {
-            Write-host "$Warning : Empty file $nl detected, reported as $nlfs KB" -ForegroundColor Yellow
+            Write-host "$Warning : Empty $nl detected, reported as $nlfs KB" -ForegroundColor Yellow
         }
         else {
             Write-Host "$info : 'Non-linearity Calibration $name.PNG' already exists, size is:" $nlfs KB
@@ -49,7 +49,7 @@
             Write-host "$info : Created placeholder file: Waves $name.PNG"
         }
         elseif ($wvfs -eq '0') {
-            Write-host "$Warning : Empty file $wv detected, reported as $wvfs KB" -ForegroundColor Yellow
+            Write-host "$Warning : Empty $wv detected, reported as $wvfs KB" -ForegroundColor Yellow
         }
         else {
             Write-Host "$info : 'Waves $name.PNG' already exists, size is:" $wvfs KB
