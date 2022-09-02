@@ -60,7 +60,7 @@ function OverrideSettingsXML {
 
 function TC_verification {
 Write-Output "
-Instrument SN   : $env:COMPUTERNAM
+Instrument SN   : $env:COMPUTERNAME
 Time Created    : ${get-date}
 Ambient + Probe :   °C,   °C
 Temp + Humidity :   °C,   %
