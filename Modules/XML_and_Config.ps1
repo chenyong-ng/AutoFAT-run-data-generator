@@ -60,15 +60,15 @@ function OverrideSettingsXML {
 
 function TC_verification {
 Write-Output "
-Instrument SN   : $name
+Instrument SN   : $env:COMPUTERNAM
 Time Created    : ${get-date}
-Ambient + Probe :  °C,  °C
-Temp + Humidity :  °C,  %
-TC Probe ID   M :  
-TC Step 1    °C :  [95.0 ± 0.25°C]
-TC Step 2    °C :  [61.5 ± 0.25°C]
-TC Step 3    °C :  [94.0 ± 0.25°C]
-TC Step 4    °C :  [61.5 ± 0.25°C]
+Ambient + Probe :   °C,   °C
+Temp + Humidity :   °C,   %
+TC Probe ID     : M
+TC Step 1       :   °C [95.0 ± 0.25°C]
+TC Step 2       :   °C [61.5 ± 0.25°C]
+TC Step 3       :   °C [94.0 ± 0.25°C]
+TC Step 4       :   °C [61.5 ± 0.25°C]
 Airleak Test    :  Passed/NA
 Laser LD_488 S/N: 
 "
