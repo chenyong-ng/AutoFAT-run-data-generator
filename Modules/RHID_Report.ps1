@@ -17,6 +17,7 @@ IF ([Bool]$RHID_QMini_Infl -eq "True") {
     Else{ Write-Host "$Optics : $RHID_Infl_Str : Not Available" -ForegroundColor Yellow}
 
 If ([Bool]$RHID_FP_Sensor -eq "True") { "$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
+If ([Bool]$RHID_USB_HD_Camera -eq "True") { "$HD_USB_CAM : $HD_USB_CAM_Str  : Present" } else { "$HD_USB_CAM : $HD_USB_CAM_Str : N/A" }
 
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow

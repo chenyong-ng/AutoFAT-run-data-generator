@@ -23,13 +23,14 @@ $Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck
 $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]"
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" ; $FP           = "[ FP Sensor  ]"
 $Mezz_PCBA    = "[ MEZZ test  ]" ; $Info         = "[ Info       ]" ; $Warning      = "[ Warning    ]" 
-$Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]"
+$Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]" ; $HD_USB_CAM   = "[ HD USB CAM ]"
 $Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 
 $RHID_Firmware79 = "1001.4.79"
 $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
 $FP_Sensor_Str              = "        Authentec Biometric CoProcessor"
+$HD_USB_CAM_Str             = "                          HD USB Camera"
 
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
