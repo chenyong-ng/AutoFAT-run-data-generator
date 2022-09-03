@@ -444,11 +444,6 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
 }else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
-if (($remote -lt $Local) -and ($SerialRegMatch = "True")) {
-    Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green 
-    #Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination U:\"$name"\Internal\ 
-}
-
 $Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local ; Files : $LocalFileCount"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote ; Files : $RemoteFileCount"
 $Danno_Local_leaf = Test-Path -Path "$danno$MachineName"
@@ -466,4 +461,15 @@ Else {
     $Remote_Folder_Msg
     Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
     Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
+}
+
+if (($remote -lt $Local) -and ($SerialRegMatch = "True")) {
+    Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green
+    $KeyPress_Backup = "Enter to skip backup operation"
+    IF ($KeyPress_Backup -eq "") {
+        "Skipped backup operation"
+    } else {
+        "Performing backup operation"
+        BackupBeforeShipprep
+    }
 }

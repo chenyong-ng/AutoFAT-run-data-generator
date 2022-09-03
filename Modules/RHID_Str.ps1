@@ -29,7 +29,7 @@ $Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA =
 $RHID_Firmware79 = "1001.4.79"
 $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
-$FP_Sensor_Str              = "                  Biometric CoProcessor"
+$FP_Sensor_Str              = "        Authentec Biometric CoProcessor"
 
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
