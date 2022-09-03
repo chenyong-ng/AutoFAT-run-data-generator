@@ -7,5 +7,4 @@ $RHID_SampleName     = ($RunSummaryCSV | Select-String "SampleName" | Select-obj
 $RHID_BEC_ID         = ($RunSummaryCSV | Select-String "BEC_ID" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
 $RHID_Bolus_Timing   = ($RunSummaryCSV | Select-String "Bolus_Timing" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
 $RHID_Date_Time      = ($RunSummaryCSV | Select-String "Date_Time" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
-} else {
-    Write-Host "$Warning : RunSummary.CSV files not found" -ForegroundColor Red }
+}
