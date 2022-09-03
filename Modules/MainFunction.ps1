@@ -1,10 +1,11 @@
-    set-variable -name "serverdir" -value "E:\RapidHIT ID"
-    Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
-    . $PSScriptRoot\RHID_Str.ps1
-    . $PSScriptRoot\Set-WindowStyle.ps1
-    . $PSScriptRoot\set-volume.ps1
-    . $PSScriptRoot\Set-ScreenResolutionEx.ps1
-    . $PSScriptRoot\AdapterTypes.ps1
+
+. $PSScriptRoot\RHID_Str.ps1
+. $PSScriptRoot\Set-WindowStyle.ps1
+. $PSScriptRoot\set-volume.ps1
+. $PSScriptRoot\Set-ScreenResolutionEx.ps1
+. $PSScriptRoot\AdapterTypes.ps1
+set-variable -name "serverdir" -value "E:\RapidHIT ID"
+Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
     if ($strMonitors -ne $InteralDisplay) {
         Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
         Write-Host "$info : Display Resolution set to 1920 x 1080" }
