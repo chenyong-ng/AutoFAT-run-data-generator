@@ -7,7 +7,7 @@
 set-variable -name "serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
     if ($strMonitors -ne $InteralDisplay) {
-        Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
+        #Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
         Write-Host "$info : Display Resolution set to 1920 x 1080" }
         Write-Host "$info : Display Type: $strMonitors"
     $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
@@ -66,9 +66,6 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
         if ($tc -eq $False) {
             TC_verification > "TC_verification $name.TXT"
             Write-host "$info  : Created placeholder file: TC_verification $name.TXT"
-        }
-        else {
-            Get-Content "TC_verification $name.TXT"
         }
         if (($wvfs -gt 1) -and ($nlfs -gt 1)) {
         BackupConfig

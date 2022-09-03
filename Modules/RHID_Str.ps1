@@ -7,6 +7,7 @@ $ExecutionLOG     = Get-ChildItem "$serverdir" -I execution.log -R
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
+$TC_verificationTXT = Get-ChildItem "$serverdir" -I "TC_verification $MachineName.TXT" -R
 
 # add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
@@ -14,7 +15,7 @@ Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data f
 $Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" 
 $Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]"
-$Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]"
+$Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]" ; $Verification = "[Verification]"
 $Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]" ; $BEC_Status   = "[ BEC_Status ]"
 $BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]" ; $Prime        = "[ PrimeStatus]"
 $USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" ; $Laser        = "[ Laser      ]" 

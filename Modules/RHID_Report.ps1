@@ -27,6 +27,17 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
 } else { 
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
 
+. $PSScriptRoot\TC_VerificationTXT.ps1
+    "$Verification = $RHID_Verify_USB_Probe
+    $Verification : $RHID_Verify_Probe
+    $Verification : $RHID_TC_Probe_ID
+    $Verification : $RHID_TC_Step1
+    $Verification : $RHID_TC_Step2
+    $Verification : $RHID_TC_Step3
+    $Verification : $RHID_TC_Step3
+    $Verification : $RHID_Verify_Arileak
+    $Verification : $RHID_Verify_Laser_ID"
+
 if ($RHID_MachineConfig_HW.count -eq "0") {
     Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
@@ -335,7 +346,7 @@ IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
 Else {
     Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow }
 $Section_Separator
-IF (([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") -and ([Bool]$RunSummaryCSV -eq "true")) {
+IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
     $serverdir36cycles = "$Drive\$MachineName\*GFE-300uL-36cycles*"
     $DxCode = Get-ChildItem $serverdir36cycles -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -349,7 +360,7 @@ IF (([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") -and ([Bool]$RunSummaryCSV -eq
 }
 Else { Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
-IF (([BOOL]$GM_ILS_Score_GFE_BV -eq "True") -and ([Bool]$RunSummaryCSV -eq "true")) {
+IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_BV = "$Drive\$MachineName\*GFE-BV_*"
     $DxCode = Get-ChildItem $serverdir_GFE_BV -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -363,7 +374,7 @@ IF (([BOOL]$GM_ILS_Score_GFE_BV -eq "True") -and ([Bool]$RunSummaryCSV -eq "true
 }
 Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
-IF (([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") -and ([Bool]$RunSummaryCSV -eq "true")) {
+IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
     $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
     $DxCode = Get-ChildItem $serverdir_Ladder -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -376,7 +387,7 @@ IF (([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") -and ([Bool]$RunSummaryCSV -
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
-IF (([BOOL]$GM_ILS_Score_GFE_007 -eq "True") -and ([Bool]$RunSummaryCSV -eq "true")) {
+IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_007 = "$Drive\$MachineName\*GFE_007*"
     $DxCode = Get-ChildItem $serverdir_GFE_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -390,7 +401,7 @@ IF (([BOOL]$GM_ILS_Score_GFE_007 -eq "True") -and ([Bool]$RunSummaryCSV -eq "tru
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_SeparatoR
-IF (([BOOL]$GM_ILS_Score_NGM_007 -eq "True") -and ([Bool]$RunSummaryCSV -eq "true")) {
+IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
     $DxCode = Get-ChildItem $serverdir_NGM_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -404,7 +415,7 @@ IF (([BOOL]$GM_ILS_Score_NGM_007 -eq "True") -and ([Bool]$RunSummaryCSV -eq "tru
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
-IF (([BOOL]$GM_ILS_Score_BLANK -eq "True") -and ([Bool]$RunSummaryCSV -eq "true")) {
+IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -472,6 +483,6 @@ if (($remote -lt $Local) -and ($SerialRegMatch = "True")) {
         "Skipped backup operation"
     } else {
         "Performing backup operation"
-        BackupBeforeShipprep
+        #BackupBeforeShipprep
     }
 }
