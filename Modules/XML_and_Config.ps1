@@ -111,6 +111,12 @@ function BackupBeforeShipprep {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"
 }
 
+function BackupConfig {
+Copy-Item -Force -Path E:\"RapidHIT ID"\*.xml -Destination U:\"$name\Internal\RapidHIT ID"\
+Copy-Item -Force -Path E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT -Destination U:\"$name\Internal\RapidHIT ID"\Results\
+  
+}
+
 function network {
     Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }

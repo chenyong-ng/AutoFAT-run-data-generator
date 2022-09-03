@@ -70,8 +70,7 @@
             Get-Content "TC_verification $name.TXT"
         }
         if (($wvfs -gt 1) -and ($nlfs -gt 1)) {
-        Copy-Item -Force E:\"RapidHIT ID"\*.xml U:\"$name\Internal\RapidHIT ID"\
-        Copy-Item -Force E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT U:\"$name\Internal\RapidHIT ID"\Results\
+        BackupConfig
         }
         if (($wvfs -eq 0) -or ($nlfs -eq 0)) {
         $keypress = read-host "$info : Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
