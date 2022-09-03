@@ -47,7 +47,9 @@ $RHID_Gel_Antenna_HIGH = ($storyboard | Select-String "Bring Up: Gel Antenna" | 
 $RHID_Syringe_Stallout_FAT = ($storyboard | Select-String "Syringe Stallout FAT" | Select-Object -Last 1)
 $RHID_Mezzboard_FAT = ($storyboard | Select-String "Mezzboard FAT" |  Select-Object -Last 1)
 
-$RHID_BEC_Reinsert_First = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1) #First BEC Insertion
+#First BEC Insertion
+$RHID_BEC_Reinsert_First = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1) 
+$RHID_BEC_insert_ID = (Get-ChildItem "$serverdir\*BEC Insertion" -I storyboard*.* -R | Select-String "BEC EEPROM being detected")
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
 $RHID_HV_FAT = ($storyboard | Select-String "HV FAT" | Select-Object -Last 1)
 $RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last 1)
@@ -59,7 +61,9 @@ $RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Te
 $RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | Select-Object -Last 1)
 $RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1)
 $RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
-$RHID_BEC_Reinsert = (Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R  | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) #Cover-on BEC Insertion 
+#Cover-on BEC Insertion
+$RHID_BEC_Reinsert = (Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R  | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) 
+$RHID_BEC_Reinsert_ID = (Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R  | Select-String "BEC ID"    | Select-Object -Last 1)
 
 $GM_ILS_Score_GFE_36cycles   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles") | Select-Object -Last 1
 $GM_ILS_Score_GFE_BV  = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV") | Select-Object -Last 1

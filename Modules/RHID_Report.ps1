@@ -217,7 +217,7 @@ else {
 if (($RHID_Syringe_Stallout_FAT).count -eq "") {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
-    $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current"       | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
+    $RHID_Syringe_MIN_CURRENT   = ($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(",").TrimStart()| Select-Object -Last 1
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed " -ForegroundColor Green
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Cal : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Cyan 
 } else {
@@ -232,7 +232,8 @@ else {
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
-    Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed"
+    $RHID_BEC_ID_First = $RHID_BEC_insert_ID.line.split(":").TrimStart() | Select-Object -Last 1
+    Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed ; BEC_ID : $RHID_BEC_ID_First"
     Write-host "$BEC_Insertion : $RHID_First_Gel_Void : $RHID_Gel_Void_First" -ForegroundColor Cyan }
     Else {
     Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : N/A" -ForegroundColor Yellow }
@@ -258,8 +259,7 @@ elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
     $RHID_Raman_Bin = ($storyboard | Select-String "Bin =").Line.Split("=").TrimStart() | Select-Object -Last 1
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green
     Write-Host "$Laser : $RHID_Laser_Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
-}
-else {
+} else {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Failed" -ForegroundColor Red    }
 
 $Section_Separator
@@ -328,7 +328,8 @@ Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS
 
 IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     $RHID_Gel_Void = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart() | Select-Object -Last 1
-    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : Completed"
+    $RHID_BEC_ID = $RHID_BEC_Reinsert_ID.line.split(":").TrimStart() | Select-Object -Last 1
+    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : Completed ; $RHID_BEC_ID"
     Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : $RHID_Gel_Void" -ForegroundColor Cyan 
 }
 Else {
