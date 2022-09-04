@@ -29,15 +29,15 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
 
 . $PSScriptRoot\TC_VerificationTXT.ps1
 if ([bool]$TC_verificationTXT -eq "True") {
-"$Verification :  Ambient + Probe : $RHID_Verify_USB_Probe"
-"$Verification :  Temp + Humidity : $RHID_Verify_Probe"
-"$Verification :    TC Probe ID M : $RHID_TC_Probe_ID"
-"$Verification :        TC Step 1 : $RHID_TC_Step1"
-"$Verification :        TC Step 2 : $RHID_TC_Step2"
-"$Verification :        TC Step 3 : $RHID_TC_Step3"
-"$Verification :        TC Step 4 : $RHID_TC_Step3"
-"$Verification :     Airleak Test : $RHID_Verify_Arileak"
-"$Verification : Laser LD_488 S/N : $RHID_Verify_Laser_ID"
+"$Verification : $Ambient_Probe_Str : $RHID_Verify_USB_Probe"
+"$Verification : $USB_Temp_Humidity : $RHID_Verify_Probe"
+"$Verification : $TC_Probe_ID : $RHID_TC_Probe_ID"
+"$Verification : $TC_Steps 1 : $RHID_TC_Step1"
+"$Verification : $TC_Steps 2 : $RHID_TC_Step2"
+"$Verification : $TC_Steps 3 : $RHID_TC_Step3"
+"$Verification : $TC_Steps 4 : $RHID_TC_Step3"
+"$Verification : $Airleak_Test : $RHID_Verify_Arileak"
+"$Verification : $Laser_SN : $RHID_Verify_Laser_ID"
 }
 
 if ($RHID_MachineConfig_HW.count -eq "0") {
