@@ -17,16 +17,15 @@ Initialize global variables, do not change the order.
 #>
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
+    $Drive = "S:"
     $path = "S:\RHID"
     $danno = "S:\Dano Planning\Test Data\"
     $US_Path = "Y:\RHID"
     $US_danno = "Y:\Dano Planning\Test Data\"
-    $Drive = "S:"
-}
-else {
+} else {
+    $Drive = "U:"
     $path = "U:\RHID"
     $danno = "U:\Dano Planning\Test Data\"
-    $Drive = "U:"
 } #RHID Workststion laptop has differnt network drive path
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
@@ -59,7 +58,8 @@ Clear-Host
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\MainFunction.ps1
     . $PSScriptRoot\RHID_Report.ps1
-} else { MainOptions } 
+} else { 
+    MainOptions } 
 <#
 $ServerDir_Leaf = Test-Path -Path "$serverdir"
 if ($ServerDir_Leaf -eq "True") {

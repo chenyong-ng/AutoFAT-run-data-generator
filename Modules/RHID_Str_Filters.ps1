@@ -62,8 +62,8 @@ $RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | Selec
 $RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1)
 $RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
 #Cover-on BEC Insertion
-$RHID_BEC_Reinsert = (Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R  | Select-String "BEC Reinsert completed"    | Select-Object -Last 1) 
-$RHID_BEC_Reinsert_ID = (Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R  | Select-String "BEC ID"    | Select-Object -Last 1)
+$RHID_BEC_Reinsert = ( $CoverOn_BEC_Reinsert | Select-String "BEC Reinsert completed" | Select-Object -Last 1) 
+$RHID_BEC_Reinsert_ID = ( $CoverOn_BEC_Reinsert | Select-String "BEC ID" | Select-Object -Last 1)
 
 $GM_ILS_Score_GFE_36cycles   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles") | Select-Object -Last 1
 $GM_ILS_Score_GFE_BV  = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV") | Select-Object -Last 1
