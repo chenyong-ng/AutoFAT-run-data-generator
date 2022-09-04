@@ -1,3 +1,4 @@
+
 IF ([Bool]$RunSummaryCSV -eq "true") {
 $RHID_Protocol_Setting = ($RunSummaryCSV | Select-String "Protocol_Setting" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1
 $RHID_RunType        = ($RunSummaryCSV | Select-String "Run_Type" | Select-object -last 1).Line.Split(",") | Select-Object -Last 1

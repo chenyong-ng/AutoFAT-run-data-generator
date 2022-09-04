@@ -28,15 +28,15 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
 
 . $PSScriptRoot\TC_VerificationTXT.ps1
-    "$Verification = $RHID_Verify_USB_Probe
-    $Verification : $RHID_Verify_Probe
-    $Verification : $RHID_TC_Probe_ID
-    $Verification : $RHID_TC_Step1
-    $Verification : $RHID_TC_Step2
-    $Verification : $RHID_TC_Step3
-    $Verification : $RHID_TC_Step3
-    $Verification : $RHID_Verify_Arileak
-    $Verification : $RHID_Verify_Laser_ID"
+"$Verification :  Ambient + Probe : $RHID_Verify_USB_Probe"
+"$Verification :  Temp + Humidity : $RHID_Verify_Probe"
+"$Verification :    TC Probe ID M : $RHID_TC_Probe_ID"
+"$Verification :        TC Step 1 : $RHID_TC_Step1"
+"$Verification :        TC Step 2 : $RHID_TC_Step2"
+"$Verification :        TC Step 3 : $RHID_TC_Step3"
+"$Verification :        TC Step 4 : $RHID_TC_Step3"
+"$Verification :     Airleak Test : $RHID_Verify_Arileak"
+"$Verification : Laser LD_488 S/N : $RHID_Verify_Laser_ID"
 
 if ($RHID_MachineConfig_HW.count -eq "0") {
     Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
@@ -291,14 +291,12 @@ elseif ([bool] ($RHID_Lysis_Prime | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$WetTest : $RHID_Lysis_Prime_Str $Test_Failed" -ForegroundColor Red    }
 
-
 if (($RHID_Buffer_Prime).count -eq "") {
     Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Buffer_Prime | Select-String "Pass") -eq "True") {
     Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_Passed" -ForegroundColor Green }
 else {
     Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_Failed" -ForegroundColor Red    }
-
 
 if (($RHID_Lysis_Dispense).count -eq "") {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_NA"    -ForegroundColor Yellow }
@@ -309,7 +307,6 @@ elseif ([bool] ($RHID_Lysis_Dispense | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Failed" -ForegroundColor Red    }
 
-
 if (($RHID_Lysate_Pull).count -eq "") {
     Write-Host "$WetTest : $RHID_Lystate_Pull_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Lysate_Pull | Select-String "Pass") -eq "True") {
@@ -317,14 +314,12 @@ elseif ([bool] ($RHID_Lysate_Pull | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$WetTest : $RHID_Lystate_Pull_Str $Test_Failed" -ForegroundColor Red    }
 
-
 if (($RHID_Capillary_Gel_Prime).count -eq "") {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Capillary_Gel_Prime | Select-String "Completed") -eq "True") {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str : Completed" -ForegroundColor Green }
 else {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_Failed" -ForegroundColor Red    }
-
 
 if (($RHID_Raman).count -eq "") {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_NA"    -ForegroundColor Yellow }
