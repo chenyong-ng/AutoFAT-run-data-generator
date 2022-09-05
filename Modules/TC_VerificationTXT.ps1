@@ -1,7 +1,6 @@
 IF ($SerialRegMatch -eq "False") {
     $serverdir = "$Drive\$MachineName\Internal\RapidHIT ID\Results"
 }
-else { $serverdir = $result }
 $TC_verificationTXT = Get-ChildItem "$serverdir" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
 if ([bool]$TC_verificationTXT -eq "True") {
     $Ambient_Probe_Str = "                        Ambient + Probe"

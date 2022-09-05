@@ -7,7 +7,7 @@ $ExecutionLOG     = Get-ChildItem "$serverdir" -I execution.log -R
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R 
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
-Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Magenta
+Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Cyan
 
 # add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
