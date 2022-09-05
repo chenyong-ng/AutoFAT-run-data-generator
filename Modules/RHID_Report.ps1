@@ -43,6 +43,11 @@ if ([bool]$TC_verificationTXT -eq "True") {
 if ($RHID_MachineConfig_HW.count -eq "0") {
     Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
+
+<#
+Add more check on machine configuration file.
+#>
+
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW2" -ForegroundColor Green
 Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
