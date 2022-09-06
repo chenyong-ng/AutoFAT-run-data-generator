@@ -12,7 +12,7 @@ Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data f
 # add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
 
-$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" 
+$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[ Info       ]"
 $Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]"
 $Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]" ; $Verification = "[Verification]"
@@ -23,7 +23,7 @@ $SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePu
 $Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck    = "[ BEC_Intlck ]"
 $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]"
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" ; $FP           = "[ FP Sensor  ]"
-$Mezz_PCBA    = "[ MEZZ test  ]" ; $Info         = "[ Info       ]" ; $Warning      = "[ Warning    ]" 
+$Mezz_PCBA    = "[ MEZZ PCBA  ]" ; $MezzActuator = "[MezzActuator]" ; $Warning      = "[ Warning    ]" 
 $Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]" ; $HD_USB_CAM   = "[ HD USB CAM ]"
 $Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA = ": Test N/A"
 

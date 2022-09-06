@@ -185,11 +185,11 @@ else {
 $Section_Separator
 
 if (($RHID_Mezz_test).count -eq "") {
-    Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_NA"    -ForegroundColor Yellow }
+    Write-Host "$MezzActuator : $RHID_Mezz_Test_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Mezz_test | Select-String "Pass") -eq "True") {
-    Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_Passed" -ForegroundColor Green }
+    Write-Host "$MezzActuator : $RHID_Mezz_Test_Str $Test_Passed" -ForegroundColor Green }
 else {
-    Write-Host "$Mezz_PCBA : $RHID_Mezz_Test_Str $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$MezzActuator : $RHID_Mezz_Test_Str $Test_Failed" -ForegroundColor Red    }
 
 if (($RHID_HP_FAT).count -eq "") {
     Write-Host "$HP_FAT : $RHID_HP_FAT_Str $Test_NA"    -ForegroundColor Yellow }
@@ -337,9 +337,12 @@ elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    }
 
-    #block zero bolus counr
-$RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
-Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
+$RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
+if ($RHID_Bolus.count -gt 1) {
+    Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_Bolus.count -ForegroundColor Green
+} else {
+    Write-host "$Bolus : $Bolus_Test_count_Str : N/A" -ForegroundColor Yellow
+}
 
 IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     $RHID_Gel_Void = ($storyboard | Select-String "Estimated gel void volume" | Select-object -last 1).line.split("=").TrimStart() | Select-Object -Last 1
@@ -432,6 +435,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
+
 $Section_Separator
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
@@ -451,8 +455,10 @@ Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Cyan
 $Section_Separator
 
 # ignore folder with 0 size
-$Remote = "{0:N4} GB" -f ((Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
-$Local = "{0:N4} GB" -f ((Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -sum ).sum / 1Gb)
+$Remote = Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue
+$Local = Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue
+$RemoteSize = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum ).sum / 1Gb)
+$LocalSize = "{0:N4} GB" -f (( $Local | Measure-Object Length -sum ).sum / 1Gb)
 $RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
 $localFileCount = (Get-ChildItem "E:\RapidHIT ID"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
 
@@ -463,8 +469,8 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
     # block empty machine name
-$Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local ; Files : $LocalFileCount"
-$Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote ; Files : $RemoteFileCount"
+$Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $LocalSize ; Files : $LocalFileCount"
+$Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $RemoteSize ; Files : $RemoteFileCount"
 $Danno_Local_leaf = Test-Path -Path "$danno$MachineName"
 IF ([Bool]$Danno_Local_leaf -eq "True") {
     $RHID_Danno_Path = "$danno\$MachineName"
@@ -482,7 +488,7 @@ Else {
     Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 
-if (($remote -lt $Local) -and ($SerialRegMatch = "True")) {
+if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch = "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green
     $KeyPress_Backup = "Enter to skip backup operation"
     IF ($KeyPress_Backup -eq "") {
