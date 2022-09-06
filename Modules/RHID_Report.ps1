@@ -66,6 +66,7 @@ Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -Foreground
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
 Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
 
+#block empty firmware ver
 Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
@@ -336,6 +337,7 @@ elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    }
 
+    #block zero bolus counr
 $RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*"  -I  storyboard*.* -R | Select-String "Bolus Devliery Test" 
 Write-host "$Bolus : $Bolus_Test_count_Str" : ($RHID_Bolus | select-string "PASS").count -ForegroundColor Green
 
@@ -460,6 +462,7 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
 }else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
+    # block empty machine name
 $Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $Local ; Files : $LocalFileCount"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $Remote ; Files : $RemoteFileCount"
 $Danno_Local_leaf = Test-Path -Path "$danno$MachineName"
