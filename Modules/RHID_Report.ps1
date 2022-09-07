@@ -1,3 +1,14 @@
+$storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
+$MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
+$TC_CalibrationXML = Get-Childitem "$serverdir" -I TC_Calibration.xml -R 
+$SampleQuality = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
+$DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
+$ExecutionLOG = Get-ChildItem "$serverdir" -I execution.log -R
+$CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R 
+$GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
+
+$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
+
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\RHID_Str_Filters.ps1
 
@@ -471,8 +482,13 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
     # block empty machine name
 $Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $LocalSize ; Files : $LocalFileCount"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $RemoteSize ; Files : $RemoteFileCount"
-$Danno_Local_leaf = Test-Path -Path "$danno$MachineName"
-IF ([Bool]$Danno_Local_leaf -eq "True") {
+IF ([Bool]$MachineName -eq "False") {
+    $Local_Folder_Msg
+    $Remote_Folder_Msg
+    Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
+    Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
+}
+Else {
     $RHID_Danno_Path = "$danno\$MachineName"
     $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
     $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
@@ -480,12 +496,6 @@ IF ([Bool]$Danno_Local_leaf -eq "True") {
     $Local_Folder_Msg
     $Remote_Folder_Msg
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
-}
-Else {
-    $Local_Folder_Msg
-    $Remote_Folder_Msg
-    Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
-    Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 
 if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch = "True")) {
