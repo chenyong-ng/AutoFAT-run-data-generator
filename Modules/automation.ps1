@@ -32,6 +32,7 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $name = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
+$DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
 $rhid   = "E:\RapidHIT ID"
