@@ -51,7 +51,7 @@ if ([bool]$TC_verificationTXT -eq "True") {
 "$Verification : $Laser_SN : $RHID_Verify_Laser_ID"
 }
 
-if ($RHID_MachineConfig_HW.count -eq "0") {
+if ($RHID_MachineConfig_SN.count -eq "0") {
     Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
 
@@ -59,9 +59,14 @@ if ($RHID_MachineConfig_HW.count -eq "0") {
 Add more check on machine configuration file.
 #>
 
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW2" -ForegroundColor Green
-Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_SN" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HWVer" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HWID" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_ServerPath" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_Syring" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_PrimeLysisBuffer" -ForegroundColor Green
+Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_Laser" -ForegroundColor Green
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : $Blue_Background_Str : Stashed" -ForegroundColor Green
 } else {
@@ -262,7 +267,7 @@ else {
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
-    $RHID_BEC_ID_First = $RHID_BEC_insert_ID.line.split(":").TrimStart() | Select-Object -Last 1
+    $RHID_BEC_ID_First = $RHID_BEC_insert_ID.line.split(" ").TrimStart() | Select-Object -Last 1
     Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed ; BEC_ID : $RHID_BEC_ID_First"
     Write-host "$BEC_Insertion : $RHID_First_Gel_Void : $RHID_Gel_Void_First" -ForegroundColor Cyan }
     Else {
@@ -362,7 +367,8 @@ IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : $RHID_Gel_Void" -ForegroundColor Cyan 
 }
 Else {
-    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow }
+    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow
+    Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : N/A" -ForegroundColor Yellow }
 $Section_Separator
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
