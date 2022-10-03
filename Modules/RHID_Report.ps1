@@ -1,5 +1,6 @@
 $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R
-if ([bool]$storyboard -ne "True") { Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
+if ([bool]$storyboard -ne "True") {
+    Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 
 $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
@@ -67,7 +68,7 @@ Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_ServerPath"
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_Syring" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
 Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_PrimeLysisBuffer" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_Laser" -ForegroundColor Green
+
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : $Blue_Background_Str : Stashed" -ForegroundColor Green
 } else {
@@ -496,7 +497,7 @@ IF ([Bool]$MachineName -eq "False") {
     Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 Else {
-    $RHID_Danno_Path = "$danno\$MachineName"
+    $RHID_Danno_Path = $danno + $MachineName
     $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
     $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
     Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green

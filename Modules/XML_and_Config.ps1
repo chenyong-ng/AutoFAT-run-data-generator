@@ -105,7 +105,7 @@ if ($sn -eq '1') {
   set-variable -name "serverdir" -value "$path-$sn"
   . $PSScriptRoot\RHID_Report.ps1
 } Else {
-    Write-Host "[ RapidHIT ID]: selected Instrument S/N $sn does not have record in Server" -ForegroundColor Yellow}
+    Write-Host "[ RapidHIT ID]: selected Serial Number $sn does not have record in Server" -ForegroundColor Yellow}
 }
 
 function BackupBeforeShipprep {
