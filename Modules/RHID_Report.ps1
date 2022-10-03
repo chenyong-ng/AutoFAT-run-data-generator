@@ -1,4 +1,7 @@
-$storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
+$storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R
+if ([bool]$storyboard -ne "True") { Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
+$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
+
 $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
 $TC_CalibrationXML = Get-Childitem "$serverdir" -I TC_Calibration.xml -R 
 $SampleQuality = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
@@ -6,8 +9,6 @@ $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
 $ExecutionLOG = Get-ChildItem "$serverdir" -I execution.log -R
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R 
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
-
-$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\RHID_Str_Filters.ps1
