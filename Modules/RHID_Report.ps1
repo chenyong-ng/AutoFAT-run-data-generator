@@ -61,13 +61,13 @@ if ($RHID_MachineConfig_SN.count -eq "0") {
 Add more check on machine configuration file.
 #>
 
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_SN" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HWVer" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HWID" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_ServerPath" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_Syring" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_PrimeLysisBuffer" -ForegroundColor Green
+Write-Host "$MachineConf : Instrument Serial : $RHID_MachineConfig_SN" -ForegroundColor Green
+Write-Host "$MachineConf : Hardware Version : $RHID_MachineConfig_HWVer" -ForegroundColor Green
+Write-Host "$MachineConf : HWID : $RHID_MachineConfig_HWID" -ForegroundColor Green
+Write-Host "$MachineConf : Data Upload PAth : $RHID_MachineConfig_ServerPath" -ForegroundColor Green
+Write-Host "$MachineConf : Syringe Pump Calibration : $RHID_MachineConfig_Syring" -ForegroundColor Green
+Write-Host "$MachineConf : PrimeWater Status : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
+Write-Host "$MachineConf : PrimeLysisBuffer : $RHID_MachineConfig_PrimeLysisBuffer" -ForegroundColor Green
 
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : $Blue_Background_Str : Stashed" -ForegroundColor Green
