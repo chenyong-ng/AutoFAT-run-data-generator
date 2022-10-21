@@ -57,13 +57,9 @@ if ($RHID_MachineConfig_SN.count -eq "0") {
     Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
 
-<#
-Add more check on machine configuration file.
-#>
-
 Write-Host "$MachineConf : Instrument Serial : $RHID_MachineConfig_SN" -ForegroundColor Green
 Write-Host "$MachineConf : Hardware Version : $RHID_MachineConfig_HWVer" -ForegroundColor Green
-Write-Host "$MachineConf : HWID : $RHID_MachineConfig_HWID" -ForegroundColor Green
+Write-Host "$MachineConf : SCI Configuration : $RHID_MachineConfig_HWID" -ForegroundColor Green
 Write-Host "$MachineConf : Data Upload PAth : $RHID_MachineConfig_ServerPath" -ForegroundColor Green
 Write-Host "$MachineConf : Syringe Pump Calibration : $RHID_MachineConfig_Syring" -ForegroundColor Green
 Write-Host "$MachineConf : PrimeWater Status : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
@@ -84,7 +80,6 @@ Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -Foreground
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
 Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
 
-#block empty firmware ver
 Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
