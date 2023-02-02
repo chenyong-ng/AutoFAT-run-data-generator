@@ -113,8 +113,8 @@ function BackupBeforeShipprep {
 }
 
 function BackupConfig {
-Copy-Item -Force -Path E:\"RapidHIT ID"\*.xml -Destination U:\"$name\Internal\RapidHIT ID"\
-Copy-Item -Force -Path E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT -Destination U:\"$name\Internal\RapidHIT ID"\Results\
+Copy-Item -Force -Path E:\"RapidHIT ID"\ -Destination U:\"$name\Internal\RapidHIT ID"\ -Recurse -Filter *.xml
+Copy-Item -Force -Path E:\"RapidHIT ID"\Results\ , E:\"RapidHIT ID"\Results\*.TXT -Destination U:\"$name\Internal\RapidHIT ID"\Results\ -Recurse -Filter *.png
   
 }
 

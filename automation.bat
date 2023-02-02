@@ -1,4 +1,4 @@
-@Title RapidHIT ID Powershell Automation and Troubleshooting Tools
+@Title RapidHIT ID Automation and Troubleshooting Script [Main Branch v31JAN2023]
 @echo off
 :1
 If Exist "%~dp0\Modules\automation.ps1" (
