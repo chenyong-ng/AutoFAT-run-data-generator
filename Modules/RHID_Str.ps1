@@ -1,4 +1,13 @@
-﻿
+﻿<#
+.Title          : Powershell Utility for RHID Instrument
+.Source         : https://github.com/chenyong-ng/AutoFAT-run-data-generator
+.Version        :	v0.4
+.License        : Public Domain
+.Revision Date  : 10 JUL 2022
+.Description    : This script are best viewed and edit in Visual Studio Code https://code.visualstudio.com/
+.Todo           : 
+#>
+
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Cyan
 
 # add check machine name first, last from log and compare with $env:computername

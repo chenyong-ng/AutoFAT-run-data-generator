@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+    List Monitors and Connection Types
+.DESCRIPTION
+
+.PARAMETER Style
+    Call $strMonitors
+.PARAMETER MainWindowHandle
+
+.EXAMPLE
+
+.SOURCE
+    from https://amgeneral.wordpress.com/2021/07/13/powershell-list-monitors-and-connection-types/
+#>
+
 $adapterTypes = @{ #https://www.magnumdb.com/search?q=parent:D3DKMDT_VIDEO_OUTPUT_TECHNOLOGY
     '-2' = 'Unknown'
     '-1' = 'Unknown'

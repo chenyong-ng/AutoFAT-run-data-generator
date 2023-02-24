@@ -1,3 +1,12 @@
+<#
+.Title          : Powershell Utility for RHID Instrument
+.Source         : https://github.com/chenyong-ng/AutoFAT-run-data-generator
+.Version        :	v0.4
+.License        : Public Domain
+.Revision Date  : 10 JUL 2022
+.Description    : This script are best viewed and edit in Visual Studio Code https://code.visualstudio.com/
+.Todo           : 
+#>
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\Set-WindowStyle.ps1

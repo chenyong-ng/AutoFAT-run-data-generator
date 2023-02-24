@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+    Get Screen resolution using WMI/powershell
+.DESCRIPTION
+
+.PARAMETER Style
+    Call $screen_cnt $info_screens
+.PARAMETER MainWindowHandle
+
+.EXAMPLE
+
+.SOURCE
+    from https://stackoverflow.com/questions/7967699/get-screen-resolution-using-wmi-powershell-in-windows-7
+#>
+
 Add-Type -AssemblyName System.Windows.Forms
 $screen_cnt  = [System.Windows.Forms.Screen]::AllScreens.Count
 $col_screens = [system.windows.forms.screen]::AllScreens

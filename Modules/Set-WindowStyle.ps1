@@ -1,4 +1,20 @@
-﻿function Set-WindowStyle {
+﻿
+<#
+.SYNOPSIS
+    To control the behavior of a window
+.DESCRIPTION
+    To control the behavior of a window
+.PARAMETER Style
+    Describe parameter -Style.
+.PARAMETER MainWindowHandle
+    Describe parameter -MainWindowHandle.
+.EXAMPLE
+    (Get-Process -Name notepad).MainWindowHandle | foreach { Set-WindowStyle MAXIMIZE $_ }
+.SOURCE
+    from https://www.powershellgallery.com/packages/PoshFunctions/2.2.9
+#>
+
+function Set-WindowStyle {
     param(
         [Parameter()]
         [ValidateSet('FORCEMINIMIZE', 'HIDE', 'MAXIMIZE', 'MINIMIZE', 'RESTORE', 

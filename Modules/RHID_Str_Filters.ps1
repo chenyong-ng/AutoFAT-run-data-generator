@@ -1,3 +1,12 @@
+<#
+.Title          : Powershell Utility for RHID Instrument
+.Source         : https://github.com/chenyong-ng/AutoFAT-run-data-generator
+.Version        :	v0.4
+.License        : Public Domain
+.Revision Date  : 10 JUL 2022
+.Description    : This script are best viewed and edit in Visual Studio Code https://code.visualstudio.com/
+.Todo           : 
+#>
 
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
 $RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1)

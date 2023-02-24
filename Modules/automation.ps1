@@ -4,6 +4,7 @@
 .Version        :	v0.4
 .License        : Public Domain
 .Revision Date  : 10 JUL 2022
+.Description    : This script are best viewed and edit in Visual Studio Code https://code.visualstudio.com/
 .Todo           : Set display resolution, change to display 2, check exported PDF  leaf from full  [DONE]
                 : Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
                 : add method to check folderand run function if found 

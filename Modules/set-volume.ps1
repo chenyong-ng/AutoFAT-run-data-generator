@@ -1,3 +1,18 @@
+<#
+.SYNOPSIS
+    Change audio level from powershell?
+.DESCRIPTION
+
+.PARAMETER Style
+    Call # [audio]::Volume  = 0.2 # 0.2 = 20%, etc
+.PARAMETER MainWindowHandle
+
+.EXAMPLE
+
+.SOURCE
+    from https://stackoverflow.com/questions/21355891/change-audio-level-from-powershell
+#>
+
 Add-Type -TypeDefinition @'
 using System.Runtime.InteropServices;
 [Guid("5CDF2C82-841E-4546-9722-0CF74078229A"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
