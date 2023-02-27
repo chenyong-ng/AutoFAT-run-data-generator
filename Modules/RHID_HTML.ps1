@@ -12,7 +12,7 @@ $htmlHeader = @"
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
-<!-- Constructed with LabVIEW Report Generation -->
+<!-- Constructed with Powershell AutoFAT test report generator -->
 <HEAD>
 <TITLE></TITLE>
 </HEAD>
@@ -20,14 +20,14 @@ $htmlHeader = @"
 <BODY>
 <TABLE WIDTH="100%">
 <TR>
-<TH ALIGN="LEFT"><H3>Instrument - 2462622080002 - Detailed Report</H3></TH>
+<TH ALIGN="LEFT"><H3>Instrument - $MachineName - Detailed Report</H3></TH>
 <TH ALIGN="RIGHT"><H3></H3></TH>
 </TR></TABLE><OL>
-<LI>Instrument Serial Number: 2462622080002</LI>
+<LI>Instrument Serial Number: $MachineName</LI>
 <LI>Product Configuration: </LI>
 <LI>Instrument Version: </LI>
 <LI>Instrument Server Version: </LI>
-<LI>Host Name: 2462622080002</LI>
+<LI>Host Name: $MachineName</LI>
 <LI>MTSS Version: 1.2.1</LI>
 <LI>MTSS Part Number: 100101404</LI>
 <LI>TimeStamp: 10:56:58 AM 09/12/2022</LI>
