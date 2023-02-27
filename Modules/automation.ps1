@@ -35,13 +35,14 @@ Y:\ drive is the path to US server and is only visible in RHID workstation lapto
 #>
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-# this parameter ensure that the exported text files are encoded in UTF8 format
+# PSDefaultParameterValues ensure that the exported text files are encoded in UTF8 format
 $name = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
-# this parameter show the instrument timezone which is important as the imaged Win10 defaulted to US Pactific timezone which is GMT-8
+# SystemTimeZone show the instrument timezone which is important as the imaged Win10 defaulted to US Pactific timezone which is GMT-8
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
 $DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
+# SerialRegMatch are for Instruments serial numbers detection
 ${get-date} = Get-date
 $rhid   = "E:\RapidHIT ID"
 $result = "E:\RapidHIT ID\Results"
