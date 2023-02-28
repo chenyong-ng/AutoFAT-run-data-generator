@@ -299,9 +299,13 @@ else {
 if (($RHID_HV_FAT).count -eq "") {
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_HV_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green}
+    $RHID_HV_FAT_Voltage = ($storyboard | Select-String "Voltage =" | Select-String "(8650/9300V)" | Select-Object -Last 1).line.split("").TrimStart() | Select-Object -Last 1
+    $RHID_HV_FAT_Current = ($storyboard | Select-String "Current =" | Select-String "(> 5uA)" | Select-Object -Last 1).line.split("").TrimStart() | Select-Object -Last 1
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed $RHID_HV_FAT_Voltage $RHID_HV_FAT_Current" -ForegroundColor Green}
 else {
-    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Failed" -ForegroundColor Red    }
+    $RHID_HV_FAT_Voltage = ($storyboard | Select-String "Voltage =" | Select-Object -First 1).line.split("").TrimStart() | Select-Object -Last 1
+    $RHID_HV_FAT_Current = ($storyboard | Select-String "Current =" | Select-Object -First 1).line.split("").TrimStart() | Select-Object -Last 1
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Failed $RHID_HV_FAT_Voltage $RHID_HV_FAT_Current" -ForegroundColor Red    }
 
 if (($RHID_Laser_FAT).count -eq "") {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_NA"    -ForegroundColor Yellow }
