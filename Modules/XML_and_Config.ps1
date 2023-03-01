@@ -148,6 +148,8 @@ function debug {
     $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
     $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    $OSQuery_Name= (systeminfo | select-string "OS name").line.split(":").TrimStart() | select-object -last 1
+    $Host_Query = (systeminfo | select-string "Host Name").line.split(":").TrimStart() | select-object -last 1
     # add function to check USB device status
 
     $D = "DEBUG"
