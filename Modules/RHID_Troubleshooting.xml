@@ -2,26 +2,23 @@
 <Issues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-<initialization>
-    <category>Initialization</category>
-        <title>Instrument Initialization</title>
-            <description>General issues encountered during initialization of the instrument testing</description>
-                <issue>Syringe Pump failed to initialize</issue>
-                    <solutions>1. Check COM port connection, and the 4 way valve dial is set to 0, and syringe pump dial is set to 1</solutions>
-                    <solutions>1. Check power connection</solutions>
+ <category>Initialization</category>
+    <subcategory>Hardware,Electrical</subcategory>
+        <description>General issues encountered during initialization of the instrument</description>
+            <issue>Syringe Pump failed to initialize</issue>
+                <solutions>1. Check COM port connection, and the 4 way valve dial is set to 0, and syringe pump dial is set to 1</solutions>
+                <solutions>1. Check power connection</solutions>
+            <issue>Random keypress during instrument imaging, or after firs booting into Windows 10</issue>
+                <solutions>Unplug Temp and Humitidy USB sensor (ADD PART NUMBER)</solutions>
+            <issue>RGBLaser system error message on launching AutoFAT</issue>
+                <solutions>Check all the USB cable is connected to motherboard</solutions>
+            <issue>Unable to update firmware</issue>
+                <solutions>Unplug Temp and Humitidy USB sensor, might be malfunctioned (ADD PART NUMBER)</solutions>
+                <solutions></solutions>
 
-                <issue>Random keypress during instrument imaging, or after firs booting into Windows 10</issue>
-                    <solutions>Unplug Temp and Humitidy USB sensor (ADD PART NUMBER)</solutions>
-                <issue>RGBLaser system error message on launching AutoFAT</issue>
-                    <solutions>Check all the USB cable is connected to motherboard</solutions>
-                <issue>Unable to update firmware</issue>
-                    <solutions>Unplug Temp and Humitidy USB sensor, might be malfunctioned (ADD PART NUMBER)</solutions>
-                    <solutions></solutions>
-</initialization>
 
-<BEC_Insertion>
-    <category>Initialization</category>
-        <title>Instrument Initialization</title>
+<category>BECInsertion</category>
+    <subcategory>Hardware,Electrical</subcategory>
             <description>General issues encountered during BEC Insertion</description>
                 <issue>BEC EEPROM not detected</issue>
                 <issue>HV uA below 5</issue>
@@ -29,12 +26,12 @@
                 <solutions>Wipe the MEZZ PCBA pogo pins, and BEC PCB pin grid with tissue</solutions>
                 <solutions>Check MEZZ PCBA pogo pins, some might be stuck</solutions>
                 <solutions>Make sure the BEC is primed, and the protective red cap is removed from HV socket (ADD PART NUMBER)</solutions>
-</BEC_Insertion>
+                <solutions>For Piezo FAT test, ensure Air-leak test is passed</solutions>
 
-<category>Hardware</category>
-    <title>Instrument Initialization troubleshooting</title>
-    <description>General issues encountered during initialization of the instrument testing</description>
-    <issue>Syringe Pump failed to initialize</issue>
-    <solutions></solutions>
 
+<category>Bolus Delivery Test</category>
+    <subcategory>Hardware,Electrical</subcategory>
+        <description>General issues encountered during running of the Bolus Delivery Test</description>
+            <issue>Syringe Pump failed to initialize</issue>
+                <solutions></solutions>
 </Issues>
