@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Issues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Troubleshooting_Records xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
- <category>Initialization</category>
+<category>Initialization</category>
     <subcategory>Hardware,Electrical</subcategory>
         <description>General issues encountered during initialization of the instrument</description>
-            <issue>Syringe Pump failed to initialize</issue>
+            <issue>A. Syringe Pump failed to initialize</issue>
                 <solutions>1. Check COM port connection, and the 4 way valve dial is set to 0, and syringe pump dial is set to 1</solutions>
-                <solutions>1. Check power connection</solutions>
-            <issue>Random keypress during instrument imaging, or after firs booting into Windows 10</issue>
-                <solutions>Unplug Temp and Humitidy USB sensor (ADD PART NUMBER)</solutions>
-            <issue>RGBLaser system error message on launching AutoFAT</issue>
-                <solutions>Check all the USB cable is connected to motherboard</solutions>
-            <issue>Unable to update firmware</issue>
-                <solutions>Unplug Temp and Humitidy USB sensor, might be malfunctioned (ADD PART NUMBER)</solutions>
-                <solutions></solutions>
-
-
+                <solutions>2. Check power connection</solutions>
+            <issue>B. Random keypress during instrument imaging, or after first booting into Windows 10</issue>
+                <solutions>1. Unplug Temp and Humitidy USB sensor (ADD PART NUMBER)</solutions>
+            <issue>C. RGBLaser system error message on launching AutoFAT</issue>
+                <solutions>1. Check all the USB cable is connected to motherboard, and Laser power connector is properly inserted in to Mezz PCBA</solutions>
+            <issue>D. Unable to update firmware</issue>
+                <solutions>1. Unplug Temp and Humitidy USB sensor, it might be malfunctioned (ADD PART NUMBER)</solutions>
+            <issue>E. Instrument boot directly into Windows 10, rather than boot from Windows 10 Imaging USB (ADD PART NUMBER)</issue>
+				<solutions>1. Ensure the USB hub is working and is visible in BIOS</solutions>
+				<solutions>2. Try to change to different USB port</solutions>
 <category>BECInsertion</category>
     <subcategory>Hardware,Electrical</subcategory>
-            <description>General issues encountered during BEC Insertion</description>
-                <issue>BEC EEPROM not detected</issue>
-                <issue>HV uA below 5</issue>
-                <issue>Piezo FAT failed</issue>
-                <solutions>Wipe the MEZZ PCBA pogo pins, and BEC PCB pin grid with tissue</solutions>
-                <solutions>Check MEZZ PCBA pogo pins, some might be stuck</solutions>
-                <solutions>Make sure the BEC is primed, and the protective red cap is removed from HV socket (ADD PART NUMBER)</solutions>
-                <solutions>For Piezo FAT test, ensure Air-leak test is passed</solutions>
-
-
+        <description>General issues encountered during BEC Insertion</description>
+            <issue>A. BEC EEPROM not detected</issue>
+            <issue>B. HV uA below 5</issue>
+            <issue>C. Piezo FAT failed</issue>
+                <solutions>1. Wipe the MEZZ PCBA pogo pins, and BEC PCB pin grid with tissue</solutions>
+                <solutions>2. Check MEZZ PCBA pogo pins, some might be stuck</solutions>
+                <solutions>3. Make sure the BEC is primed, and the protective red cap is removed from HV socket (ADD PART NUMBER)</solutions>
+                <solutions>4. For Piezo FAT test, ensure Air-leak test is passed</solutions>
 <category>Bolus Delivery Test</category>
-    <subcategory>Hardware,Electrical</subcategory>
+    <subcategory>SCI,Wet Test</subcategory>
         <description>General issues encountered during running of the Bolus Delivery Test</description>
-            <issue>Syringe Pump failed to initialize</issue>
-                <solutions></solutions>
-</Issues>
+            <issue>A. Bolus Delivery test failed, Timing too slow or graph collapsed</issue>
+                <solutions>1. Check cartridge for any bubble or liquid leak immediately after Bolus-Delivery test</solutions>
+                <solutions>2. Ensure Prime Water test is passed, and Syringe pump resevior does not contain too much bubble</solutions>
+				<solutions>3. Ensure Air-leak test is passed</solutions>
+</Troubleshooting_Records>
