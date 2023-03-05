@@ -19,13 +19,17 @@
                     <solutions></solutions>
 </initialization>
 
-<issue>BEC EEPROM not detected</issue>
-<issue>Piezo FAT failed</issue>
-<issue>HV uA below 5</issue>
-<solutions>Check MEZZ PCBA pogo pins, some might be stuck</solutions>
-<solutions>Wipe the MEZZ PCBA pogo pins, and BEC PCB pin grid with tissue</solutions>
-<solutions>Make sure the BEC is primed, and the protective red cap is removed from HV socket (ADD PART NUMBER)</solutions>
-<solutions></solutions>
+<BEC_Insertion>
+    <category>Initialization</category>
+        <title>Instrument Initialization</title>
+            <description>General issues encountered during BEC Insertion</description>
+                <issue>BEC EEPROM not detected</issue>
+                <issue>HV uA below 5</issue>
+                <issue>Piezo FAT failed</issue>
+                <solutions>Wipe the MEZZ PCBA pogo pins, and BEC PCB pin grid with tissue</solutions>
+                <solutions>Check MEZZ PCBA pogo pins, some might be stuck</solutions>
+                <solutions>Make sure the BEC is primed, and the protective red cap is removed from HV socket (ADD PART NUMBER)</solutions>
+</BEC_Insertion>
 
 <category>Hardware</category>
     <title>Instrument Initialization troubleshooting</title>
