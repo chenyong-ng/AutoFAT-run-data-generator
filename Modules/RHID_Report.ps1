@@ -5,14 +5,7 @@
 .License        : Public Domain
 .Revision Date  : 10 JUL 2022
 .Description    : This script are best viewed and edit in Visual Studio Code https://code.visualstudio.com/
-.Todo           : Set display resolution, change to display 2, check exported PDF  leaf from full  [DONE]
-                : Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
-                : add method to check folderand run function if found 
-                : Add more meaningful error message, add USB devices detection
-                : add auto backup, add folder check
-                : Add more meaningful error message, add error code and instrument troubleshooting information
-                get data from run summary, then grep on sample quality data
-                REVERT set-location on full run, set auto backup
+
 
 Initialize global variables, do not change the order.
 #>
