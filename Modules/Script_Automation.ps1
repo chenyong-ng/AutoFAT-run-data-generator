@@ -30,7 +30,7 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 } 
 <#
 RHID Workstation laptop has differnt network drive path:
-S:\ drive is the path to Singappre server, and RHID instruments run data are uploaded to U:\ drive which is same as S:\
+S:\ drive is the path to Singapore server, and RHID instruments run data are uploaded to U:\ drive which is same as S:\
 Y:\ drive is the path to US server and is only visible in RHID workstation laptop and other staffs such as Engineers.
 #>
 
