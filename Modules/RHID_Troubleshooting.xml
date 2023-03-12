@@ -4,28 +4,38 @@
 <category>Initialization</category>
     <subcategory>Hardware,Electrical</subcategory>
         <description>General issues encountered during initialization of the instrument</description>
-            <issue>A. Syringe Pump failed to initialize</issue>
-                <solutions>1. Check COM port connection, and the 4 way valve dial is set to 0, and syringe pump dial is set to 1</solutions>
-                <solutions>2. Check power connection</solutions>
-            <issue>B. Random keypress during instrument imaging, or after first booting into Windows 10</issue>
-                <solutions>1. Unplug Temp and Humitidy USB sensor (ADD PART NUMBER)</solutions>
-            <issue>C. RGBLaser system error message on launching AutoFAT</issue>
-                <solutions>1. Check all the USB cable is connected to motherboard, and Laser power connector is properly inserted in to Mezz PCBA</solutions>
-            <issue>D. Unable to update firmware</issue>
-                <solutions>1. Unplug Temp and Humitidy USB sensor, it might be malfunctioned (ADD PART NUMBER)</solutions>
-            <issue>E. Instrument boot directly into Windows 10, rather than boot from Windows 10 Imaging USB (ADD PART NUMBER)</issue>
-				<solutions>1. Ensure the USB hub is working and is visible in BIOS</solutions>
-				<solutions>2. Try to change to different USB port</solutions>
-<category>BECInsertion</category>
+            <Syringe_Pump>
+                <issue>A. Syringe Pump failed to initialize</issue>
+                    <solutions>1. Check COM port connection, and the 4 way valve dial is set to 0, and syringe pump dial is set to 1</solutions>
+                    <solutions>2. Check power connection</solutions>
+                </Syringe_Pump>
+            <Random_keypress>    
+                <issue>B. Random keypress during instrument imaging, or after first booting into Windows 10</issue>
+                    <solutions>1. Unplug Temp and Humitidy USB sensor (ADD PART NUMBER)</solutions>
+            </Random_keypress>
+            <RGBLaser_Error>
+                <issue>C. RGBLaser system error message on launching AutoFAT</issue>
+                    <solutions>1. Check all the USB cable is connected to motherboard, and Laser power connector is properly inserted in to Mezz PCBA</solutions>
+            </RGBLaser_Error>
+            <Firmware_Update>
+                <issue>D. Unable to update firmware</issue>
+                    <solutions>1. Unplug Temp and Humitidy USB sensor, it might be malfunctioned (ADD PART NUMBER)</solutions>
+            </Firmware_Update>
+            <Win10_Imaging_Skipped>
+                <issue>E. Instrument boot directly into Windows 10, rather than boot from Windows 10 Imaging USB (ADD PART NUMBER)</issue>
+				    <solutions>1. Ensure the USB hub is working and is visible in BIOS</solutions>
+				    <solutions>2. Try to change to different USB port</solutions>
+            </Win10_Imaging_Skipped>
+<category>BEC Insertion</category>
     <subcategory>Hardware,Electrical</subcategory>
         <description>General issues encountered during BEC Insertion</description>
-            <issue>A. BEC EEPROM not detected</issue>
-            <issue>B. HV uA below 5</issue>
-            <issue>C. Piezo FAT failed</issue>
-                <solutions>1. Wipe the MEZZ PCBA pogo pins, and BEC PCB pin grid with tissue</solutions>
-                <solutions>2. Check MEZZ PCBA pogo pins, some might be stuck</solutions>
-                <solutions>3. Make sure the BEC is primed, and the protective red cap is removed from HV socket (ADD PART NUMBER)</solutions>
-                <solutions>4. For Piezo FAT test, ensure Air-leak test is passed</solutions>
+                <issue>A. BEC EEPROM not detected</issue>
+                <issue>B. HV uA below 5</issue>
+                <issue>C. Piezo FAT failed</issue>
+                    <solutions>1. Wipe the MEZZ PCBA pogo pins, and BEC PCB pin grid with tissue</solutions>
+                    <solutions>2. Check MEZZ PCBA pogo pins, some might be stuck</solutions>
+                    <solutions>3. Make sure the BEC is primed, and the protective red cap is removed from HV socket (ADD PART NUMBER)</solutions>
+                    <solutions>4. For Piezo FAT test, ensure Air-leak test is passed</solutions>
 <category>Bolus Delivery Test</category>
     <subcategory>SCI,Wet Test</subcategory>
         <description>General issues encountered during running of the Bolus Delivery Test</description>
