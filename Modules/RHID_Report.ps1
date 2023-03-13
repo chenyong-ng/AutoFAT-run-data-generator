@@ -483,10 +483,11 @@ Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Cyan
 Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Cyan
 $Section_Separator
 
-# ignore folder with 0 size
+# ignore folder with 0 size 
+# "ErrorAction SilentlyContinue" workaround for older versions of Powershell.
 $Remote = Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue
 $Local = Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue
-$RemoteSize = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum ).sum / 1Gb)
+$RemoteSize = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Gb)
 $LocalSize = "{0:N4} GB" -f (( $Local | Measure-Object Length -sum ).sum / 1Gb)
 $RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
 $localFileCount = (Get-ChildItem "E:\RapidHIT ID"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
