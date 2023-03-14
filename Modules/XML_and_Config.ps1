@@ -123,9 +123,10 @@ function BackupBeforeShipprep {
 }
 
 function BackupConfig {
-Copy-Item -Force -Path E:\"RapidHIT ID"\ -Destination U:\"$name\Internal\RapidHIT ID"\ -Recurse -Filter *.xml
-Copy-Item -Force -Path E:\"RapidHIT ID"\Results\ , E:\"RapidHIT ID"\Results\*.TXT -Destination U:\"$name\Internal\RapidHIT ID"\Results\ -Recurse -Filter *.png
-  
+# Copy-Item -Force -Path E:\"RapidHIT ID"\ -Destination U:\"$name\Internal\RapidHIT ID"\ -Recurse -Filter *.xml
+# Copy-Item -Force -Path E:\"RapidHIT ID"\Results\ , E:\"RapidHIT ID"\Results\*.TXT -Destination U:\"$name\Internal\RapidHIT ID"\Results\ -Recurse -Filter *.png
+  New-Item -ItemType Directory -Force -Path "U:\$MachineName\Internal\" # directory must exist
+  Copy-Item E:\"RapidHIT ID"\Results\* "U:\$MachineName\Internal\" -Exclude @("Data $MachineName") -Recurse
 }
 
 function network {
