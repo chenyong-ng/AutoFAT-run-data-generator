@@ -119,7 +119,7 @@ $RHID_Lysis_Heater_FAT.line.split(":")
 
 if (($RHID_Lysis_Heater_FAT).count -eq "") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow }
-elseif ([bool] ($RHID_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
+elseif ([bool]($storyboard | Select-String "Lysis Heater FAT" | Select-String "Pass" | Select-Object -Last 1).line.split(":").TrimStart() -eq "PASS") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green }
 else {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red    }
