@@ -17,7 +17,7 @@
 Initialize global variables, do not change the order.
 #>
 
-$profile = "defailt"
+$profile = "default"
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"

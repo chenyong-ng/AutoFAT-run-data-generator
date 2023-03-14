@@ -14,7 +14,7 @@ Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data f
 # convert everything to functios, execute only if condition is true
 
 $Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[ Info       ]"
-$Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]"
+$Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]" ; $System       = "[ System     ]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]"
 $Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]" ; $Verification = "[Verification]"
 $Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]" ; $BEC_Status   = "[ BEC_Status ]"
@@ -33,6 +33,16 @@ $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
 $FP_Sensor_Str              = "        Authentec Biometric CoProcessor"
 $HD_USB_CAM_Str             = "                          HD USB Camera"
+$Operating_System           = "               Operating System Version"
+$Host_Name                  = "                              Host Name"
+
+$Instrument_Serial          = "                      Instrument Serial"
+$Hardware_Version           = "                       Hardware Version"
+$SCI_Configuration          = "                      SCI Configuration"
+$Data_Upload_Path           = "                       Data Upload Path"
+$Syringe_Pump_Calibration   = "               Syringe Pump Calibration"
+$PrimeWater_Status          = "                      PrimeWater Status"
+$PrimeLysisBuffer           = "                PrimeLysisBuffer Status"
 
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
