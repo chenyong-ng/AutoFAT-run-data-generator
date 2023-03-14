@@ -2,7 +2,7 @@
 @echo off
 :1
 @REM This batch file invokes the powershell scripts under the modules foder with elevated privileges
-If Exist "%~dp0\Modules\automation.ps1" (
+If Exist "%~dp0\Modules\Script_Automation.ps1" (
 	powershell -Command "& {Set-ExecutionPolicy unrestricted -Scope CurrentUser}"
 	powershell -sta -ExecutionPolicy ByPass -File "%~dp0\Modules\Script_Automation.ps1"
 )

@@ -108,7 +108,15 @@ IF ([Bool]$RHID_ExecutionLOG -eq "True") {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
     Write-Host "$HIDAutolite : $HIDAutolite_Execution_Str $RHID_GM_Analysis_PeakTable_Filter "
 } Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or Expired" -ForegroundColor Red }
+
 $Section_Separator
+
+<#
+add more robust checking
+$RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT" | select-string "pass" | Select-Object -Last 1
+$RHID_Lysis_Heater_FAT.line.split(":")
+#>
+
 if (($RHID_Lysis_Heater_FAT).count -eq "") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
