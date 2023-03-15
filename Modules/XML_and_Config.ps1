@@ -81,7 +81,6 @@ TC Step 2       :   °C [61.5 ± 0.25°C]
 TC Step 3       :   °C [94.0 ± 0.25°C]
 TC Step 4       :   °C [61.5 ± 0.25°C]
 Airleak Test    :  Passed/NA
-Laser LD_488 S/N: 
 "
 } #for recording TC verification data
 function Help2 {

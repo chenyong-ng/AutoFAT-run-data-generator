@@ -68,7 +68,6 @@ if ([bool]$TC_verificationTXT -eq "True") {
 "$Verification : $TC_Steps 3 : $RHID_TC_Step3"
 "$Verification : $TC_Steps 4 : $RHID_TC_Step3"
 "$Verification : $Airleak_Test : $RHID_Verify_Arileak"
-"$Verification : $Laser_SN : $RHID_Verify_Laser_ID"
 }
 
 if ($RHID_MachineConfig_SN.count -eq "0") {
