@@ -63,7 +63,7 @@ $RHID_Mezzboard_FAT = ($storyboard | Select-String "Mezzboard FAT" |  Select-Obj
 
 #First BEC Insertion
 $RHID_BEC_Reinsert_First = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1) 
-$RHID_BEC_insert_ID = ($storyboard | Select-String "BEC Insertion BEC_")
+$RHID_BEC_insert_ID = ($storyboard | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Select-String "BEC Insertion BEC_") | Select-Object -First 1
 $RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
 $RHID_HV_FAT = ($storyboard | Select-String "HV FAT" | Select-Object -Last 1)
 $RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last 1)

@@ -18,7 +18,6 @@ if ([bool]$TC_verificationTXT -eq "True") {
     $TC_Probe_ID       = "                            TC Probe ID"
     $TC_Steps          = "                              TC Step"
     $AirLeak_Test      = "                           Airleak Test"
-    $Laser_SN          = "                       Laser LD_488 S/N"
     $RHID_Verify_Probe = ($TC_verificationTXT | Select-String "Ambient").line.split(":").TrimStart() | Select-Object -Last 1
     $RHID_Verify_USB_Probe = ($TC_verificationTXT | Select-String "Humidity").line.split(":").TrimStart() | Select-Object -Last 1
     $RHID_TC_Probe_ID = ($TC_verificationTXT | Select-String "TC Probe ID").line.split(":").TrimStart() | Select-Object -Last 1
