@@ -41,15 +41,6 @@ IF ([Bool]$RHID_QMini_Infl -eq "True") {
     Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Filter" -ForegroundColor Green }
     Else{ Write-Host "$Optics : $RHID_Infl_Str : Not Available" -ForegroundColor Yellow}
 
-#if ($SerialRegMatch -eq "True") {
-    If ([Bool]$RHID_FP_Sensor -eq "True") { "$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
-    If ([Bool]$RHID_USB_HD_Camera -eq "True") { "$HD_USB_CAM : $HD_USB_CAM_Str : Present" } else { "$HD_USB_CAM : $HD_USB_CAM_Str : N/A" }
-        $OSQuery_Name = (systeminfo | select-string "OS name").line.split(":").TrimStart() | select-object -last 1
-        $Host_Query = (systeminfo | select-string "Host Name").line.split(":").TrimStart() | select-object -last 1
-        "$System : $Operating_System : $OSQuery_Name"
-        "$System : $Host_Name : $Host_Query"
-#}
-
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
     Write-Host "$TC_Cal :      $Warning : Unpopulated TC_Calibration.XML Found" -ForegroundColor RED

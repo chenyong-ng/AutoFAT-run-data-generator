@@ -26,6 +26,23 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
         Write-host "$Warning : Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
     } else {
     Write-Host "$info : System Timezone $SystemTimeZone" }
+If ([Bool]$RHID_FP_Sensor -eq "True") {
+    "$FP : $FP_Sensor_Str : Present" 
+}
+else {
+    "$FP : $FP_Sensor_Str : N/A" 
+}
+If ([Bool]$RHID_USB_HD_Camera -eq "True") {
+    "$HD_USB_CAM : $HD_USB_CAM_Str : Present"
+}
+else {
+    "$HD_USB_CAM : $HD_USB_CAM_Str : N/A" 
+}
+$OSQuery_Name = (systeminfo | select-string "OS name").line.split(":").TrimStart() | select-object -last 1
+$Host_Query = (systeminfo | select-string "Host Name").line.split(":").TrimStart() | select-object -last 1
+"$System : $Operating_System : $OSQuery_Name"
+"$System : $Host_Name : $Host_Query"
+
     $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
     if ($Win10patch_leaf -eq "True") {
         $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
