@@ -113,19 +113,24 @@ $RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT" | selec
 $RHID_Lysis_Heater_FAT.line.split(":")
 #>
 
+$RHID_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT"
+$RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(":").TrimStart()[-1]
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
-    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow 
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA" -ForegroundColor Yellow 
 }
-elseif ([bool](($storyboard | Select-String "Lysis Heater FAT" | select-string "pass" ).Line.split(":").TrimStart()[-1] -eq "PASS") {
+elseif ([bool]($RHID_Lysis_Heater_FAT_PASS -eq "PASS") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
-    If (DebugMode = "True") { "Lysis Heater Pass Count" ($storyboard | Select-String "Lysis Heater FAT" | Select-String "Pass" ).count }
-    ($storyboard | Select-String "Lysis Heater FAT" | select-string "pass" )
-    ($storyboard | Select-String "Lysis Heater FAT" | select-string "pass" ).Line.split(",").TrimStart()[-1]
+        If (DebugMode = "True") {
+            "Lysis Heater Pass Count ($RHID_Lysis_Heater_FAT_PASS).count "
+        }
+    ($RHID_Lysis_Heater_FAT | select-string "pass" )
+    ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(",").TrimStart()[-1]
 }
 else {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red
     If (DebugMode = "True") { $RHID_Lysis_Heater_FAT }
 }
+
 
 
 if (($RHID_DN_Heater_FAT).count -eq "0") {
