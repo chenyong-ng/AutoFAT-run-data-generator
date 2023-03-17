@@ -5,7 +5,7 @@ if ($ServerDir_Leaf -eq "True") {
 } else {
     Write-Host "[Error!] Selected instrument Serial number does not exist, or moved to US server" -ForegroundColor Yellow
 }
-<# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$Sn"_MTSS.TXT
+<# text string searching/filtering, > $serverdir\Internal\"RapidHIT ID"\Results\RHID_"$SerialNumber"_MTSS.TXT
 #>
 
 <#

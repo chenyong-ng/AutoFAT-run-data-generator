@@ -99,22 +99,22 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
 function MainOptions {
-$sn = read-host "
+$SerialNumber = read-host "
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
 Enter 2 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
 Enter number or Instrument Serial Number (4 digits) to proceed"
 
-if ($sn -eq '1') {
-  $sn = read-host "Enter Folder Path"
-  set-variable -name "serverdir" -value "$sn"
-} elseif ($sn -eq '2') {
+if ($SerialNumber -eq '1') {
+  $SerialNumber = read-host "Enter Folder Path"
+  set-variable -name "serverdir" -value "$SerialNumber"
+} elseif ($SerialNumber -eq '2') {
   mkdir U:\"$name"\Internal\
     BackupBeforeShipprep
-} elseif ((Test-Path -Path "$path-$sn") -eq "True") {
-  set-variable -name "serverdir" -value "$path-$sn"
+} elseif ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
+  set-variable -name "serverdir" -value "$path-$SerialNumber"
   . $PSScriptRoot\RHID_Report.ps1
 } Else {
-    Write-Host "[ RapidHIT ID]: selected Serial Number $sn does not have record in Server" -ForegroundColor Yellow}
+    Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
 }
 
 function BackupBeforeShipprep {
@@ -155,7 +155,7 @@ function debug {
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
     "[$D] Computer Name  : $env:COMPUTERNAME"
-    "[$D] name           : $name" ; "[$D] Sn             : $sn"
+    "[$D] name           : $name" ; "[$D] Sn             : $SerialNumber"
     "[$D] SerialRegMatch : $SerialRegMatch" 
     "[$D] get-date       : ${get-date}"
     "[$D] rhid           : $rhid"
