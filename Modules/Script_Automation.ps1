@@ -62,7 +62,7 @@ $internal      = Test-Path -Path "U:\$name\Internal\"
 $US_internal   = Test-Path -Path "Y:\$name\Internal\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
-$Debug = "off"
+$DebugMode = "True"
 $exicode = $Null
 
 . $PSScriptRoot\XML_and_Config.ps1

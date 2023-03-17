@@ -120,12 +120,11 @@ if ($RHID_Lysis_Heater_FAT.count -eq "0") {
 }
 elseif ([bool]($RHID_Lysis_Heater_FAT_PASS -eq "PASS") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
-        If (DebugMode = "True") {
-            "Lysis Heater Pass Count ($RHID_Lysis_Heater_FAT_PASS).count "
-        }
-    ($RHID_Lysis_Heater_FAT | select-string "pass" )
-    ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(",").TrimStart()[-1]
-}
+        If (DebugMode -eq "True") {
+            "Lysis Heater Pass Count ($RHID_Lysis_Heater_FAT_PASS).count " 
+            ($RHID_Lysis_Heater_FAT | select-string "pass" )
+            ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(",").TrimStart()[-1]
+}}
 else {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red
     If (DebugMode = "True") { $RHID_Lysis_Heater_FAT }
