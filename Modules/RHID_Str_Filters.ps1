@@ -32,7 +32,7 @@ $RHID_FP_Sensor     = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId
 $RHID_USB_HD_Camera = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "HD USB Camera" )
 
 # presence detection
-$RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT"  | Select-Object -Last 1
+$RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT"
 $RHID_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
 $RHID_PCR_Heater_FAT    = $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1
 $RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
