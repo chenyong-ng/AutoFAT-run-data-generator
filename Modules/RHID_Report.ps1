@@ -57,7 +57,7 @@ if ([bool]$TC_verificationTXT -eq "True") {
 "$Verification : $TC_Steps 1 : $RHID_TC_Step1"
 "$Verification : $TC_Steps 2 : $RHID_TC_Step2"
 "$Verification : $TC_Steps 3 : $RHID_TC_Step3"
-"$Verification : $TC_Steps 4 : $RHID_TC_Step3"
+"$Verification : $TC_Steps 4 : $RHID_TC_Step4"
 "$Verification : $Airleak_Test : $RHID_Verify_Arileak"
 }
 
