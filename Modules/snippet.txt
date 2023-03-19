@@ -81,3 +81,12 @@ WaitForTime                    20
 OutputFile                     "C:\output.log"
 InputFile                      "C:\Users.txt"
 *To retrieve an item from the table, use the command $h.Get_Item("MySetting1").*
+
+http://xxx.104.xxx.226
+APP=2.3.6
+DLL=2.3.6
+
+$ADAP = Get-Content 'ADAP.ini' | Select -Skip 1 | ConvertFrom-StringData
+
+$ADAP.APP
+$ADAP.DLL
