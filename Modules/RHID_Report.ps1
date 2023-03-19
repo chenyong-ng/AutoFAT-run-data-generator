@@ -478,7 +478,7 @@ IF ($GM_ILS_Score_BLANK.count -gt 0) {
     "$SampleName : [3/6] $RHID_SampleName"
     "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
-    "GM_ILS_Score_BLANK.count ($GM_ILS_Score_BLANK).count"
+    Write-host "GM_ILS_Score_BLANK.count" $GM_ILS_Score_BLANK.count
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 
