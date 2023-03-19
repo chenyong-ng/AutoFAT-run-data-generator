@@ -472,12 +472,15 @@ IF ($GM_ILS_Score_BLANK.count -gt 0) {
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_BLANK -I RunSummary.csv -R
+    $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis -R
+    If ($BlankRunCounter.count -gt 3) { $Color = "Cyan" } else { $Color = "Red"}
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/6] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
     "$SampleName : [3/6] $RHID_SampleName"
     "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
+    Write-Host "$RunCounter : [6/6] Blank Run Counter :" $BlankRunCounter.count -ForegroundColor $Color
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 
