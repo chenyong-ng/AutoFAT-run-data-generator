@@ -118,9 +118,9 @@ $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | select-string "pass" ).L
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA" -ForegroundColor Yellow 
 }
-elseif ([bool]($RHID_Lysis_Heater_FAT_PASS -eq "PASS") {
+elseif ([bool]($RHID_Lysis_Heater_FAT_PASS -eq "PASS")) {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
-        If (DebugMode -eq "True") {
+        If ($DebugMode -eq "True") {
             "Lysis Heater Pass Count ($RHID_Lysis_Heater_FAT_PASS).count " 
             ($RHID_Lysis_Heater_FAT | select-string "pass" )
             ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(",").TrimStart()[-1]
@@ -467,7 +467,7 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
 }
 Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
-IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
+IF ([Bool]$GM_ILS_Score_BLANK.count -eq "True") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -478,6 +478,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     "$SampleName : [3/6] $RHID_SampleName"
     "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
+    "GM_ILS_Score_BLANK.count $GM_ILS_Score_BLANK.count"
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 
