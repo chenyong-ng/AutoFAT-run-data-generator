@@ -113,6 +113,10 @@ if ($SerialNumber -eq '1') {
 } elseif ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
   $serverdir = "$path-$SerialNumber"
   . $PSScriptRoot\RHID_Report.ps1
+}
+  elseif ((Test-Path -Path "$US_path-$SerialNumber") -eq "True") {
+    $serverdir = "$US_path-$SerialNumber"
+    . $PSScriptRoot\RHID_Report.ps1
 } Else {
     Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
 }
@@ -179,4 +183,10 @@ function debug {
     "[$D] Local Folder  ?: $Local"     ; "[$D] Remote Folder ?: $Remote"
     "[$D] PSVersion     ?:";" $PSversion"
     $col_screens, $strMonitors
+    Add-Type -Assembly System.Windows.Forms; [Windows.Forms.SystemInformation]::ScreenOrientation
+    <# Force change Angel270 to change display to portrit flipped mode 
+    
+    HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Configuration
+
+#>
 }

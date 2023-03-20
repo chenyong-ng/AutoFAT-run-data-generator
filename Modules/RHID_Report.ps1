@@ -520,7 +520,6 @@ if ([bool]$RHID_Shipping_BEC -eq "True") {
 }else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
-
 IF ([Bool]$MachineName -eq "False") {
     $Local_Folder_Msg
     $Remote_Folder_Msg
