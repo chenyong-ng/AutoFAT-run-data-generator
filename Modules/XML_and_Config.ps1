@@ -113,13 +113,23 @@ if ($SerialNumber -eq '1') {
 } elseif ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
   $serverdir = "$path-$SerialNumber"
   . $PSScriptRoot\RHID_Report.ps1
-}
-  elseif ((Test-Path -Path "$US_path-$SerialNumber") -eq "True") {
+} elseif ((Test-Path -Path "$US_path-$SerialNumber") -eq "True") {
     $serverdir = "$US_path-$SerialNumber"
     . $PSScriptRoot\RHID_Report.ps1
 } Else {
     Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
 }
+
+<#
+switch ($SerialNumber)
+{
+    1 {$SerialNumber = read-host "Enter Folder Path"
+        "serverdir" = "$SerialNumber"}
+    2 {(Test-Path -Path "$path-$SerialNumber") -eq "True"}
+    3 {(Test-Path -Path "$US_path-$SerialNumber") -eq "True"}
+    4 {Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
+}
+#>
 
 function BackupBeforeShipprep {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"
