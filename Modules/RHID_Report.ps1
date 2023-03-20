@@ -502,22 +502,25 @@ $Section_Separator
 
 # ignore folder with 0 size 
 # "ErrorAction SilentlyContinue" workaround for older versions of Powershell.
-$Remote = Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue
+IF ([bool]($SerialRegMatch = "True")) {
 $Local = Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue
-$RemoteSize = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Gb)
 $LocalSize = "{0:N4} GB" -f (( $Local | Measure-Object Length -sum ).sum / 1Gb)
-$RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
 $localFileCount = (Get-ChildItem "E:\RapidHIT ID"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
+$Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $LocalSize ; Files : $LocalFileCount"
+}
 
-$RHID_Shipping_BEC = $storyboard | Select-String "Shipping BEC engaged"
+$Remote = Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue
+$RemoteSize = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Gb)
+$RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
+$Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $RemoteSize ; Files : $RemoteFileCount"
+
+$RHID_Shipping_BEC = Get-ChildItem "$Drive\$MachineName\*Shipping BEC*" -I storyboard*.* -R | Select-String "Shipping BEC engaged"
 if ([bool]$RHID_Shipping_BEC -eq "True") {
     Write-Host "$SHP_BEC :   BEC Insertion completed, Shipping BEC : Engaged" -ForegroundColor Green
 }else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow }
 
-    # block empty machine name
-$Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $LocalSize ; Files : $LocalFileCount"
-$Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $RemoteSize ; Files : $RemoteFileCount"
+
 IF ([Bool]$MachineName -eq "False") {
     $Local_Folder_Msg
     $Remote_Folder_Msg
@@ -534,7 +537,7 @@ Else {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
 }
 
-if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch = "True")) {
+if (($RemoteSize -lt $LocalSize) -and [bool]($SerialRegMatch = "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green
     $KeyPress_Backup = "Enter to skip backup operation"
     IF ($KeyPress_Backup -eq "") {

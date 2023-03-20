@@ -26,6 +26,9 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
         Write-host "$Warning : Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
     } else {
     Write-Host "$info : System Timezone $SystemTimeZone" }
+
+$RHID_FP_Sensor = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor" )
+$RHID_USB_HD_Camera = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "HD USB Camera" )
 If ([Bool]$RHID_FP_Sensor -eq "True") {
     "$FP : $FP_Sensor_Str : Present" 
 }
