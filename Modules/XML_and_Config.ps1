@@ -111,7 +111,7 @@ if ($SerialNumber -eq '1') {
   mkdir U:\"$name"\Internal\
     BackupBeforeShipprep
 } elseif ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
-  set-variable -name "serverdir" -value "$path-$SerialNumber"
+  $serverdir = "$path-$SerialNumber"
   . $PSScriptRoot\RHID_Report.ps1
 } Else {
     Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}

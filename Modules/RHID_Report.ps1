@@ -121,16 +121,13 @@ if ($RHID_Lysis_Heater_FAT.count -eq "0") {
 elseif ([bool]($RHID_Lysis_Heater_FAT_PASS -eq "PASS")) {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
         If ($DebugMode -eq "True") {
-            "Lysis Heater Pass Count ($RHID_Lysis_Heater_FAT_PASS).count " 
+            Write-Host "Lysis Heater Pass Count" $RHID_Lysis_Heater_FAT_PASS.count
             ($RHID_Lysis_Heater_FAT | select-string "pass" )
-            ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(",").TrimStart()[-1]
 }}
 else {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red
-    If (DebugMode = "True") { $RHID_Lysis_Heater_FAT }
+    If (DebugMode = "True") { $RHID_Lysis_Heater_FAT | select-string "fail" }
 }
-
-
 
 if (($RHID_DN_Heater_FAT).count -eq "0") {
     Write-Host "$Heater : $RHID_DN_Heater_str $Test_NA"    -ForegroundColor Yellow }
@@ -310,7 +307,8 @@ if (($RHID_HV_FAT).count -eq "") {
 elseif ([bool] ($RHID_HV_FAT | Select-String "Pass") -eq "True") {
     $RHID_HV_FAT_Voltage = ($storyboard | Select-String "Voltage =" | Select-String "(8650/9300V)" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 1
     $RHID_HV_FAT_Current = ($storyboard | Select-String "Current =" | Select-String "(> 5uA)" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 1
-    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed $RHID_HV_FAT_Voltage $RHID_HV_FAT_Current" -ForegroundColor Green}
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$HV : $RHID_HV_FAT_Voltage , $RHID_HV_FAT_Current" -ForegroundColor Green}
 else {
     # Display err when failed "Current Under Limit. Check BEC."
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_Failed $RHID_HV_FAT_Voltage $RHID_HV_FAT_Current" -ForegroundColor Red    }
@@ -381,8 +379,6 @@ elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    }
 
-
-    # Add bolus test counter, same method as blank test counter
 $RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
 if ($RHID_Bolus.count -gt 1) {
     Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_Bolus.count -ForegroundColor Green
