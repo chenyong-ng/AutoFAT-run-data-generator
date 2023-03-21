@@ -16,7 +16,7 @@
 Initialize global variables, do not change the order.
 #>
 
-Write-Host "[ RapidHIT ID] : Loading PS script Report_Automation.ps1.." -ForegroundColor Cyan
+"[ RapidHIT ID] : Loading PS script Report_Automation.ps1.."
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
@@ -58,8 +58,8 @@ $Debug = "off"
 $exicode = $Null
 
 . $PSScriptRoot\XML_and_Config.ps1
-"Loading PS script MXML_and_Config.ps1.."
-Clear-Host
+"Loading PS script XML_and_Config.ps1.."
+
 if ($SerialRegMatch -eq "True") {
     "Loading PS script MainFunction.ps1 and RHID_Report.ps1.."
     . $PSScriptRoot\MainFunction.ps1

@@ -25,11 +25,10 @@ $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\RHID_Str_Filters.ps1
 
-Write-Host " Loading PS script RHID_Str.ps1.. ,
+"Loading RHID_Str.ps1.. ,
  RHID_Str_Filters.ps1..,
  RHID_Report.ps1..,
  RunSummaryCSV.ps1.."
-start-sleep 1
 Clear-Host
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
