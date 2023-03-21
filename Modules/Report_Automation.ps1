@@ -16,10 +16,13 @@
 Initialize global variables, do not change the order.
 #>
 
+Write-Host "[ RapidHIT ID] : Loading PS script Report_Automation.ps1.." -ForegroundColor Cyan
+
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
     $path = "S:\RHID"
     $danno = "S:\Dano Planning\Test Data\"
+    $US_Drive = "Y:"
     $US_Path = "Y:\RHID"
     $US_danno = "Y:\Dano Planning\Test Data\"
 } else {
@@ -32,6 +35,7 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $name = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
+$DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
 $rhid   = "E:\RapidHIT ID"
@@ -54,8 +58,10 @@ $Debug = "off"
 $exicode = $Null
 
 . $PSScriptRoot\XML_and_Config.ps1
+"Loading PS script MXML_and_Config.ps1.."
 Clear-Host
 if ($SerialRegMatch -eq "True") {
+    "Loading PS script MainFunction.ps1 and RHID_Report.ps1.."
     . $PSScriptRoot\MainFunction.ps1
     . $PSScriptRoot\RHID_Report.ps1
 } else { 

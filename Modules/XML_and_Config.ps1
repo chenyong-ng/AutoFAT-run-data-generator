@@ -1,4 +1,6 @@
-﻿function MachineConfigXML {
+﻿"Loading script "
+
+function MachineConfigXML {
     Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
 <InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$name</MachineName>
@@ -71,7 +73,6 @@ TC Step 2       :   °C [61.5 ± 0.25°C]
 TC Step 3       :   °C [94.0 ± 0.25°C]
 TC Step 4       :   °C [61.5 ± 0.25°C]
 Airleak Test    :  Passed/NA
-Laser LD_488 S/N: 
 "
 } #for recording TC verification data
 function Help2 {
@@ -90,32 +91,36 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
 function MainOptions {
-$sn = read-host "
-Enter 1 to Paste folder path, can be folder in server or instrument local folder,
-Enter 2 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
-Enter number or Instrument Serial Number (4 digits) to proceed"
+$SerialNumber = read-host "Enter Instrument Serial Number (4 digits) to proceed"
 
-if ($sn -eq '1') {
-  $sn = read-host "Enter Folder Path"
-  set-variable -name "serverdir" -value "$sn"
-} elseif ($sn -eq '2') {
+if ($SerialNumber -eq '1') {
+  $SerialNumber = read-host "Enter Folder Path"
+  set-variable -name "serverdir" -value "$SerialNumber"
+} elseif ($SerialNumber -eq '2') {
   mkdir U:\"$name"\Internal\
     BackupBeforeShipprep
-} elseif ((Test-Path -Path "$path-$sn") -eq "True") {
-  set-variable -name "serverdir" -value "$path-$sn"
+} elseif ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
+  $serverdir = "$path-$SerialNumber"
   . $PSScriptRoot\RHID_Report.ps1
-} Else {
-    Write-Host "[ RapidHIT ID]: selected Instrument S/N $sn does not have record in Server" -ForegroundColor Yellow}
 }
-
+  elseif ((Test-Path -Path "$US_path-$SerialNumber") -eq "True") {
+    $serverdir = "$US_path-$SerialNumber"
+    $Drive = $US_Drive
+    . $PSScriptRoot\RHID_Report.ps1
+} Else {
+    Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
+}
+<#
+Enter 1 to Paste folder path, can be folder in server or instrument local folder,
+Enter 2 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
+#>
 function BackupBeforeShipprep {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"
 }
 
 function BackupConfig {
-Copy-Item -Force -Path E:\"RapidHIT ID"\*.xml -Destination U:\"$name\Internal\RapidHIT ID"\
-Copy-Item -Force -Path E:\"RapidHIT ID"\Results\*.PNG , E:\"RapidHIT ID"\Results\*.TXT -Destination U:\"$name\Internal\RapidHIT ID"\Results\
-  
+New-Item -ItemType Directory -Force -Path "U:\$name\Internal\RapidHIT ID\Results\" -ErrorAction SilentlyContinue
+Copy-Item "E:\RapidHIT ID\*" U:\"$name\Internal\RapidHIT ID"\Results\ -Exclude @("Data $MachineName") -Recurse
 }
 
 function network {
@@ -167,4 +172,5 @@ function debug {
     "[$D] Local Folder  ?: $Local"     ; "[$D] Remote Folder ?: $Remote"
     "[$D] PSVersion     ?:";" $PSversion"
     $col_screens, $strMonitors
+    Add-Type -Assembly System.Windows.Forms; [Windows.Forms.SystemInformation]::ScreenOrientation
 }

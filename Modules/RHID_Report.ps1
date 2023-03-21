@@ -1,16 +1,37 @@
-$storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R 
+
+$storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R
+if ([bool]$storyboard -ne "True") {
+    Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
+"Looking for MachineName"
+$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
+
+"Looking for MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
+"Looking for TC_Calibration.xml"
 $TC_CalibrationXML = Get-Childitem "$serverdir" -I TC_Calibration.xml -R 
+"Looking for SampleQuality.txt"
 $SampleQuality = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
+"Looking for DannoGUIState.xml"
 $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
+"Looking for execution.log"
 $ExecutionLOG = Get-ChildItem "$serverdir" -I execution.log -R
-$CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R 
+"Looking for BEC Insertin Storyboard.txt" 
+$CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R
+"Looking for GM_Analysis_PeakTable.txt" 
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
 
-$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
+"Loading more filtering scripts "
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\RHID_Str_Filters.ps1
+
+Write-Host " Loading PS script RHID_Str.ps1.. ,
+ RHID_Str_Filters.ps1..,
+ RHID_Report.ps1..,
+ RunSummaryCSV.ps1.."
+start-sleep 1
+Clear-Host
+Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
 IF ([Bool]$RHID_QMini_SN -eq "True") {
     $RHID_QMini_SN_Filter = $RHID_QMini_SN.line.split(":").TrimStart() | Select-object -last 1
@@ -26,9 +47,6 @@ IF ([Bool]$RHID_QMini_Infl -eq "True") {
     $RHID_QMini_Infl_Filter = $RHID_QMini_Infl.line.split(":").TrimStart() | Select-object -last 1
     Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Filter" -ForegroundColor Green }
     Else{ Write-Host "$Optics : $RHID_Infl_Str : Not Available" -ForegroundColor Yellow}
-
-If ([Bool]$RHID_FP_Sensor -eq "True") { "$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
-If ([Bool]$RHID_USB_HD_Camera -eq "True") { "$HD_USB_CAM : $HD_USB_CAM_Str : Present" } else { "$HD_USB_CAM : $HD_USB_CAM_Str : N/A" }
 
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
@@ -46,22 +64,22 @@ if ([bool]$TC_verificationTXT -eq "True") {
 "$Verification : $TC_Steps 1 : $RHID_TC_Step1"
 "$Verification : $TC_Steps 2 : $RHID_TC_Step2"
 "$Verification : $TC_Steps 3 : $RHID_TC_Step3"
-"$Verification : $TC_Steps 4 : $RHID_TC_Step3"
+"$Verification : $TC_Steps 4 : $RHID_TC_Step4"
 "$Verification : $Airleak_Test : $RHID_Verify_Arileak"
-"$Verification : $Laser_SN : $RHID_Verify_Laser_ID"
 }
 
-if ($RHID_MachineConfig_HW.count -eq "0") {
+if ($RHID_MachineConfig_SN.count -eq "0") {
     Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
 
-<#
-Add more check on machine configuration file.
-#>
+Write-Host "$MachineConf : $Instrument_Serial : $RHID_MachineConfig_SN" -ForegroundColor Green
+Write-Host "$MachineConf : $Hardware_Version : $RHID_MachineConfig_HWVer" -ForegroundColor Green
+Write-Host "$MachineConf : $SCI_Configuration : $RHID_MachineConfig_HWID" -ForegroundColor Green
+Write-Host "$MachineConf : $Data_Upload_Path : $RHID_MachineConfig_ServerPath" -ForegroundColor Green
+Write-Host "$MachineConf : $Syringe_Pump_Calibration : $RHID_MachineConfig_Syring" -ForegroundColor Green
+Write-Host "$MachineConf : $PrimeWater_Status : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
+Write-Host "$MachineConf : $PrimeLysisBuffer : $RHID_MachineConfig_PrimeLysisBuffer" -ForegroundColor Green
 
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW" -ForegroundColor Green
-Write-Host "$MachineConf : $Machine_Config_Str : $RHID_MachineConfig_HW2" -ForegroundColor Green
-Write-Host "$SyringePump : $SyringePump_Cal : $RHID_MachineConfig_Syring" -ForegroundColor Green
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : $Blue_Background_Str : Stashed" -ForegroundColor Green
 } else {
@@ -77,7 +95,6 @@ Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -Foreground
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
 Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
 
-#block empty firmware ver
 Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
 if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
@@ -94,13 +111,24 @@ IF ([Bool]$RHID_ExecutionLOG -eq "True") {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
     Write-Host "$HIDAutolite : $HIDAutolite_Execution_Str $RHID_GM_Analysis_PeakTable_Filter "
 } Else { Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or Expired" -ForegroundColor Red }
+
 $Section_Separator
-if (($RHID_Lysis_Heater_FAT).count -eq "") {
-    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA"    -ForegroundColor Yellow }
-elseif ([bool] ($RHID_Lysis_Heater_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green }
+
+$RHID_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT"
+$RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(":").TrimStart()[-1]
+if ($RHID_Lysis_Heater_FAT.count -eq "0") {
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA" -ForegroundColor Yellow 
+}
+elseif ([bool]($RHID_Lysis_Heater_FAT_PASS -eq "PASS")) {
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
+        If ($DebugMode -eq "True") {
+            Write-Host "Lysis Heater Pass Count" $RHID_Lysis_Heater_FAT_PASS.count
+            ($RHID_Lysis_Heater_FAT | select-string "pass" )
+}}
 else {
-    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red    }
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red
+    If (DebugMode = "True") { $RHID_Lysis_Heater_FAT | select-string "fail" }
+}
 
 if (($RHID_DN_Heater_FAT).count -eq "") {
     Write-Host "$Heater : $RHID_DN_Heater_str $Test_NA"    -ForegroundColor Yellow }
@@ -262,7 +290,7 @@ else {
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
-    $RHID_BEC_ID_First = $RHID_BEC_insert_ID.line.split(":").TrimStart() | Select-Object -Last 1
+    $RHID_BEC_ID_First = $RHID_BEC_insert_ID.line.split(" ").TrimStart() | Select-Object -Last 1
     Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed ; BEC_ID : $RHID_BEC_ID_First"
     Write-host "$BEC_Insertion : $RHID_First_Gel_Void : $RHID_Gel_Void_First" -ForegroundColor Cyan }
     Else {
@@ -278,9 +306,13 @@ else {
 if (($RHID_HV_FAT).count -eq "") {
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_NA"    -ForegroundColor Yellow }
 elseif ([bool] ($RHID_HV_FAT | Select-String "Pass") -eq "True") {
-    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green}
+    $RHID_HV_FAT_Voltage = ($storyboard | Select-String "Voltage =" | Select-String "(8650/9300V)" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 1
+    $RHID_HV_FAT_Current = ($storyboard | Select-String "Current =" | Select-String "(> 5uA)" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 1
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$HV : $RHID_HV_FAT_Voltage , $RHID_HV_FAT_Current" -ForegroundColor Green}
 else {
-    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Failed" -ForegroundColor Red    }
+    # Display err when failed "Current Under Limit. Check BEC."
+    Write-Host "$HV : $RHID_HV_FAT_Str $Test_Failed $RHID_HV_FAT_Voltage $RHID_HV_FAT_Current" -ForegroundColor Red    }
 
 if (($RHID_Laser_FAT).count -eq "") {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_NA"    -ForegroundColor Yellow }
@@ -362,7 +394,8 @@ IF ([Bool]$RHID_BEC_Reinsert -eq "True") {
     Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : $RHID_Gel_Void" -ForegroundColor Cyan 
 }
 Else {
-    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow }
+    Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow
+    Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : N/A" -ForegroundColor Yellow }
 $Section_Separator
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
@@ -424,6 +457,7 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
     $DxCode = Get-ChildItem $serverdir_NGM_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_NGM_007 -I RunSummary.csv -R
+    $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/5] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
@@ -438,12 +472,15 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_BLANK -I RunSummary.csv -R
+    $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis -R
+    If ($BlankRunCounter.count -gt 3) { $Color = "Cyan" } else { $Color = "Red"}
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/6] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
     "$SampleName : [3/6] $RHID_SampleName"
     "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
+    Write-Host "$RunCounter : [6/6] Blank Run Counter :" $BlankRunCounter.count -ForegroundColor $Color
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 
@@ -468,7 +505,7 @@ $Section_Separator
 # ignore folder with 0 size
 $Remote = Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue
 $Local = Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue
-$RemoteSize = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum ).sum / 1Gb)
+$RemoteSize = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Gb)
 $LocalSize = "{0:N4} GB" -f (( $Local | Measure-Object Length -sum ).sum / 1Gb)
 $RemoteFileCount = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
 $localFileCount = (Get-ChildItem "E:\RapidHIT ID"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
@@ -489,7 +526,7 @@ IF ([Bool]$MachineName -eq "False") {
     Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
 }
 Else {
-    $RHID_Danno_Path = "$danno\$MachineName"
+    $RHID_Danno_Path = $danno + $MachineName
     $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
     $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
     Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
@@ -505,6 +542,6 @@ if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch = "True")) {
         "Skipped backup operation"
     } else {
         "Performing backup operation"
-        #BackupBeforeShipprep
+       # BackupBeforeShipprep
     }
 }

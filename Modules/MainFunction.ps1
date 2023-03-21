@@ -1,3 +1,11 @@
+Write-Host "[ RapidHIT ID] : Loading PS script AdapterTypes.ps1..,
+RHID_Str.ps1..,
+Set-WindowStyle.ps1.. ,
+set-volum.ps1.. ,
+Set-ScreenResolutionEx.ps1..,  
+AdapterTypes.ps1.. ,
+MainFunctions.ps1.." -ForegroundColor Cyan
+start-sleep 1
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\Set-WindowStyle.ps1
@@ -7,7 +15,9 @@
 set-variable -name "serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
     if ($strMonitors -ne $InteralDisplay) {
-        #Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
+    displayswitch /external
+    Start-Sleep -Seconds 5
+        Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
         Write-Host "$info : Display Resolution set to 1920 x 1080" }
         Write-Host "$info : Display Type: $strMonitors"
     $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
@@ -15,6 +25,25 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
         Write-host "$Warning : Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
     } else {
     Write-Host "$info : System Timezone $SystemTimeZone" }
+
+$RHID_FP_Sensor = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor" )
+$RHID_USB_HD_Camera = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "HD USB Camera" )
+If ([Bool]$RHID_FP_Sensor -eq "True") {
+    "$FP : $FP_Sensor_Str : Present" 
+}
+else {
+    "$FP : $FP_Sensor_Str : N/A" 
+}
+If ([Bool]$RHID_USB_HD_Camera -eq "True") {
+    "$HD_USB_CAM : $HD_USB_CAM_Str : Present"
+}
+else {
+    "$HD_USB_CAM : $HD_USB_CAM_Str : N/A" 
+}
+$OSQuery_Name = (systeminfo | select-string "OS name").line.split(":").TrimStart() | select-object -last 1
+$Host_Query = (systeminfo | select-string "Host Name").line.split(":").TrimStart() | select-object -last 1
+"$System : $Operating_System : $OSQuery_Name"
+"$System : $Host_Name : $Host_Query"
     $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
     if ($Win10patch_leaf -eq "True") {
         $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
@@ -25,11 +54,11 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
     }
         Write-host "$info : RapidHIT Instrument $name detected, creating Server folder"
         If ($Debug -eq "Off") {
-        [audio]::Volume = 0.5
+        [audio]::Volume = 0.4
         (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         }
         if ($internal -eq $False) {
-            mkdir U:\"$name"\Internal\Results\
+            mkdir U:\"$name\Internal\Results\RapidHIT ID\Results"
             Write-host "$info : Server path $internal sucessfully created."
         }
         Set-Location $result
@@ -68,7 +97,7 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
             Write-host "$info  : Created placeholder file: TC_verification $name.TXT"
         }
         if (($wvfs -gt 1) -and ($nlfs -gt 1)) {
-        BackupConfig
+        #BackupConfig
         }
         if (($wvfs -eq 0) -or ($nlfs -eq 0)) {
         $keypress = read-host "$info : Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"

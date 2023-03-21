@@ -1,11 +1,8 @@
-﻿
-Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName run data for result..." -ForegroundColor Cyan
-
-# add check machine name first, last from log and compare with $env:computername
+﻿# add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
-
+"Loading truckloads of variables"
 $Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[ Info       ]"
-$Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]"
+$Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]" ; $System       = "[ System     ]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]"
 $Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]" ; $Verification = "[Verification]"
 $Bolus        = "[ Bolus      ]" ; $WetTest      = "[ Wet Test   ]" ; $BEC_Status   = "[ BEC_Status ]"
@@ -24,6 +21,16 @@ $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
 $FP_Sensor_Str              = "        Authentec Biometric CoProcessor"
 $HD_USB_CAM_Str             = "                          HD USB Camera"
+$Operating_System           = "               Operating System Version"
+$Host_Name                  = "                              Host Name"
+
+$Instrument_Serial          = "                      Instrument Serial"
+$Hardware_Version           = "                       Hardware Version"
+$SCI_Configuration          = "                      SCI Configuration"
+$Data_Upload_Path           = "                       Data Upload Path"
+$Syringe_Pump_Calibration   = "               Syringe Pump Calibration"
+$PrimeWater_Status          = "                      PrimeWater Status"
+$PrimeLysisBuffer           = "                PrimeLysisBuffer Status"
 
 $Machine_Config_Str         = "                  Machine Configuration"
 $SyringePump_Cal            = "  Syringe Pump Calibration in m/s and %"
@@ -91,6 +98,6 @@ $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 $GFE_36cycles_Trace_Str   = "[1/1]        GFE_36cycles Trace Quality" ; $GFE_BV_Trace_Str         = "[1/2]     Cover-Off Blank Trace Quality"
 $Allelic_Ladder_Trace_Str = "[1/3]      Allelic Ladder Trace Quality" ; $GFE_007_Trace_Str        = "[1/4]             GFE_007 Trace Quality"
 $NGM_007_Trace_Str        = "[1/5]             NGM_007 Trace Quality" ; $BLANK_Trace_Str          = "[1/6]               BLANK Trace Quality"
-$GM_ILS           = "[ GeneMarker ]" ; $SampleName       = "[ Sample Name]"
-$Cartridge_Type   = "[ Ctrg. Info ]" ; $Protocol_Setting = "[ Protocol   ]"
+$GM_ILS           = "[ GeneMarker ]" ; $SampleName       = "[ Sample Name]" ; $RunCounter       = "[ Run Counter]"
+$Cartridge_Type   = "[ Ctrg. Info ]" ; $Protocol_Setting = "[ Protocol   ]" ; $DebugStr         = "[ DebugMode  ]"
 $Bolus_Timing     = "[Bolus_Timing]" ; $Date_Time        = "[ Run Date   ]" 
