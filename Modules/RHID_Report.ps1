@@ -149,7 +149,7 @@ elseif ([bool] ($RHID_Optics_Heater_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    }
 
-IF ($HistoryMode = "True") { $RHID_Lysis_Heater_FAT , $RHID_DN_Heater_FAT, $RHID_PCR_Heater_FAT , $RHID_Optics_Heater_FAT }
+IF ($HistoryMode -eq "True") { $RHID_Lysis_Heater_FAT , $RHID_DN_Heater_FAT, $RHID_PCR_Heater_FAT , $RHID_Optics_Heater_FAT }
 
 $Section_Separator
 

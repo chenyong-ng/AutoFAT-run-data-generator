@@ -57,7 +57,7 @@ $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
 $Debug = "off"
 $exicode = $Null
 $VerboseMode = "True"
-$HistoryMode = "True"
+$HistoryMode = "False"
 
 . $PSScriptRoot\XML_and_Config.ps1
 "Loading PS script XML_and_Config.ps1.."
