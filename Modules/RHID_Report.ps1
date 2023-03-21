@@ -20,7 +20,7 @@ $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I story
 "Looking for GM_Analysis_PeakTable.txt" 
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
 
-"Loading more filtering scripts "
+"Loading more textual filtering commandss "
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\RHID_Str_Filters.ps1
@@ -68,7 +68,7 @@ if ([bool]$TC_verificationTXT -eq "True") {
 }
 
 if ($RHID_MachineConfig_SN.count -eq "0") {
-    Write-Host "$MachineConf :               $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
+    Write-Host "$MachineConf : $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
 
 Write-Host "$MachineConf : $Instrument_Serial : $RHID_MachineConfig_SN" -ForegroundColor Green
@@ -113,7 +113,6 @@ IF ([Bool]$RHID_ExecutionLOG -eq "True") {
 
 $Section_Separator
 
-$RHID_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT"
 $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | select-string "pass" ).Line.split(":").TrimStart()[-1]
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA" -ForegroundColor Yellow 
@@ -149,6 +148,10 @@ elseif ([bool] ($RHID_Optics_Heater_FAT | Select-String "Pass") -eq "True") {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Passed" -ForegroundColor Green }
 else {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    }
+
+IF ($HistoryMode = "True") { $RHID_Lysis_Heater_FAT , $RHID_DN_Heater_FAT, $RHID_PCR_Heater_FAT , $RHID_Optics_Heater_FAT }
+
+$Section_Separator
 
 if (($RHID_Gel_Cooler_FAT).count -eq "") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow }

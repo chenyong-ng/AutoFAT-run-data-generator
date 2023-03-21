@@ -93,17 +93,10 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 function MainOptions {
 $SerialNumber = read-host "Enter Instrument Serial Number (4 digits) to proceed"
 
-if ($SerialNumber -eq '1') {
-  $SerialNumber = read-host "Enter Folder Path"
-  set-variable -name "serverdir" -value "$SerialNumber"
-} elseif ($SerialNumber -eq '2') {
-  mkdir U:\"$name"\Internal\
-    BackupBeforeShipprep
-} elseif ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
+If ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
   $serverdir = "$path-$SerialNumber"
   . $PSScriptRoot\RHID_Report.ps1
-}
-  elseif ((Test-Path -Path "$US_path-$SerialNumber") -eq "True") {
+} elseif ((Test-Path -Path "$US_path-$SerialNumber") -eq "True") {
     $serverdir = "$US_path-$SerialNumber"
     $Drive = $US_Drive
     . $PSScriptRoot\RHID_Report.ps1
@@ -113,6 +106,13 @@ if ($SerialNumber -eq '1') {
 <#
 Enter 1 to Paste folder path, can be folder in server or instrument local folder,
 Enter 2 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
+if ($SerialNumber -eq '1') {
+  $SerialNumber = read-host "Enter Folder Path"
+  set-variable -name "serverdir" -value "$SerialNumber"
+} elseif ($SerialNumber -eq '2') {
+  mkdir U:\"$name"\Internal\
+    BackupBeforeShipprep
+} elseif 
 #>
 function BackupBeforeShipprep {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"

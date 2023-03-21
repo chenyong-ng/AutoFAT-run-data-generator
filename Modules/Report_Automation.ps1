@@ -15,7 +15,7 @@
 
 Initialize global variables, do not change the order.
 #>
-
+clear-host
 "[ RapidHIT ID] : Loading PS script Report_Automation.ps1.."
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
@@ -56,6 +56,8 @@ $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
 $Debug = "off"
 $exicode = $Null
+$VerboseMode = "True"
+$HistoryMode = "True"
 
 . $PSScriptRoot\XML_and_Config.ps1
 "Loading PS script XML_and_Config.ps1.."
