@@ -4,22 +4,28 @@ if ([bool]$storyboard -ne "True") {
     Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
 "Looking for MachineName"
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
-
+$MachineName
 "Looking for MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
+$MachineConfigXML
 "Looking for TC_Calibration.xml"
-$TC_CalibrationXML = Get-Childitem "$serverdir" -I TC_Calibration.xml -R 
+$TC_CalibrationXML = Get-Childitem "$serverdir" -I TC_Calibration.xml -R
+$TC_CalibrationXML
 "Looking for SampleQuality.txt"
 $SampleQuality = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
+$SampleQuality
 "Looking for DannoGUIState.xml"
 $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
+$DannoGUIStateXML
 "Looking for execution.log"
 $ExecutionLOG = Get-ChildItem "$serverdir" -I execution.log -R
+$ExecutionLOG
 "Looking for BEC Insertin Storyboard.txt" 
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R
+$CoverOn_BEC_Reinsert
 "Looking for GM_Analysis_PeakTable.txt" 
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
-
+$GM_Analysis_PeakTable
 "Loading more textual filtering commandss "
 
 . $PSScriptRoot\RHID_Str.ps1
@@ -29,7 +35,7 @@ $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt
  RHID_Str_Filters.ps1..,
  RHID_Report.ps1..,
  RunSummaryCSV.ps1.."
-Clear-Host
+
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
 IF ([Bool]$RHID_QMini_SN -eq "True") {
@@ -75,7 +81,7 @@ Write-Host "$MachineConf : $Instrument_Serial : $RHID_MachineConfig_SN" -Foregro
 Write-Host "$MachineConf : $Hardware_Version : $RHID_MachineConfig_HWVer" -ForegroundColor Green
 Write-Host "$MachineConf : $SCI_Configuration : $RHID_MachineConfig_HWID" -ForegroundColor Green
 Write-Host "$MachineConf : $Data_Upload_Path : $RHID_MachineConfig_ServerPath" -ForegroundColor Green
-Write-Host "$MachineConf : $Syringe_Pump_Calibration : $RHID_MachineConfig_Syring" -ForegroundColor Green
+Write-Host "$MachineConf : $Syringe_Pump_Calibration : $RHID_MachineConfig_Syringe" -ForegroundColor Green
 Write-Host "$MachineConf : $PrimeWater_Status : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
 Write-Host "$MachineConf : $PrimeLysisBuffer : $RHID_MachineConfig_PrimeLysisBuffer" -ForegroundColor Green
 
