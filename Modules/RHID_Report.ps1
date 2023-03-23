@@ -3,29 +3,22 @@ $storyboard = Get-ChildItem "$serverdir" -I storyboard*.* -R
 if ([bool]$storyboard -ne "True") {
     Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
 "Looking for MachineName"
-$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -Last 1).Line.Split(":").TrimStart() | Select-Object -Last 1
-$MachineName
+$MachineName = ($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart() | Select-Object -Last 1
+
 "Looking for MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem "$serverdir" -I MachineConfig.xml -R
-$MachineConfigXML
 "Looking for TC_Calibration.xml"
 $TC_CalibrationXML = Get-Childitem "$serverdir" -I TC_Calibration.xml -R
-$TC_CalibrationXML
 "Looking for SampleQuality.txt"
 $SampleQuality = Get-ChildItem "$serverdir" -I SampleQuality.txt -R
-$SampleQuality
 "Looking for DannoGUIState.xml"
 $DannoGUIStateXML = Get-ChildItem "$serverdir" -I DannoGUIState.xml -R
-$DannoGUIStateXML
 "Looking for execution.log"
 $ExecutionLOG = Get-ChildItem "$serverdir" -I execution.log -R
-$ExecutionLOG
 "Looking for BEC Insertin Storyboard.txt" 
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R
-$CoverOn_BEC_Reinsert
 "Looking for GM_Analysis_PeakTable.txt" 
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
-$GM_Analysis_PeakTable
 "Loading more textual filtering commandss "
 
 . $PSScriptRoot\RHID_Str.ps1
