@@ -30,7 +30,27 @@ $RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML  | Select-Xml -XPath "/
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours" | ForEach-Object { $_.node.InnerXML }
 "Loading Heaters textual filtering commands "
 
+function RHID_Lysis_Heater_TEST {
+
 $RHID_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT"
+$RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | select-string "pass" )
+$RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | select-string "fail" )
+if ($RHID_Lysis_Heater_FAT.count -eq "0") {
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA" -ForegroundColor Yellow 
+}
+elseif ([bool]($RHID_Lysis_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
+    If ($DebugMode -eq "True") {
+        Write-Host "Lysis Heater Pass Count" $RHID_Lysis_Heater_FAT_PASS.count
+            ($RHID_Lysis_Heater_FAT | select-string "pass" )
+    }
+}
+elseif ([bool]($RHID_Lysis_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "fail")) {
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red
+    If (DebugMode = "True") { $RHID_Lysis_Heater_FAT | select-string "fail" }
+}
+}
+
 $RHID_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
 $RHID_PCR_Heater_FAT    = $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1
 $RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
