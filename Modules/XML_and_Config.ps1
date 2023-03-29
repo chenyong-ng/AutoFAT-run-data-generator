@@ -1,5 +1,4 @@
-﻿"Loading script "
-
+﻿
 function MachineConfigXML {
     Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
 <InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
@@ -91,6 +90,9 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
 function MainOptions {
+Write-Host "List of available RHID run folders for checking" -ForegroundColor Cyan
+$RHID_FolderList = Get-ChildItem "$Drive\","$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
+$RHID_FolderList | Format-table -autosize -hidetableheaders -wrap -property name
 $SerialNumber = read-host "Enter Instrument Serial Number (4 digits) to proceed"
 
 If ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
@@ -174,3 +176,17 @@ function debug {
     $col_screens, $strMonitors
     Add-Type -Assembly System.Windows.Forms; [Windows.Forms.SystemInformation]::ScreenOrientation
 }
+
+
+<#
+Folder PATH listing for volume SQL Data Files
+Volume serial number is 68AE-8CE0
+U:.
+├───Internal
+│   ├───im
+│   ├───logs
+│   └───RapidHIT ID
+│       └───Results
+│           └───Data RHID-0486
+
+#>

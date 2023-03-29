@@ -28,7 +28,7 @@ $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt
  RHID_Str_Filters.ps1..,
  RHID_Report.ps1..,
  RunSummaryCSV.ps1.."
-
+clear-host
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
 IF ([Bool]$RHID_QMini_SN -eq "True") {
@@ -55,16 +55,6 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
 
 . $PSScriptRoot\TC_VerificationTXT.ps1
-if ([bool]$TC_verificationTXT -eq "True") {
-"$Verification : $Ambient_Probe_Str : $RHID_Verify_USB_Probe"
-"$Verification : $USB_Temp_Humidity : $RHID_Verify_Probe"
-"$Verification : $TC_Probe_ID : $RHID_TC_Probe_ID"
-"$Verification : $TC_Steps 1 : $RHID_TC_Step1"
-"$Verification : $TC_Steps 2 : $RHID_TC_Step2"
-"$Verification : $TC_Steps 3 : $RHID_TC_Step3"
-"$Verification : $TC_Steps 4 : $RHID_TC_Step4"
-"$Verification : $Airleak_Test : $RHID_Verify_Arileak"
-}
 
 if ($RHID_MachineConfig_SN.count -eq "0") {
     Write-Host "$MachineConf : $Warning : MachineConfig.XML Not Found" -ForegroundColor RED

@@ -1,0 +1,2 @@
+[BufferPrime]
+Pass=Buffer detected in cathode 3 times in a row - syringe assisted priming completed.
