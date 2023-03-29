@@ -27,18 +27,8 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
 
 $RHID_FP_Sensor = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor" )
 $RHID_USB_HD_Camera = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "HD USB Camera" )
-If ([Bool]$RHID_FP_Sensor -eq "True") {
-    "$FP : $FP_Sensor_Str : Present" 
-}
-else {
-    "$FP : $FP_Sensor_Str : N/A" 
-}
-If ([Bool]$RHID_USB_HD_Camera -eq "True") {
-    "$HD_USB_CAM : $HD_USB_CAM_Str : Present"
-}
-else {
-    "$HD_USB_CAM : $HD_USB_CAM_Str : N/A" 
-}
+If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
+If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
 $OSQuery_Name = (systeminfo | select-string "OS name").line.split(":").TrimStart() | select-object -last 1
 $Host_Query = (systeminfo | select-string "Host Name").line.split(":").TrimStart() | select-object -last 1
 "$System : $Operating_System : $OSQuery_Name"
@@ -57,7 +47,7 @@ $Host_Query = (systeminfo | select-string "Host Name").line.split(":").TrimStart
         (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         }
         if ($internal -eq $False) {
-            mkdir U:\"$name\Internal\Results\RapidHIT ID\Results"
+            mkdir U:\"$name\Internal\RapidHIT ID\Results\Data $name"
             Write-host "$info : Server path $internal sucessfully created."
         }
         Set-Location $result
@@ -105,7 +95,7 @@ $Host_Query = (systeminfo | select-string "Host Name").line.split(":").TrimStart
             Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $name.TXT"
             Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
             Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
-            Start-Process -WindowStyle normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
+            Start-Process -WindowStyle Normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
         }    
     }
 
