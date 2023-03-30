@@ -1,4 +1,21 @@
 
+
+$GM_ILS_Score_Allelic_Ladder = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__Ladder.fsa") | Select-Object -Last 1
+$GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE_007") | Select-Object -Last 1
+$GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM") | Select-Object -Last 1
+$GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK") | Select-Object -Last 1
+
+If ([Bool]$MachineName -eq "True") {
+    "Loading $StatusData and $GM_Analysis textual filtering commands "
+    $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData  -R | Test-path -PathType Leaf
+    $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
+}
+
+"Loading DannoGUIState.XML for Ambient and Humidity reading"
+$RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+$RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
+
+function RHID_CoverOn_FullRun {
 IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
     $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
@@ -57,8 +74,8 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     Write-Host "$RunCounter : [6/6] Blank Run Counter :" $BlankRunCounter.count -ForegroundColor $Color
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
-
-$Section_Separator
+}
+function RHID_PDF_Check {
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
@@ -67,13 +84,18 @@ if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
 else {
     Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow 
 }
-$Section_Separator
+}
+
+function RHID_GM_Analysis_Check {
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
     $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
     Write-Host "$Full_Run : $GM_Analysis $File_found" -ForegroundColor Green
     $RHID_GM_Analysis 
 }
 else { Write-host "$Full_Run : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
+}
 
+function RHID_TempHumi_Check {
 Write-Host "$USB_Temp : $USB_Temp_RD : $RHID_USB_Temp_Rdr" -ForegroundColor Cyan
 Write-Host "$USB_Humi : $USB_Humi_RD : $RHID_USB_Humi_Rdr" -ForegroundColor Cyan
+}

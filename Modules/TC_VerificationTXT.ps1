@@ -1,6 +1,8 @@
 IF ($SerialRegMatch -eq "False") {
     $serverdir = "$Drive\$MachineName\Internal\RapidHIT ID\Results"
 }
+
+function RHID_TC_Verification {
 $TC_verificationTXT = Get-ChildItem "$serverdir" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
 if ([bool]$TC_verificationTXT -eq "True") {
     $Ambient_Probe_Str = "                        Ambient + Probe"
@@ -26,3 +28,4 @@ if ([bool]$TC_verificationTXT -eq "True") {
     "$Verification : $Airleak_Test : $RHID_Verify_Arileak"
 } else {
     Write-Host "$Warning : TC_verification $MachineName.TXT Does not exist." -ForegroundColor Red }
+}

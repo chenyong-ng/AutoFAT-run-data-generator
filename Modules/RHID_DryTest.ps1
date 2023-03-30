@@ -1,5 +1,46 @@
 
+"Loading Heaters textual filtering commands "
 $RHID_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT"
+$RHID_DN_Heater_FAT = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
+$RHID_PCR_Heater_FAT = $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1
+$RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
+
+$RHID_Gel_Cooler_FAT = $storyboard | Select-String "Gel Cooling FAT" | Select-Object -Last 1
+$RHID_Ambient_FAT = $storyboard | Select-String "Ambient FAT"     | Select-Object -Last 1
+
+"Loading SCI textual filtering commands "
+
+$RHID_CAM_FAT = ($storyboard | Select-String "CAM FAT" | Select-Object -Last 1)
+$RHID_SCI_Insertion_FAT = ($storyboard | Select-String "SCI Insertion FAT" | Select-Object -Last 1)
+$RHID_FRONT_END_FAT = ($storyboard | Select-String "FRONT END FAT" | Select-Object -Last 1)
+$RHID_FE_Motor_Calibration = ($storyboard | Select-String "Bring Up: FE Motor Calibration" | Select-Object -Last 1)
+$RHID_FE_Motor_Test = ($storyboard | Select-String "Bring Up: FE Motor Test" | Select-Object -Last 1)
+$RHID_Homing_Error_Test = ($storyboard | Select-String "Bring Up: Homing Error Test" | Select-Object -Last 1)
+$RHID_FL_Homing_Error_wCAM_Test = ($storyboard | Select-String "Bring Up: FL Homing Error w/CAM Test" | Select-Object -Last 1)
+
+$RHID_SCI_Antenna_Test = ($storyboard | Select-String "Bring Up: SCI Antenna Test" | Select-Object -Last 1)
+$RHID_Mezz_test = $storyboard | Select-String "MEZZ test" | Select-Object -Last 1
+
+"Loading MEZZ textual filtering commands "
+
+$RHID_HP_FAT = $storyboard | Select-String "HP FAT"    | Select-Object -Last 1
+$RHID_LP_FAT = $storyboard | Select-String "LP FAT"    | Select-Object -Last 1
+$RHID_Anode_Motor_FAT = $storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1
+"Loading BEC textual filtering commands "
+$RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT" | Select-Object -Last 1)
+$RHID_Gel_Antenna_LOW = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "Low" | Select-Object -Last 1)
+$RHID_Gel_Antenna_HIGH = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "High"  | Select-Object -Last 1)
+$RHID_Syringe_Stallout_FAT = ($storyboard | Select-String "Syringe Stallout FAT" | Select-Object -Last 1)
+$RHID_Mezzboard_FAT = ($storyboard | Select-String "Mezzboard FAT" |  Select-Object -Last 1)
+
+"Loading BEC Insertion textual filtering commands "
+$RHID_BEC_Reinsert_First = ($storyboard | Select-String "BEC Reinsert completed" | Select-Object -First 1) 
+$RHID_BEC_insert_ID = ($storyboard | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Select-String "BEC Insertion BEC_") | Select-Object -First 1
+$RHID_Piezo_FAT = ($storyboard | Select-String "Piezo FAT" | Select-Object -Last 1)
+$RHID_HV_FAT = ($storyboard | Select-String "HV FAT" | Select-Object -Last 1)
+$RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last 1)
+
+function RHID_Heater_Test {
 $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | select-string "pass" )
 $RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | select-string "fail" )
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
@@ -49,9 +90,9 @@ else {
 }
 
 IF ($HistoryMode -eq "True") { $RHID_Lysis_Heater_FAT , $RHID_DN_Heater_FAT, $RHID_PCR_Heater_FAT , $RHID_Optics_Heater_FAT }
+}
 
-$Section_Separator
-
+function RHID_GelCooler {
 if (($RHID_Gel_Cooler_FAT).count -eq "") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow 
 }
@@ -61,6 +102,9 @@ elseif ([bool] ($RHID_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    
 }
+}
+
+function RHID_Ambient_Sensor {
 if (($RHID_Ambient_FAT).count -eq "") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_NA"    -ForegroundColor Yellow 
 }
@@ -70,8 +114,9 @@ elseif ([bool] ($RHID_Ambient_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    
 }
+}
 
-$Section_Separator
+function RHID_SCI_Tests {
 if (($RHID_CAM_FAT).count -eq "") {
     Write-Host "$SCI : $RHID_CAM_FAT_str $Test_NA"    -ForegroundColor Yellow 
 }
@@ -151,9 +196,8 @@ elseif ([bool] ($RHID_SCI_Antenna_Test | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$SCI : $RHID_SCI_Antenna_Test_Str $Test_Failed" -ForegroundColor Red    
 }
-
-$Section_Separator
-
+}
+function RHID_MezzFuctionTest {
 if (($RHID_Mezz_test).count -eq "") {
     Write-Host "$MezzActuator : $RHID_Mezz_Test_Str $Test_NA"    -ForegroundColor Yellow 
 }
@@ -223,7 +267,9 @@ elseif ([bool] ($RHID_Gel_Antenna_LOW | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Gel_RFID : $RHID_Gel_Antenna_Str_LOW $Test_Failed" -ForegroundColor Red    
 }
+}
 
+function RHID_SyringePump {
 if (($RHID_Syringe_Stallout_FAT).count -eq "") {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_NA"    -ForegroundColor Yellow 
 }
@@ -235,7 +281,9 @@ elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Failed : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Red    
 }
+}
 
+function RHID_MezzBEC_Test {
 if (($RHID_Mezzboard_FAT).count -eq "") {
     Write-Host "$Mezz_PCBA : $RHID_Mezzboard_FAT_STR $Test_NA"    -ForegroundColor Yellow 
 }
@@ -291,4 +339,4 @@ elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
 }
 else {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Failed" -ForegroundColor Red    }
-    
+}

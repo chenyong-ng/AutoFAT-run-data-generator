@@ -1,4 +1,5 @@
 
+function RHID_ShipPrep_Check {
 # ignore folder with 0 size
 $Remote = Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue
 $Local = Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue
@@ -44,4 +45,5 @@ if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch = "True")) {
         "Performing backup operation"
         # BackupBeforeShipprep
     }
+}
 }

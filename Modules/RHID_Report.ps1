@@ -21,23 +21,48 @@ $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" -I story
 $GM_Analysis_PeakTable = Get-ChildItem "$serverdir" -I GM_Analysis_PeakTable.txt -R
 "Loading more textual filtering commandss "
 
-"Loading RHID_Str.ps1.. ,
- RHID_Str_Filters.ps1..,
- RHID_Report.ps1..,
- RunSummaryCSV.ps1.."
-clear-host
-Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
-
 . $PSScriptRoot\RHID_Str.ps1
-. $PSScriptRoot\RHID_Str_Filters.ps1
+. $PSScriptRoot\TC_VerificationTXT.ps1
 . $PSScriptRoot\RHID_Hardware.ps1
 . $PSScriptRoot\RHID_DryTest.ps1
 . $PSScriptRoot\RHID_WetTest.ps1
 . $PSScriptRoot\RHID_CoverOnTest.ps1
 . $PSScriptRoot\RHID_ShipPrep.ps1
 
-$Section_Separator
+clear-host
+Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
-$Section_Separator
+#Instrument hardwar check
+RHID_Optics
+RHID_TC
+RHID_TC_Verification
+RHID_MachineConfig_check
+RHID_Firmware_Check
+RHID_HIDAutolite_Check
+$Section_Separator 
+#Beginning of CoverOff test
+RHID_Heater_Test
+RHID_GelCooler
+RHID_Ambient_Sensor
+RHID_SCI_Tests
+$Section_Separator 
+RHID_MezzFuctionTest
+RHID_SyringePump
+RHID_MezzBEC_Test
+$Section_Separator 
+RHID_WetTest
+RHID_CoverOff_FullRun
+$Section_Separator 
 
-$Section_Separator
+#CoverOn test
+RHID_CoverOn_FullRun
+$Section_Separator 
+
+#Check for PDFs exports and GM_Analysis.sgf
+RHID_PDF_Check
+$Section_Separator 
+RHID_GM_Analysis_Check
+$Section_Separator 
+RHID_TempHumi_Check
+$Section_Separator 
+RHID_ShipPrep_Check
