@@ -81,8 +81,7 @@ if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
     Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
 }
-else {
-    Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow 
+else { Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow 
 }
 }
 
