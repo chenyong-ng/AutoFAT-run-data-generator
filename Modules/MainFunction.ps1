@@ -1,10 +1,3 @@
-"AdapterTypes.ps1..,
-RHID_Str.ps1..,
-Set-WindowStyle.ps1.. ,
-set-volum.ps1.. ,
-Set-ScreenResolutionEx.ps1..,  
-AdapterTypes.ps1.. ,
-MainFunctions.ps1.."
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\Set-WindowStyle.ps1

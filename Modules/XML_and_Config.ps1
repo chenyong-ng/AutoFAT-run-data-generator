@@ -29,7 +29,7 @@ function TC_CalibrationXML {
     <!-- NGM protocols should have 10 comma separated numbers after the NGM identifier -->
   </TC_Calibration>
 </InstrumentSettings>"
-}
+} #TC_Calibration XML Creation
 
 function OverrideSettingsXML {
   Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
@@ -57,7 +57,7 @@ function OverrideSettingsXML {
     </NGMProtocol>
   </Protocols_NGM>
 </InstrumentSettings>"
-}
+} # OverrideSettings XML Creation, only used for 36cycles test, valid for SG Production use as of 2020 until further notice.
 
 
 function TC_verification {
@@ -94,14 +94,11 @@ Write-Host "List of available RHID run folders for checking" -ForegroundColor Cy
 $RHID_FolderList = Get-ChildItem "$Drive\","$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
 $RHID_FolderList | Format-wide -Property name
 $SerialNumber = read-host "Enter Instrument Serial Number (4 digits) to proceed"
+$LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
+$US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
 
-If ((Test-Path -Path "$path-$SerialNumber") -eq "True") {
-  $serverdir = "$path-$SerialNumber"
+If (($LocalServerTestPath -eq "True") -or ($US_ServerTestPath -eq "True")) {
   . $PSScriptRoot\RHID_Report.ps1
-} elseif ((Test-Path -Path "$US_path-$SerialNumber") -eq "True") {
-    $serverdir = "$US_path-$SerialNumber"
-    $Drive = $US_Drive
-    . $PSScriptRoot\RHID_Report.ps1
 } Else {
     Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
 }
@@ -188,5 +185,43 @@ U:.
 │   └───RapidHIT ID
 │       └───Results
 │           └───Data RHID-0486
-
 #>
+function DannoAppConfig.xml {
+  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
+<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+<BECRunCount>150</BECRunCount>
+<CODISLoci_NGM>D10S1248, VWA, D16S539, D2S1338, AMEL, D8S1179, D21S11, D18S51, D22S1045, D19S433, TH01, FGA, D2S441, D3S1358, D1S1656, D12S391, SE33</CODISLoci_NGM>
+<CODISLoci_GFE>AMEL, CSF1PO, D10S1248, D12S391, D13S317, D16S539, D18S51, D19S433, D1S1656, D21S11, D22S1045, D2S1338, D2S441, D3S1358, D5S818, D7S820, D8S1179, FGA, SE33, TH01, TPOX, VWA</CODISLoci_GFE>
+<UserDataVolume>E:\</UserDataVolume>
+<CommandCentral>true</CommandCentral>
+<IPAddress>0.0.0.0</IPAddress>
+<Port>8080</Port>
+<RapidHitSerialNo />
+<RunFolderUploadRetryTimes>3</RunFolderUploadRetryTimes>
+<RunFolderUploadRetryPeriodInSec>30</RunFolderUploadRetryPeriodInSec>
+<IsAuthenticationRequiredtoUpload>false</IsAuthenticationRequiredtoUpload>
+<NetworkUsername />
+<NetworkPassword />
+<InsufficientRunStorageMessage>Insufficient run storage space available.</InsufficientRunStorageMessage>
+<BECExhaustedMessage>The primary cartridge must be replaced before a run can be started.</BECExhaustedMessage>
+<GelCompromisedMessage>The gel must be replaced before a run can be started.</GelCompromisedMessage>
+<BECNotEngagedMessage>The primary cartridge is not engaged.</BECNotEngagedMessage>
+<ChangePinMessage>Account PIN must be changed</ChangePinMessage>
+<BECReplaceConfirmMessage>Do you want to eject the primary cartridge?</BECReplaceConfirmMessage>
+<BECReplaceFailedMessage>Primary cartridge replacement failed.</BECReplaceFailedMessage>
+<PhoneContactInfo />
+<BECIdentifier />
+<LastShutDownMode>Real</LastShutDownMode>
+<DoubleSampleEntry>false</DoubleSampleEntry>
+<PoFAActive>false</PoFAActive>
+<PoFAWorkflowActive>false</PoFAWorkflowActive>
+<CODISRunMode>Normal</CODISRunMode>
+<PendingArresteeBarcodes />
+<ArresteeBarcodeUnrecognizedMessage>The arrestee barcode is currently unrecognized.</ArresteeBarcodeUnrecognizedMessage>
+<BScrapeAwaitingDestructionIDs />
+<TwoFactorsRequiredMessage>Please register for at least two authentication methods.</TwoFactorsRequiredMessage>
+<PendingUserChangesWarningMessage>There are unsaved changes to this user pending.</PendingUserChangesWarningMessage>
+<CurrentActiveRunName />
+<CurrentActiveRunASN />
+</IXDannoAppConfigData>"
+}

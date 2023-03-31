@@ -21,7 +21,7 @@ $File_not_Found = "Not found or no full run has been performed"
 $File_found     = "Files found in Remote folders"
 $FP_Sensor_Str              = "        Authentec Biometric CoProcessor"
 $HD_USB_CAM_Str             = "                          HD USB Camera"
-$Operating_System           = "               Operating System Version"
+$Operating_System           = " Operating System Version"
 $Host_Name                  = "                              Host Name"
 
 $Instrument_Serial          = "                      Instrument Serial"

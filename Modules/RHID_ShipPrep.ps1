@@ -22,18 +22,18 @@ $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $RemoteSize ; Files : 
 IF ([Bool]$MachineName -eq "False") {
     $Local_Folder_Msg
     $Remote_Folder_Msg
-    Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
-    Write-Host "$BoxPrep : Boxprep not yet Initialized" -ForegroundColor Yellow
+    #Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
 }
 
 $RHID_Danno_Path = $danno + $MachineName
+$RHID_US_Danno_Path = $US_danno + $MachineName
 If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
     $RHID_HIDAutolite = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart() | Select-Object -Last 1
     $RHID_BoxPrep_Scrshot = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
     Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
-    } else {
-    Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
+    } elseif ($RHID_BoxPrep_Scrshot.Name.Count -eq "0") {
+    Write-Host "$BoxPrep : Not Initialized" -ForegroundColor Yellow
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : N/A" -ForegroundColor Green 
 }
 
