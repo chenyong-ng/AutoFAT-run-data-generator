@@ -89,7 +89,7 @@ elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    
 }
-
+    # add multiple path for full run test
 $RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
 if ($RHID_Bolus.count -gt 1) {
     Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_Bolus.count -ForegroundColor Green
@@ -110,6 +110,7 @@ Else {
     Write-host "$BEC_Insertion : $RHID_CoverOn_BEC_Reinsert : N/A" -ForegroundColor Yellow
     Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : N/A" -ForegroundColor Yellow 
 }
+# add multiple path for full run test
 $Section_Separator
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
