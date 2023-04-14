@@ -19,7 +19,8 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
     Write-Host "$info : System Timezone $SystemTimeZone" }
 
 $RHID_CVrOn_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
-$RHID_FP_Sensor = $RHID_CVrOn_USBDvices[1] ; $RHID_USB_HD_Camera = $RHID_CVrOn_USBDvices[0] 
+$RHID_FP_Sensor = $RHID_CVrOn_USBDvices[0] | Select-String "TouchChip Fingerprint Coprocessor"
+$RHID_USB_HD_Camera = $RHID_CVrOn_USBDvices[1] | Select-String "HD USB Camera"
 If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
 If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
 $SystemQuery = ((systeminfo | select-string "OS name", "Host Name").line.split(":").TrimStart())[1, -1]
