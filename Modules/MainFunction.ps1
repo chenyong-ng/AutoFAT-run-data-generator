@@ -23,10 +23,12 @@ $RHID_FP_Sensor = $RHID_CVrOn_USBDvices[0] | Select-String "TouchChip Fingerprin
 $RHID_USB_HD_Camera = $RHID_CVrOn_USBDvices[1] | Select-String "HD USB Camera"
 If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
 If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
+If ($debug -eq "On") {
 $SystemQuery = ((systeminfo | select-string "OS name", "Host Name").line.split(":").TrimStart())[1, -1]
 $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
 "$System : $Operating_System : $SystemQueryOS"
 "$System : $Host_Name : $SystemQueryHost"
+}
     $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
     if ($Win10patch_leaf -eq "True") {
         $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'

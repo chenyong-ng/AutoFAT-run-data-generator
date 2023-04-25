@@ -139,7 +139,7 @@ function debug {
     $Ram        = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
     $Disk       = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
     $DiskType   = [string](wmic diskdrive get InterfaceType,Model,Name | select-string "SATA", "IDE")
-    $RealtimeProtection = [bool] ([System.Convert]::ToString( (Get-MpPreference | select-object DisableRealtimeMonitoring) ) | select-string false)
+    $RealtimeProtection = (Get-MpPreference | select-object DisableRealtimeMonitoring).DisableRealtimeMonitoring
     $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     # add function to check USB device status
