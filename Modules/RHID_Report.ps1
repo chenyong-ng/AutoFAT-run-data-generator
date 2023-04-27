@@ -8,9 +8,9 @@ if ([bool]$storyboard -ne "True") {
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 
 "Looking for MachineConfig.xml"
-$MachineConfigXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue
+$MachineConfigXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$rhid"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue
 "Looking for TC_Calibration.xml"
-$TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$localFolder"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
+$TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$rhid"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
 "Looking for SampleQuality.txt"
 $SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
 "Looking for DannoGUIState.xml"

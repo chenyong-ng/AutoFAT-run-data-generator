@@ -14,7 +14,7 @@ If ([Bool]$MachineName -eq "True") {
 "Loading DannoGUIState.XML for Ambient and Humidity reading"
 $RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
 $RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
-# add multiple path for full run test
+
 function RHID_CoverOn_FullRun {
 IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
