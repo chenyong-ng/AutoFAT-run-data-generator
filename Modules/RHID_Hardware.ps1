@@ -45,7 +45,7 @@ $RHID_TC_Calibration_GFE    = $RHID_TC_Calibration[0]
 $RHID_TC_Calibration_NGM    = $RHID_TC_Calibration[1]
 "Looping through MachinEConfigXML "
 $RHID_MachineConfig_SN     = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HWVer = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HWVer = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_ServerPath = $MachineConfigXML  | Select-Xml -XPath "//DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Syringe = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Blue   = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
