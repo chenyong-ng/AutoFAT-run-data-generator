@@ -35,6 +35,8 @@ clear-host
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
 #Instrument hardwar check
+RHID_USB_Devices
+RHID_Patch
 RHID_Optics
 RHID_TC
 RHID_TC_Verification

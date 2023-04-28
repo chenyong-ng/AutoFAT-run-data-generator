@@ -38,7 +38,7 @@ IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     Write-Host "$GM_ILS : $GFE_007_Trace_Str : $GM_ILS_Score_GFE_007_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/4] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
     "$SampleName : [3/4] $RHID_SampleName"
-    "$Cartridge_Type : [4/4] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
+    Write-Host "$Cartridge_Type : [4/4] $RHID_Cartridge_Type ; [Type] : $RHID_RunType" -ForegroundColor magenta
     "$Protocol_Setting : [5/4] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
@@ -69,7 +69,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/6] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
     "$SampleName : [3/6] $RHID_SampleName"
-    "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
+    Write-Host "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType" -ForegroundColor magenta
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
     Write-Host "$RunCounter : [6/6] Blank Run Counter :" $BlankRunCounter.count -ForegroundColor $Color
 }

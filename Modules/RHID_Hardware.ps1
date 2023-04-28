@@ -1,4 +1,26 @@
 
+"Probing USB Devices"
+if ($SerialRegMatch -eq "True") {
+function RHID_USB_Devices {
+$RHID_CVrOn_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
+$RHID_FP_Sensor = $RHID_CVrOn_USBDvices[0] | Select-String "TouchChip Fingerprint Coprocessor" -ErrorAction SilentlyContinue
+$RHID_USB_HD_Camera = $RHID_CVrOn_USBDvices[1] | Select-String "HD USB Camera" -ErrorAction SilentlyContinue
+If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
+If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
+}
+function RHID_Patch {
+$Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
+    $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
+    if ($Win10patch_leaf -eq "True") {
+        $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
+        Write-host "$info : $Win10patch Installed" -ForegroundColor Magenta
+    }
+    else {
+        Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
+    }
+}
+}
+
 "Loading Q-mini textual filtering commands"
 
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
@@ -18,11 +40,12 @@ $RHID_GM_Analysis_PeakTable = $GM_Analysis_PeakTable | Select-String "Date/Time:
 #If ($VerboseMode -eq "True") { $RHID_Mainboard_FW_Ver , $RHID_Mezzbaord_FW_Ver , $RHID_ExecutionLOG , $RHID_GM_Analysis_PeakTable }
 
 "Looking for TC_CalibrationXML"
-$RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
-"Looping through MachineConfigXML "
+$RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML } | Select-String "GFE","NGM"
+$RHID_TC_Calibration_GFE    = $RHID_TC_Calibration[0]
+$RHID_TC_Calibration_NGM    = $RHID_TC_Calibration[1]
+"Looping through MachinEConfigXML "
 $RHID_MachineConfig_SN     = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HWVer = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HWID    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HWVer = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_ServerPath = $MachineConfigXML  | Select-Xml -XPath "//DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Syringe = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Blue   = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
@@ -31,6 +54,7 @@ $RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInse
 $RHID_MachineConfig_PrimeWater  = $MachineConfigXML  | Select-Xml -XPath "//Water"| ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML  | Select-Xml -XPath "//LysisBuffer" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HWID    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }
 
 function RHID_Optics {
 IF ([Bool]$RHID_QMini_SN -eq "True") {
@@ -56,7 +80,9 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
 } elseif ($RHID_TC_Calibration.count -eq "0") {
     Write-Host "$TC_Cal :               $Warning : TC_Calibration.XML Not Found" -ForegroundColor RED
 } else { 
-    Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green }
+    Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green
+    Write-Host "$TC_Cal : $RHID_TC_Calibration_GFE"
+    Write-Host "$TC_Cal : $RHID_TC_Calibration_NGM" }
 }
 
 function RHID_MachineConfig_check {

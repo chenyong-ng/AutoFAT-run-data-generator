@@ -12,31 +12,32 @@ Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
         Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
         Write-Host "$info : Display Resolution set to 1920 x 1080" }
         Write-Host "$info : Display Type: $strMonitors"
-    $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
+    #$Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
     if ($SystemTimeZone -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
         Write-host "$Warning : Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
     } else {
     Write-Host "$info : System Timezone $SystemTimeZone" }
-
+<#
 $RHID_CVrOn_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 $RHID_FP_Sensor = $RHID_CVrOn_USBDvices[0] | Select-String "TouchChip Fingerprint Coprocessor" -ErrorAction SilentlyContinue
 $RHID_USB_HD_Camera = $RHID_CVrOn_USBDvices[1] | Select-String "HD USB Camera" -ErrorAction SilentlyContinue
 If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
 If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
+#>
 If ($debug -eq "On") {
 $SystemQuery = ((systeminfo | select-string "OS name", "Host Name").line.split(":").TrimStart())[1, -1]
 $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
 "$System : $Operating_System : $SystemQueryOS"
 "$System : $Host_Name : $SystemQueryHost"
 }
-    $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
+ <#   $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
     if ($Win10patch_leaf -eq "True") {
         $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
         Write-host "$info : $Win10patch Installed" -ForegroundColor Magenta
     }
     else {
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
-    }
+    }#>
         Write-host "$info : RapidHIT Instrument $name detected, creating Server folder"
         If ($Debug -eq "Off") {
         [audio]::Volume = 0.4
