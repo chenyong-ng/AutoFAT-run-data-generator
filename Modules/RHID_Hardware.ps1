@@ -1,6 +1,6 @@
 
-"Probing USB Devices"
 if ($SerialRegMatch -eq "True") {
+"Probing USB Devices"
 function RHID_USB_Devices {
 $RHID_CVrOn_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 $RHID_FP_Sensor = $RHID_CVrOn_USBDvices[0] | Select-String "TouchChip Fingerprint Coprocessor" -ErrorAction SilentlyContinue
@@ -8,6 +8,7 @@ $RHID_USB_HD_Camera = $RHID_CVrOn_USBDvices[1] | Select-String "HD USB Camera" -
 If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
 If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
 }
+"Probing ABRHID_Win10_Patch20201208 Presence"
 function RHID_Patch {
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
     $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
@@ -19,6 +20,12 @@ $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersi
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
     }
 }
+$Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
+$Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
+$DiskType = [string](wmic diskdrive get InterfaceType, Model, Name | select-string "SATA", "IDE")
+"[$D] Ram            : $Ram GB"
+"[$D] SystemDiskSize : $Disk GB"
+"[$D] SystemDiskinfo : $Disktype"
 }
 
 "Loading Q-mini textual filtering commands"
