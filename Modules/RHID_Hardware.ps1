@@ -88,8 +88,8 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal :               $Warning : TC_Calibration.XML Not Found" -ForegroundColor RED
 } else { 
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green
-    Write-Host "$TC_Cal : $RHID_TC_Calibration_GFE"
-    Write-Host "$TC_Cal : $RHID_TC_Calibration_NGM" }
+    Write-Host "$TC_Offsets : $RHID_TC_Calibration_GFE"
+    Write-Host "$TC_Offsets : $RHID_TC_Calibration_NGM" }
 }
 
 function RHID_MachineConfig_check {
