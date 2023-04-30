@@ -2,11 +2,17 @@
 if ($SerialRegMatch -eq "True") {
 "Probing USB Devices"
 function RHID_USB_Devices {
-$RHID_CVrOn_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
-$RHID_FP_Sensor = $RHID_CVrOn_USBDvices[0] | Select-String "TouchChip Fingerprint Coprocessor" -ErrorAction SilentlyContinue
-$RHID_USB_HD_Camera = $RHID_CVrOn_USBDvices[1] | Select-String "HD USB Camera" -ErrorAction SilentlyContinue
-If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
-If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
+$RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
+if ($RHID_USBDvices[0].count -eq "1") {
+    #$RHID_FP_Sensor = $RHID_USBDvices[0] | Select-String "TouchChip Fingerprint Coprocessor"
+    "$FP : $FP_Sensor_Str : Present" }
+    else { "$FP : $FP_Sensor_Str : N/A" }
+if ($RHID_USBDvices[1].count -eq "1") {
+    #$RHID_USB_HD_Camera = $RHID_USBDvices[1] | Select-String "HD USB Camera"
+    "$HD_USB_CAM : $HD_USB_CAM_Str : Present" }
+    else { "$HD_USB_CAM : $HD_USB_CAM_Str : N/A" }
+#If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
+#If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
 }
 "Probing ABRHID_Win10_Patch20201208 Presence"
 function RHID_Patch {
