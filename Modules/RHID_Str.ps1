@@ -1,6 +1,6 @@
 ﻿# add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
-"Loading console variables"
+"[Loading] : console variables"
 $Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[ Info       ]"
 $Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]" ; $System       = "[ System     ]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]" ; $TC_Offsets   = "[ TC Offsets ]"

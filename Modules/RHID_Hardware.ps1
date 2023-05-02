@@ -1,6 +1,6 @@
 
 if ($SerialRegMatch -eq "True") {
-"Probing USB Devices"
+"[Probing] USB Devices"
 function RHID_USB_Devices {
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 if ($RHID_USBDvices[0].count -eq "1") {
@@ -16,6 +16,7 @@ if ($RHID_USBDvices[1].count -eq "1") {
 #If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
 #If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
 }
+"[Found] : $RHID_USBDvices"
 "Probing ABRHID_Win10_Patch20201208 Presence"
 function RHID_Patch {
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
@@ -28,38 +29,49 @@ $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersi
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
     }
 }
+"[Found] : $Win110Patch_RegKey"
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get InterfaceType, Model, Name | select-string "SATA", "IDE")
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
+
+#add option to check and generate DannoAppConfig.xml
 }
 
-"Loading Q-mini textual filtering commands"
-
+"[[Loading] :] Q-mini textual filtering commands"
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
 $RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1)
 $RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1)
+"[Found] : $RHID_QMini_SN"
+"[Found] : $RHID_QMini_Coeff"
+"[Found] : $RHID_Mainboard_FW_Ver"
 <#
 IF ($VerboseMode -eq "True") { $RHID_QMini_SN , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number" , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 #>
 
-"Loading Main board and Mezz PCB textual filtering commands"
+"[[Loading] :] Main board and Mezz PCB textual filtering commands"
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_ExecutionLOG      = $ExecutionLOG | Select-String 'Your trial has | License is Valid' | Select-object -last 1
 # $RHID_ExecutionLOG_Valid= $ExecutionLOG | Select-String "License is Valid" | Select-object -last 1
 $RHID_GM_Analysis_PeakTable = $GM_Analysis_PeakTable | Select-String "Date/Time:" | Select-object -last 1
+"[Found] : $RHID_Mainboard_FW_Ver"
+"[Found] : $RHID_Mezzbaord_FW_Ver"
+"[Found] : $RHID_ExecutionLOG"
+"[Found] : $RHID_GM_Analysis_PeakTable"
 #If ($VerboseMode -eq "True") { $RHID_Mainboard_FW_Ver , $RHID_Mezzbaord_FW_Ver , $RHID_ExecutionLOG , $RHID_GM_Analysis_PeakTable }
 
-"Looking for TC_CalibrationXML"
+"[[Looking] : ] for TC_CalibrationXML"
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
+"[Found] : $RHID_TC_Calibration"
 
-"Looping through MachinEConfigXML "
+"[Looping] : through MachinEConfigXML "
 $RHID_MachineConfig_SN     = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HWVer = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HWID    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_ServerPath = $MachineConfigXML  | Select-Xml -XPath "//DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Syringe = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Blue   = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
@@ -68,8 +80,18 @@ $RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInse
 $RHID_MachineConfig_PrimeWater  = $MachineConfigXML  | Select-Xml -XPath "//Water"| ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML  | Select-Xml -XPath "//LysisBuffer" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HWID    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }
 
+"[Found] : $RHID_MachineConfig_SN"
+"[Found] : $RHID_MachineConfig_HWVer"
+"[Found] : $RHID_MachineConfig_HWID"
+"[Found] : $RHID_MachineConfig_ServerPath"
+"[Found] : $RHID_MachineConfig_Syringe"
+"[Found] : $RHID_MachineConfig_Blue"
+"[Found] : $RHID_MachineConfig_SCI"
+"[Found] : $RHID_MachineConfig_BEC"
+"[Found] : $RHID_MachineConfig_PrimeWater"
+"[Found] : $RHID_MachineConfig_PrimeLysisBuffer"
+"[Found] : $RHID_MachineConfig_Laser"
 function RHID_Optics {
 IF ([Bool]$RHID_QMini_SN -eq "True") {
     $RHID_QMini_SN_Filter = $RHID_QMini_SN.line.split(":").TrimStart() | Select-object -last 1
@@ -93,13 +115,11 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal :      $Warning : Unpopulated TC_Calibration.XML Found" -ForegroundColor RED
 } elseif ($RHID_TC_Calibration.count -eq "0") {
     Write-Host "$TC_Cal :               $Warning : TC_Calibration.XML Not Found" -ForegroundColor RED
+    #add option to generate TC_Calibration.XML
 } else {
-    $RHID_TC_Calibration | Select-String "GFE", "NGM"
-    $RHID_TC_Calibration_GFE    = $RHID_TC_Calibration[0]
-    $RHID_TC_Calibration_NGM    = $RHID_TC_Calibration[1]
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green
-    Write-Host "$TC_Offsets : $RHID_TC_Calibration_GFE"
-    Write-Host "$TC_Offsets : $RHID_TC_Calibration_NGM" }
+    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[0]
+    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[1] }
 }
 
 function RHID_MachineConfig_check {
