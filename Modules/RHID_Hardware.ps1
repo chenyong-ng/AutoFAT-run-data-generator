@@ -33,9 +33,11 @@ $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersi
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get InterfaceType, Model, Name | select-string "SATA", "IDE")
+$DisplayOrientation = Add-Type -Assembly System.Windows.Forms; [Windows.Forms.SystemInformation]::ScreenOrientation
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
+"[$D] Display Orientation : $DisplayOrientation"
 
 #add option to check and generate DannoAppConfig.xml
 }
