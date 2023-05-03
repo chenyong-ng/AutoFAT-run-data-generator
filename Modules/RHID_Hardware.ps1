@@ -33,14 +33,16 @@ $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersi
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get InterfaceType, Model, Name | select-string "SATA", "IDE")
+$DisplayOrientation = Add-Type -Assembly System.Windows.Forms; [Windows.Forms.SystemInformation]::ScreenOrientation
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
+"[$D] Display Orientation : $DisplayOrientation"
 
 #add option to check and generate DannoAppConfig.xml
 }
 
-"[[Loading] :] Q-mini textual filtering commands"
+"[Loading] : Q-mini textual filtering commands"
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
 $RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1)
 $RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1)
@@ -52,7 +54,7 @@ IF ($VerboseMode -eq "True") { $RHID_QMini_SN , $RHID_QMini_Coeff, $RHID_QMini_I
 IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number" , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 #>
 
-"[[Loading] :] Main board and Mezz PCB textual filtering commands"
+"[Loading] : Main board and Mezz PCB textual filtering commands"
 $RHID_Mainboard_FW_Ver  = ($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
 $RHID_ExecutionLOG      = $ExecutionLOG | Select-String 'Your trial has | License is Valid' | Select-object -last 1
@@ -64,7 +66,7 @@ $RHID_GM_Analysis_PeakTable = $GM_Analysis_PeakTable | Select-String "Date/Time:
 "[Found  ] : $RHID_GM_Analysis_PeakTable"
 #If ($VerboseMode -eq "True") { $RHID_Mainboard_FW_Ver , $RHID_Mezzbaord_FW_Ver , $RHID_ExecutionLOG , $RHID_GM_Analysis_PeakTable }
 
-"[[Looking] : ] for TC_CalibrationXML"
+"Looking for TC_CalibrationXML"
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
 "[Found  ] : $RHID_TC_Calibration"
 
