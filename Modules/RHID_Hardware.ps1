@@ -18,8 +18,9 @@ if ($RHID_USBDvices[1].count -eq "1") {
 }
 "[Found  ] : $RHID_USBDvices"
 "Probing ABRHID_Win10_Patch20201208 Presence"
-function RHID_Patch {
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
+
+function RHID_Patch {
     $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
     if ($Win10patch_leaf -eq "True") {
         $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
@@ -30,14 +31,17 @@ $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersi
     }
 }
 "[Found  ] : $Win110Patch_RegKey"
+Add-Type -Assembly System.Windows.Forms 
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
-$DiskType = [string](wmic diskdrive get InterfaceType, Model, Name | select-string "SATA", "IDE")
-$DisplayOrientation = Add-Type -Assembly System.Windows.Forms; [Windows.Forms.SystemInformation]::ScreenOrientation
+$DiskType = [string](wmic diskdrive Model | select-string "IDE")
+#$DiskType = [string](wmic get diskdrive Model | select-string "IDE")
+$DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
+if ($DisplayOrientation -eq "Angle0") { $DOI = "Landscape" } elseif ($DisplayOrientation -eq "Angle270") { $DOI = "Potrati (Flipped)" }
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
-"[$D] Display Orientation : $DisplayOrientation"
+"[$D] Display Orientation : $DisplayOrientation $DOI"
 
 #add option to check and generate DannoAppConfig.xml
 }
