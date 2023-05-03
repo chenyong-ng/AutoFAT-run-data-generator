@@ -4,22 +4,22 @@ $LocalFolder = "$result"
 $storyboard = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
 if ([bool]$storyboard -ne "True") {
     Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
-"[Looking] :  for MachineName"
+"Looking  for MachineName"
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 
-"[Looking] :  for MachineConfig.xml"
+"Looking  for MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$rhid"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue
-"[Looking] :  for TC_Calibration.xml"
+"Looking  for TC_Calibration.xml"
 $TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$rhid"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
-"[Looking] :  for SampleQuality.txt"
+"Looking  for SampleQuality.txt"
 $SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
-"[Looking] :  for DannoGUIState.xml"
+"Looking  for DannoGUIState.xml"
 $DannoGUIStateXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
-"[Looking] :  for execution.log"
+"Looking  for execution.log"
 $ExecutionLOG = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I execution.log -R -ErrorAction SilentlyContinue
-"[Looking] :  for BEC Insertin Storyboard.txt" 
+"Looking  for BEC Insertin Storyboard.txt" 
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" , "$US_serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R -ErrorAction SilentlyContinue
-"[Looking] :  for GM_Analysis_PeakTable.txt" 
+"Looking  for GM_Analysis_PeakTable.txt" 
 $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I GM_Analysis_PeakTable.txt -R -ErrorAction SilentlyContinue
 "[Loading] : more textual filtering commandss "
 
