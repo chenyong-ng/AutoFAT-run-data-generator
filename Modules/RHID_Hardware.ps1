@@ -1,8 +1,8 @@
 
 if ($SerialRegMatch -eq "True") {
 "[Probing] USB Devices"
-function RHID_USB_Devices {
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
+function RHID_USB_Devices {
 if ($RHID_USBDvices[0].count -eq "1") {
     #$RHID_FP_Sensor = $RHID_USBDvices[0] | Select-String "TouchChip Fingerprint Coprocessor"
     $FP_Check = "Present" }
@@ -16,7 +16,7 @@ if ($RHID_USBDvices[1].count -eq "1") {
 #If ([Bool]$RHID_FP_Sensor -eq "True") {"$FP : $FP_Sensor_Str : Present" } else { "$FP : $FP_Sensor_Str : N/A" }
 #If ([Bool]$RHID_USB_HD_Camera -eq "True") {"$HD_USB_CAM : $HD_USB_CAM_Str : Present"} else {"$HD_USB_CAM : $HD_USB_CAM_Str : N/A"}
 }
-"[Found  ] : $RHID_USBDvices"
+"[Found  ] :"; $RHID_USBDvices[0,1]
 "Probing ABRHID_Win10_Patch20201208 Presence"
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
 
@@ -34,10 +34,9 @@ function RHID_Patch {
 Add-Type -Assembly System.Windows.Forms 
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
-$DiskType = [string](wmic diskdrive Model | select-string "IDE")
-#$DiskType = [string](wmic get diskdrive Model | select-string "IDE")
+$DiskType = [string](wmic diskdrive get Model | select-string "SATA")
 $DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
-if ($DisplayOrientation -eq "Angle0") { $DOI = "Landscape" } elseif ($DisplayOrientation -eq "Angle270") { $DOI = "Potrati (Flipped)" }
+if ($DisplayOrientation -eq "Angle0") { $DOI = "Landscape (0°)" } elseif ($DisplayOrientation -eq "Angle270") { $DOI = "Potrait (Flipped, 270°)" }
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
