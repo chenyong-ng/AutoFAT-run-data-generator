@@ -41,10 +41,10 @@ if ($DisplayOrientation -eq "Angle0") { $DOI = "Landscape" } elseif ($DisplayOri
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
-"[$D] Display Orientation : $DisplayOrientation $DOI"
+"[$D] Display Orientation : $DOI"
 
 $DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $name\DannoAppConfig.xml" -PathType Leaf
-If ([Bool]$DannoAppConfigCheck -eq "False" ) { "DannoAppConfig.xml" } Else { "DannoAppConfig.xml Exist"}
+If ([Bool]$DannoAppConfigCheck -eq "True" ) { "DannoAppConfig.xml exist" } Else { "DannoAppConfig.xml missing" }
 #add option to check and generate DannoAppConfig.xml
 }
 
