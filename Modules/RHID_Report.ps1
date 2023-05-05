@@ -33,7 +33,9 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFo
 . $PSScriptRoot\RHID_CoverOnTest.ps1
 . $PSScriptRoot\RHID_ShipPrep.ps1
 
-IF ($VerboseMode -eq "False") {clear-host}
+IF ($VerboseMode -eq "False") {
+    clear-host
+} else {"$info : VerboseMode Enabled"}
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
 #Instrument hardwar check

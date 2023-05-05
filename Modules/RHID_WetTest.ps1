@@ -111,6 +111,9 @@ Else {
     Write-host "$BEC_Insertion : $RHID_Last_Gel_Void : N/A" -ForegroundColor Yellow 
 }
 $Section_Separator
+<#
+Cover Off GFE 36 cycles 300ul Tests
+#>
 IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
     $serverdir36cycles = "$Drive\$MachineName\*GFE-300uL-36cycles*"
@@ -125,6 +128,9 @@ IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
 }
 Else { Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
+<#
+Cover Off Blank Tests
+#>
 IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_BV = "$Drive\$MachineName\*GFE-BV_*"

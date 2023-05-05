@@ -16,6 +16,9 @@ $RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTempe
 $RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
 
 function RHID_CoverOn_FullRun {
+<#
+Cover On Allelic Ladder Tests
+#>
 IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
     $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
@@ -29,6 +32,9 @@ IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
 }
 Else { Write-Host "$GM_ILS : $Allelic_Ladder_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
+<#
+Cover On GFE Tests
+#>
 IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_007 = "$Drive\$MachineName\*GFE_007*"
@@ -43,6 +49,10 @@ IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
 }
 Else { Write-Host "$GM_ILS : $GFE_007_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_SeparatoR
+<#
+Cover On NGM Tests, to be retired after NGM Catridges runs out of supply after May of 2023
+Keeping codes for checking test results for older instruments
+#>
 IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
@@ -56,15 +66,22 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     Write-Host "$Cartridge_Type : [4/5] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"-ForegroundColor Green
     "$Protocol_Setting : [5/5] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
-Else { Write-Host "$GM_ILS : $NGM_007_Trace_Str : N/A" -ForegroundColor Yellow }
+Else { Write-Host "$GM_ILS : NGM Tests to be retired after May 2023" }
 $Section_Separator
+<#
+Cover On Blank Tests
+#>
 IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_BLANK -I RunSummary.csv -R
     $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis -R
-    If ($BlankRunCounter.count -gt 3) { $Color = "Cyan" } else { $Color = "Red" }
+    If ($BlankRunCounter.count -gt 3) { $Color = "Cyan"
+        } else {
+            $Color = "Red"
+            $BlankSOP = "$RunCounter : [6/7] Minimum 4 Blank Tests are required after February 2023 as per SOP"
+        }
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/6] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
@@ -72,6 +89,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     Write-Host "$Cartridge_Type : [4/6] $RHID_Cartridge_Type ; [Type] : $RHID_RunType" -ForegroundColor magenta
     "$Protocol_Setting : [5/6] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
     Write-Host "$RunCounter : [6/6] Blank Run Counter :" $BlankRunCounter.count -ForegroundColor $Color
+    Write-Host $BlankSOP -ForegroundColor $Color
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 }

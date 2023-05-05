@@ -36,7 +36,7 @@ $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get Model | select-string "SATA")
 $DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
-if ($DisplayOrientation -eq "Angle0") { $DOI = "Landscape (0°)" } elseif ($DisplayOrientation -eq "Angle270") { $DOI = "Potrait (Flipped, 270°)" }
+    if ($DisplayOrientation -eq "Angle0") { $DOI = "Landscape (0Â°)" } elseif ($DisplayOrientation -eq "Angle270") { $DOI = "Potrait (Flipped, 270Â°)" }
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
