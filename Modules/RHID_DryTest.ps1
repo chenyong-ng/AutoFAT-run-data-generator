@@ -1,7 +1,7 @@
 
 "[Loading] : Heaters textual filtering commands "
 $RHID_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT"
-$RHID_DN_Heater_FAT = $storyboard | Select-String "DN FAT"            | Select-Object -Last 1
+$RHID_DN_Heater_FAT = $storyboard | Select-String "DN FAT"
 $RHID_PCR_Heater_FAT = $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1
 $RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
 
@@ -9,7 +9,6 @@ $RHID_Gel_Cooler_FAT = $storyboard | Select-String "Gel Cooling FAT" | Select-Ob
 $RHID_Ambient_FAT = $storyboard | Select-String "Ambient FAT"     | Select-Object -Last 1
 
 "[Loading] : SCI textual filtering commands "
-
 $RHID_CAM_FAT = ($storyboard | Select-String "CAM FAT" | Select-Object -Last 1)
 $RHID_SCI_Insertion_FAT = ($storyboard | Select-String "SCI Insertion FAT" | Select-Object -Last 1)
 $RHID_FRONT_END_FAT = ($storyboard | Select-String "FRONT END FAT" | Select-Object -Last 1)
@@ -22,10 +21,10 @@ $RHID_SCI_Antenna_Test = ($storyboard | Select-String "Bring Up: SCI Antenna Tes
 $RHID_Mezz_test = $storyboard | Select-String "MEZZ test" | Select-Object -Last 1
 
 "[Loading] : MEZZ textual filtering commands "
-
 $RHID_HP_FAT = $storyboard | Select-String "HP FAT"    | Select-Object -Last 1
 $RHID_LP_FAT = $storyboard | Select-String "LP FAT"    | Select-Object -Last 1
 $RHID_Anode_Motor_FAT = $storyboard | Select-String "Anode Motor FAT" | Select-Object -Last 1
+
 "[Loading] : BEC textual filtering commands "
 $RHID_BEC_Interlock_FAT = ($storyboard | Select-String "BEC Interlock FAT" | Select-Object -Last 1)
 $RHID_Gel_Antenna_LOW = ($storyboard | Select-String "Bring Up: Gel Antenna" | Select-String "Low" | Select-Object -Last 1)
@@ -50,24 +49,32 @@ elseif ([bool]($RHID_Lysis_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
 }
 elseif ([bool]($RHID_Lysis_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
-    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Passed" -ForegroundColor Green
+    Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red
 }
     If ($VerboseMode -eq "True") {
-        "Lysis Heater Pass Counter"; $RHID_Lysis_Heater_FAT_PASS.count;
-        $RHID_Lysis_Heater_FAT | select-string "PASS"
-        "Lysis Heater Fail Counter"; $RHID_Lysis_Heater_FAT_FAIL.count;
-        $RHID_Lysis_Heater_FAT | select-string "FAIL"
+        "[Lysis Heater Pass Counter] : " + $RHID_Lysis_Heater_FAT_PASS.count
+        "[Lysis Heater Pass Result] : " + $RHID_Lysis_Heater_FAT_PASS
+        "[Lysis Heater Fail Counter] : " + $RHID_Lysis_Heater_FAT_FAIL.count
+        "[Lysis Heater Fail Result] : " + $RHID_Lysis_Heater_FAT_FAIL
     }
 
-if (($RHID_DN_Heater_FAT).count -eq "") {
+$RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
+$RHID_DN_Heater_FAT_FAIL = ($RHID_DN_Heater_FAT | Select-String "FAIL" )
+if (($RHID_DN_Heater_FAT).count -eq "0") {
     Write-Host "$Heater : $RHID_DN_Heater_str $Test_NA"    -ForegroundColor Yellow 
 }
-elseif ([bool] ($RHID_DN_Heater_FAT | Select-String "Pass") -eq "True") {
+elseif ([bool]($RHID_DN_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
     Write-Host "$Heater : $RHID_DN_Heater_str $Test_Passed" -ForegroundColor Green 
 }
-else {
+elseif ([bool]($RHID_DN_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_DN_Heater_str $Test_Failed"  -ForegroundColor Red    
 }
+    If ($VerboseMode -eq "True") {
+        "[DN Heater Pass Counter] : " + $RHID_DN_Heater_FAT_PASS.count
+        "[DN Heater Pass Result] : " + $RHID_DN_Heater_FAT_PASS
+        "[DN Heater Fail Counter] : " + $RHID_DN_Heater_FAT_FAIL.count
+        "[DN Heater Fail Result] : " + $RHID_DN_Heater_FAT_FAIL
+    }
 
 if (($RHID_PCR_Heater_FAT).count -eq "") {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_NA"    -ForegroundColor Yellow 
