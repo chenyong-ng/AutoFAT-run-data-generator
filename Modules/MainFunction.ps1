@@ -1,5 +1,4 @@
 
-. $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\Set-WindowStyle.ps1
 . $PSScriptRoot\set-volume.ps1
 . $PSScriptRoot\Set-ScreenResolutionEx.ps1

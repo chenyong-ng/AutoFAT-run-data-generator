@@ -25,7 +25,6 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFo
 "$Found  :"; $GM_Analysis_PeakTable.directory.name[0-10]
 "$Loading : more textual filtering commandss "
 
-. $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\TC_VerificationTXT.ps1
 . $PSScriptRoot\RHID_Hardware.ps1
 . $PSScriptRoot\RHID_DryTest.ps1
