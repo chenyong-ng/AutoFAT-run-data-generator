@@ -51,12 +51,6 @@ elseif (($RHID_Lysis_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")
 elseif (($RHID_Lysis_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Failed" -ForegroundColor Red
 }
-    If ($VerboseMode -eq "True") {
-        "[Lysis Heater Pass Counter] : " + $RHID_Lysis_Heater_FAT_PASS.count
-        "[Lysis Heater Pass Result] : " + $RHID_Lysis_Heater_FAT_PASS
-        "[Lysis Heater Fail Counter] : " + $RHID_Lysis_Heater_FAT_FAIL.count
-        "[Lysis Heater Fail Result] : " + $RHID_Lysis_Heater_FAT_FAIL
-    }
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
 $RHID_DN_Heater_FAT_FAIL = ($RHID_DN_Heater_FAT | Select-String "FAIL" )
@@ -69,12 +63,6 @@ elseif (($RHID_DN_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
 elseif (($RHID_DN_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_DN_Heater_str $Test_Failed"  -ForegroundColor Red    
 }
-    If ($VerboseMode -eq "True") {
-        "[DN Heater Pass Counter] : " + $RHID_DN_Heater_FAT_PASS.count
-        "[DN Heater Pass Result] : " + $RHID_DN_Heater_FAT_PASS
-        "[DN Heater Fail Counter] : " + $RHID_DN_Heater_FAT_FAIL.count
-        "[DN Heater Fail Result] : " + $RHID_DN_Heater_FAT_FAIL
-    }
 
 $RHID_PCR_Heater_FAT_PASS = ($RHID_PCR_Heater_FAT | Select-String "PASS" )
 $RHID_PCR_Heater_FAT_FAIL = ($RHID_PCR_Heater_FAT | Select-String "FAIL" )
@@ -87,30 +75,36 @@ elseif (($RHID_PCR_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) 
 elseif (($RHID_PCR_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Failed" -ForegroundColor Red    
 }
-    If ($VerboseMode -eq "True") {
-        "[PCR Heater Pass Counter] : " + $RHID_PCR_Heater_FAT_PASS.count
-        "[PCR Heater Pass Result] : " + $RHID_PCR_Heater_FAT_PASS
-        "[PCR Heater Fail Counter] : " + $RHID_PCR_Heater_FAT_FAIL.count
-        "[PCR Heater Fail Result] : " + $RHID_PCR_Heater_FAT_FAIL
-    }
 
 $RHID_Optics_Heater_FAT_PASS = ($RHID_Optics_Heater_FAT | Select-String "PASS" )
 $RHID_Optics_Heater_FAT_FAIL = ($RHID_Optics_Heater_FAT | Select-String "FAIL" )
 if (($RHID_Optics_Heater_FAT).count -eq "0") {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_NA" -ForegroundColor Yellow 
 }
-elseif (($RHID_Optics_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
+elseif (($RHID_Optics_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Passed" -ForegroundColor Green 
 }
 elseif (($RHID_Optics_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    
 }
-    If ($VerboseMode -eq "True") {
-        "[Optics Heater Pass Counter] : " + $RHID_Optics_Heater_FAT_PASS.count
-        "[Optics Heater Pass Result] : " + $RHID_Optics_Heater_FAT_PASS
-        "[Optics Heater Fail Counter] : " + $RHID_Optics_Heater_FAT_FAIL.count
-        "[Optics Heater Fail Result] : " + $RHID_Optics_Heater_FAT_FAIL
-    }
+If ($VerboseMode -eq "True") {
+    "[Lysis Heater Pass Counter] : " + $RHID_Lysis_Heater_FAT_PASS.count
+    "[Lysis Heater Pass Result ] : " + $RHID_Lysis_Heater_FAT_PASS
+    "[Lysis Heater Fail Counter] : " + $RHID_Lysis_Heater_FAT_FAIL.count
+    "[Lysis Heater Fail Result ] : " + $RHID_Lysis_Heater_FAT_FAIL
+    "[DN Heater Pass Counter] : " + $RHID_DN_Heater_FAT_PASS.count
+    "[DN Heater Pass Result ] : " + $RHID_DN_Heater_FAT_PASS
+    "[DN Heater Fail Counter] : " + $RHID_DN_Heater_FAT_FAIL.count
+    "[DN Heater Fail Result ] : " + $RHID_DN_Heater_FAT_FAIL
+    "[PCR Heater Pass Counter] : " + $RHID_PCR_Heater_FAT_PASS.count
+    "[PCR Heater Pass Result ] : " + $RHID_PCR_Heater_FAT_PASS
+    "[PCR Heater Fail Counter] : " + $RHID_PCR_Heater_FAT_FAIL.count
+    "[PCR Heater Fail Result ] : " + $RHID_PCR_Heater_FAT_FAIL
+    "[Optics Heater Pass Counter] : " + $RHID_Optics_Heater_FAT_PASS.count
+    "[Optics Heater Pass Result ] : " + $RHID_Optics_Heater_FAT_PASS
+    "[Optics Heater Fail Counter] : " + $RHID_Optics_Heater_FAT_FAIL.count
+    "[Optics Heater Fail Result ] : " + $RHID_Optics_Heater_FAT_FAIL
+}
 
 IF ($HistoryMode -eq "True") { $RHID_Lysis_Heater_FAT , $RHID_DN_Heater_FAT, $RHID_PCR_Heater_FAT , $RHID_Optics_Heater_FAT }
 }
