@@ -6,12 +6,12 @@ $GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $
 $GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK") | Select-Object -Last 1
 
 If ([Bool]$MachineName -eq "True") {
-    "[Loading] : $StatusData and $GM_Analysis textual filtering commands "
+    "$Loading : $StatusData and $GM_Analysis textual filtering commands "
     $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData  -R | Test-path -PathType Leaf
     $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
 }
 
-"[Loading] : DannoGUIState.XML for Ambient and Humidity reading"
+"$Loading : DannoGUIState.XML for Ambient and Humidity reading"
 $RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
 $RHID_USB_Humi_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndRelativeHumidityPercent" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
 
