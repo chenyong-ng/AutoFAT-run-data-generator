@@ -1,9 +1,9 @@
 
 "[Loading] : Heaters textual filtering commands "
-$RHID_Lysis_Heater_FAT = $storyboard | Select-String "Lysis Heater FAT"
-$RHID_DN_Heater_FAT = $storyboard | Select-String "DN FAT"
-$RHID_PCR_Heater_FAT = $storyboard | Select-String "PCR FAT"           | Select-Object -Last 1
-$RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT" | Select-Object -Last 1
+$RHID_Lysis_Heater_FAT  = $storyboard | Select-String "Lysis Heater FAT"
+$RHID_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"
+$RHID_PCR_Heater_FAT    = $storyboard | Select-String "PCR FAT"
+$RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT"
 
 $RHID_Gel_Cooler_FAT = $storyboard | Select-String "Gel Cooling FAT" | Select-Object -Last 1
 $RHID_Ambient_FAT = $storyboard | Select-String "Ambient FAT"     | Select-Object -Last 1
@@ -40,8 +40,8 @@ $RHID_HV_FAT = ($storyboard | Select-String "HV FAT" | Select-Object -Last 1)
 $RHID_Laser_FAT = ($storyboard | Select-String "Laser FAT" | Select-Object -Last 1)
 
 function RHID_Heater_Test {
-    $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | Select-String "PASS" )
-    $RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | Select-String "FAIL" )
+$RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | Select-String "PASS" )
+$RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | Select-String "FAIL" )
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_NA" -ForegroundColor Yellow 
 }
@@ -76,25 +76,41 @@ elseif ([bool]($RHID_DN_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAI
         "[DN Heater Fail Result] : " + $RHID_DN_Heater_FAT_FAIL
     }
 
-if (($RHID_PCR_Heater_FAT).count -eq "") {
+$RHID_PCR_Heater_FAT_PASS = ($RHID_PCR_Heater_FAT | Select-String "PASS" )
+$RHID_PCR_Heater_FAT_FAIL = ($RHID_PCR_Heater_FAT | Select-String "FAIL" )
+if (($RHID_PCR_Heater_FAT).count -eq "0") {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_NA"    -ForegroundColor Yellow 
 }
-elseif ([bool] ($RHID_PCR_Heater_FAT | Select-String "Pass") -eq "True") {
+elseif ([bool]($RHID_PCR_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Passed" -ForegroundColor Green  
 }
-else {
+elseif ([bool]($RHID_PCR_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Failed" -ForegroundColor Red    
 }
+    If ($VerboseMode -eq "True") {
+        "[PCR Heater Pass Counter] : " + $RHID_PCR_Heater_FAT_PASS.count
+        "[PCR Heater Pass Result] : " + $RHID_PCR_Heater_FAT_PASS
+        "[PCR Heater Fail Counter] : " + $RHID_PCR_Heater_FAT_FAIL.count
+        "[PCR Heater Fail Result] : " + $RHID_PCR_Heater_FAT_FAIL
+    }
 
-if (($RHID_Optics_Heater_FAT).count -eq "") {
+$RHID_Optics_Heater_FAT_PASS = ($RHID_Optics_Heater_FAT | Select-String "PASS" )
+$RHID_Optics_Heater_FAT_FAIL = ($RHID_Optics_Heater_FAT | Select-String "FAIL" )
+if (($RHID_Optics_Heater_FAT).count -eq "0") {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_NA"    -ForegroundColor Yellow 
 }
-elseif ([bool] ($RHID_Optics_Heater_FAT | Select-String "Pass") -eq "True") {
+elseif ([bool]($RHID_Optics_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Passed" -ForegroundColor Green 
 }
-else {
+elseif ([bool]($RHID_Optics_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    
 }
+    If ($VerboseMode -eq "True") {
+        "[Optics Heater Pass Counter] : " + $RHID_Optics_Heater_FAT_PASS.count
+        "[Optics Heater Pass Result] : " + $RHID_Optics_Heater_FAT_PASS
+        "[Optics Heater Fail Counter] : " + $RHID_Optics_Heater_FAT_FAIL.count
+        "[Optics Heater Fail Result] : " + $RHID_Optics_Heater_FAT_FAIL
+    }
 
 IF ($HistoryMode -eq "True") { $RHID_Lysis_Heater_FAT , $RHID_DN_Heater_FAT, $RHID_PCR_Heater_FAT , $RHID_Optics_Heater_FAT }
 }
