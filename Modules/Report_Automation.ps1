@@ -59,6 +59,7 @@ $VerboseMode = "True"
 $HistoryMode = "False"
 
 . $PSScriptRoot\RHID_Str.ps1
+. $PSScriptRoot\VerboseMode.ps1
 . $PSScriptRoot\XML_and_Config.ps1
 
 if ($SerialRegMatch -eq "True") {
