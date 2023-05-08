@@ -71,11 +71,11 @@ $RHID_GM_Analysis_PeakTable = $GM_Analysis_PeakTable | Select-String "Date/Time:
 "$Found : $RHID_GM_Analysis_PeakTable"
 #If ($VerboseMode -eq "True") { $RHID_Mainboard_FW_Ver , $RHID_Mezzbaord_FW_Ver , $RHID_ExecutionLOG , $RHID_GM_Analysis_PeakTable }
 
-"$Searching : TC_CalibrationXML"
+"$Looping : TC_CalibrationXML"
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
 "$Found  : $RHID_TC_Calibration"
 
-"[Looping] : through MachinEConfigXML "
+"$Looping : through MachineConfigXML "
 $RHID_MachineConfig_SN     = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HWVer = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HWID    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }

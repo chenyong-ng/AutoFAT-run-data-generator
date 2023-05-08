@@ -6,7 +6,7 @@ if ([bool]$storyboard -ne "True") {
     Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
 "$Searching : MachineName"
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart() | Select-Object -Last 1
-"$Found  : $MachineName"
+"$Found : $MachineName"
 
 "$Searching : MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$rhid"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue

@@ -5,8 +5,8 @@ $RHID_DN_Heater_FAT     = $storyboard | Select-String "DN FAT"
 $RHID_PCR_Heater_FAT    = $storyboard | Select-String "PCR FAT"
 $RHID_Optics_Heater_FAT = $storyboard | Select-String "Optics Heater FAT"
 
-$RHID_Gel_Cooler_FAT = $storyboard | Select-String "Gel Cooling FAT" | Select-Object -Last 1
-$RHID_Ambient_FAT = $storyboard | Select-String "Ambient FAT"     | Select-Object -Last 1
+$RHID_Gel_Cooler_FAT    = $storyboard | Select-String "Gel Cooling FAT"
+$RHID_Ambient_FAT       = $storyboard | Select-String "Ambient FAT"
 
 "$Loading : SCI textual filtering commands "
 $RHID_CAM_FAT = ($storyboard | Select-String "CAM FAT" | Select-Object -Last 1)
@@ -43,40 +43,44 @@ function RHID_Heater_Test {
 $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | Select-String "PASS" )
 $RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | Select-String "FAIL" )
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
-    $Test_Result = $Test_NA
-    $Color = "Yellow"
+    $Lysis_Heater_Test_Result = $Test_NA
+    $LHColor = "Yellow"
 }
-elseif (($RHID_Lysis_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
-    $Test_Result = $Test_Passed
-    $Color = "Green"
+elseif ($RHID_Lysis_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
+    $Lysis_Heater_Test_Result = $Test_Passed
+    $LHColor = "Green"
 }
-elseif (($RHID_Lysis_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
-    $Test_Result = $Test_Failed
-    $Color = "Red"
+elseif ($RHID_Lysis_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
+    $Lysis_Heater_Test_Result = $Test_Failed
+    $LHColor = "Red"
 }
-Write-Host "$Heater : $RHID_Lysis_Heater_str $Test_Result" -ForegroundColor $Color
+Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
 $RHID_DN_Heater_FAT_FAIL = ($RHID_DN_Heater_FAT | Select-String "FAIL" )
 if (($RHID_DN_Heater_FAT).count -eq "0") {
-    Write-Host "$Heater : $RHID_DN_Heater_str $Test_NA"    -ForegroundColor Yellow 
+    $DN_Heater_Test_Result = $Test_NA
+    $DNHColor = "Yellow"
 }
-elseif (($RHID_DN_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
-    Write-Host "$Heater : $RHID_DN_Heater_str $Test_Passed" -ForegroundColor Green 
+elseif ($RHID_DN_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
+    $DN_Heater_Test_Result = $Test_Passed
+    $DNHColor = "Green"
 }
-elseif (($RHID_DN_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
-    Write-Host "$Heater : $RHID_DN_Heater_str $Test_Failed"  -ForegroundColor Red    
+elseif ($RHID_DN_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
+    $DN_Heater_Test_Result = $Test_Failed
+    $DNHColor = "Red" 
 }
+Write-Host "$Heater : $RHID_DN_Heater_str $DN_Heater_Test_Result" -ForegroundColor $DNHColor
 
 $RHID_PCR_Heater_FAT_PASS = ($RHID_PCR_Heater_FAT | Select-String "PASS" )
 $RHID_PCR_Heater_FAT_FAIL = ($RHID_PCR_Heater_FAT | Select-String "FAIL" )
 if (($RHID_PCR_Heater_FAT).count -eq "0") {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_NA"    -ForegroundColor Yellow 
 }
-elseif (($RHID_PCR_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
+elseif ($RHID_PCR_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Passed" -ForegroundColor Green  
 }
-elseif (($RHID_PCR_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
+elseif ($RHID_PCR_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
     Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Failed" -ForegroundColor Red    
 }
 
@@ -85,10 +89,10 @@ $RHID_Optics_Heater_FAT_FAIL = ($RHID_Optics_Heater_FAT | Select-String "FAIL" )
 if (($RHID_Optics_Heater_FAT).count -eq "0") {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_NA" -ForegroundColor Yellow 
 }
-elseif (($RHID_Optics_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")) {
+elseif ($RHID_Optics_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Passed" -ForegroundColor Green 
 }
-elseif (($RHID_Optics_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")) {
+elseif ($RHID_Optics_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
     Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    
 }
 If ($VerboseMode -eq "True") {
@@ -96,26 +100,30 @@ If ($VerboseMode -eq "True") {
 }
 }
 
+$RHID_Gel_Cooler_FAT_PASS = ($RHID_Gel_Cooler_FAT | Select-String "PASS" )
+$RHID_Gel_Cooler_FAT_FAIL = ($RHID_Gel_Cooler_FAT | Select-String "FAIL" )
 function RHID_GelCooler {
-if (($RHID_Gel_Cooler_FAT).count -eq "") {
+if (($RHID_Gel_Cooler_FAT).count -eq "0") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow 
 }
-elseif ([bool] ($RHID_Gel_Cooler_FAT | Select-String "Pass") -eq "True") {
+elseif ($RHID_Gel_Cooler_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Passed" -ForegroundColor Green 
 }
-else {
+elseif ($RHID_Gel_Cooler_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    
 }
 }
 
+$RHID_Ambient_FAT_PASS = ($RHID_Ambient_FAT | Select-String "PASS" )
+$RHID_Ambient_FAT_FAIL = ($RHID_Ambient_FAT | Select-String "FAIL" )
 function RHID_Ambient_Sensor {
 if (($RHID_Ambient_FAT).count -eq "") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_NA"    -ForegroundColor Yellow 
 }
-elseif ([bool] ($RHID_Ambient_FAT | Select-String "Pass") -eq "True") {
+elseif ($RHID_Ambient_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Passed" -ForegroundColor Green 
 }
-else {
+elseif ($RHID_Ambient_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    
 }
 }
