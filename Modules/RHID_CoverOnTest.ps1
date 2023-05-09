@@ -66,7 +66,7 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     Write-Host "$Cartridge_Type : [4/5] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"-ForegroundColor Green
     "$Protocol_Setting : [5/5] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
 }
-Else { Write-Host "$GM_ILS : NGM Tests to be retired after May 2023" }
+Else { Write-Host "$GM_ILS : NGM Tests to be depreciated after May 2023" }
 $Section_Separator
 <#
 Cover On Blank Tests
