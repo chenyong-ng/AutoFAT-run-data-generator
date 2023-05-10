@@ -97,6 +97,7 @@ Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑
 "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
 "$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
 "$Info : Pacific Time is now : $PST_TimeZone"
+"$Info : $psv on " + $name
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
 $US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
