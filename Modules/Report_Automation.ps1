@@ -16,6 +16,12 @@
 Initialize global variables, do not change the order.
 #>
 clear-host
+<#
+$ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
+$ini[0, 1, 2]
+#>
+
+
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
     $path = "S:\RHID"

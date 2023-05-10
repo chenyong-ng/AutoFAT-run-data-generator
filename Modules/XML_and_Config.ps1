@@ -107,17 +107,7 @@ If (($LocalServerTestPath -eq "True") -or ($US_ServerTestPath -eq "True")) {
 } Else {
     Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
 }
-<#
-Enter 1 to Paste folder path, can be folder in server or instrument local folder,
-Enter 2 to Backup Instrument runs data to server, for Pre-Boxprep or Backup before re-imaging the instrument,
-if ($SerialNumber -eq '1') {
-  $SerialNumber = read-host "Enter Folder Path"
-  set-variable -name "serverdir" -value "$SerialNumber"
-} elseif ($SerialNumber -eq '2') {
-  mkdir U:\"$name"\Internal\
-    BackupBeforeShipprep
-} elseif 
-#>
+
 function BackupBeforeShipprep {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"
 }
