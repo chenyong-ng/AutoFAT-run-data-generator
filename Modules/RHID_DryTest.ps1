@@ -75,14 +75,18 @@ Write-Host "$Heater : $RHID_DN_Heater_str $DN_Heater_Test_Result" -ForegroundCol
 $RHID_PCR_Heater_FAT_PASS = ($RHID_PCR_Heater_FAT | Select-String "PASS" )
 $RHID_PCR_Heater_FAT_FAIL = ($RHID_PCR_Heater_FAT | Select-String "FAIL" )
 if (($RHID_PCR_Heater_FAT).count -eq "0") {
-    Write-Host "$Heater : $RHID_PCR_Heater_str $Test_NA"    -ForegroundColor Yellow 
+    $PCR_Heater_Test_Result = $Test_NA
+    $PCRColor = "Yellow"
 }
 elseif ($RHID_PCR_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
-    Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Passed" -ForegroundColor Green  
+    $PCR_Heater_Test_Result = $Test_Passed
+    $PCRColor = "Green"
 }
 elseif ($RHID_PCR_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
-    Write-Host "$Heater : $RHID_PCR_Heater_str $Test_Failed" -ForegroundColor Red    
+    $PCR_Heater_Test_Result = $Test_Failed
+    $PCRColor = "Red" 
 }
+Write-Host "$Heater : $RHID_PCR_Heater_str $PCR_Heater_Test_Result -ForegroundColor $PCRColor
 
 $RHID_Optics_Heater_FAT_PASS = ($RHID_Optics_Heater_FAT | Select-String "PASS" )
 $RHID_Optics_Heater_FAT_FAIL = ($RHID_Optics_Heater_FAT | Select-String "FAIL" )
