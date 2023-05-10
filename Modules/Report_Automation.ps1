@@ -32,6 +32,7 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $name = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
+$PST_TimeZone = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
 $DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$name" -match "RHID-\d\d\d\d"

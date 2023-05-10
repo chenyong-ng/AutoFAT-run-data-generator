@@ -92,10 +92,12 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 function MainOptions {
 $RHID_FolderList = Get-ChildItem "$Drive\","$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
 $RHID_FolderList | Format-wide -Property name
-Write-Host "List of available RHID run folders for checking" -ForegroundColor Cyan
-"For latest update, get source code from Github:"
-"https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
-$SerialNumber = read-host "Enter Instrument Serial Number (4 digits) to proceed"
+Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑" -ForegroundColor Cyan
+"$Info : For latest update, get source code from Github:"
+"$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
+"$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
+"$Info : Pacific Time is now : $PST_TimeZone"
+$SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
 $US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
 
