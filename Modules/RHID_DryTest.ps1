@@ -86,7 +86,7 @@ elseif ($RHID_PCR_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
     $PCR_Heater_Test_Result = $Test_Failed
     $PCRColor = "Red" 
 }
-Write-Host "$Heater : $RHID_PCR_Heater_str $PCR_Heater_Test_Result -ForegroundColor $PCRColor
+Write-Host "$Heater : $RHID_PCR_Heater_str $PCR_Heater_Test_Result -ForegroundColor $PCRColor"
 
 $RHID_Optics_Heater_FAT_PASS = ($RHID_Optics_Heater_FAT | Select-String "PASS" )
 $RHID_Optics_Heater_FAT_FAIL = ($RHID_Optics_Heater_FAT | Select-String "FAIL" )
