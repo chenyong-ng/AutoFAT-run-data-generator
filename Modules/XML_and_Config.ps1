@@ -1,7 +1,8 @@
 ﻿
 function MachineConfigXML {
-    Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
-<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+@'
+"<?xml version="1.0" encoding="utf-8"?>
+<InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <MachineName>$name</MachineName>
   <HWVersion>ID18-3</HWVersion>
   <MachineConfiguration>NoFLSpring V2SCI</MachineConfiguration>
@@ -15,12 +16,14 @@ function MachineConfigXML {
     <LastKnownValveState>Unknown</LastKnownValveState>
   </SCIState>
 </InstrumentSettings>"
+'@
 } #MachineConfig XML Creation
 
 
 function TC_CalibrationXML {
-  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
-<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+@'
+"<?xml version=""1.0" encoding="utf-8"?>
+<InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <MachineName>$name</MachineName>
   <TC_Calibration>
     <Offsets>GFE, NaN</Offsets>
@@ -29,11 +32,13 @@ function TC_CalibrationXML {
     <!-- NGM protocols should have 10 comma separated numbers after the NGM identifier -->
   </TC_Calibration>
 </InstrumentSettings>"
+'@
 } #TC_Calibration XML Creation
 
 function OverrideSettingsXML {
-  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
-<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+@'
+"<?xml version="1.0" encoding="utf-8"?>
+<InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Protocols_GFE>
     <GFEProtocol>
       <Name>GFE-300uL-36cycles</Name>
@@ -57,6 +62,7 @@ function OverrideSettingsXML {
     </NGMProtocol>
   </Protocols_NGM>
 </InstrumentSettings>"
+'@
 } # OverrideSettings XML Creation, only used for 36cycles test, valid for SG Production use as of 2020 until further notice.
 
 
@@ -98,6 +104,8 @@ Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑
 "$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
 "$Info : Pacific Time is now : $PST_TimeZone"
 "$Info : $psv on " + $name
+$ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
+$ini[0, 1, 2]
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
 $US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
@@ -182,8 +190,9 @@ U:.
 │           └───Data RHID-0486
 #>
 function DannoAppConfig.xml {
-  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
-<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+@'
+<?xml version="1.0" encoding="utf-8"?>
+<InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <BECRunCount>150</BECRunCount>
 <CODISLoci_NGM>D10S1248, VWA, D16S539, D2S1338, AMEL, D8S1179, D21S11, D18S51, D22S1045, D19S433, TH01, FGA, D2S441, D3S1358, D1S1656, D12S391, SE33</CODISLoci_NGM>
 <CODISLoci_GFE>AMEL, CSF1PO, D10S1248, D12S391, D13S317, D16S539, D18S51, D19S433, D1S1656, D21S11, D22S1045, D2S1338, D2S441, D3S1358, D5S818, D7S820, D8S1179, FGA, SE33, TH01, TPOX, VWA</CODISLoci_GFE>
@@ -218,5 +227,6 @@ function DannoAppConfig.xml {
 <PendingUserChangesWarningMessage>There are unsaved changes to this user pending.</PendingUserChangesWarningMessage>
 <CurrentActiveRunName />
 <CurrentActiveRunASN />
-</IXDannoAppConfigData>"
+</IXDannoAppConfigData>
+'@ | Out-File DannoAppConfig.xml
 }
