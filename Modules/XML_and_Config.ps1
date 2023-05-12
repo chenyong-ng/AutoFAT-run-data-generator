@@ -106,6 +106,8 @@ Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑
 "$Info : $psv on " + $name
 $ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
 $ini[0, 1, 2]
+
+
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
 $US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
