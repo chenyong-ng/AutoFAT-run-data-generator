@@ -104,9 +104,19 @@ Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑
 "$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
 "$Info : Pacific Time is now : $PST_TimeZone"
 "$Info : $psv on " + $name
-$ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
-$ini[0, 1, 2]
+  $WorkstationConfig = ([xml](Get-Content $PSScriptRoot\..\WorkstationConfig.xml)).Default
+  $WorkstationConfig.Workstation
+  $WorkstationConfig.Drive
+  $WorkstationConfig.path
+  $WorkstationConfig.danno
+  $WorkstationConfig.US_Drive
+  $WorkstationConfig.US_Path
+  $WorkstationConfig.US_danno
 
+  $DefaultConfig = ([xml](Get-Content $PSScriptRoot\..\DefaultConfig.xml)).Instruments
+  $DefaultConfig.Drive
+  $DefaultConfig.path
+  $DefaultConfig.danno
 
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
