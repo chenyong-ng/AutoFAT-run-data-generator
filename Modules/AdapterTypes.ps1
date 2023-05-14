@@ -37,7 +37,7 @@ foreach ($monitor in $monitors)
     $connectionType = $adapterTypes."$connectionType"
     if ($null -eq $connectionType){$connectionType = 'Unknown'}
 
-    if (($null -ne $manufacturer) -or ($null -ne $FriendlyName)) { $arrMonitors += "$manufacturer $name ($connectionType)"}
+    if (($null -ne $manufacturer) -or ($null -ne $FriendlyName)) { $arrMonitors += "$manufacturer $HostName ($connectionType)"}
 
 }
 

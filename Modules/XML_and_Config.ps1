@@ -3,7 +3,7 @@ function MachineConfigXML {
 @'
 "<?xml version="1.0" encoding="utf-8"?>
 <InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <MachineName>$name</MachineName>
+  <MachineName>$HostName</MachineName>
   <HWVersion>ID18-3</HWVersion>
   <MachineConfiguration>NoFLSpring V2SCI</MachineConfiguration>
   <DataServerUploadPath>U:\</DataServerUploadPath>
@@ -24,7 +24,7 @@ function TC_CalibrationXML {
 @'
 "<?xml version=""1.0" encoding="utf-8"?>
 <InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <MachineName>$name</MachineName>
+  <MachineName>$HostName</MachineName>
   <TC_Calibration>
     <Offsets>GFE, NaN</Offsets>
     <!-- GFE protocols should have 9 comma separated numbers after the GFE identifier-->
@@ -103,20 +103,15 @@ Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑
 "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
 "$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
 "$Info : Pacific Time is now : $PST_TimeZone"
-"$Info : $psv on " + $name
-  $WorkstationConfig = ([xml](Get-Content $PSScriptRoot\..\WorkstationConfig.xml)).Default
-  $WorkstationConfig.Workstation
-  $WorkstationConfig.Drive
-  $WorkstationConfig.path
-  $WorkstationConfig.danno
-  $WorkstationConfig.US_Drive
-  $WorkstationConfig.US_Path
-  $WorkstationConfig.US_danno
-
-  $DefaultConfig = ([xml](Get-Content $PSScriptRoot\..\DefaultConfig.xml)).Instruments
-  $DefaultConfig.Drive
-  $DefaultConfig.path
-  $DefaultConfig.danno
+"$Info : $psv on " + $HostName
+  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\ScriptConfig.xml)).ScriptConfig
+  $ScriptConfig.Profiles
+  $ScriptConfig.Drive
+  $ScriptConfig.path
+  $ScriptConfig.danno
+  $ScriptConfig.US_Drive
+  $ScriptConfig.US_Path
+  $ScriptConfig.US_danno
 
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
@@ -133,8 +128,8 @@ function BackupBeforeShipprep {
 }
 
 function BackupConfig {
-New-Item -ItemType Directory -Force -Path "U:\$name\Internal\RapidHIT ID\Results\" -ErrorAction SilentlyContinue
-Copy-Item "E:\RapidHIT ID\*" U:\"$name\Internal\RapidHIT ID"\Results\ -Exclude @("Data $MachineName") -Recurse
+New-Item -ItemType Directory -Force -Path "U:\$HostName\Internal\RapidHIT ID\Results\" -ErrorAction SilentlyContinue
+Copy-Item "E:\RapidHIT ID\*" U:\"$HostName\Internal\RapidHIT ID"\Results\ -Exclude @("Data $MachineName") -Recurse
 }
 
 function network {
@@ -162,7 +157,7 @@ function debug {
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
     "[$D] Computer Name  : $env:COMPUTERNAME"
-    "[$D] name           : $name" ; "[$D] Sn             : $sn"
+    "[$D] name           : $HostName" ; "[$D] Sn             : $sn"
     "[$D] SerialRegMatch : $SerialRegMatch" 
     "[$D] get-date       : ${get-date}"
     "[$D] rhid           : $rhid"

@@ -42,7 +42,7 @@ $DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
 "[$D] SystemDiskinfo : $Disktype"
 "[$D] Display Orientation : $DOI"
 
-$DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $name\DannoAppConfig.xml" -PathType Leaf
+$DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf
 If ([Bool]$DannoAppConfigCheck -eq "True" ) { "DannoAppConfig.xml exist" } Else { "DannoAppConfig.xml missing" }
 #add option to check and generate DannoAppConfig.xml
 }

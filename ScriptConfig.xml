@@ -1,18 +1,23 @@
-; Default Preset value for Dell laptop used in Production.
-[SGSI11-59FKK13]
-Drive="S:"
-path="S:\RHID"
-danno = "S:\Dano Planning\Test Data\"
-US_Drive = "Y:"
-US_Path = "Y:\RHID"
-US_danno = "Y:\Dano Planning\Test Data\"
 
-; Default values for Instruments and the rest of the 
-[Instruments]
-Drive = "U:"
-path = "U:\RHID"
-danno = "U:\Dano Planning\Test Data\"
+<!-- Default Preset value for Dell laptop used in Production-->
+<ScriptConfig>
+<Profiles>Workstation</Profiles>
+<Workstation>SGSI11-59FKK13</Workstation>
+<Drive>S:</Drive>
+<path>S:\RHID</path>
+<Danno>S:\Dano Planning\Test Data\</Danno>
+<US_Drive>Y:</US_Drive>
+<US_Path>Y:\RHID</US_Path>
+<US_danno>Y:\Dano Planning\Test Data\</US_danno>
 
+<!--  Default values for Instruments and the rest of the Workstation PCs -->
+<Profiles>Instruemnts</Profiles>
+<Workstation>Instruments</Workstation>
+<Drive>U:</Drive>
+<path>U:\RHID</path>
+<danno>U:\Dano Planning\Test Data\</danno>
+<!-- Script-wide Variables -->
+<!--
 $HostName = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
 $PST_TimeZone = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
@@ -42,3 +47,5 @@ $Debug = "off"
 $exicode = $Null
 $VerboseMode = "True"
 $HistoryMode = "False"
+-->
+</ScriptConfig>

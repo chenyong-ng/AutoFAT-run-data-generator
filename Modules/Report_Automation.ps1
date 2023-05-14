@@ -36,19 +36,19 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 } #RHID Workststion laptop has differnt network drive path
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-$name = "$env:COMPUTERNAME"
+$HostName = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
 $PST_TimeZone = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
 $DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
-$SerialRegMatch = "$name" -match "RHID-\d\d\d\d"
+$SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
 $psv = pwsh -v 
 ${get-date} = Get-date
 $rhid   = "E:\RapidHIT ID"
 $result = "E:\RapidHIT ID\Results"
-$nl     = "Non-linearity Calibration $name.PNG"
-$wv     = "Waves $name.PNG"
-$tcc    = "TC_verification $name.TXT"
+$nl     = "Non-linearity Calibration $HostName.PNG"
+$wv     = "Waves $HostName.PNG"
+$tcc    = "TC_verification $HostName.TXT"
 $MachineConfig  = "MachineConfig.xml"
 $StatusData     = "StatusData_Graphs.pdf"
 $GM_Analysis    = "GM_Analysis.sgf"
@@ -56,10 +56,10 @@ $nlc    = Test-Path -Path $result\$nl -PathType Leaf
 $waves  = Test-Path -Path $result\$wv -PathType Leaf
 $tc     = Test-Path -Path $result\$tcc -PathType Leaf
 $mcleaf = Test-Path -Path $rhid\$MachineConfig -PathType Leaf
-$internal      = Test-Path -Path "U:\$name\Internal\"
-$US_internal   = Test-Path -Path "Y:\$name\Internal\"
-$Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$name"
-$US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$name"
+$internal      = Test-Path -Path "U:\$HostName\Internal\"
+$US_internal   = Test-Path -Path "Y:\$HostName\Internal\"
+$Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
+$US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
 
 $Debug = "off"
 $exicode = $Null

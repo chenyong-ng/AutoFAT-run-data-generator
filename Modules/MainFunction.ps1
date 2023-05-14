@@ -37,37 +37,37 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
     else {
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
     }#>
-        Write-host "$info : RapidHIT Instrument $name detected, creating Server folder"
+        Write-host "$info : RapidHIT Instrument $HostName detected, creating Server folder"
         If ($Debug -eq "Off") {
         [audio]::Volume = 0.4
         (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         }
         if ($internal -eq $False) {
-            mkdir U:\"$name\Internal\RapidHIT ID\Results\Data $name"
+            mkdir U:\"$HostName\Internal\RapidHIT ID\Results\Data $HostName"
             Write-host "$info : Server path $internal sucessfully created."
         }
         Set-Location $result
         if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($nlc   -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($nlc -eq $False) {
-            New-Item -Path "Non-linearity Calibration $name.PNG" -ItemType File
-            Write-host "$info : Created placeholder file: Non-linearity Calibration $name.PNG"
+            New-Item -Path "Non-linearity Calibration $HostName.PNG" -ItemType File
+            Write-host "$info : Created placeholder file: Non-linearity Calibration $HostName.PNG"
         }
         elseif ($nlfs -eq '0') {
             Write-host "$Warning : Empty $nl detected, reported as $nlfs KB" -ForegroundColor Yellow
         }
         else {
-            Write-Host "$info : 'Non-linearity Calibration $name.PNG' already exists, size is:" $nlfs KB
+            Write-Host "$info : 'Non-linearity Calibration $HostName.PNG' already exists, size is:" $nlfs KB
         }
         if ($waves -eq $False) {
-            New-Item -Path "Waves $name.PNG" -ItemType File
-            Write-host "$info : Created placeholder file: Waves $name.PNG"
+            New-Item -Path "Waves $HostName.PNG" -ItemType File
+            Write-host "$info : Created placeholder file: Waves $HostName.PNG"
         }
         elseif ($wvfs -eq '0') {
             Write-host "$Warning : Empty $wv detected, reported as $wvfs KB" -ForegroundColor Yellow
         }
         else {
-            Write-Host "$info : 'Waves $name.PNG' already exists, size is:" $wvfs KB
+            Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $wvfs KB
         }
 
         if ($mcleaf -eq $False) {
@@ -78,8 +78,8 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
             Write-Host "$info : '$MachineConfig' already exists"
         }
         if ($tc -eq $False) {
-            TC_verification > "TC_verification $name.TXT"
-            Write-host "$info  : Created placeholder file: TC_verification $name.TXT"
+            TC_verification > "TC_verification $HostName.TXT"
+            Write-host "$info  : Created placeholder file: TC_verification $HostName.TXT"
         }
         if (($wvfs -gt 1) -and ($nlfs -gt 1)) {
         #BackupConfig
@@ -88,7 +88,7 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         $keypress = read-host "$info : Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "$info : Make sure AutoFAT is not running, as Waves will cause resource conflict"
         if ($keypress -eq 'y') {
-            Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $name.TXT"
+            Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $HostName.TXT"
             Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
             Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
             Start-Process -WindowStyle Normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
