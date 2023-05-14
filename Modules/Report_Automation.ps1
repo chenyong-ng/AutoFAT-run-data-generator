@@ -19,8 +19,18 @@ clear-host
 <#
 $ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
 $ini[0, 1, 2]
-#>
 
+
+  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\ScriptConfig.xml)).ScriptConfig
+  $ScriptConfig.Profiles
+  $ScriptConfig.Drive
+  $ScriptConfig.path
+  $ScriptConfig.danno
+  $ScriptConfig.US_Drive
+  $ScriptConfig.US_Path
+  $ScriptConfig.US_danno
+
+#>
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
