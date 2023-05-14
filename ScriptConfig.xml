@@ -1,6 +1,6 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Default Preset value for Dell laptop used in Production-->
-<ScriptConfig>
+<ScriptConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <Profiles>Workstation</Profiles>
 <Workstation>SGSI11-59FKK13</Workstation>
 <Drive>S:</Drive>
@@ -16,36 +16,37 @@
 <Drive>U:</Drive>
 <path>U:\RHID</path>
 <danno>U:\Dano Planning\Test Data\</danno>
-<!-- Script-wide Variables -->
-<!--
-$HostName = "$env:COMPUTERNAME"
-$SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
-$PST_TimeZone = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
-$InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
-$DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
-$SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
-$psv = pwsh -v 
-${get-date} = Get-date
-$rhid   = "E:\RapidHIT ID"
-$result = "E:\RapidHIT ID\Results"
-$nl     = "Non-linearity Calibration $HostName.PNG"
-$wv     = "Waves $HostName.PNG"
-$tcc    = "TC_verification $HostName.TXT"
-$MachineConfig  = "MachineConfig.xml"
-$StatusData     = "StatusData_Graphs.pdf"
-$GM_Analysis    = "GM_Analysis.sgf"
-$nlc    = Test-Path -Path $result\$nl -PathType Leaf
-$waves  = Test-Path -Path $result\$wv -PathType Leaf
-$tc     = Test-Path -Path $result\$tcc -PathType Leaf
-$mcleaf = Test-Path -Path $rhid\$MachineConfig -PathType Leaf
-$internal      = Test-Path -Path "U:\$HostName\Internal\"
-$US_internal   = Test-Path -Path "Y:\$HostName\Internal\"
-$Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
-$US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
 
-$Debug = "off"
-$exicode = $Null
-$VerboseMode = "True"
-$HistoryMode = "False"
--->
+<!-- Script-wide Variables -->
+<HostName>$env:COMPUTERNAME</HostName>
+<SystemTimeZone>[System.TimeZoneInfo]::Local.DisplayName</SystemTimeZone>
+<PST_TimeZone>[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")</PST_TimeZone>
+<InteralDisplay>CHR $env:COMPUTERNAME (Internal)</InteralDisplay>
+<DELL_Display>DEL $env:COMPUTERNAME (VGA)</DELL_Display>
+<SerialRegMatch>"$HostName" -match "RHID-\d\d\d\d"</SerialRegMatch>
+<psv>pwsh -v</psv>
+<GetDate>${get-date} = Get-date</GetDate>
+<rhid>"E:\RapidHIT ID"</rhid>
+<result>"E:\RapidHIT ID\Results"</result>
+<nl>"E:\RapidHIT ID\Results"</nl>
+<wv>"Waves $HostName.PNG"</wv>
+<tcc>"TC_verification $HostName.TXT"</tcc>
+
+<MachineConfig>MachineConfig.xml</MachineConfig>
+<StatusData>StatusData_Graphs.pdf</StatusData>
+<GM_Analysis>GM_Analysis.sgf</GM_Analysis>
+
+<nlc>Test-Path -Path $result\$nl -PathType Leaf</nlc>
+<waves>Test-Path -Path $result\$wv -PathType Leaf</waves>
+<tc>Test-Path -Path $result\$tcc -PathType Leaf</tc>
+<mcleaf>Test-Path -Path $rhid\$MachineConfig -PathType Leaf</mcleaf>
+<internal>Test-Path -Path "U:\$HostName\Internal\"</internal>
+<US_internal>Test-Path -Path "Y:\$HostName\Internal\"</US_internal>
+<Danno_leaf>Test-Path -Path "U:\Dano Planning\Test Data\$HostName"</Danno_leaf>
+<US_Danno_leaf>Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"</US_Danno_leaf>
+
+<Debug>off</Debug>
+<ExitCode>$Null</ExitCode>
+<VerboseMode>True</VerboseMode>
+<HistoryMode>False</HistoryMode>
 </ScriptConfig>
