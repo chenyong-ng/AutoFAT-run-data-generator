@@ -104,15 +104,6 @@ Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑
 "$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
 "$Info : Pacific Time is now : $PST_TimeZone"
 "$Info : $psv on " + $HostName
-  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\ScriptConfig.xml)).ScriptConfig
-  $ScriptConfig.Profiles
-  $ScriptConfig.Drive
-  $ScriptConfig.path
-  $ScriptConfig.danno
-  $ScriptConfig.US_Drive
-  $ScriptConfig.US_Path
-  $ScriptConfig.US_danno
-
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
 $US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
@@ -144,15 +135,11 @@ function debug {
 . $PSScriptRoot\Info_Screens.ps1
 . $PSScriptRoot\AdapterTypes.ps1
 
-    $PSversion  = ($PSversionTable | select-object psversion | Format-table -Autosize -HideTableHeaders -wrap)
     $DIMM       = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "A1_DIMM0","A1_DIMM1")
     $Ram        = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
-    $Disk       = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA"} | Measure-Object -Property size -Sum).sum /1GB)
-    $DiskType   = [string](wmic diskdrive get InterfaceType,Model,Name | select-string "SATA", "IDE")
     $RealtimeProtection = (Get-MpPreference | select-object DisableRealtimeMonitoring).DisableRealtimeMonitoring
     $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-    # add function to check USB device status
 
     $D = "DEBUG"
     "[$D] Path           : $env:Path"
@@ -181,7 +168,6 @@ function debug {
     "[$D] Local Folder  ?: $Local"     ; "[$D] Remote Folder ?: $Remote"
     "[$D] PSVersion     ?:";" $PSversion"
     $col_screens, $strMonitors
-    Add-Type -Assembly System.Windows.Forms; [Windows.Forms.SystemInformation]::ScreenOrientation
 }
 
 
