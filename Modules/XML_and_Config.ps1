@@ -221,5 +221,5 @@ function DannoAppConfig.xml {
 <CurrentActiveRunName />
 <CurrentActiveRunASN />
 </IXDannoAppConfigData>
-'@ | Out-File DannoAppConfig.xml
+'@ | Out-File "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml"
 }

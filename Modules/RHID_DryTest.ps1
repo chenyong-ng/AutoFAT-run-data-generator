@@ -52,14 +52,19 @@ Write-Host "$Heater : $RHID_PCR_Heater_str $PCR_Heater_Test_Result" -ForegroundC
 $RHID_Optics_Heater_FAT_PASS = ($RHID_Optics_Heater_FAT | Select-String "PASS" )
 $RHID_Optics_Heater_FAT_FAIL = ($RHID_Optics_Heater_FAT | Select-String "FAIL" )
 if (($RHID_Optics_Heater_FAT).count -eq "0") {
-    Write-Host "$Heater : $RHID_Optics_Heater_str $Test_NA" -ForegroundColor Yellow 
+    $Optics_Heater_Test_Result = $Test_NA
+    $OpticsHColor = "Yellow"
 }
 elseif ($RHID_Optics_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
-    Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Passed" -ForegroundColor Green 
+    $Optics_Heater_Test_Result = $Test_Passed
+    $OpticsHColor = "Green"
 }
 elseif ($RHID_Optics_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
-    Write-Host "$Heater : $RHID_Optics_Heater_str $Test_Failed" -ForegroundColor Red    
+    $Optics_Heater_Test_Result = $Test_Failed
+    $OpticsHColor = "Red"    
 }
+Write-Host "$Heater : $RHID_Optics_Heater_str $Optics_Heater_Test_Result" -ForegroundColor $OpticsHColor    
+
 If ($VerboseMode -eq "True") {
     RHID_Heater_Verbose
 }

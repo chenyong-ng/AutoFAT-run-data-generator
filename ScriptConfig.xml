@@ -32,6 +32,9 @@
 <wv>"Waves $HostName.PNG"</wv>
 <tcc>"TC_verification $HostName.TXT"</tcc>
 
+<TC_CalibrationXML>TC_Calibration.XML</TC_CalibrationXML>
+<OverrideSettings>OverrideSettings.XML</OverrideSettings>
+<DannoAppConfig>DannoAppConfig.xml</DannoAppConfig>
 <MachineConfig>MachineConfig.xml</MachineConfig>
 <StatusData>StatusData_Graphs.pdf</StatusData>
 <GM_Analysis>GM_Analysis.sgf</GM_Analysis>
