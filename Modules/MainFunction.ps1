@@ -54,7 +54,13 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $wvfs KB
         }
-
+        if ($TC_CalibrationXML_Leaf -eq $False) {
+            TC_CalibrationXML_Gen > $rhid\$TC_CalibrationXML_File
+            Write-host "$info : '$TC_CalibrationXML_File' created"
+        }
+        else {
+            Write-Host "$info : '$TC_CalibrationXML_File' already exists"
+        }
         if ($mcleaf -eq $False) {
             MachineConfigXML > $rhid\$MachineConfig
             Write-host "$info : '$MachineConfig' created"
