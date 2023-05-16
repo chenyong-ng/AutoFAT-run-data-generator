@@ -1,5 +1,6 @@
 
 . $PSScriptRoot\RHID_DryTestHeader.ps1
+
 function RHID_Heater_Test {
 $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | Select-String "PASS" )
 $RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | Select-String "FAIL" )
@@ -15,6 +16,16 @@ elseif ($RHID_Lysis_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") 
     $Lysis_Heater_Test_Result = $Test_Failed
     $LHColor = "Red"
 }
+<#
+switch ()
+{
+    ($RHID_Lysis_Heater_FAT.count -eq "0") { $Lysis_Heater_Test_Result = $Test_NA }
+    ($RHID_Lysis_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") { $Lysis_Heater_Test_Result = $Test_Passed }
+    ($RHID_Lysis_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") { $Lysis_Heater_Test_Result = $Test_Failed }
+}
+
+$Lysis_Heater_Test_Result
+#>
 Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
@@ -82,6 +93,7 @@ elseif ($RHID_Gel_Cooler_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
 elseif ($RHID_Gel_Cooler_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    
 }
+  #  Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor $GelColor   
 }
 
 $RHID_Ambient_FAT_PASS = ($RHID_Ambient_FAT | Select-String "PASS" )
@@ -96,6 +108,7 @@ elseif ($RHID_Ambient_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS") {
 elseif ($RHID_Ambient_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    
 }
+  #  Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor $AmbientColor  
 }
 
 function RHID_SCI_Tests {
