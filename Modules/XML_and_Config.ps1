@@ -1,8 +1,7 @@
 ﻿
 function MachineConfigXML {
-@'
-"<?xml version="1.0" encoding="utf-8"?>
-<InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  Write-Host "<?xml version=""1.0"" encoding=""utf-8""?>
+<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$HostName</MachineName>
   <HWVersion>ID18-3</HWVersion>
   <MachineConfiguration>NoFLSpring V2SCI</MachineConfiguration>
@@ -16,12 +15,11 @@ function MachineConfigXML {
     <LastKnownValveState>Unknown</LastKnownValveState>
   </SCIState>
 </InstrumentSettings>"
-'@
 } #MachineConfig XML Creation
 
 
 function TC_CalibrationXML_Gen {
-Write-Host "<?xml version=""1.0"" encoding=""utf-8""?>
+  Write-Host "<?xml version=""1.0"" encoding=""utf-8""?>
 <InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$HostName</MachineName>
   <TC_Calibration>
