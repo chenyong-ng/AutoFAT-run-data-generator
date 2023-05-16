@@ -20,10 +20,9 @@ function MachineConfigXML {
 } #MachineConfig XML Creation
 
 
-function TC_CalibrationXML {
-@'
-"<?xml version=""1.0" encoding="utf-8"?>
-<InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+function TC_CalibrationXML_Gen {
+Write-Host "<?xml version=""1.0"" encoding=""utf-8""?>
+<InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$HostName</MachineName>
   <TC_Calibration>
     <Offsets>GFE, NaN</Offsets>
@@ -32,7 +31,6 @@ function TC_CalibrationXML {
     <!-- NGM protocols should have 10 comma separated numbers after the NGM identifier -->
   </TC_Calibration>
 </InstrumentSettings>"
-'@
 } #TC_Calibration XML Creation
 
 function OverrideSettingsXML {
