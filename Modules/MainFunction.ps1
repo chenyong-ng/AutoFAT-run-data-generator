@@ -10,13 +10,13 @@ Add-Type -Assembly System.Windows.Forms #duplicate entry
 #$ScreenHeight = ([system.windows.forms.screen]::AllScreens).workingarea.height
 $ScreenWidth = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
 $ScreenHeight = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
-    if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -ne "1080")) {
+    if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -lt "1080")) {
     displayswitch /external
     Start-Sleep -Seconds 5
         Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
-        Write-Host "$info : Display Resolution set to 1920 x 1080" }
-        Write-Host "$info : Display Type: $strMonitors"
+        Write-Host "$info : Display Resolution set to $ScreenWidth x $ScreenHeight"}
     else {Write-Host "$info : Display Resolution: $ScreenWidth x $ScreenHeight"}
+    Write-Host "$info : Display Type: $strMonitors"
     if ($SystemTimeZone -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
         Write-host "$Warning : Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
     } else {
