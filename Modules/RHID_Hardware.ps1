@@ -27,7 +27,7 @@ function ABRHID_Patch {
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
     }
 }
-"$Found : $Win110Patch_RegKey"
+"$Found : $Win110Patch"
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get Model | select-string "SATA")

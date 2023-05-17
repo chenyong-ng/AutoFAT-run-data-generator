@@ -1,5 +1,5 @@
 function RHID_TC_Verification {
-$TC_verificationTXT = Get-ChildItem "$serverdir","$result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
+$TC_verificationTXT = Get-ChildItem "$serverdir","$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
 if ([bool]$TC_verificationTXT -eq "True") {
     $Ambient_Probe_Str = "                        Ambient + Probe"
     $USB_Temp_Humidity = "                        Temp + Humidity"

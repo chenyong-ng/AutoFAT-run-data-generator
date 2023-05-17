@@ -1,6 +1,6 @@
 $US_serverdir = "$US_path-$SerialNumber"
 $serverdir = "$path-$SerialNumber"
-$LocalFolder = "$result"
+$LocalFolder = "$Inst_rhid_Result"
 $storyboard = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
 if ([bool]$storyboard -ne "True") {
     Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
@@ -9,9 +9,9 @@ $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -First
 "$Found : $MachineName"
 
 "$Searching : MachineConfig.xml"
-$MachineConfigXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$rhid"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue
+$MachineConfigXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue
 "$Searching : TC_Calibration.xml"
-$TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$rhid"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
+$TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
 "$Searching : SampleQuality.txt"
 $SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
 "$Searching : DannoGUIState.xml"

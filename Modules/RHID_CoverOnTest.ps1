@@ -6,9 +6,9 @@ $GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $
 $GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK") | Select-Object -Last 1
 
 If ([Bool]$MachineName -eq "True") {
-    "$Loading : $StatusData and $GM_Analysis textual filtering commands "
-    $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData  -R | Test-path -PathType Leaf
-    $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis -R | Test-path -PathType Leaf
+    "$Loading : $StatusData_File and $GM_Analysis_File textual filtering commands "
+    $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData_File  -R | Test-path -PathType Leaf
+    $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis_File -R | Test-path -PathType Leaf
 }
 
 "$Loading : DannoGUIState.XML for Ambient and Humidity reading"
@@ -58,7 +58,7 @@ IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
     $DxCode = Get-ChildItem $serverdir_NGM_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_NGM_007 -I RunSummary.csv -R
-    $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis -R
+    $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis_File -R
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $NGM_007_Trace_Str : $GM_ILS_Score_NGM_007_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/5] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
@@ -76,7 +76,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_BLANK -I RunSummary.csv -R
-    $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis -R
+    $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis_File -R
     If ($BlankRunCounter.count -gt 3) { $Color = "Cyan"
         } else {
             $Color = "Red"
@@ -95,21 +95,21 @@ Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 }
 function RHID_PDF_Check {
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
-    Write-Host "$Full_Run : $StatusData $File_found" -ForegroundColor Green
+    $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
+    Write-Host "$Full_Run : $StatusData_File $File_found" -ForegroundColor Green
     $RHID_StatusData_PDF
 }
-else { Write-host "$Full_Run : $StatusData $File_not_Found" -ForegroundColor yellow 
+else { Write-host "$Full_Run : $StatusData_File $File_not_Found" -ForegroundColor yellow 
 }
 }
 
 function RHID_GM_Analysis_Check {
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
-    Write-Host "$Full_Run : $GM_Analysis $File_found" -ForegroundColor Green
+    $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
+    Write-Host "$Full_Run : $GM_Analysis_File $File_found" -ForegroundColor Green
     $RHID_GM_Analysis 
 }
-else { Write-host "$Full_Run : $GM_Analysis $File_not_Found" -ForegroundColor yellow }
+else { Write-host "$Full_Run : $GM_Analysis_File $File_not_Found" -ForegroundColor yellow }
 }
 
 function RHID_TempHumi_Check {

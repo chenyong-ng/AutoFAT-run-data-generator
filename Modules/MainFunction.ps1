@@ -34,44 +34,44 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
             mkdir U:\"$HostName\Internal\RapidHIT ID\Results\Data $HostName"
             Write-host "$info : Server path $internal sucessfully created."
         }
-        Set-Location $result
-        if ($waves -eq $True) { $wvfs = (Get-Item $result\$wv | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-        if ($nlc   -eq $True) { $nlfs = (Get-Item $result\$nl | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-        if ($nlc -eq $False) {
+        Set-Location $Inst_rhid_Result
+        if ($Waves_Leaf -eq $True) { $wvfs = (Get-Item $Inst_rhid_Result\$Waves_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($Nonlinearity_Leaf   -eq $True) { $nlfs = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($Nonlinearity_Leaf -eq $False) {
             New-Item -Path "Non-linearity Calibration $HostName.PNG" -ItemType File
             Write-host "$info : Created placeholder file: Non-linearity Calibration $HostName.PNG"
         }
         elseif ($nlfs -eq '0') {
-            Write-host "$Warning : Empty $nl detected, reported as $nlfs KB" -ForegroundColor Yellow
+            Write-host "$Warning : Empty $Nonlinearity_File detected, reported as $nlfs KB" -ForegroundColor Yellow
         }
         else {
             Write-Host "$info : 'Non-linearity Calibration $HostName.PNG' already exists, size is:" $nlfs KB
         }
-        if ($waves -eq $False) {
+        if ($Waves_Leaf -eq $False) {
             New-Item -Path "Waves $HostName.PNG" -ItemType File
             Write-host "$info : Created placeholder file: Waves $HostName.PNG"
         }
         elseif ($wvfs -eq '0') {
-            Write-host "$Warning : Empty $wv detected, reported as $wvfs KB" -ForegroundColor Yellow
+            Write-host "$Warning : Empty $Waves_File detected, reported as $wvfs KB" -ForegroundColor Yellow
         }
         else {
             Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $wvfs KB
         }
         if ($TC_CalibrationXML_Leaf -eq $False) {
-            TC_CalibrationXML_Gen > $rhid\$TC_CalibrationXML_File
+            TC_CalibrationXML_Gen > $Inst_rhid_Folder\$TC_CalibrationXML_File
             Write-host "$info : '$TC_CalibrationXML_File' created"
         }
         else {
             Write-Host "$info : '$TC_CalibrationXML_File' already exists"
         }
-        if ($mcleaf -eq $False) {
-            MachineConfigXML > $rhid\$MachineConfig
-            Write-host "$info : '$MachineConfig' created"
+        if ($MachineConfig_Leaf -eq $False) {
+            MachineConfigXML > $Inst_rhid_Folder\$MachineConfig_File
+            Write-host "$info : '$MachineConfig_File' created"
         }
         else {
-            Write-Host "$info : '$MachineConfig' already exists"
+            Write-Host "$info : '$MachineConfig_File' already exists"
         }
-        if ($tc -eq $False) {
+        if ($TC_verification_Leaf -eq $False) {
             TC_verification > "TC_verification $HostName.TXT"
             Write-host "$info  : Created placeholder file: TC_verification $HostName.TXT"
         }

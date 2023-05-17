@@ -38,10 +38,10 @@
 <StatusData>StatusData_Graphs.pdf</StatusData>
 <GM_Analysis>GM_Analysis.sgf</GM_Analysis>
 
-<nlc>Test-Path -Path $result\$nl -PathType Leaf</nlc>
-<waves>Test-Path -Path $result\$wv -PathType Leaf</waves>
-<tc>Test-Path -Path $result\$tcc -PathType Leaf</tc>
-<mcleaf>Test-Path -Path $rhid\$MachineConfig -PathType Leaf</mcleaf>
+<nlc>Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf</nlc>
+<waves>Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf</waves>
+<tc>Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf</tc>
+<mcleaf>Test-Path -Path $Inst_rhid_Folder\$MachineConfig_File -PathType Leaf</mcleaf>
 <internal>Test-Path -Path "U:\$HostName\Internal\"</internal>
 <US_internal>Test-Path -Path "Y:\$HostName\Internal\"</US_internal>
 <Danno_leaf>Test-Path -Path "U:\Dano Planning\Test Data\$HostName"</Danno_leaf>
