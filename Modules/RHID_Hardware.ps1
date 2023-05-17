@@ -4,6 +4,7 @@ Add-Type -Assembly System.Windows.Forms
 "[Probing] USB Devices"
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 function RHID_USBDevices_Check {
+If (($RHID_USBDvices.count -gt 0) -and (($RHID_USBDvices[0].count -eq "1") -or ($RHID_USBDvices[1].count -eq "1"))) {
 if ($RHID_USBDvices[0].count -eq "1") {
     $FP_Check = "Present" }
     else { "$FP_Check = N/A" }
@@ -12,7 +13,7 @@ if ($RHID_USBDvices[1].count -eq "1") {
     $HD_USB_CAM_Check = "Present" }
     else { $HD_USB_CAM_Check = "N/A" }
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
-}
+}}
 "$Found :"; $RHID_USBDvices[0,1]
 "[Probing] ABRHID_Win10_Patch20201208 Presence"
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
