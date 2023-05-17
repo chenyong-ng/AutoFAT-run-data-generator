@@ -14,7 +14,7 @@ if ($RHID_USBDvices[1].count -eq "1") {
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
 }
 "$Found :"; $RHID_USBDvices[0,1]
-"Probing ABRHID_Win10_Patch20201208 Presence"
+"[Probing] ABRHID_Win10_Patch20201208 Presence"
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
 
 function ABRHID_Patch {
@@ -38,8 +38,7 @@ $DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
 "[$D] SystemDiskinfo : $Disktype"
 "[$D] Display Orientation : $DOI"
 
-$DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf
-If ([Bool]$DannoAppConfigCheck -eq "True" ) { "DannoAppConfig.xml exist" } Else { "DannoAppConfig.xml missing" }
+    If ([Bool]$DannoAppConfigCheck -eq "True" ) { "$DannoAppConfigXML_File exist" } Else { "$DannoAppConfigXML_File missing" }
 #add option to check and generate DannoAppConfig.xml
 }
 
@@ -84,17 +83,17 @@ $RHID_MachineConfig_PrimeWater  = $MachineConfigXML  | Select-Xml -XPath "//Wate
 $RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML  | Select-Xml -XPath "//LysisBuffer" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours" | ForEach-Object { $_.node.InnerXML }
 
-"$Found : MachineName:$RHID_MachineConfig_SN"
-"$Found : HWVersion:  $RHID_MachineConfig_HWVer"
-"$Found : Signature:  $RHID_MachineConfig_Blue"
-"$Found : BEC Status: $RHID_MachineConfig_BEC"
-"$Found : PrimeWater: $RHID_MachineConfig_PrimeWater"
-"$Found : LysisBuffer:$RHID_MachineConfig_PrimeLysisBuffer"
-"$Found : Laser Hours:$RHID_MachineConfig_Laser"
-"$Found : MachineConfiguration:$RHID_MachineConfig_HWID"
-"$Found : DataServerUploadPath:$RHID_MachineConfig_ServerPath"
-"$Found : SCI Calibration:     $RHID_MachineConfig_SCI"
-"$Found : SyringePump Calibration:$RHID_MachineConfig_Syringe"
+"$Found : MachineName   : $RHID_MachineConfig_SN"
+"$Found : HWVersion : $RHID_MachineConfig_HWVer"
+"$Found : Signature : $RHID_MachineConfig_Blue"
+"$Found : BEC Status    : $RHID_MachineConfig_BEC"
+"$Found : PrimeWater    : $RHID_MachineConfig_PrimeWater"
+"$Found : LysisBuffer   : $RHID_MachineConfig_PrimeLysisBuffer"
+"$Found : Laser Hours               : $RHID_MachineConfig_Laser"
+"$Found : MachineConfiguration      : $RHID_MachineConfig_HWID"
+"$Found : DataServerUploadPath      : $RHID_MachineConfig_ServerPath"
+"$Found : SCI Calibration           : $RHID_MachineConfig_SCI"
+"$Found : SyringePump Calibration   : $RHID_MachineConfig_Syringe"
 
 function RHID_Optics {
 IF ([Bool]$RHID_QMini_SN -eq "True") {

@@ -6,14 +6,17 @@
 set-variable -name "serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
 Add-Type -Assembly System.Windows.Forms #duplicate entry
-$ScreenWidth = ([system.windows.forms.screen]::AllScreens).workingarea.width
-$ScreenHeight = ([system.windows.forms.screen]::AllScreens).workingarea.height
-    if ($strMonitors -ne $InteralDisplay) {
+#$ScreenWidth = ([system.windows.forms.screen]::AllScreens).workingarea.width
+#$ScreenHeight = ([system.windows.forms.screen]::AllScreens).workingarea.height
+$ScreenWidth = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
+$ScreenHeight = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
+    if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -ne "1080")) {
     displayswitch /external
     Start-Sleep -Seconds 5
         Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
         Write-Host "$info : Display Resolution set to 1920 x 1080" }
         Write-Host "$info : Display Type: $strMonitors"
+    else {Write-Host "$info : Display Resolution: $ScreenWidth x $ScreenHeight"}
     if ($SystemTimeZone -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
         Write-host "$Warning : Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
     } else {
@@ -35,27 +38,27 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
             Write-host "$info : Server path $internal sucessfully created."
         }
         Set-Location $Inst_rhid_Result
-        if ($Waves_Leaf -eq $True) { $wvfs = (Get-Item $Inst_rhid_Result\$Waves_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-        if ($Nonlinearity_Leaf   -eq $True) { $nlfs = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($Waves_Leaf -eq $True) { $Waves_Filesize = (Get-Item $Inst_rhid_Result\$Waves_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($Nonlinearity_Leaf   -eq $True) { $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($Nonlinearity_Leaf -eq $False) {
             New-Item -Path "Non-linearity Calibration $HostName.PNG" -ItemType File
             Write-host "$info : Created placeholder file: Non-linearity Calibration $HostName.PNG"
         }
-        elseif ($nlfs -eq '0') {
-            Write-host "$Warning : Empty $Nonlinearity_File detected, reported as $nlfs KB" -ForegroundColor Yellow
+        elseif ($NonLinearity_FileSize -eq '0') {
+            Write-host "$Warning : Empty $Nonlinearity_File detected, reported as $NonLinearity_FileSize KB" -ForegroundColor Yellow
         }
         else {
-            Write-Host "$info : 'Non-linearity Calibration $HostName.PNG' already exists, size is:" $nlfs KB
+            Write-Host "$info : 'Non-linearity Calibration $HostName.PNG' already exists, size is:" $NonLinearity_FileSize KB
         }
         if ($Waves_Leaf -eq $False) {
             New-Item -Path "Waves $HostName.PNG" -ItemType File
             Write-host "$info : Created placeholder file: Waves $HostName.PNG"
         }
-        elseif ($wvfs -eq '0') {
-            Write-host "$Warning : Empty $Waves_File detected, reported as $wvfs KB" -ForegroundColor Yellow
+        elseif ($Waves_Filesize -eq '0') {
+            Write-host "$Warning : Empty $Waves_File detected, reported as $Waves_Filesize KB" -ForegroundColor Yellow
         }
         else {
-            Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $wvfs KB
+            Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $Waves_Filesize KB
         }
         if ($TC_CalibrationXML_Leaf -eq $False) {
             TC_CalibrationXML_Gen > $Inst_rhid_Folder\$TC_CalibrationXML_File
@@ -75,10 +78,10 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
             TC_verification > "TC_verification $HostName.TXT"
             Write-host "$info  : Created placeholder file: TC_verification $HostName.TXT"
         }
-        if (($wvfs -gt 1) -and ($nlfs -gt 1)) {
+        if (($Waves_Filesize -gt 1) -and ($NonLinearity_FileSize -gt 1)) {
         #BackupConfig
         }
-        if (($wvfs -eq 0) -or ($nlfs -eq 0)) {
+        if (($Waves_Filesize -eq 0) -or ($NonLinearity_FileSize -eq 0)) {
         $keypress = read-host "$info : Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "$info : Make sure AutoFAT is not running, as Waves will cause resource conflict"
         if ($keypress -eq 'y') {

@@ -22,7 +22,7 @@ $adapterTypes = @{ #https://www.magnumdb.com/search?q=parent:D3DKMDT_VIDEO_OUTPU
 
 $arrMonitors = @()
 
-#gwmi
+#Get-WmiObject is deprecated in PowerShell 3.0 and above.
 $monitors = Get-WmiObject WmiMonitorID -Namespace root/wmi
 $connections = Get-WmiObject WmiMonitorConnectionParams -Namespace root/wmi
 
