@@ -1,10 +1,10 @@
-
+﻿
 if ($SerialRegMatch -eq "True") {
 Add-Type -Assembly System.Windows.Forms 
 "[Probing] USB Devices"
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 function RHID_USBDevices_Check {
-If (($RHID_USBDvices.count -gt 0) -and (($RHID_USBDvices[0].count -eq "1") -or ($RHID_USBDvices[1].count -eq "1"))) {
+If (($RHID_USBDvices[0].count -eq "1") -or ($RHID_USBDvices[1].count -eq "1")) {
 if ($RHID_USBDvices[0].count -eq "1") {
     $FP_Check = "Present" }
     else { "$FP_Check = N/A" }
