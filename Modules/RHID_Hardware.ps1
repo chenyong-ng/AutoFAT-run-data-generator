@@ -1,5 +1,6 @@
 
 if ($SerialRegMatch -eq "True") {
+Add-Type -Assembly System.Windows.Forms 
 "[Probing] USB Devices"
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 function RHID_USB_Devices {
@@ -27,7 +28,6 @@ function ABRHID_Patch {
     }
 }
 "$Found  : $Win110Patch_RegKey"
-Add-Type -Assembly System.Windows.Forms 
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get Model | select-string "SATA")

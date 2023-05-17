@@ -5,6 +5,9 @@
 . $PSScriptRoot\AdapterTypes.ps1
 set-variable -name "serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
+Add-Type -Assembly System.Windows.Forms #duplicate entry
+$ScreenWidth = ([system.windows.forms.screen]::AllScreens).workingarea.width
+$ScreenHeight = ([system.windows.forms.screen]::AllScreens).workingarea.height
     if ($strMonitors -ne $InteralDisplay) {
     displayswitch /external
     Start-Sleep -Seconds 5
