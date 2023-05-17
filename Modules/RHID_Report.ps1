@@ -40,7 +40,7 @@ Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive 
 
 #Instrument hardwar check
 if ($SerialRegMatch -eq "True") {
-RHID_USB_Devices
+RHID_USBDevices_Check
 ABRHID_Patch
 }
 RHID_Optics

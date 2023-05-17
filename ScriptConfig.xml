@@ -24,7 +24,6 @@
 <InteralDisplay>CHR $env:COMPUTERNAME (Internal)</InteralDisplay>
 <DELL_Display>DEL $env:COMPUTERNAME (VGA)</DELL_Display>
 <SerialRegMatch>"$HostName" -match "RHID-\d\d\d\d"</SerialRegMatch>
-<psv>pwsh -v</psv>
 <GetDate>${get-date} = Get-date</GetDate>
 <rhid>"E:\RapidHIT ID"</rhid>
 <result>"E:\RapidHIT ID\Results"</result>

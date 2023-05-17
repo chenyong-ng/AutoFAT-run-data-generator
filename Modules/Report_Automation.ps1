@@ -52,7 +52,6 @@ $PST_TimeZone = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]:
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
 $DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
-$psv = pwsh -v 
 ${get-date} = Get-date
 $rhid   = "E:\RapidHIT ID"
 $result = "E:\RapidHIT ID\Results"

@@ -3,7 +3,7 @@ if ($SerialRegMatch -eq "True") {
 Add-Type -Assembly System.Windows.Forms 
 "[Probing] USB Devices"
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
-function RHID_USB_Devices {
+function RHID_USBDevices_Check {
 if ($RHID_USBDvices[0].count -eq "1") {
     $FP_Check = "Present" }
     else { "$FP_Check = N/A" }
@@ -13,7 +13,7 @@ if ($RHID_USBDvices[1].count -eq "1") {
     else { $HD_USB_CAM_Check = "N/A" }
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
 }
-"$Found  :"; $RHID_USBDvices[0,1]
+"$Found :"; $RHID_USBDvices[0,1]
 "Probing ABRHID_Win10_Patch20201208 Presence"
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
 
@@ -27,7 +27,7 @@ function ABRHID_Patch {
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
     }
 }
-"$Found  : $Win110Patch_RegKey"
+"$Found : $Win110Patch_RegKey"
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get Model | select-string "SATA")
