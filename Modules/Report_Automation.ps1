@@ -53,6 +53,7 @@ $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
 $DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
+$psv = [string]($psversiontable.psversion)
 $Inst_rhid_Folder = "E:\RapidHIT ID"
 $Inst_rhid_Result = "E:\RapidHIT ID\Results"
 $Nonlinearity_File = "Non-linearity Calibration $HostName.PNG"
