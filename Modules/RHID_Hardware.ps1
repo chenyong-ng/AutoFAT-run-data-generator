@@ -29,10 +29,10 @@ function ABRHID_Patch {
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
     }
 }
-"$Found : $Win110Patch"
+"$Found : Win110Patch $Win10patch_leaf"
 $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
-$DiskType = [string](wmic diskdrive get Model | select-string "SATA")
+$DiskType = [string](wmic diskdrive get InterfaceType,model | select-string "IDE")
 $DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
     if ($DisplayOrientation -eq "Angle0") {
     $DOI = "Landscape (0°)"
@@ -53,8 +53,8 @@ If ([Bool]$DannoAppRhidCheck -eq "True" ) {
     Write-Host "$info : D:\DannoGUI\$DannoAppConfigXML_File missing" -ForegroundColor Red}
 #add option to check and generate DannoAppConfig.xml
 }
-$DannoAppConfigCheck
-$DannoAppRhidCheck
+"DannoAppConfigCheck $DannoAppConfigCheck"
+"DannoAppRhidCheck $DannoAppRhidCheck"
 "$Loading : Q-mini textual filtering commands"
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
 $RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1)
