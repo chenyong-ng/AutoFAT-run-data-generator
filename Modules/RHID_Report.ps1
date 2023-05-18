@@ -22,7 +22,7 @@ $ExecutionLOG = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" , "$US_serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R -ErrorAction SilentlyContinue
 "$Searching : GM_Analysis_PeakTable.txt" 
 $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I GM_Analysis_PeakTable.txt -R -ErrorAction SilentlyContinue
-"$Found  :"; $GM_Analysis_PeakTable.directory.name[0-10]
+"$Found  :"; $GM_Analysis_PeakTable.directory.name
 "$Loading : more textual filtering commandss "
 
 . $PSScriptRoot\TC_VerificationTXT.ps1

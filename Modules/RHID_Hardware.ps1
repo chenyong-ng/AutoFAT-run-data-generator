@@ -15,7 +15,7 @@ if ($CameraMAtch.count -eq "1" ) {
     else { $HD_USB_CAM_Check = "N/A" }
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
 }
-$RHID_USBDvices
+"$info : $RHID_USBDvices"
 "[Probing] ABRHID_Win10_Patch20201208 Presence"
 $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
 
@@ -34,16 +34,27 @@ $Ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity
 $Disk = [math]::Round((Get-Disk | Where-Object -FilterScript { $_.Bustype -eq "SATA" } | Measure-Object -Property size -Sum).sum / 1GB)
 $DiskType = [string](wmic diskdrive get Model | select-string "SATA")
 $DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
-    if ($DisplayOrientation -eq "Angle0") { $DOI = "Landscape (0°)" } elseif ($DisplayOrientation -eq "Angle270") { $DOI = "Potrait (Flipped, 270°)" }
+    if ($DisplayOrientation -eq "Angle0") {
+    $DOI = "Landscape (0°)"
+    } elseif ($DisplayOrientation -eq "Angle270" ) {
+    $DOI = "Potrait (Flipped, 270°)" }
 "[$D] Ram            : $Ram GB"
 "[$D] SystemDiskSize : $Disk GB"
 "[$D] SystemDiskinfo : $Disktype"
 "[$D] Display Orientation : $DOI"
 
-    If ([Bool]$DannoAppConfigCheck -eq "True" ) { "$DannoAppConfigXML_File exist" } Else { "$DannoAppConfigXML_File missing" }
+If ([Bool]$DannoAppConfigCheck -eq "True" ) {
+    Write-Host "$info : E:\RapidHIT ID\Results\Data $HostName\$DannoAppConfigXML_File exist" -ForegroundColor Green
+} Else {
+    Write-Host "$info : E:\RapidHIT ID\Results\Data $HostName\$DannoAppConfigXML_File missing" -ForegroundColor Red}
+If ([Bool]$DannoAppRhidCheck -eq "True" ) {
+    Write-Host "$info : D:\DannoGUI\$DannoAppConfigXML_File exist" -ForegroundColor Green
+} Else {
+    Write-Host "$info : D:\DannoGUI\$DannoAppConfigXML_File missing" -ForegroundColor Red}
 #add option to check and generate DannoAppConfig.xml
 }
-
+$DannoAppConfigCheck
+$DannoAppRhidCheck
 "$Loading : Q-mini textual filtering commands"
 $RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
 $RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1)

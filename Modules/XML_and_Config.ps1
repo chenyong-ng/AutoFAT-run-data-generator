@@ -1,6 +1,6 @@
 ﻿
 function MachineConfigXML {
-  Write-Host "<?xml version=""1.0"" encoding=""utf-8""?>
+  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
 <InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$HostName</MachineName>
   <HWVersion>ID18-3</HWVersion>
@@ -19,7 +19,7 @@ function MachineConfigXML {
 
 
 function TC_CalibrationXML_Gen {
-  Write-Host "<?xml version=""1.0"" encoding=""utf-8""?>
+  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
 <InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$HostName</MachineName>
   <TC_Calibration>
