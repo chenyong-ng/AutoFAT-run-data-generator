@@ -115,8 +115,10 @@ function BackupBeforeShipprep {
 }
 
 function BackupConfig {
-New-Item -ItemType Directory -Force -Path "U:\$HostName\Internal\RapidHIT ID\Results\" -ErrorAction SilentlyContinue
-Copy-Item "E:\RapidHIT ID\*" U:\"$HostName\Internal\RapidHIT ID"\Results\ -Exclude @("Data $MachineName") -Recurse
+Set-Location $Inst_rhid_Folder
+Copy-Item TC_Calibration.xml -Destination "U:\$HostName\Internal\RapidHIT ID\"
+Set-Location $Inst_rhid_Result
+Copy-Item $TC_verification_File , $Waves_File , $Nonlinearity_File -Destination "U:\$HostName\Internal\RapidHIT ID\Results\"
 }
 
 function network {

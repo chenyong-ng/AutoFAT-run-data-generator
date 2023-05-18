@@ -79,7 +79,8 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
             Write-host "$info  : Created placeholder file: TC_verification $HostName.TXT"
         }
         if (($Waves_Filesize -gt 1) -and ($NonLinearity_FileSize -gt 1)) {
-        #BackupConfig
+        BackupConfig
+        Write-host "$info  : Backup Instrument TC Calibration.xml, Waves screenshot to server"
         }
         if (($Waves_Filesize -eq 0) -or ($NonLinearity_FileSize -eq 0)) {
         $keypress = read-host "$info : Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
