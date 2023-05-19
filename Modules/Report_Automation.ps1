@@ -64,6 +64,7 @@ $StatusData_File     = "StatusData_Graphs.pdf"
 $GM_Analysis_File    = "GM_Analysis.sgf"
 $TC_CalibrationXML_File = "TC_Calibration.xml"
 $DannoAppConfigXML_File = "DannoAppConfig.xml"
+
 $Nonlinearity_Leaf    = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
 $Waves_Leaf  = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
 $TC_verification_Leaf     = Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf
@@ -71,10 +72,13 @@ $MachineConfig_Leaf = Test-Path -Path $Inst_rhid_Folder\$MachineConfig_File -Pat
 $TC_CalibrationXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$TC_CalibrationXML_File -PathType Leaf
 $DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf
 $DannoAppRhidCheck = Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf
+
 $internal      = Test-Path -Path "U:\$HostName\Internal\"
 $US_internal   = Test-Path -Path "Y:\$HostName\Internal\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
+
+$RealtimeProtection = Get-MpPreference | select-object DisableRealtimeMonitoring
 
 $Debug = "off"
 $exicode = $Null

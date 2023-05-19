@@ -100,6 +100,9 @@ Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑
 "$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
 "$Info : Pacific Time is now : $PST_TimeZone"
 "$Info : Powershell version: $psv on $HostName"
+  If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
+    Write-Host "$Info : Windows Defender Realtime Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
+  }
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
 $US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
@@ -116,7 +119,7 @@ function BackupBeforeShipprep {
 
 function BackupConfig {
 Set-Location $Inst_rhid_Folder
-Copy-Item TC_Calibration.xml -Destination "U:\$HostName\Internal\RapidHIT ID\"
+Copy-Item $TC_CalibrationXML_File -Destination "U:\$HostName\Internal\RapidHIT ID\"
 Set-Location $Inst_rhid_Result
 Copy-Item $TC_verification_File , $Waves_File , $Nonlinearity_File -Destination "U:\$HostName\Internal\RapidHIT ID\Results\"
 }
@@ -135,7 +138,7 @@ function debug {
 
     $DIMM       = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "A1_DIMM0","A1_DIMM1")
     $Ram        = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
-    $RealtimeProtection = (Get-MpPreference | select-object DisableRealtimeMonitoring).DisableRealtimeMonitoring
+    
     $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 

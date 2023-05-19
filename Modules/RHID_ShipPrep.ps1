@@ -37,7 +37,8 @@ If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : N/A" -ForegroundColor Green 
 }
 
-if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch = "True")) {
+
+if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch -eq "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green
     $KeyPress_Backup = "Enter to skip backup operation"
     IF ($KeyPress_Backup -eq "") {
