@@ -94,23 +94,24 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 function MainOptions {
 $RHID_FolderList = Get-ChildItem "$Drive\","$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
 $RHID_FolderList | Format-wide -Property name
-Write-Host "$Info : List of available RHID run folders for checking ↑↑↑↑" -ForegroundColor Cyan
+Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
 "$Info : For latest update, get source code from Github:"
 "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
-"$Info : All tests were executed in US Pacific Timezone (UTC-08:00)"
 "$Info : Pacific Time is now : $PST_TimeZone"
 "$Info : Powershell version: $psv on $HostName"
   If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
     Write-Host "$Info : Windows Defender Realtime Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
   }
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
-$LocalServerTestPath = Test-Path -Path "$path-$SerialNumber"
-$US_ServerTestPath = Test-Path -Path "$US_path-$SerialNumber"
+$IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
+	$LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
+	$US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
+$serialNumber[4,5,6]
 
 If (($LocalServerTestPath -eq "True") -or ($US_ServerTestPath -eq "True")) {
   . $PSScriptRoot\RHID_Report.ps1
 } Else {
-    Write-Host "[ RapidHIT ID]: selected Serial Number $SerialNumber does not have record in Server" -ForegroundColor Yellow}
+	Write-Host "[ RapidHIT ID]: selected Serial Number $IndexedSerialNumber does not have record in Server" -ForegroundColor Yellow }
 }
 
 function BackupBeforeShipprep {
