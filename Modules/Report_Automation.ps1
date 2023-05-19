@@ -21,7 +21,7 @@ $ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
 $ini[0, 1, 2]
 
 
-  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\ScriptConfig.xml)).ScriptConfig
+  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml)).ScriptConfig
   $ScriptConfig.Profiles
   $ScriptConfig.Drive
   $ScriptConfig.path

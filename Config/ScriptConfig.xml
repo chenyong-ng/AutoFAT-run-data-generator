@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Default Preset value for Dell laptop used in Production-->
 <ScriptConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Workstation>
 <Profiles>Workstation</Profiles>
 <Workstation>SGSI11-59FKK13</Workstation>
 <Drive>S:</Drive>
@@ -9,13 +10,16 @@
 <US_Drive>Y:</US_Drive>
 <US_Path>Y:\RHID</US_Path>
 <US_danno>Y:\Dano Planning\Test Data\</US_danno>
+</Workstation>
 
 <!--  Default values for Instruments and the rest of the Workstation PCs -->
+<Default>
 <Profiles>Instruemnts</Profiles>
 <Workstation>Instruments</Workstation>
 <Drive>U:</Drive>
 <path>U:\RHID</path>
 <danno>U:\Dano Planning\Test Data\</danno>
+</Default>
 
 <!-- Script-wide Variables -->
 <HostName>$env:COMPUTERNAME</HostName>
