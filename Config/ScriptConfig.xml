@@ -43,6 +43,7 @@
 <GM_Analysis>GM_Analysis.sgf</GM_Analysis>
 <TC_CalibrationXML_File>TC_Calibration.xml</TC_CalibrationXML_File>
 <DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
+<OverrideSettingsXML_File>OverrideSettings.xml</OverrideSettingsXML_File>
 
 <Nonlinearity_Leaf>Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf</Nonlinearity_Leaf>
 <Waves_Leaf>Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf</Waves_Leaf>
@@ -51,6 +52,7 @@
 <TC_CalibrationXML_Leaf>Test-Path -Path $Inst_rhid_Folder\$TC_CalibrationXML_File -PathType Leaf</TC_CalibrationXML_Leaf>
 <DannoAppConfigCheck>Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf</DannoAppConfigCheck>
 <DannoAppRhidCheck>Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf</DannoAppRhidCheck>
+<OverrideSettingsXML_Leaf> = Test-Path -Path $Inst_rhid_Folder\$OverrideSettingsXML_File -PathType Leaf</OverrideSettingsXML_Leaf>
 
 <internal>Test-Path -Path "U:\$HostName\Internal\"</internal>
 <US_internal>Test-Path -Path "Y:\$HostName\Internal\"</US_internal>
