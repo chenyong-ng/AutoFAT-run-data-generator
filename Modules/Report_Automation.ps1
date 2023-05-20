@@ -16,11 +16,14 @@
 Initialize global variables, do not change the order.
 #>
 clear-host
+
+$ini = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini  | Select-Object -skip 0 | ConvertFrom-StringData
+
+$ini.SystemTimeZone
+$ini.path
+"profile 0 : "+$ini.Profile[0]
+"profile 1 : "+$ini.Profile[1]
 <#
-$ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
-$ini[0, 1, 2]
-
-
   $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml)).ScriptConfig
   $ScriptConfig.Profiles
   $ScriptConfig.Drive
