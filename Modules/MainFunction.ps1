@@ -67,6 +67,14 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : '$TC_CalibrationXML_File' already exists"
         }
+        Get-Content $Inst_rhid_Folder\$TC_CalibrationXML_File
+        if ($OverrideSettingsXML_Leaf -eq $False) {
+        OverrideSettingsXML_Gen > $Inst_rhid_Folder\$OverrideSettingsXML_File
+        Write-host "$info : '$OverrideSettingsXML_File' created"
+        } else {
+        Write-Host "$info : '$OverrideSettingsXML_File' already exists"
+        }
+        $OverrideSettingsXML_Leaf
         if ($MachineConfig_Leaf -eq $False) {
             MachineConfigXML > $Inst_rhid_Folder\$MachineConfig_File
             Write-host "$info : '$MachineConfig_File' created"

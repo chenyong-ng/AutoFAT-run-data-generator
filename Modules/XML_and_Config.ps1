@@ -31,7 +31,7 @@ function TC_CalibrationXML_Gen {
 </InstrumentSettings>"
 } #TC_Calibration XML Creation
 
-function OverrideSettingsXML {
+function OverrideSettingsXML_Gen {
 @'
 "<?xml version="1.0" encoding="utf-8"?>
 <InstrumentSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
