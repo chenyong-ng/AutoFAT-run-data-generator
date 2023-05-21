@@ -143,9 +143,13 @@ if ($RHID_MachineConfig_SN.count -eq "0") {
     Write-Host "$MachineConf : $Warning : MachineConfig.XML Not Found" -ForegroundColor RED
 }
 Write-Host "$MachineConf : $Instrument_Serial : $RHID_MachineConfig_SN" -ForegroundColor Green
+    #Add big red warning of Instrument_Serial equal to RHID-0XXX
 Write-Host "$MachineConf : $Hardware_Version : $RHID_MachineConfig_HWVer" -ForegroundColor Green
+    # ID18-3 is production version, ID19-2 is development version
 Write-Host "$MachineConf : $SCI_Configuration : $RHID_MachineConfig_HWID" -ForegroundColor Green
+    # Production version is NoFLSpring V2SCI
 Write-Host "$MachineConf : $Data_Upload_Path : $RHID_MachineConfig_ServerPath" -ForegroundColor Green
+    # Equal to U:\, doubleslash is after boxprep, \\usple-portal-p1.amer.thermo.com\rundata\RHID\ is unconfigured
 Write-Host "$MachineConf : $Syringe_Pump_Calibration : $RHID_MachineConfig_Syringe" -ForegroundColor Green
 Write-Host "$MachineConf : $PrimeWater_Status : $RHID_MachineConfig_PrimeWater" -ForegroundColor Green
 Write-Host "$MachineConf : $PrimeLysisBuffer : $RHID_MachineConfig_PrimeLysisBuffer" -ForegroundColor Green

@@ -158,7 +158,7 @@ function debug {
     "[$D] waves          : $Waves_Leaf"
     "[$D] tc             : $TC_verification_Leaf"
     "[$D] mcleaf         : $MachineConfig_Leaf"
-    "[$D] internal       : $internal"
+    "[$D] internal       : $Server_Internal"
     "[$D] serverdir      : $serverdir"
     "[$D] danno          : $danno"
     "[$D] Ram            : $Ram GB"

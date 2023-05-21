@@ -79,8 +79,8 @@ $DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\Da
 $DannoAppRhidCheck = Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf
 $OverrideSettingsXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$OverrideSettingsXML_File -PathType Leaf
 
-$internal      = Test-Path -Path "U:\$HostName\Internal\"
-$US_internal   = Test-Path -Path "Y:\$HostName\Internal\"
+$Server_Internal      = Test-Path -Path "U:\$HostName\Internal\"
+$USServer_Internal   = Test-Path -Path "Y:\$HostName\Internal\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
 
