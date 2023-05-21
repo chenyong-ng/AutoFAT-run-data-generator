@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Default Preset value for Dell laptop used in Production-->
+<!--
+    Default Preset value for Dell laptop used in Production
+    Example: $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml)).ScriptConfig.Workstation
+    Use ScriptConfig.Workstation or .Default to select profiles
+-->
 <ScriptConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <Workstation>
 <Profiles>Workstation</Profiles>

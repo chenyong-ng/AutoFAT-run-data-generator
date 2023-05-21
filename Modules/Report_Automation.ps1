@@ -17,14 +17,15 @@ Initialize global variables, do not change the order.
 #>
 clear-host
 
-$ini = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini  | Select-Object -skip 0 | ConvertFrom-StringData
+$ini = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
 
 $ini.SystemTimeZone
 $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
-<#
-  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml)).ScriptConfig
+
+  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml -Encoding utf8 -Raw )).ScriptConfig.Workstation
+  
   $ScriptConfig.Profiles
   $ScriptConfig.Drive
   $ScriptConfig.path
@@ -33,7 +34,7 @@ $ini.path
   $ScriptConfig.US_Path
   $ScriptConfig.US_danno
 
-#>
+
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
