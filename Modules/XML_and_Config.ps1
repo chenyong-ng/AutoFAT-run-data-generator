@@ -1,5 +1,5 @@
 ﻿
-function MachineConfigXML {
+function MachineConfigXML_Gen {
   Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
 <InstrumentSettings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <MachineName>$HostName</MachineName>
@@ -61,6 +61,14 @@ function OverrideSettingsXML_Gen {
 '@
 } # OverrideSettings XML Creation, only used for 36cycles test, valid for SG Production use as of 2020 until further notice.
 
+function TestResultXML_Gen {
+  Write-Output "<?xml version=""1.0"" encoding=""utf-8""?>
+<TestResult xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+	<StartDate>$StartDate</StartDate>
+		<MachineName>$HostName</MachineName>
+	<EndDate>$EndDate</EndDate>
+</TestResul>"
+} #MachineConfig XML Creation
 
 function TC_verification {
 Write-Output "

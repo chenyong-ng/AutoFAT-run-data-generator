@@ -61,6 +61,13 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $Waves_Filesize KB
         }
+        if ($TestResultXML_Leaft -eq $False) {
+            TestResultXML_Gen > $Inst_rhid_Folder\$TestResultXML_File
+            Write-host "$info : '$TestResultXML_File' created"
+        }
+        else {
+            Write-Host "$info : '$TestResultXML_File' already exists"
+        }
         if ($TC_CalibrationXML_Leaf -eq $False) {
             TC_CalibrationXML_Gen > $Inst_rhid_Folder\$TC_CalibrationXML_File
             Write-host "$info : '$TC_CalibrationXML_File' created"
@@ -77,7 +84,7 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         }
         $OverrideSettingsXML_Leaf
         if ($MachineConfig_Leaf -eq $False) {
-            MachineConfigXML > $Inst_rhid_Folder\$MachineConfig_File
+            MachineConfigXML_Gen > $Inst_rhid_Folder\$MachineConfig_File
             Write-host "$info : '$MachineConfig_File' created"
         }
         else {

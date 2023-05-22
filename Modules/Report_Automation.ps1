@@ -8,8 +8,8 @@
 :               : Generate Test result progress into XML
 
 
-#>
-clear-host
+
+
 
 $ini = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
 
@@ -17,7 +17,7 @@ $ini.SystemTimeZone
 $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
- $XMLFile = "$PSScriptRoot\..\config\ScriptConfig.xml"
+ #$XMLFile = "$PSScriptRoot\..\config\ScriptConfig.xml"
 #$XMLFile = "C:\Users\chenyong.ng\OneDrive - Thermo Fisher Scientific\Desktop\Source\Stable\Config\ScriptConfig.xml"
 #$ScriptConfig = ([XML](Get-Content $XMLFile -Encoding utf8 -Raw)).ScriptConfig.Workstation
   $ScriptConfig.Profiles
@@ -27,18 +27,11 @@ $ini.path
   $ScriptConfig.US_Drive
   $ScriptConfig.US_Path
   $ScriptConfig.US_danno
+#>
+clear-host
 
-$NewCDate = ([String]$Date = Get-Date)
-$xml = ([xml](get-content $XMLFile))
-[xml]$xml = '<Date></Date>'
-$NewDate = $xml.CreateElement('Date')
-$attr = $xml.CreateAttribute('code')
-$attr.Value = $NewCDate
-$NewDate.Attributes.Append($attr)
-$products = $xml.SelectSingleNode('//Date')
-$products.AppendChild($NewDate)
-$xml.Save("$XMLFile.new.xml")
-# Worked, but failed to append childnode and overwrite original files
+. $PSScriptRoot\..\config\XmlWriter.ps1
+
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
@@ -56,16 +49,16 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $HostName = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
-$PST_TimeZone = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
+$PST_TimeZone   = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
-$DELL_Display = "DEL $env:COMPUTERNAME (VGA)"
+$DELL_Display   = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
 ${get-date} = Get-date
 $psv = [string]($psversiontable.psversion)
-$Inst_rhid_Folder = "E:\RapidHIT ID"
-$Inst_rhid_Result = "E:\RapidHIT ID\Results"
-$Nonlinearity_File = "Non-linearity Calibration $HostName.PNG"
-$Waves_File     = "Waves $HostName.PNG"
+$Inst_rhid_Folder   = "E:\RapidHIT ID"
+$Inst_rhid_Result   = "E:\RapidHIT ID\Results"
+$Nonlinearity_File  = "Non-linearity Calibration $HostName.PNG"
+$Waves_File         = "Waves $HostName.PNG"
 $TC_verification_File    = "TC_verification $HostName.TXT"
 $MachineConfig_File  = "MachineConfig.xml"
 $StatusData_File     = "StatusData_Graphs.pdf"
@@ -73,20 +66,22 @@ $GM_Analysis_File    = "GM_Analysis.sgf"
 $TC_CalibrationXML_File = "TC_Calibration.xml"
 $DannoAppConfigXML_File = "DannoAppConfig.xml"
 $OverrideSettingsXML_File = "OverrideSettings.xml"
+$TestResultXML_File     = "TestResult $HostName.xml"
 
-$Nonlinearity_Leaf    = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
-$Waves_Leaf  = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
-$TC_verification_Leaf     = Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf
-$MachineConfig_Leaf = Test-Path -Path $Inst_rhid_Folder\$MachineConfig_File -PathType Leaf
+$TestResultXML_Leaft    = Test-Path -Path $Inst_rhid_Result\$TestResultXML_File -PathType Leaf
+$Nonlinearity_Leaf      = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
+$Waves_Leaf             = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
+$TC_verification_Leaf   = Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf
+$MachineConfig_Leaf     = Test-Path -Path $Inst_rhid_Folder\$MachineConfig_File -PathType Leaf
 $TC_CalibrationXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$TC_CalibrationXML_File -PathType Leaf
-$DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf
-$DannoAppRhidCheck = Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf
+$DannoAppConfigCheck    = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf
+$DannoAppRhidCheck      = Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf
 $OverrideSettingsXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$OverrideSettingsXML_File -PathType Leaf
 
-$Server_Internal      = Test-Path -Path "U:\$HostName\Internal\"
-$USServer_Internal   = Test-Path -Path "Y:\$HostName\Internal\"
-$Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
-$US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
+$Server_Internal    = Test-Path -Path "U:\$HostName\Internal\"
+$USServer_Internal  = Test-Path -Path "Y:\$HostName\Internal\"
+$Danno_leaf     = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
+$US_Danno_leaf  = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
 
 $RealtimeProtection = Get-MpPreference | select-object DisableRealtimeMonitoring
 
