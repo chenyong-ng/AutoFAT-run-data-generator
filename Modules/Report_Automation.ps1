@@ -17,9 +17,9 @@ $ini.SystemTimeZone
 $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
-
-  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml -Encoding utf8 -Raw )).ScriptConfig.Workstation
-  
+ $XMLFile = "$PSScriptRoot\..\config\ScriptConfig.xml"
+#$XMLFile = "C:\Users\chenyong.ng\OneDrive - Thermo Fisher Scientific\Desktop\Source\Stable\Config\ScriptConfig.xml"
+#$ScriptConfig = ([XML](Get-Content $XMLFile -Encoding utf8 -Raw)).ScriptConfig.Workstation
   $ScriptConfig.Profiles
   $ScriptConfig.Drive
   $ScriptConfig.path
@@ -28,7 +28,17 @@ $ini.path
   $ScriptConfig.US_Path
   $ScriptConfig.US_danno
 
-
+$NewCDate = ([String]$Date = Get-Date)
+$xml = ([xml](get-content $XMLFile))
+[xml]$xml = '<Date></Date>'
+$NewDate = $xml.CreateElement('Date')
+$attr = $xml.CreateAttribute('code')
+$attr.Value = $NewCDate
+$NewDate.Attributes.Append($attr)
+$products = $xml.SelectSingleNode('//Date')
+$products.AppendChild($NewDate)
+$xml.Save("$XMLFile.new.xml")
+# Worked, but failed to append childnode and overwrite original files
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
