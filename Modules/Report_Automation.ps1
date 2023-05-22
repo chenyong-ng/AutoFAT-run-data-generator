@@ -3,17 +3,11 @@
 .Source         : https://github.com/chenyong-ng/AutoFAT-run-data-generator
 .Version        :	v0.4
 .License        : Public Domain
-.Revision Date  : 10 JUL 2022
-.Todo           : Set display resolution, change to display 2, check exported PDF  leaf from full  [DONE]
-                : Print RFID of BEC, Sample Cartridge. separate mtss test with prefix such sd [HEATER], [SCI] etc., add history and test count, apply no filter.
-                : add method to check folderand run function if found 
-                : Add more meaningful error message, add USB devices detection
-                : add auto backup, add folder check
-                : Add more meaningful error message, add error code and instrument troubleshooting information
-                get data from run summary, then grep on sample quality data
-                REVERT set-location on full run, set auto backup
+.Revision Date  : 22 MAY 2023
+.Todo           : Add more meaningful error message, add error code and instrument troubleshooting information
+:               : Generate Test result progress into XML
 
-Initialize global variables, do not change the order.
+
 #>
 clear-host
 <#
