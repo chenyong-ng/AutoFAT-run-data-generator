@@ -6,8 +6,6 @@
 set-variable -name "serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
 Add-Type -Assembly System.Windows.Forms #duplicate entry
-#$ScreenWidth = ([system.windows.forms.screen]::AllScreens).workingarea.width
-#$ScreenHeight = ([system.windows.forms.screen]::AllScreens).workingarea.height
 $ScreenWidth = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
 $ScreenHeight = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
     if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -lt "1080")) {
@@ -33,10 +31,13 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         [audio]::Volume = 0.4
         (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         }
-        if ($internal -eq $False) {
+        if ($Server_Internal -eq $False) {
             mkdir U:\"$HostName\Internal\RapidHIT ID\Results\Data $HostName"
-            Write-host "$info : Server path $internal sucessfully created."
+            "$info : Server path $Server_Internal sucessfully created."
+        } elseif ($Server_Internal -eq $True) {
+            "$info : Server path $Server_Internal exists, skipping."
         }
+        "$info : Check if Server path already created : $Server_Internal"
         Set-Location $Inst_rhid_Result
         if ($Waves_Leaf -eq $True) { $Waves_Filesize = (Get-Item $Inst_rhid_Result\$Waves_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($Nonlinearity_Leaf   -eq $True) { $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
@@ -67,6 +68,14 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : '$TC_CalibrationXML_File' already exists"
         }
+        Get-Content $Inst_rhid_Folder\$TC_CalibrationXML_File
+        if ($OverrideSettingsXML_Leaf -eq $False) {
+        OverrideSettingsXML_Gen > $Inst_rhid_Folder\$OverrideSettingsXML_File
+        Write-host "$info : '$OverrideSettingsXML_File' created"
+        } else {
+        Write-Host "$info : '$OverrideSettingsXML_File' already exists"
+        }
+        $OverrideSettingsXML_Leaf
         if ($MachineConfig_Leaf -eq $False) {
             MachineConfigXML > $Inst_rhid_Folder\$MachineConfig_File
             Write-host "$info : '$MachineConfig_File' created"
@@ -76,11 +85,11 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         }
         if ($TC_verification_Leaf -eq $False) {
             TC_verification > "TC_verification $HostName.TXT"
-            Write-host "$info  : Created placeholder file: TC_verification $HostName.TXT"
+            Write-host "$info : Created placeholder file: TC_verification $HostName.TXT"
         }
         if (($Waves_Filesize -gt 1) -and ($NonLinearity_FileSize -gt 1)) {
         BackupConfig
-        Write-host "$info  : Backup Instrument TC Calibration.xml, Waves screenshot to server"
+        Write-host "$info : Backup Instrument TC_Calibration.xml & Waves screenshot to server"
         }
         if (($Waves_Filesize -eq 0) -or ($NonLinearity_FileSize -eq 0)) {
         $keypress = read-host "$info : Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"

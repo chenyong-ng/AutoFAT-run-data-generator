@@ -1,13 +1,24 @@
 
 <#
 Instrument Initialization troubleshooting
-#>
-"General issues encountered during initialization of the instrument testing
-1. Syringe Pump failed to initialize, 
-2. Random kepress during instrument imaging, or after firs booting into Windows 10
-3. RGBLaser system error message on launching AutoFAT.
-4. Unable to update firmware"
 
-"BEC EEPROM not detected
-HV uA below 5,
-Piezo FAt failed"
+[LP Encoder]
+The Firmware seem to have lost track of the Encoder.
+Consider checking the main board battery (or was the FW just upgraded?)
+08550000URLB
+
+
+Cathode Test Fail
+CAT: Couldn't Reach Starting Temperature of 35 C
+Z1 Test Fail
+Z1: Couldn't Reach Target Temperature of 60 C
+Z3 Test Fail
+Z3: Couldn't Reach Target Temperature of 60 C
+
+
+Laser FAT: FAIL ==> Bin out of spec.
+
+
+Bring Up: Lysis Dispense Test => FAIL. Volume too Low
+
+#>

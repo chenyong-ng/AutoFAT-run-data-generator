@@ -10,12 +10,16 @@
 
 #>
 clear-host
-<#
-$ini = Get-Content $PSScriptRoot\..\ScriptConfig.ini
-$ini[0, 1, 2]
 
+$ini = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
 
-  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml)).ScriptConfig
+$ini.SystemTimeZone
+$ini.path
+"profile 0 : "+$ini.Profile[0]
+"profile 1 : "+$ini.Profile[1]
+
+  $ScriptConfig = ([xml](Get-Content $PSScriptRoot\..\config\ScriptConfig.xml -Encoding utf8 -Raw )).ScriptConfig.Workstation
+  
   $ScriptConfig.Profiles
   $ScriptConfig.Drive
   $ScriptConfig.path
@@ -24,7 +28,7 @@ $ini[0, 1, 2]
   $ScriptConfig.US_Path
   $ScriptConfig.US_danno
 
-#>
+
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
@@ -58,6 +62,7 @@ $StatusData_File     = "StatusData_Graphs.pdf"
 $GM_Analysis_File    = "GM_Analysis.sgf"
 $TC_CalibrationXML_File = "TC_Calibration.xml"
 $DannoAppConfigXML_File = "DannoAppConfig.xml"
+$OverrideSettingsXML_File = "OverrideSettings.xml"
 
 $Nonlinearity_Leaf    = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
 $Waves_Leaf  = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
@@ -66,9 +71,10 @@ $MachineConfig_Leaf = Test-Path -Path $Inst_rhid_Folder\$MachineConfig_File -Pat
 $TC_CalibrationXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$TC_CalibrationXML_File -PathType Leaf
 $DannoAppConfigCheck = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf
 $DannoAppRhidCheck = Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf
+$OverrideSettingsXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$OverrideSettingsXML_File -PathType Leaf
 
-$internal      = Test-Path -Path "U:\$HostName\Internal\"
-$US_internal   = Test-Path -Path "Y:\$HostName\Internal\"
+$Server_Internal      = Test-Path -Path "U:\$HostName\Internal\"
+$USServer_Internal   = Test-Path -Path "Y:\$HostName\Internal\"
 $Danno_leaf    = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
 $US_Danno_leaf = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
 
