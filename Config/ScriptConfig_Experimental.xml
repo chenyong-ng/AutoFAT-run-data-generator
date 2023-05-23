@@ -1,23 +1,5 @@
-<?xml version="1.0"?>
-<MDMPolicyMappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.microsoft.com/MdmMigrationAnalysisTool">
-  <Computer>
-    <PolicyMap xsi:type="OptionalPolicyMap">
-      <Name>Accounts: Administrator account status</Name>
-      <CspUri>./Device/Vendor/MSFT/Policy/Config/LocalPoliciesSecurityOptions/Accounts_EnableAdministratorAccountStatus</CspUri>
-      <CspName>Policy</CspName>
-      <Version>16299</Version>
-    </PolicyMap>
-  <PolicyMap xsi:type="OptionalPolicyMap">
-
-    05/23/2023 02:03:21
-
-  </PolicyMap></Computer>
-  <User>
-    <PolicyMap xsi:type="AdmxPolicyMap">
-      <Name>Control Panel/Printers/Point and Print Restrictions</Name>
-      <CspUri>./User/Vendor/MSFT/Policy/Config/Printers/PointAndPrintRestrictions_User</CspUri>
-      <CspName>Policy</CspName>
-      <Version>15063</Version>
-    </PolicyMap>
-  </User>
-</MDMPolicyMappings>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Item Version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Name>Myproject</Name>
+	<GUID>bjhjh</GUID>
+</Item>

@@ -67,13 +67,13 @@ function TestResultXML_Gen {
 	<StartDate>$StartDate</StartDate>
 		<MachineName>$HostName</MachineName>
 	<EndDate>$EndDate</EndDate>
-</TestResul>"
+</TestResult>"
 } #MachineConfig XML Creation
 
 function TC_verification {
 Write-Output "
 Instrument SN   : $env:COMPUTERNAME
-Time Created    : ${get-date}
+Time Created    : $NewDate
 Ambient + Probe :   °C,   °C
 Temp + Humidity :   °C,   %
 TC Probe ID     : M
