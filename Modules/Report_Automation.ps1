@@ -1,15 +1,17 @@
 <#
 .Title          : Powershell Utility for RHID Instrument
 .Source         : https://github.com/chenyong-ng/AutoFAT-run-data-generator
-.Version        :	v0.4
-.License        : Public Domain
+.Version        : v0.5
+.License        : Public Domain, CC0 1.0 Universal
 .Revision Date  : 22 MAY 2023
 .Todo           : Add more meaningful error message, add error code and instrument troubleshooting information
-:               : Generate Test result progress into XML
+.Notes          : Generate Test result progress into XML
+.Usage          : .\Report_Automation.ps1: Generate Test result progress into console.
 
 
 
-
+$content = [System.IO.File]::ReadAllText("c:\bla.txt").Replace("[MYID]","MyValue")
+[System.IO.File]::WriteAllText("c:\bla.txt", $content)
 
 $ini = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
 
@@ -74,7 +76,7 @@ $Waves_Leaf             = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathTyp
 $TC_verification_Leaf   = Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf
 $MachineConfig_Leaf     = Test-Path -Path $Inst_rhid_Folder\$MachineConfig_File -PathType Leaf
 $TC_CalibrationXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$TC_CalibrationXML_File -PathType Leaf
-$DannoAppConfigCheck    = Test-Path -Path "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml" -PathType Leaf
+$DannoAppConfigCheck    = Test-Path -Path $Inst_rhid_Result\"Data $HostName"\$DannoAppConfigXML_File -PathType Leaf
 $DannoAppRhidCheck      = Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf
 $OverrideSettingsXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$OverrideSettingsXML_File -PathType Leaf
 

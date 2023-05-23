@@ -108,7 +108,7 @@ Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Dri
 "$Info : Pacific Time is now : $PST_TimeZone"
 "$Info : Powershell version: $psv on $HostName"
   If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
-    Write-Host "$Info : Windows Defender Realtime Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
+    Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
   }
 $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
 $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
