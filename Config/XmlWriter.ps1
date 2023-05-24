@@ -1,14 +1,13 @@
 $XMLFile = "$PSScriptRoot\..\config\ScriptConfig_Experimental.xml"
-$NewCDate = ([String]$Date = Get-Date)
+$NewDate = Get-Date -format "dddd dd MMMM yyyy hh:mm"
 $NewGuid = [guid]::NewGuid().guid.toUpper()
 
-$myProject = 'Myproject'
 $xmlsettings = New-Object System.Xml.XmlWriterSettings
 $xmlsettings.Indent = $true
 $xmlsettings.IndentChars = "	"
 
 $xmlWriter = [System.XML.XmlWriter]::Create($XMLFile, $xmlsettings)
-$xmlWriter.WriteStartElement("Item") 
+$xmlWriter.WriteStartElement("TestResult") 
 $xmlWriter.WriteAttributeString("Version", "1.0")
 $XmlWriter.WriteAttributeString("xmlns", "xsi", 
     "http://www.w3.org/2000/xmlns/", 
@@ -16,8 +15,8 @@ $XmlWriter.WriteAttributeString("xmlns", "xsi",
 $XmlWriter.WriteAttributeString("xmlns","xsd",
 	"http://www.w3.org/2000/xmlns/",
 	"http://www.w3.org/2001/XMLSchema");
-$xmlWriter.WriteElementString("Name", $myProject)
-$xmlWriter.WriteElementString("GUID", "$NewGuid")
+$xmlWriter.WriteElementString("StartDate", $NewDate)
+$xmlWriter.WriteElementString("MachineName", "$HostName")
 $xmlWriter.WriteEndElement()
 
 $xmlWriter.Flush()
