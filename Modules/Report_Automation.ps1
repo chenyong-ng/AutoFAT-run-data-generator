@@ -32,7 +32,7 @@ $ini.path
 #>
 clear-host
 
-. $PSScriptRoot\..\config\XmlWriter.ps1
+#. $PSScriptRoot\..\config\XmlWriter.ps1
 
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {

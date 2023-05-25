@@ -1,5 +1,5 @@
-$XMLFile = "$PSScriptRoot\..\config\TestReport.xml"
-$NewDate = (Get-Date -Format "dddd dd/MM/yyyy HH:mm")
+$XMLFile = "$PSScriptRoot\..\config\ScriptConfig_Experimental.xml"
+$NewDate = Get-Date -format "dddd dd MMMM yyyy hh:mm"
 $NewGuid = [guid]::NewGuid().guid.toUpper()
 
 $xmlsettings = New-Object System.Xml.XmlWriterSettings
