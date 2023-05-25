@@ -1,14 +1,13 @@
-$XMLFile = "$PSScriptRoot\..\config\ScriptConfig_Experimental.xml"
-$NewCDate = ([String]$Date = Get-Date)
+$XMLFile = "$PSScriptRoot\..\config\TestReport.xml"
+$NewDate = (Get-Date -Format "dddd dd/MM/yyyy HH:mm")
 $NewGuid = [guid]::NewGuid().guid.toUpper()
 
-$myProject = 'Myproject'
 $xmlsettings = New-Object System.Xml.XmlWriterSettings
 $xmlsettings.Indent = $true
 $xmlsettings.IndentChars = "	"
 
 $xmlWriter = [System.XML.XmlWriter]::Create($XMLFile, $xmlsettings)
-$xmlWriter.WriteStartElement("Item") 
+$xmlWriter.WriteStartElement("TestReport") 
 $xmlWriter.WriteAttributeString("Version", "1.0")
 $XmlWriter.WriteAttributeString("xmlns", "xsi", 
     "http://www.w3.org/2000/xmlns/", 
@@ -16,28 +15,34 @@ $XmlWriter.WriteAttributeString("xmlns", "xsi",
 $XmlWriter.WriteAttributeString("xmlns","xsd",
 	"http://www.w3.org/2000/xmlns/",
 	"http://www.w3.org/2001/XMLSchema");
-$xmlWriter.WriteElementString("Name", $myProject)
-$xmlWriter.WriteElementString("GUID", "$NewGuid")
+$xmlWriter.WriteElementString("StartDate", $NewDate)
+$xmlWriter.WriteElementString("SerialNumber", $env:COMPUTERNAME)
+#$xmlWriter.WriteElementString("GUID", $NewGuid)
+$xmlWriter.WriteElementString("Optics",'na')
+$xmlWriter.WriteElementString("QminiSerial", 'na')
+$xmlWriter.WriteElementString("Coefficients",'na')
+$xmlWriter.WriteElementString("InflectionPoints", 'na')
+$xmlWriter.Write
 $xmlWriter.WriteEndElement()
 
 $xmlWriter.Flush()
 $xmlWriter.Close()
 
 
-<#
+
 [XML]$xmlMmat = (Get-Content -Encoding utf8 -Raw $XMLFile)
 $xmlFragment = $xmlMmat.CreateDocumentFragment()
 $xmlFragment.InnerXml =
-"
-<TestProgress>
-<TestDate>$NewCDate</TestDate>
+@"
+<Optics>
+<TestDate>$NewDate</TestDate>
 <HostName>$env:COMPUTERNAME</HostName>
-</TestProgress>
-"
+</Optics>
+"@
 
-$null = $xmlMmat.TestResult.AppendChild($xmlFragment.TestProgress)
+$null = $xmlMmat.TestReport.AppendChild($xmlFragment.Optics)
 $xmlWriter = [System.Xml.XmlTextWriter] [System.IO.StreamWriter] $XMLFile
   $xmlWriter.Formatting = 'indented'; $xmlWriter.Indentation = 4
   $xmlMMat.WriteContentTo($xmlWriter)
 $xmlWriter.Dispose()
-#>
+
