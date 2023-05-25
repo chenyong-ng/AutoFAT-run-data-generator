@@ -30,11 +30,7 @@ $ini.path
   $ScriptConfig.US_Path
   $ScriptConfig.US_danno
 #>
-clear-host
-
-#. $PSScriptRoot\..\config\XmlWriter.ps1
-
-
+Clear-Host
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
     $Drive = "S:"
     $path = "S:\RHID"
@@ -52,11 +48,12 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $HostName = "$env:COMPUTERNAME"
 $SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
 $PST_TimeZone   = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
+$NewGuid        = [guid]::NewGuid().guid.toUpper()
 $InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
 $DELL_Display   = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
-$NewDate = ([String]$Date = Get-Date)
-$psv = [string]($psversiontable.psversion)
+$NewDate = ([String](Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms"))
+$PSVersion = [string]($psversiontable.psversion)
 $Inst_rhid_Folder   = "E:\RapidHIT ID"
 $Inst_rhid_Result   = "E:\RapidHIT ID\Results"
 $Nonlinearity_File  = "Non-linearity Calibration $HostName.PNG"
@@ -95,6 +92,8 @@ $HistoryMode = "False"
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
 . $PSScriptRoot\XML_and_Config.ps1
+
+. $PSScriptRoot\..\config\XmlWriter.ps1
 
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\MainFunction.ps1

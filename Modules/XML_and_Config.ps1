@@ -67,9 +67,10 @@ function TestResultXML_Gen {
 	<StartDate>$StartDate</StartDate>
 	<MachineName>$HostName</MachineName>
     <Hardware>
-    <QminiSN></QminiSN>
-    <Coefficient></Coefficient>
-    <InflectionPoints></InflectionPoints>
+      <QminiSN></QminiSN>
+      <Coefficient></Coefficient>
+      <InflectionPoints></InflectionPoints>
+      <TC_Calibration></TC_Calibration>
     </Hardware>
 	<EndDate>$EndDate</EndDate>
 </TestResult>"
@@ -111,7 +112,7 @@ Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Dri
 "$Info : For latest update, get source code from Github:"
 "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
 "$Info : Pacific Time is now : $PST_TimeZone"
-"$Info : Powershell version: $psv on $HostName"
+"$Info : Powershell version: $PSVersion on $HostName"
   If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
     Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
   }
@@ -152,7 +153,6 @@ function debug {
 
     $DIMM       = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "A1_DIMM0","A1_DIMM1")
     $Ram        = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
-    
     $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
