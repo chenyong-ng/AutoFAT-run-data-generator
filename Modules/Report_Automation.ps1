@@ -92,8 +92,7 @@ $HistoryMode = "False"
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
 . $PSScriptRoot\XML_and_Config.ps1
-
-. $PSScriptRoot\..\config\XmlWriter.ps1
+. $PSScriptRoot\RHID_XmlWriter.ps1
 
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\MainFunction.ps1

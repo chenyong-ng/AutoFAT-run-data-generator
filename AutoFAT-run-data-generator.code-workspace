@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "AutoFAT-run-data-generator @ stable",
+			"uri": "gitlens://7b22726566223a22737461626c65222c227265706f50617468223a22633a2f55736572732f6368656e796f6e672e6e672f4f6e654472697665202d20546865726d6f2046697368657220536369656e74696669632f4465736b746f702f536f757263652f4d61696e2f4175746f4641542d72756e2d646174612d67656e657261746f72227d/c:/Users/chenyong.ng/OneDrive - Thermo Fisher Scientific/Desktop/Source/Main/AutoFAT-run-data-generator?{\"ref\":\"stable\"}"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "c:\\Users\\chenyong.ng\\OneDrive - Thermo Fisher Scientific\\Desktop\\Source\\Stable"
+	}
+}
