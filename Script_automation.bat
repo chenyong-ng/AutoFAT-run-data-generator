@@ -1,4 +1,4 @@
-@Title RapidHIT ID Powershell Automation and Troubleshooting Tools
+@Title [%computername%] RapidHIT ID Powershell Automation and Troubleshooting Tools
 @echo off
 :1
 If Exist "%~dp0\Modules\Report_Automation.ps1" (
