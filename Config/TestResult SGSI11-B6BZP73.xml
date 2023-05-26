@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TestReport Version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <StartDate>Thursday 25 May 2023 17:13:39:1339</StartDate>
+    <StartDate>Friday 26 May 2023 17:03:15:315</StartDate>
     <SystemTimezone>(UTC+08:00) Kuala Lumpur, Singapore</SystemTimezone>
     <SerialNumber>SGSI11-B6BZP73</SerialNumber>
     <Hardware>
@@ -9,7 +9,7 @@
             <Coefficients>na</Coefficients>
             <InflectionPoints>na</InflectionPoints>
             <NewElement>
-                <TestDate>Thursday 25 May 2023 17:13:39:1339</TestDate>
+                <TestDate>Friday 26 May 2023 17:03:15:315</TestDate>
                 <HostName>SGSI11-B6BZP73</HostName>
             </NewElement>
         </Optics>

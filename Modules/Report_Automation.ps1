@@ -86,7 +86,7 @@ $RealtimeProtection = Get-MpPreference | select-object DisableRealtimeMonitoring
 
 $Debug = "off"
 $exicode = $Null
-$VerboseMode = "True"
+$VerboseMode = "False"
 $HistoryMode = "False"
 
 . $PSScriptRoot\RHID_Str.ps1

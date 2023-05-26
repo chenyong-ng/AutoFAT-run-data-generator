@@ -38,7 +38,8 @@ IF ($VerboseMode -eq "False") {
     }
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 
-#Instrument hardwar check
+
+#Instrument hardware check
 if ($SerialRegMatch -eq "True") {
 RHID_USBDevices_Check
 ABRHID_Patch
