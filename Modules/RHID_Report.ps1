@@ -1,3 +1,4 @@
+
 $US_serverdir = "$US_path-$SerialNumber"
 $serverdir = "$path-$SerialNumber"
 $LocalFolder = "$Inst_rhid_Result"
@@ -37,7 +38,6 @@ IF ($VerboseMode -eq "False") {
         "$info : VerboseMode Enabled"
     }
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
-
 
 #Instrument hardware check
 if ($SerialRegMatch -eq "True") {

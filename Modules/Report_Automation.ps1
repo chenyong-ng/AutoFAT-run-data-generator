@@ -66,8 +66,10 @@ $TC_CalibrationXML_File = "TC_Calibration.xml"
 $DannoAppConfigXML_File = "DannoAppConfig.xml"
 $OverrideSettingsXML_File = "OverrideSettings.xml"
 $TestResultXML_File     = "TestResult $HostName.xml"
+$TestResultLOG_File     = "TestResult $HostName.LOG"
 
-$TestResultXML_Leaft    = Test-Path -Path $Inst_rhid_Result\$TestResultXML_File -PathType Leaf
+$TestResultLOG_Leaf     = Test-Path -Path $Inst_rhid_Result\$TestResultLOG_File -PathType Leaf
+$TestResultXML_Leaf     = Test-Path -Path $Inst_rhid_Result\$TestResultXML_File -PathType Leaf
 $Nonlinearity_Leaf      = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
 $Waves_Leaf             = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
 $TC_verification_Leaf   = Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf
@@ -94,8 +96,10 @@ $HistoryMode = "False"
 . $PSScriptRoot\XML_and_Config.ps1
 . $PSScriptRoot\RHID_XmlWriter.ps1
 
+& {
 if ($SerialRegMatch -eq "True") {
     . $PSScriptRoot\MainFunction.ps1
     . $PSScriptRoot\RHID_Report.ps1
 } else { 
     MainOptions } 
+} *> $PSScriptRoot\..\CONFIG\REPORT.LOG
