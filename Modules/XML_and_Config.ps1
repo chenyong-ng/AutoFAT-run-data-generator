@@ -107,7 +107,7 @@ Enter 'w'  to show Istrument hardware info, Timezone setting"
 
 function MainOptions {
 $RHID_FolderList = Get-ChildItem "$Drive\","$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
-$RHID_FolderList | Format-wide -Property name
+$RHID_FolderList | Format-wide -Property name -Auto-Size
 Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
 "$Info : For latest update, get source code from Github:"
 "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"

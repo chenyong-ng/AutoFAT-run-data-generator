@@ -19,7 +19,7 @@ $SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -
 $DannoGUIStateXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 "$Searching : execution.log"
 $ExecutionLOG = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I execution.log -R -ErrorAction SilentlyContinue
-"$Searching : BEC Insertin Storyboard.txt" 
+"$Searching : BEC Insertion Storyboard.txt" 
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" , "$US_serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R -ErrorAction SilentlyContinue
 "$Searching : GM_Analysis_PeakTable.txt" 
 $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I GM_Analysis_PeakTable.txt -R -ErrorAction SilentlyContinue
@@ -41,6 +41,7 @@ Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive 
 
 #Instrument hardware check
 if ($SerialRegMatch -eq "True") {
+RHID_MainFunctions
 RHID_USBDevices_Check
 ABRHID_Patch
 }

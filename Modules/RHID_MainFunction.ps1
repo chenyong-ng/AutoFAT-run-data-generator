@@ -1,4 +1,4 @@
-
+function RHID_MainFunctions {
 . $PSScriptRoot\Set-WindowStyle.ps1
 . $PSScriptRoot\set-volume.ps1
 . $PSScriptRoot\Set-ScreenResolutionEx.ps1
@@ -31,18 +31,21 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         [audio]::Volume = 0.4
         (Get-Process -Name CMD, Powershell).MainWindowHandle | ForEach-Object { Set-WindowStyle MAXIMIZE $_ }
         }
+
         if ($Server_Internal -eq $False) {
-            mkdir U:\"$HostName\Internal\RapidHIT ID\Results\Data $HostName"
+            mkdir $Drive\"$HostName\Internal\RapidHIT ID\Results\Data $HostName"
             "$info : Server path $Server_Internal sucessfully created."
         } elseif ($Server_Internal -eq $True) {
             "$info : Server path $Server_Internal exists, skipping."
         }
         "$info : Check if Server path already created : $Server_Internal"
+
         Set-Location $Inst_rhid_Result
-        if ($Waves_Leaf -eq $True) { $Waves_Filesize = (Get-Item $Inst_rhid_Result\$Waves_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-        if ($Nonlinearity_Leaf   -eq $True) { $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($TestResultLOG_Leaf -eq $True) { $TestResultLOG_Leaf = (Get-Item $Inst_rhid_Result\$TestResultLOG_Leaf | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        
+        if ($Nonlinearity_Leaf -eq $True) { $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($Nonlinearity_Leaf -eq $False) {
-            New-Item -Path "Non-linearity Calibration $HostName.PNG" -ItemType File
+            New-Item "Non-linearity Calibration $HostName.PNG" -ItemType File
             Write-host "$info : Created placeholder file: Non-linearity Calibration $HostName.PNG"
         }
         elseif ($NonLinearity_FileSize -eq '0') {
@@ -51,8 +54,10 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : 'Non-linearity Calibration $HostName.PNG' already exists, size is:" $NonLinearity_FileSize KB
         }
+
+        if ($Waves_Leaf -eq $True) { $Waves_Filesize = (Get-Item $Inst_rhid_Result\$Waves_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($Waves_Leaf -eq $False) {
-            New-Item -Path "Waves $HostName.PNG" -ItemType File
+            New-Item "Waves $HostName.PNG" -ItemType File
             Write-host "$info : Created placeholder file: Waves $HostName.PNG"
         }
         elseif ($Waves_Filesize -eq '0') {
@@ -61,13 +66,16 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $Waves_Filesize KB
         }
-        if ($TestResultXML_Leaft -eq $False) {
-            TestResultXML_Gen > $Inst_rhid_Folder\$TestResultXML_File
-            Write-host "$info : '$TestResultXML_File' created"
+
+        if ($TestResultLOG_Leaf -eq $True) { $TestResultLOG_Leaf = (Get-Item $Inst_rhid_Result\$TestResultLOG_Leaf | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($TestResultLOG_Leaf -eq $False) {
+            New-Item $TestResultLOG_File -ItemType File
+            Write-host "$info : '$TestResultLOG_File' created"
         }
         else {
-            Write-Host "$info : '$TestResultXML_File' already exists"
+            Write-Host "$info : '$TestResultLOG_File' already exists"
         }
+
         if ($TC_CalibrationXML_Leaf -eq $False) {
             TC_CalibrationXML_Gen > $Inst_rhid_Folder\$TC_CalibrationXML_File
             Write-host "$info : '$TC_CalibrationXML_File' created"
@@ -77,12 +85,14 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         }
         Get-Content $Inst_rhid_Folder\$TC_CalibrationXML_File
         if ($OverrideSettingsXML_Leaf -eq $False) {
+
         OverrideSettingsXML_Gen > $Inst_rhid_Folder\$OverrideSettingsXML_File
         Write-host "$info : '$OverrideSettingsXML_File' created"
         } else {
         Write-Host "$info : '$OverrideSettingsXML_File' already exists"
         }
         $OverrideSettingsXML_Leaf
+
         if ($MachineConfig_Leaf -eq $False) {
             MachineConfigXML_Gen > $Inst_rhid_Folder\$MachineConfig_File
             Write-host "$info : '$MachineConfig_File' created"
@@ -90,17 +100,21 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : '$MachineConfig_File' already exists"
         }
+
         if ($TC_verification_Leaf -eq $False) {
             TC_verification > "TC_verification $HostName.TXT"
             Write-host "$info : Created placeholder file: TC_verification $HostName.TXT"
         }
+
         if (($Waves_Filesize -gt 1) -and ($NonLinearity_FileSize -gt 1)) {
         BackupConfig
         Write-host "$info : Backup Instrument TC_Calibration.xml & Waves screenshot to server"
         }
+
         if (($Waves_Filesize -eq 0) -or ($NonLinearity_FileSize -eq 0)) {
         $keypress = read-host "$info : Enter y to open Snipping tool and Waves for taking screenshot, Enter to skip"
         "$info : Make sure AutoFAT is not running, as Waves will cause resource conflict"
+
         if ($keypress -eq 'y') {
             Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $HostName.TXT"
             Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
@@ -108,5 +122,5 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
             Start-Process -WindowStyle Normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
         }    
     }
-
+}
  # Main function to check whether if it's RHID instrument or Workstation

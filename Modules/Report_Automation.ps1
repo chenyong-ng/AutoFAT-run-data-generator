@@ -69,7 +69,7 @@ $TestResultXML_File     = "TestResult $HostName.xml"
 $TestResultLOG_File     = "TestResult $HostName.LOG"
 
 $TestResultLOG_Leaf     = Test-Path -Path $Inst_rhid_Result\$TestResultLOG_File -PathType Leaf
-$TestResultXML_Leaf     = Test-Path -Path $Inst_rhid_Result\$TestResultXML_File -PathType Leaf
+$TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
 $Nonlinearity_Leaf      = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
 $Waves_Leaf             = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
 $TC_verification_Leaf   = Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf
@@ -95,11 +95,10 @@ $HistoryMode = "False"
 . $PSScriptRoot\VerboseMode.ps1
 . $PSScriptRoot\XML_and_Config.ps1
 . $PSScriptRoot\RHID_XmlWriter.ps1
+. $PSScriptRoot\RHID_MainFunction.ps1
 
-& {
-if ($SerialRegMatch -eq "True") {
-    . $PSScriptRoot\MainFunction.ps1
-    . $PSScriptRoot\RHID_Report.ps1
-} else { 
-    MainOptions } 
-} *> $PSScriptRoot\..\CONFIG\REPORT.LOG
+# created temp file and cpy to server?
+& { 
+    MainOptions
+} *> "$Drive\$HostName\Internal\$TestResultLOG_File"
+notepad $PSScriptRoot\..\CONFIG\REPORT.LOG

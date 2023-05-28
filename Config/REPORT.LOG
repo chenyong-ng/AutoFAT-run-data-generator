@@ -1,0 +1,229 @@
+﻿
+
+RHID-0855                                                                                                                                                                                                                                                                                        
+
+
+[ Info       ] : List of available RHID run folders in Servers U:  for checking ↑↑↑↑
+[ Info       ] : For latest update, get source code from Github:
+[ Info       ] : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable
+[ Info       ] : Pacific Time is now : 05/28/2023 01:48:23
+[ Info       ] : Powershell version: 5.1.22621.1037 on LENOVO-R76800HS
+[ Info       ] : Realtime AntiMalware Protection is enabled, Script performance might be affected
+[ Searching  ] : MachineName
+[ Found      ] : RHID-0855
+[ Searching  ] : MachineConfig.xml
+[ Searching  ] : TC_Calibration.xml
+[ Searching  ] : SampleQuality.txt
+[ Searching  ] : DannoGUIState.xml
+[ Searching  ] : execution.log
+[ Searching  ] : BEC Insertin Storyboard.txt
+[ Searching  ] : GM_Analysis_PeakTable.txt
+[ Found      ]  :
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+REQUIRES ANALYST REVIEW
+[ Loading    ] : more textual filtering commandss 
+DannoAppConfigCheck False
+DannoAppRhidCheck False
+[ Loading    ] : Q-mini textual filtering commands
+[ Found      ] : U:\RHID-0855\RHID-0855_2023-04-17_(21.28) BEC Insertion - Shipping BEC\StoryBoard_(21.28).txt:55:2023-04-17 21:28:29.8968, Instrument               ,         Q-mini serial number: 2645
+[ Found      ] : U:\RHID-0855\RHID-0855_2023-04-17_(21.28) BEC Insertion - Shipping BEC\StoryBoard_(21.28).txt:62:2023-04-17 21:28:29.9888, Optics Monitor           ,         Coefficients: 0.8931189, 1.412416E-05, -4.016533E-10, 2.362394E-15
+[ Found      ] : 
+[ Loading    ] : Main board and Mezz PCB textual filtering commands
+[ Found      ] : 1001.4.79
+[ Found      ] : 1001.4.79
+[ Found      ] : U:\RHID-0855\RHID-0855_2023-04-17_(18.58) BLANK_LN2206066_BEC002185_CVRON\execution.log:9: -- Process -- Your trial has 31 days left.
+[ Found      ] : U:\RHID-0855\RHID-0855_2023-04-17_(18.58) BLANK_LN2206066_BEC002185_CVRON\REQUIRES ANALYST REVIEW\GM_Analysis_PeakTable.txt:2:Date/Time: 4/17/2023 8:27:50 PM
+[ Looping    ] : TC_CalibrationXML
+[ Found      ]  : GFE, NaN NGM, NaN, NaN
+[ Looping    ] : through MachineConfigXML 
+[ Found      ] : MachineName   : RHID-0855
+[ Found      ] : HWVersion : ID18-3
+[ Found      ] : Signature : 
+[ Found      ] : BEC Status    : true true 1
+[ Found      ] : PrimeWater    : true
+[ Found      ] : LysisBuffer   : true
+[ Found      ] : Laser Hours               : 8.0784
+[ Found      ] : MachineConfiguration      : NoFLSpring V2SCI
+[ Found      ] : DataServerUploadPath      : U:\
+[ Found      ] : SCI Calibration           : 2.233 2.877 2.783
+[ Found      ] : SyringePump Calibration   : 678 15
+[ Loading    ] : Heaters textual filtering commands 
+[ Loading    ] : SCI textual filtering commands 
+[ Loading    ] : MEZZ textual filtering commands 
+[ Loading    ] : BEC textual filtering commands 
+[ Loading    ] : BEC Insertion textual filtering commands 
+[ Loading    ] : WET test textual filtering commands 
+[ Loading    ] : BEC Insertion textual filtering commands 
+[ Loading    ] : Full run textual filtering commands 
+[ Loading    ] : StatusData_Graphs.pdf and GM_Analysis.sgf textual filtering commands 
+[ Loading    ] : DannoGUIState.XML for Ambient and Humidity reading
+[ RapidHIT ID] : Running query on Instrument RHID-0855 on U: drive run data for consolidated test result...
+[ Optics     ] :                    Q-mini serial number : 2645
+[ Optics     ] :   Coefficients : 0.8931189, 1.412416E-05, -4.016533E-10, 2.362394E-15
+[ Optics     ] :                        Inflection Point : 91586.46 21759.94
+[ TC_Cal     ] :                Thermocycler Calibration : Uncalibrated
+[ TC_Cal     ] :      [ Warning    ] : Unpopulated TC_Calibration.XML Found
+[Verification] :                         Ambient + Probe : 24.57  °C, 24.42  °C
+[Verification] :                         Temp + Humidity : 24.32 °C, 57.12  %
+[Verification] :                             TC Probe ID : M83
+[Verification] :                               TC Step 1 : 95.05 °C [95.0 ± 0.25°C]
+[Verification] :                               TC Step 2 : 61.57 °C [61.5 ± 0.25°C]
+[Verification] :                               TC Step 3 : 94.08 °C [94.0 ± 0.25°C]
+[Verification] :                               TC Step 4 : 61.63 °C [61.5 ± 0.25°C]
+[Verification] :                            Airleak Test : Passed
+[MachineConf.] :                       Instrument Serial : RHID-0855
+[MachineConf.] :                        Hardware Version : ID18-3
+[MachineConf.] :                       SCI Configuration : NoFLSpring V2SCI
+[MachineConf.] :                        Data Upload Path : U:\
+[MachineConf.] :                Syringe Pump Calibration : 678 15
+[MachineConf.] :                       PrimeWater Status : true
+[MachineConf.] :                 PrimeLysisBuffer Status : true
+[ Raman Bkg  ] :                         Blue_Background : N/A
+[ SCI_Cal    ] :                         SCI Calibration : 2.233 2.877 2.783 mm
+[ BEC_Status ] :   BEC Insertion, Gel Purge, LastGelFill : true true 1
+[ Laser      ] :                              Laser Hour : 8.0784
+[ PCBA       ] :             Main board firmware version : 1001.4.79
+[ PCBA       ] :             Mezz board firmware version : 1001.4.79
+[ HIDAutolite] :              HIDAutolite License Status : Your trial has 31 days left.
+[ HIDAutolite] :   Latest HIDAutolite Execution Date/Time: 4/17/2023 8:27:50 PM 
+======================================================================================
+[ Heater     ] : [01/41]                Lysis Heater FAT : Test PASSED
+[ Heater     ] : [02/41]                          DN FAT : Test PASSED
+[ Heater     ] : [03/41]                         PCR FAT : Test PASSED
+[ Heater     ] : [04/41]               Optics Heater FAT : Test PASSED
+[ Gel Cooler ] : [05/41]                 Gel Cooling FAT : Test PASSED
+[ Ambient_Sr ] : [06/41]                     Ambient FAT : Test PASSED
+[ SCI        ] : [07/41]                         CAM FAT : Test PASSED
+[ SCI        ] : [08/41]               SCI Insertion FAT : Test PASSED
+[ SCI        ] : [09/41]                   FRONT END FAT : Test PASSED
+[ SCI        ] : [10/41]  Bring Up: FE Motor Calibration : Test PASSED
+[ SCI        ] : [11/41]  Bring Up:        FE Motor Test : Test PASSED
+[ SCI        ] : [12/41]  Bring Up:    Homing Error Test : Test PASSED
+[ SCI        ] : [13/41]  Bring Up:FL Homing Error w/CAM : Test PASSED
+[ SCI        ] : [14/41]  Bring Up:     SCI Antenna Test : Test PASSED
+======================================================================================
+[MezzActuator] : [15/41]                       MEZZ test : Test PASSED
+[ HP FAT     ] : [16/41]                          HP FAT : Test PASSED
+[ LP FAT     ] : [17/41]                          LP FAT : Test PASSED
+[Anode Motor ] : [18/41]                 Anode Motor FAT : Test PASSED
+[ BEC_Intlck ] : [19/41]               BEC Interlock FAT : Test PASSED
+[ Gel_RFID   ] : [20/41]  Bring Up:   Gel Antenna - HIGH : Test PASSED
+[ Gel_RFID   ] : [21/41]  Bring Up:   Gel Antenna -  LOW : Test PASSED
+[Syringe Pump] : [22/41]            Syringe Stallout FAT : Test PASSED 
+[Syringe Pump] : [23/41]        Syringe Pump Calibration : Min Current: 15% (<= 25%)
+[ MEZZ PCBA  ] : [24/41]                   Mezzboard FAT : Test PASSED
+[BECInsertion] : [25/41]          Cover-Off BEC Reinsert : Completed ; BEC_ID : BEC_#2185'
+[BECInsertion] : [26/41] First Estimated Gel Void Volume : 4.7 uL (0.27 mm)
+[ Piezo      ] : [27/41]                       Piezo FAT : Test PASSED
+[ HV         ] : [28/41]                          HV FAT : Test PASSED
+[ HV         ] : Voltage = 8798V (8650/9300V) , Current = 11.65uA (> 5uA)
+[ Laser      ] : [29/41]                       Laser FAT : Test PASSED
+[ Laser      ] : [30/41]        Raman = 2617.85 (> 2200) ; Bin = 32.74 (31/33)
+======================================================================================
+[ Wet Test   ] : [31/41]  Bring Up:          Water Prime : Test PASSED
+[ Wet Test   ] : [32/41]  Plug detected after 247.5 uL.  Peak increase was 10.66 W
+[ Wet Test   ] : [33/41]  Bring Up:          Lysis Prime : Test PASSED
+[ Wet Test   ] : [34/41]  Bring Up:   Buffe Buffer Prime : Test PASSED
+[ Wet Test   ] : [35/41]  Bring Up:  Lysis Dispense Test : Test PASSED
+[ Wet Test   ] : [35/41]  Bring Up:  Lysis Dispense Test : 440uL (420/500uL)
+[ Wet Test   ] : [36/41]  Bring Up:          Lysate Pull : Test PASSED
+[ Wet Test   ] : [37/41]  Bring Up:  Capillary Gel Prime : Completed
+[ Laser      ] : [38/41]  Bring Up:         Verify Raman : Test PASSED
+[ Bolus      ] : [39/41]         Passed Bolus test Count : 10
+[BECInsertion] : [40/41]           Cover-On BEC Reinsert : Completed ; BEC_#2185
+[BECInsertion] : [41/41]  Last Estimated Gel Void Volume : 8.9 uL (0.51 mm)
+======================================================================================
+[ GeneMarker ] : [1/1]        GFE_36cycles Trace Quality : 97 
+[ Run Date   ] : [2/1] Thu Apr 13 20:24:03 2023 ; [Bolus_Timing] : 15.5
+[ Sample Name] : [3/1] GFE-300uL-36cycles_LN220872_BEC002185_CVROFF
+[ Ctrg. Info ] : [4/1] RHID_GFESampleCartridgePLUS ; [Type] : sample
+[ Protocol   ] : [5/1] GFE-300uL-36cycles [LN]2208072 [BEC]002185
+======================================================================================
+[ GeneMarker ] : [1/2]     Cover-Off Blank Trace Quality : 97 
+[ Run Date   ] : [2/2] Fri Apr 14 02:26:08 2023 ; [Bolus_Timing] : 18.3
+[ Sample Name] : [3/2] GFE-BV_LN2206066_BEC002185_CVROFF
+[ Ctrg. Info ] : [4/2] RHID_GFESampleCartridgePLUS ; [Type] : sample
+[ Protocol   ] : [5/2] GFE-BV [LN]2206066 [BEC]002185
+======================================================================================
+[ GeneMarker ] : [1/3]      Allelic Ladder Trace Quality : 98 
+[ Run Date   ] : [2/3] Sun Apr 16 20:19:53 2023 ; [Bolus_Timing] : 18
+[ Ctrg. Info ] : [3/3] RHID_GFEControlCartridgePLUS ; [Type] : ladder
+[ Protocol   ] : [4/3] GFE-BV [LN]2301164 [BEC]002185
+======================================================================================
+[ GeneMarker ] : [1/4]             GFE_007 Trace Quality : 97 
+[ Run Date   ] : [2/4] Sun Apr 16 22:55:46 2023 ; [Bolus_Timing] : 25.2
+[ Sample Name] : [3/4] GFE_007_LN2208072_BEC002185_CVRON
+[ Ctrg. Info ] : [4/4] RHID_GFESampleCartridgePLUS ; [Type] : sample
+[ Protocol   ] : [5/4] GFE-BV [LN]2208072 [BEC]002185
+======================================================================================
+[ GeneMarker ] : [1/5]             NGM_007 Trace Quality : 98 
+[ Run Date   ] : [2/5] Mon Apr 17 00:33:05 2023 ; [Bolus_Timing] : 17.9
+[ Sample Name] : [3/5] NGM_007_LN2204025_BEC002185_CVRON
+[ Ctrg. Info ] : [4/5] RHID_NGMSampleCartridgePLUS ; [Type] : sample
+[ Protocol   ] : [5/5] NGM-BV [LN]2204025 [BEC]002185
+======================================================================================
+[ GeneMarker ] : [1/6]               BLANK Trace Quality : 98 
+[ Run Date   ] : [2/6] Mon Apr 17 20:29:00 2023 ; [Bolus_Timing] : 18
+[ Sample Name] : [3/6] BLANK_LN2206066_BEC002185_CVRON
+[ Ctrg. Info ] : [4/6] RHID_GFESampleCartridgePLUS ; [Type] : sample
+[ Protocol   ] : [5/6] GFE-BV [LN]2206066 [BEC]002185
+[ Run Counter] : [6/6] Blank Run Counter : 4
+
+======================================================================================
+[ Full-Run   ] : StatusData_Graphs.pdf Files found in Remote folders
+
+U:\RHID-0855\RHID-0855_2023-04-13_(23.14) GFE-BV_LN2205063_BEC002185_CVROFF
+U:\RHID-0855\RHID-0855_2023-04-14_(00.53) GFE-BV_LN2206066_BEC002185_CVROFF
+U:\RHID-0855\RHID-0855_2023-04-16_(19.03) GFE-BV Allelic Ladder            
+U:\RHID-0855\RHID-0855_2023-04-16_(21.24) GFE_007_LN2208072_BEC002185_CVRON
+U:\RHID-0855\RHID-0855_2023-04-16_(23.02) NGM_007_LN2204025_BEC002185_CVRON
+U:\RHID-0855\RHID-0855_2023-04-17_(00.37) BLANK_LN2208072_BEC002185_CVRON  
+U:\RHID-0855\RHID-0855_2023-04-17_(17.18) BLANK_LN2208072_BEC002185_CVRON  
+U:\RHID-0855\RHID-0855_2023-04-17_(18.58) BLANK_LN2206066_BEC002185_CVRON  
+
+
+======================================================================================
+[ Full-Run   ] : GM_Analysis.sgf Files found in Remote folders
+
+U:\RHID-0855\RHID-0855_2023-04-13_(18.42) GFE-300uL-36cycles_LN220872_BEC002185_CVROFF
+U:\RHID-0855\RHID-0855_2023-04-13_(21.23) GFE-BV_LN2208072_BEC002185_CVROFF           
+U:\RHID-0855\RHID-0855_2023-04-13_(23.14) GFE-BV_LN2205063_BEC002185_CVROFF           
+U:\RHID-0855\RHID-0855_2023-04-14_(00.53) GFE-BV_LN2206066_BEC002185_CVROFF           
+U:\RHID-0855\RHID-0855_2023-04-16_(19.03) GFE-BV Allelic Ladder                       
+U:\RHID-0855\RHID-0855_2023-04-16_(21.24) GFE_007_LN2208072_BEC002185_CVRON           
+U:\RHID-0855\RHID-0855_2023-04-16_(23.02) NGM_007_LN2204025_BEC002185_CVRON           
+U:\RHID-0855\RHID-0855_2023-04-17_(00.37) BLANK_LN2208072_BEC002185_CVRON             
+U:\RHID-0855\RHID-0855_2023-04-17_(02.10) BLANK_LN2205063_BEC002185_CVRON             
+U:\RHID-0855\RHID-0855_2023-04-17_(17.18) BLANK_LN2208072_BEC002185_CVRON             
+U:\RHID-0855\RHID-0855_2023-04-17_(18.58) BLANK_LN2206066_BEC002185_CVRON             
+
+
+======================================================================================
+[ Temp Sensor] :  Last 3 Runs end Ambient  reading in °C : 23.92 23.36 23.6
+[ Humi Sensor] :  Last 3 Runs end Humidity reading in  % : 54.32 54.8 55.68
+======================================================================================
+[Shipping BEC] :   BEC Insertion completed, Shipping BEC : Engaged
+[ BoxPrep    ] :        Local Folder E:\RapidHIT ID Size : 0.0000 GB ; Files : 0
+[ BoxPrep    ] :      Remote U:\\Internal\ Size : 1.7666 GB ; Files : 1541
+[ BoxPrep    ] : Not Initialized
+[ HIDAutolite] : SoftGenetics License number provided is : N/A
