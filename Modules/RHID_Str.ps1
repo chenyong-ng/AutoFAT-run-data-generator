@@ -10,7 +10,7 @@ $BoxPrep      = "[ BoxPrep    ]" ; $HIDAutolite  = "[ HIDAutolite]" ; $Prime    
 $USB_Temp     = "[ Temp Sensor]" ; $USB_Humi     = "[ Humi Sensor]" ; $Laser        = "[ Laser      ]" ; $Found        = "[ Found      ]"
 $SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePump  = "[ SyringePump]" ; $Not_Available = "Not Available"
 $Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck    = "[ BEC_Intlck ]" ; $Looping      = "[ Looping    ]"
-$HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]"
+$HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]" ; $LogTimer     = "[ LogTimer   ]"
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" ; $FP           = "[ FP Sensor  ]"
 $Mezz_PCBA    = "[ MEZZ PCBA  ]" ; $MezzActuator = "[MezzActuator]" ; $Warning      = "[ Warning    ]" 
 $Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]" ; $HD_USB_CAM   = "[ HD USB CAM ]"

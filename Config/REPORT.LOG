@@ -3,10 +3,11 @@
 RHID-0855                                                                                                                                                                                                                                                                                        
 
 
-[ Info       ] : List of available RHID run folders in Servers U:  for checking ↑↑↑↑
+[ LogTimer   ] : Logging started at Monday 29 May 2023 01:26:18:2618
+[ Info       ] : List of available RHID run folders in Servers U:  for checking â†‘â†‘â†‘â†‘
 [ Info       ] : For latest update, get source code from Github:
 [ Info       ] : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable
-[ Info       ] : Pacific Time is now : 05/28/2023 01:48:23
+[ Info       ] : Pacific Time is now : 05/28/2023 10:26:17
 [ Info       ] : Powershell version: 5.1.22621.1037 on LENOVO-R76800HS
 [ Info       ] : Realtime AntiMalware Protection is enabled, Script performance might be affected
 [ Searching  ] : MachineName
@@ -16,7 +17,7 @@ RHID-0855
 [ Searching  ] : SampleQuality.txt
 [ Searching  ] : DannoGUIState.xml
 [ Searching  ] : execution.log
-[ Searching  ] : BEC Insertin Storyboard.txt
+[ Searching  ] : BEC Insertion Storyboard.txt
 [ Searching  ] : GM_Analysis_PeakTable.txt
 [ Found      ]  :
 REQUIRES ANALYST REVIEW
@@ -77,6 +78,7 @@ DannoAppRhidCheck False
 [ Loading    ] : Full run textual filtering commands 
 [ Loading    ] : StatusData_Graphs.pdf and GM_Analysis.sgf textual filtering commands 
 [ Loading    ] : DannoGUIState.XML for Ambient and Humidity reading
+======================================================================================
 [ RapidHIT ID] : Running query on Instrument RHID-0855 on U: drive run data for consolidated test result...
 [ Optics     ] :                    Q-mini serial number : 2645
 [ Optics     ] :   Coefficients : 0.8931189, 1.412416E-05, -4.016533E-10, 2.362394E-15
@@ -227,3 +229,4 @@ U:\RHID-0855\RHID-0855_2023-04-17_(18.58) BLANK_LN2206066_BEC002185_CVRON
 [ BoxPrep    ] :      Remote U:\\Internal\ Size : 1.7666 GB ; Files : 1541
 [ BoxPrep    ] : Not Initialized
 [ HIDAutolite] : SoftGenetics License number provided is : N/A
+[ LogTimer   ] : Logging Ended at Monday 29 May 2023 01:26:34:2634

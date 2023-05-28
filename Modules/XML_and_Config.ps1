@@ -105,29 +105,6 @@ Enter 'j'  to show Boxprep SoftGenetics License activation status,
 Enter 'w'  to show Istrument hardware info, Timezone setting"
 } # to listing secondary option
 
-function MainOptions {
-$RHID_FolderList = Get-ChildItem "$Drive\","$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
-$RHID_FolderList | Format-wide -Property name -Auto-Size
-Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
-"$Info : For latest update, get source code from Github:"
-"$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
-"$Info : Pacific Time is now : $PST_TimeZone"
-"$Info : Powershell version: $PSVersion on $HostName"
-  If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
-    Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
-  }
-$SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
-$IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
-	$LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
-	$US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
-$serialNumber[4,5,6]
-
-If (($LocalServerTestPath -eq "True") -or ($US_ServerTestPath -eq "True")) {
-  . $PSScriptRoot\RHID_Report.ps1
-} Else {
-	Write-Host "[ RapidHIT ID]: selected Serial Number $IndexedSerialNumber does not have record in Server" -ForegroundColor Yellow }
-}
-
 function BackupBeforeShipprep {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"
 }

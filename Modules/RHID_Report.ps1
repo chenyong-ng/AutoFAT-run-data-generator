@@ -1,4 +1,4 @@
-
+Function RHID_ReportGen {
 $US_serverdir = "$US_path-$SerialNumber"
 $serverdir = "$path-$SerialNumber"
 $LocalFolder = "$Inst_rhid_Result"
@@ -37,8 +37,8 @@ IF ($VerboseMode -eq "False") {
     clear-host} else {
         "$info : VerboseMode Enabled"
     }
+$Section_Separator 
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
-
 #Instrument hardware check
 if ($SerialRegMatch -eq "True") {
 RHID_MainFunctions
@@ -78,3 +78,5 @@ $Section_Separator
 RHID_TempHumi_Check
 $Section_Separator 
 RHID_ShipPrep_Check
+"$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
+}

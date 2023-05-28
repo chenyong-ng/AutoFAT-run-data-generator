@@ -58,7 +58,7 @@ $Inst_rhid_Folder   = "E:\RapidHIT ID"
 $Inst_rhid_Result   = "E:\RapidHIT ID\Results"
 $Nonlinearity_File  = "Non-linearity Calibration $HostName.PNG"
 $Waves_File         = "Waves $HostName.PNG"
-$TC_verification_File    = "TC_verification $HostName.TXT"
+$TC_verification_File   = "TC_verification $HostName.TXT"
 $MachineConfig_File  = "MachineConfig.xml"
 $StatusData_File     = "StatusData_Graphs.pdf"
 $GM_Analysis_File    = "GM_Analysis.sgf"
@@ -86,6 +86,12 @@ $US_Danno_leaf  = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
 
 $RealtimeProtection = Get-MpPreference | select-object DisableRealtimeMonitoring
 
+$LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
+$US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
+$US_serverdir = "$US_path-$SerialNumber"
+$serverdir = "$path-$SerialNumber"
+$LocalFolder = "$Inst_rhid_Result"
+
 $Debug = "off"
 $exicode = $Null
 $VerboseMode = "False"
@@ -96,9 +102,40 @@ $HistoryMode = "False"
 . $PSScriptRoot\XML_and_Config.ps1
 . $PSScriptRoot\RHID_XmlWriter.ps1
 . $PSScriptRoot\RHID_MainFunction.ps1
+. $PSScriptRoot\RHID_Report.ps1
 
+&  {
+if ($SerialRegMatch -eq "True") {
+    RHID_MainFunctions
+    } Else {
+    $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
+    $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
+    $RHID_FolderList | Format-wide -Property name -AutoSize
+    "$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  
+    Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
+    "$Info : For latest update, get source code from Github:"
+    "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
+    "$Info : Pacific Time is now : $PST_TimeZone"
+    "$Info : Powershell version: $PSVersion on $HostName"
+    If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
+        Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
+    }
+    $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
+    $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
+    $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
+    $serialNumber[4, 5, 6]
+
+    If (($LocalServerTestPath -eq "True") -or ($US_ServerTestPath -eq "True")) {
+        RHID_ReportGen
+    } Else {
+        Write-Host "[ RapidHIT ID]: selected Serial Number $IndexedSerialNumber does not have record in Server" -ForegroundColor Yellow 
+    }
+$US_serverdir = "$US_path-$SerialNumber"
+$serverdir = "$path-$SerialNumber"
+$LocalFolder = "$Inst_rhid_Result"
+}
 # created temp file and cpy to server?
-& { 
-    MainOptions
-} *> "$Drive\$HostName\Internal\$TestResultLOG_File"
-notepad $PSScriptRoot\..\CONFIG\REPORT.LOG
+# open log file and generate in background, if generated file larger than old one then copy to server and refresh
+} *> "$Drive\RHID-$SerialNumber\Internal\RapidHIT ID\Results\$TestResultLOG_File"
+# "$Drive\$HostName\Internal\$TestResultLOG_File"
+# notepad $PSScriptRoot\..\CONFIG\REPORT.LOG
