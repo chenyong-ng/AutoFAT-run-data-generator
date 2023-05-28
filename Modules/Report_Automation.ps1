@@ -104,38 +104,11 @@ $HistoryMode = "False"
 . $PSScriptRoot\RHID_MainFunction.ps1
 . $PSScriptRoot\RHID_Report.ps1
 
-&  {
-if ($SerialRegMatch -eq "True") {
-    RHID_MainFunctions
-    } Else {
-    $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
-    $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
-    $RHID_FolderList | Format-wide -Property name -AutoSize
-    "$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  
-    Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
-    "$Info : For latest update, get source code from Github:"
-    "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
-    "$Info : Pacific Time is now : $PST_TimeZone"
-    "$Info : Powershell version: $PSVersion on $HostName"
-    If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
-        Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
-    }
-    $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
-    $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
-    $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
-    $serialNumber[4, 5, 6]
-
-    If (($LocalServerTestPath -eq "True") -or ($US_ServerTestPath -eq "True")) {
-        RHID_ReportGen
-    } Else {
-        Write-Host "[ RapidHIT ID]: selected Serial Number $IndexedSerialNumber does not have record in Server" -ForegroundColor Yellow 
-    }
-$US_serverdir = "$US_path-$SerialNumber"
-$serverdir = "$path-$SerialNumber"
-$LocalFolder = "$Inst_rhid_Result"
-}
+& {
+RHID_SerialNumberDetection
+} *> "$Drive\RHID-\Internal\RapidHIT ID\Results\$TestResultLOG_File"
 # created temp file and cpy to server?
 # open log file and generate in background, if generated file larger than old one then copy to server and refresh
-} *> "$Drive\RHID-$SerialNumber\Internal\RapidHIT ID\Results\$TestResultLOG_File"
+# *> "$Drive\RHID-$SerialNumber\Internal\RapidHIT ID\Results\$TestResultLOG_File"
 # "$Drive\$HostName\Internal\$TestResultLOG_File"
 # notepad $PSScriptRoot\..\CONFIG\REPORT.LOG

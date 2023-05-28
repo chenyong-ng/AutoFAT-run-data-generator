@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TestReport Version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <StartDate>Monday 29 May 2023 01:46:48:4648</StartDate>
+    <StartDate>Monday 29 May 2023 02:23:28:2328</StartDate>
     <SystemTimezone>(UTC+08:00) Kuala Lumpur, Singapore</SystemTimezone>
     <SerialNumber>LENOVO-R76800HS</SerialNumber>
     <Hardware>
@@ -9,7 +9,7 @@
             <Coefficients>na</Coefficients>
             <InflectionPoints>na</InflectionPoints>
             <NewElement>
-                <TestDate>Monday 29 May 2023 01:46:48:4648</TestDate>
+                <TestDate>Monday 29 May 2023 02:23:28:2328</TestDate>
                 <HostName>LENOVO-R76800HS</HostName>
             </NewElement>
         </Optics>
