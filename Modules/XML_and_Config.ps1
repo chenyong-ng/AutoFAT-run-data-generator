@@ -224,7 +224,7 @@ function DannoUserConfig.xml {
       <PermissionLevel>Administrator</PermissionLevel>
       <MobileNumber />
       <Email />
-      <UserPIN>YKV7CMx1IjuP3+fLW+HR8+sKsdMgBZKc3O9cA1tKujfHEoNUOs/tUAZUqPC/8Zdk</UserPIN>
+      <UserPIN></UserPIN>
       <IsPinChangeRequired>false</IsPinChangeRequired>
       <IsFingerprintEnrolled>false</IsFingerprintEnrolled>
       <FingerprintDataSlot>-1</FingerprintDataSlot>
