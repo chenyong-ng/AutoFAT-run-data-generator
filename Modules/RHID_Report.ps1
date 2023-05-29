@@ -1,4 +1,4 @@
-Function RHID_ReportGen {
+
 $US_serverdir = "$US_path-$SerialNumber"
 $serverdir = "$path-$SerialNumber"
 $LocalFolder = "$Inst_rhid_Result"
@@ -26,28 +26,35 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFo
 "$Found  :"; $GM_Analysis_PeakTable.directory.name
 "$Loading : more textual filtering commandss "
 
-. $PSScriptRoot\TC_VerificationTXT.ps1
-. $PSScriptRoot\RHID_Hardware.ps1
-. $PSScriptRoot\RHID_DryTest.ps1
-. $PSScriptRoot\RHID_WetTest.ps1
-. $PSScriptRoot\RHID_CoverOnTest.ps1
-. $PSScriptRoot\RHID_ShipPrep.ps1
+    . $PSScriptRoot\TC_VerificationTXT.ps1
+    . $PSScriptRoot\RHID_Hardware.ps1
+    . $PSScriptRoot\RHID_DryTest.ps1
+    . $PSScriptRoot\RHID_WetTest.ps1
+    . $PSScriptRoot\RHID_CoverOnTest.ps1
+    . $PSScriptRoot\RHID_ShipPrep.ps1
 
 IF ($VerboseMode -eq "False") {
-    clear-host} else {
-        "$info : VerboseMode Enabled"
-    }
+    clear-host
+    } else {
+    "$info : VerboseMode Enabled"}
+
+function RHID_ReportGen {
 $Section_Separator 
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 #Instrument hardware check
 if ($SerialRegMatch -eq "True") {
-RHID_MainFunctions
+$MasterCopy = "[MasterCopy]"
+. $PSScriptRoot\RHID_MainFunction.ps1
 RHID_USBDevices_Check
 ABRHID_Patch
-}
+RHID_MainFunctions
+} else {
+Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date until Instrument folder fully backed up" -ForegroundColor Yellow}
+"$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  
 RHID_Optics
 RHID_TC
 RHID_TC_Verification
+$Section_Separator
 RHID_MachineConfig_check
 RHID_Firmware_Check
 RHID_HIDAutolite_Check
@@ -79,4 +86,15 @@ RHID_TempHumi_Check
 $Section_Separator 
 RHID_ShipPrep_Check
 "$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
-}
+} 
+
+RHID_ReportGen *> $TempFile
+$TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName$MasterCopy.LOG"
+Copy-Item $TempFile -Destination $TestResultLOG_File
+get-content $TestResultLOG_File
+notepad $TestResultLOG_File
+<#
+
+RHID_ReportGen *> $TempFile
+get-content $TempFile
+#>
