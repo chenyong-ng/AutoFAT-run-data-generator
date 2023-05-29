@@ -41,8 +41,6 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         "$info : Check if Server path already created : $Server_Internal"
 
         Set-Location $Inst_rhid_Result
-        if ($TestResultLOG_Leaf -eq $True) { $TestResultLOG_Leaf = (Get-Item $Inst_rhid_Result\$TestResultLOG_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-        
         if ($Nonlinearity_Leaf -eq $True) { $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($Nonlinearity_Leaf -eq $False) {
             New-Item "Non-linearity Calibration $HostName.PNG" -ItemType File
@@ -65,15 +63,6 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         }
         else {
             Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $Waves_Filesize KB
-        }
-
-        if ($TestResultLOG_Leaf -eq $True) { $TestResultLOG_Leaf = (Get-Item $Inst_rhid_Result\$TestResultLOG_Leaf | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
-        if ($TestResultLOG_Leaf -eq $False) {
-            New-Item $TestResultLOG_File -ItemType File | Out-Null
-            Write-host "$info : '$TestResultLOG_File' created"
-        }
-        else {
-            Write-Host "$info : '$TestResultLOG_File' already exists"
         }
 
         if ($TC_CalibrationXML_Leaf -eq $False) {

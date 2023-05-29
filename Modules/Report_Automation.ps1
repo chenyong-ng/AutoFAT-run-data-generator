@@ -95,7 +95,7 @@ $HistoryMode = "False"
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
 . $PSScriptRoot\XML_and_Config.ps1
-. $PSScriptRoot\RHID_Report.ps1
+
 #. $PSScriptRoot\RHID_XmlWriter.ps1
 
   if ($SerialRegMatch -ne "True") {
@@ -122,9 +122,9 @@ $HistoryMode = "False"
         Write-Host "[ RapidHIT ID]: selected Serial Number $IndexedSerialNumber does not have record in Server" -ForegroundColor Yellow 
     } 
 } else {
-    RHID_ReportGen
+. $PSScriptRoot\RHID_Report.ps1
 }
-
+break
 # "$Drive\RHID-\Internal\RapidHIT ID\Results\$TestResultLOG_File"
 # created temp file and cpy to server?
 # open log file and generate in background, if generated file larger than old one then copy to server and refresh

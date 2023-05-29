@@ -25,7 +25,7 @@ $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" , "$US_s
 $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I GM_Analysis_PeakTable.txt -R -ErrorAction SilentlyContinue
 "$Found  :"; $GM_Analysis_PeakTable.directory.name
 "$Loading : more textual filtering commandss "
-
+    . $PSScriptRoot\RHID_MainFunction.ps1
     . $PSScriptRoot\TC_VerificationTXT.ps1
     . $PSScriptRoot\RHID_Hardware.ps1
     . $PSScriptRoot\RHID_DryTest.ps1
@@ -38,13 +38,11 @@ IF ($VerboseMode -eq "False") {
     } else {
     "$info : VerboseMode Enabled"}
 
-function RHID_ReportGen {
+Function RHID_ReportGen {
 $Section_Separator 
 Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
 #Instrument hardware check
 if ($SerialRegMatch -eq "True") {
-$MasterCopy = "[MasterCopy]"
-. $PSScriptRoot\RHID_MainFunction.ps1
 RHID_USBDevices_Check
 ABRHID_Patch
 RHID_MainFunctions
@@ -86,19 +84,13 @@ RHID_TempHumi_Check
 $Section_Separator 
 RHID_ShipPrep_Check
 "$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
-} 
-
-# add option to generate report later on instruments
+}
 RHID_ReportGen
 
-$ReportGen_Option = read-host "$Info : Press anykey to generate a report"
-if ($ReportGen_Option -eq '') {
 RHID_ReportGen *> $TempFile
-$TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName$MasterCopy.LOG"
-Copy-Item $TempFile -Destination $TestResultLOG_File
-get-content $TestResultLOG_File
+$TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName.LOG"
+Copy-Item -Force $TempFile -Destination $TestResultLOG_File
 notepad $TestResultLOG_File
-}
 <#
 
 RHID_ReportGen *> $TempFile
