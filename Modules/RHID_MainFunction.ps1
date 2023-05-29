@@ -41,7 +41,7 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         "$info : Check if Server path already created : $Server_Internal"
 
         Set-Location $Inst_rhid_Result
-        if ($TestResultLOG_Leaf -eq $True) { $TestResultLOG_Leaf = (Get-Item $Inst_rhid_Result\$TestResultLOG_Leaf | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+        if ($TestResultLOG_Leaf -eq $True) { $TestResultLOG_Leaf = (Get-Item $Inst_rhid_Result\$TestResultLOG_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         
         if ($Nonlinearity_Leaf -eq $True) { $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($Nonlinearity_Leaf -eq $False) {
@@ -69,7 +69,7 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
 
         if ($TestResultLOG_Leaf -eq $True) { $TestResultLOG_Leaf = (Get-Item $Inst_rhid_Result\$TestResultLOG_Leaf | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
         if ($TestResultLOG_Leaf -eq $False) {
-            New-Item $TestResultLOG_File -ItemType File
+            New-Item $TestResultLOG_File -ItemType File | Out-Null
             Write-host "$info : '$TestResultLOG_File' created"
         }
         else {
@@ -83,7 +83,7 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         else {
             Write-Host "$info : '$TC_CalibrationXML_File' already exists"
         }
-        Get-Content $Inst_rhid_Folder\$TC_CalibrationXML_File
+
         if ($OverrideSettingsXML_Leaf -eq $False) {
 
         OverrideSettingsXML_Gen > $Inst_rhid_Folder\$OverrideSettingsXML_File
@@ -91,7 +91,6 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         } else {
         Write-Host "$info : '$OverrideSettingsXML_File' already exists"
         }
-        $OverrideSettingsXML_Leaf
 
         if ($MachineConfig_Leaf -eq $False) {
             MachineConfigXML_Gen > $Inst_rhid_Folder\$MachineConfig_File

@@ -10,7 +10,7 @@
 #>
 
 #$XMLFile = "$Inst_rhid_Result\$TestResultXML_File"
-$XMLFile = "$PSScriptRoot\..\Config\$TestResultXML_File"
+ $XMLFile = "$PSScriptRoot\..\Config\$TestResultXML_File"
 $xmlsettings = New-Object System.Xml.XmlWriterSettings
 $xmlsettings.Indent = $true
 $xmlsettings.IndentChars = "	"

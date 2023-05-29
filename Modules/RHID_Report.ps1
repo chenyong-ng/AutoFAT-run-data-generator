@@ -88,11 +88,17 @@ RHID_ShipPrep_Check
 "$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
 } 
 
+# add option to generate report later on instruments
+RHID_ReportGen
+
+$ReportGen_Option = read-host "$Info : Press anykey to generate a report"
+if ($ReportGen_Option -eq '') {
 RHID_ReportGen *> $TempFile
 $TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName$MasterCopy.LOG"
 Copy-Item $TempFile -Destination $TestResultLOG_File
 get-content $TestResultLOG_File
 notepad $TestResultLOG_File
+}
 <#
 
 RHID_ReportGen *> $TempFile

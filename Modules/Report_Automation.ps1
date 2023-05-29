@@ -95,7 +95,8 @@ $HistoryMode = "False"
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
 . $PSScriptRoot\XML_and_Config.ps1
-. $PSScriptRoot\RHID_XmlWriter.ps1
+. $PSScriptRoot\RHID_Report.ps1
+#. $PSScriptRoot\RHID_XmlWriter.ps1
 
   if ($SerialRegMatch -ne "True") {
     $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
@@ -119,7 +120,9 @@ $HistoryMode = "False"
       . $PSScriptRoot\RHID_Report.ps1
     } Else {
         Write-Host "[ RapidHIT ID]: selected Serial Number $IndexedSerialNumber does not have record in Server" -ForegroundColor Yellow 
-    }
+    } 
+} else {
+    RHID_ReportGen
 }
 
 # "$Drive\RHID-\Internal\RapidHIT ID\Results\$TestResultLOG_File"

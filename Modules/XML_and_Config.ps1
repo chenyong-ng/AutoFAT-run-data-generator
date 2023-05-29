@@ -211,3 +211,35 @@ function DannoAppConfig.xml {
 </IXDannoAppConfigData>
 '@ | Out-File "E:\RapidHIT ID\Results\Data $HostName\DannoAppConfig.xml"
 }
+
+function DannoUserConfig.xml {
+'@
+<?xml version="1.0" encoding="utf-8"?>
+<DannoUsers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="4.0">
+  <Users>
+    <IXUserDataStruct>
+      <IsActiveUser>true</IsActiveUser>
+      <UserImagePath />
+      <UserName>Rhid-0485</UserName>
+      <PermissionLevel>Administrator</PermissionLevel>
+      <MobileNumber />
+      <Email />
+      <UserPIN>YKV7CMx1IjuP3+fLW+HR8+sKsdMgBZKc3O9cA1tKujfHEoNUOs/tUAZUqPC/8Zdk</UserPIN>
+      <IsPinChangeRequired>false</IsPinChangeRequired>
+      <IsFingerprintEnrolled>false</IsFingerprintEnrolled>
+      <FingerprintDataSlot>-1</FingerprintDataSlot>
+      <IsFacialRecognitionEnrolled>false</IsFacialRecognitionEnrolled>
+      <GlobalUserId>0</GlobalUserId>
+      <UserGUID>ad0d7f10-deca-4780-93b0-ffc03a5aefd4</UserGUID>
+      <FingerPrintTemplate />
+      <FaceIdentifier>0</FaceIdentifier>
+      <FaceRecognitionImage />
+      <AuthorizedInstruments>
+        <string />
+      </AuthorizedInstruments>
+      <LastUpdated>2023-05-29T04:24:26.7677698Z</LastUpdated>
+    </IXUserDataStruct>
+  </Users>
+</DannoUsers>
+@'
+}
