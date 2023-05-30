@@ -1,22 +1,10 @@
-Function RHID_ReportGen {
-#Instrument hardware check
-if ($SerialRegMatch -eq "True") {
-RHID_USBDevices_Check
-ABRHID_Patch
-RHID_MainFunctions
-} else {
-MainOptions
-$Section_Separator 
-Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
-Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date until Instrument folder fully backed up" -ForegroundColor Yellow}
-"$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  
+
 $US_serverdir = "$US_path-$SerialNumber"
 $serverdir = "$path-$SerialNumber"
 $LocalFolder = "$Inst_rhid_Result"
 $storyboard = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
-<#if ([bool]$storyboard -ne "True") {
-    Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}#>
-
+if ([bool]$storyboard -ne "True") {
+    Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
 "$Searching : MachineName"
 $MachineName = ($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart() | Select-Object -Last 1
 "$Found : $MachineName"
@@ -46,9 +34,21 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFo
     . $PSScriptRoot\RHID_ShipPrep.ps1
 
 IF ($VerboseMode -eq "False") {
-    # clear-host
+    clear-host
     } else {
     "$info : VerboseMode Enabled"}
+
+Function RHID_ReportGen {
+$Section_Separator 
+Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
+#Instrument hardware check
+if ($SerialRegMatch -eq "True") {
+RHID_USBDevices_Check
+ABRHID_Patch
+RHID_MainFunctions
+} else {
+Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date until Instrument folder fully backed up" -ForegroundColor Yellow}
+"$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  
 RHID_Optics
 RHID_TC
 RHID_TC_Verification
