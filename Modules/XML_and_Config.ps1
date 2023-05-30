@@ -243,3 +243,28 @@ function DannoUserConfig.xml {
 </DannoUsers>
 @'
 }
+
+Function MainOptions {
+    $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
+    $RHID_FolderList | Format-wide -Property name -AutoSize
+    Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
+    "$Info : For latest update, get source code from Github:"
+    "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
+    "$Info : Pacific Time is now : $PST_TimeZone"
+    "$Info : Powershell version: $PSVersion on $HostName"
+    "$Info : Created Temp file $TempFile for logging"
+    If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
+        Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
+    }
+    $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) to proceed"
+    $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
+    $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
+    $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
+    $serialNumber[4, 5, 6]
+    "$path-$IndexedSerialNumber"
+    $LocalServerTestPath
+
+    If (($LocalServerTestPath -eq "False") -or ($US_ServerTestPath -eq "False")) {
+        Write-Error "[ RapidHIT ID]: selected Serial Number $IndexedSerialNumber does not have record in Server" -ErrorAction Stop
+    }
+}
