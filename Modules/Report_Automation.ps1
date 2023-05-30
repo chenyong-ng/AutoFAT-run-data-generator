@@ -1,4 +1,4 @@
-<#
+﻿<#
 .Title          : Powershell Utility for RHID Instrument
 .Source         : https://github.com/chenyong-ng/AutoFAT-run-data-generator
 .Version        : v0.5
@@ -111,18 +111,22 @@ if ($SerialRegMatch -ne "True") {
     "$Info : Only first 4 ditigs are indexed for RHID result generation"
     "$Info : Extra alphanumeric characters are passed as arguments"
     "$Info : Press Ctrl+C to Abort Script Execution"
+    "$Info : Enter again to show detailed information for additional switches for variius options"
     $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
     $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
     $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
     $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {
-      "$Info : VerboseMode Enabled via V switch"
-      "$Info : Quiet Mode Enabled via S switch"
-      "$Info : Report Log Generation Disabled via NR switch"
+      "$Info : Usage : example Typing 0855nrv to enable Verbose mode but disable report generation, space are optional"
+      "$Info : Enter V to enable VerboseMode"
+      "$Info :       S to anable Quiet Mode on console"
+      "$Info :      NR to disable Report Log Generation"
+      break
     } elseif (($LocalServerTestPath -or $US_ServerTestPath) -ne "True") {
         Write-Error -Message "Selected Serial Number $IndexedSerialNumber does not have record in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
     }
   }
+
 $Arguments = $serialNumber[4,5,6,7,8,9,10]
 if ($Arguments -match 'v') {
   $VerboseMode = "True"
@@ -136,5 +140,7 @@ if ($Arguments -match '[nr]') {
   $NoReport = "True"
   Write-Host "$Info : Report Log Generation Disabled via NR switch" -ForegroundColor Yellow
 }
+
+# add switch to perform full backup
 
 . $PSScriptRoot\RHID_Report.ps1
