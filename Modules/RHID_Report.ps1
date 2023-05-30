@@ -1,6 +1,6 @@
 
-$US_serverdir = "$US_path-$SerialNumber"
-$serverdir = "$path-$SerialNumber"
+$US_serverdir = "$US_path-$IndexedSerialNumber"
+$serverdir = "$path-$IndexedSerialNumber"
 $LocalFolder = "$Inst_rhid_Result"
 $storyboard = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
 if ([bool]$storyboard -ne "True") {
@@ -34,9 +34,7 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFo
     . $PSScriptRoot\RHID_ShipPrep.ps1
 
 IF ($VerboseMode -eq "False") {
-    clear-host
-    } else {
-    "$info : VerboseMode Enabled"}
+    clear-host}
 
 Function RHID_ReportGen {
 $Section_Separator 
@@ -85,14 +83,13 @@ $Section_Separator
 RHID_ShipPrep_Check
 "$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
 }
-RHID_ReportGen
 
+IF ($QuiteMode -ne "True") {
+RHID_ReportGen}
+
+IF ($NoReport -ne "True") {
 RHID_ReportGen *> $TempFile
-$TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName.LOG"
+$TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].LOG"
 Copy-Item -Force $TempFile -Destination $TestResultLOG_File
 notepad $TestResultLOG_File
-<#
-
-RHID_ReportGen *> $TempFile
-get-content $TempFile
-#>
+}
