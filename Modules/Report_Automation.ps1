@@ -94,6 +94,7 @@ $HistoryMode = "False"
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
+# move verbose mode to above and add option to enable/disable 
 . $PSScriptRoot\XML_and_Config.ps1
 #. $PSScriptRoot\RHID_XmlWriter.ps1
 
@@ -117,9 +118,9 @@ if ($SerialRegMatch -ne "True") {
     $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
     $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {
-      "$Info : Usage : example Typing 0855nrv to enable Verbose mode but disable report generation, space are optional"
+      "$Info : Usage : enter 0855nrv to enable Verbose mode but disable report generation, space are optional"
       "$Info : Enter V to enable VerboseMode"
-      "$Info :       S to anable Quiet Mode on console"
+      "$Info :       Q to anable Quiet Mode on console"
       "$Info :      NR to disable Report Log Generation"
       break
     } elseif (($LocalServerTestPath -or $US_ServerTestPath) -ne "True") {
@@ -130,15 +131,15 @@ if ($SerialRegMatch -ne "True") {
 $Arguments = $serialNumber[4,5,6,7,8,9,10]
 if ($Arguments -match 'v') {
   $VerboseMode = "True"
-  Write-Host "$Info : VerboseMode Enabled via V switch" -ForegroundColor Yellow
+  Write-Host "$Info : [V]erboseMode Enabled via V switch" -ForegroundColor Yellow
 }
-if ($Arguments -match 's') {
+if ($Arguments -match 'q') {
   $QuiteMode = "True"
-  Write-Host "$Info : Quiet Mode Enabled via S switch" -ForegroundColor Yellow
+  Write-Host "$Info : [Q]uiet Mode Enabled via Q switch" -ForegroundColor Yellow
 }
 if ($Arguments -match '[nr]') {
   $NoReport = "True"
-  Write-Host "$Info : Report Log Generation Disabled via NR switch" -ForegroundColor Yellow
+  Write-Host "$Info : [N]o[R]eport Log Generation via NR switch" -ForegroundColor Yellow
 }
 
 # add switch to perform full backup

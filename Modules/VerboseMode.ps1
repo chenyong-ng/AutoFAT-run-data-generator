@@ -26,3 +26,4 @@ Function RHID_Heater_Verbose {
         $RHID_Optics_Heater_FAT_FAIL.line.split("==>").TrimStart() | Select-String "PWM" | Select-Object -last 1
     }
 }
+

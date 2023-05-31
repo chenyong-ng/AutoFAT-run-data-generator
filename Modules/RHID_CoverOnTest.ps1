@@ -1,9 +1,10 @@
 
 
-$GM_ILS_Score_Allelic_Ladder = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__Ladder.fsa") | Select-Object -Last 1
-$GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE_007") | Select-Object -Last 1
-$GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM") | Select-Object -Last 1
-$GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK") | Select-Object -Last 1
+$GM_ILS_Score_Allelic_Ladder = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__Ladder.fsa")
+$GM_ILS_Score_GFE_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE_007")
+$GM_ILS_Score_NGM_007 = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__NGM")
+$GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__BLANK")
+# Sample Quality if -1 means failed
 
 If ([Bool]$MachineName -eq "True") {
     "$Loading : $StatusData_File and $GM_Analysis_File textual filtering commands "
@@ -19,7 +20,7 @@ function RHID_CoverOn_FullRun {
 <#
 Cover On Allelic Ladder Tests
 #>
-IF ([BOOL]$GM_ILS_Score_Allelic_Ladder -eq "True") {
+IF ($GM_ILS_Score_Allelic_Ladder[-1].count -gt "0") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
     $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
     $DxCode = Get-ChildItem $serverdir_Ladder -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -35,7 +36,7 @@ $Section_Separator
 <#
 Cover On GFE Tests
 #>
-IF ([BOOL]$GM_ILS_Score_GFE_007 -eq "True") {
+IF ($GM_ILS_Score_GFE_007[-1].count -gt "0") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_007 = "$Drive\$MachineName\*GFE_007*"
     $DxCode = Get-ChildItem $serverdir_GFE_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -53,7 +54,7 @@ $Section_SeparatoR
 Cover On NGM Tests, to be retired after NGM Catridges runs out of supply after May of 2023
 Keeping codes for checking test results for older instruments
 #>
-IF ([BOOL]$GM_ILS_Score_NGM_007 -eq "True") {
+IF ($GM_ILS_Score_NGM_007[-1].count -gt "0") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
     $DxCode = Get-ChildItem $serverdir_NGM_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -71,7 +72,7 @@ $Section_Separator
 <#
 Cover On Blank Tests
 #>
-IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
+IF ($GM_ILS_Score_BLANK[-1].count -gt "0") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -80,7 +81,7 @@ IF ([BOOL]$GM_ILS_Score_BLANK -eq "True") {
     If ($BlankRunCounter.count -gt 3) { $Color = "Cyan"
         } else {
             $Color = "Red"
-            $BlankSOP = "$RunCounter : [6/7] Minimum 4 Blank Tests are required after February 2023 as per SOP"
+            $BlankSOP = "$RunCounter : [7/6] Minimum 4 Blank Tests are required after February 2023 as per SOP"
         }
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $BLANK_Trace_Str : $GM_ILS_Score_BLANK_Score $DxCode" -ForegroundColor Green
@@ -95,9 +96,9 @@ Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 }
 function RHID_PDF_Check {
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
+        $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
     Write-Host "$Full_Run : $StatusData_File $File_found" -ForegroundColor Green
-    $RHID_StatusData_PDF
+        $RHID_StatusData_PDF
 }
 else { Write-host "$Full_Run : $StatusData_File $File_not_Found" -ForegroundColor yellow 
 }
@@ -105,9 +106,10 @@ else { Write-host "$Full_Run : $StatusData_File $File_not_Found" -ForegroundColo
 
 function RHID_GM_Analysis_Check {
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
-    $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -HideTableHeaders -wrap
+        $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
     Write-Host "$Full_Run : $GM_Analysis_File $File_found" -ForegroundColor Green
-    $RHID_GM_Analysis 
+        $RHID_GM_Analysis
+        # Disabled: Size Call Failed (anatlysis failed)
 }
 else { Write-host "$Full_Run : $GM_Analysis_File $File_not_Found" -ForegroundColor yellow }
 }

@@ -12,8 +12,8 @@ $RHID_BEC_Reinsert = ( $CoverOn_BEC_Reinsert | Select-String "BEC Reinsert compl
 $RHID_BEC_Reinsert_ID = ( $CoverOn_BEC_Reinsert | Select-String "BEC ID" | Select-Object -Last 1)
 
 "$Loading : Full run textual filtering commands "
-$GM_ILS_Score_GFE_36cycles   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles") | Select-Object -Last 1
-$GM_ILS_Score_GFE_BV         = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV") | Select-Object -Last 1
+$GM_ILS_Score_GFE_36cycles   = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-300uL-36cycles")
+$GM_ILS_Score_GFE_BV         = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV")
 
 function RHID_WetTest {
 if (($RHID_Water_Prime).count -eq "") {
@@ -114,7 +114,7 @@ $Section_Separator
 <#
 Cover Off GFE 36 cycles 300ul Tests
 #>
-IF ([BOOL]$GM_ILS_Score_GFE_36cycles -eq "True") {
+IF ($GM_ILS_Score_GFE_36cycles[-1].count -gt "0") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
     $serverdir36cycles = "$Drive\$MachineName\*GFE-300uL-36cycles*"
     $DxCode = Get-ChildItem $serverdir36cycles -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -131,7 +131,7 @@ $Section_Separator
 <#
 Cover Off Blank Tests
 #>
-IF ([BOOL]$GM_ILS_Score_GFE_BV -eq "True") {
+IF ($GM_ILS_Score_GFE_BV[-1].count -gt "0") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_BV = "$Drive\$MachineName\*GFE-BV_*"
     $DxCode = Get-ChildItem $serverdir_GFE_BV -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }

@@ -37,6 +37,15 @@ If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : N/A" -ForegroundColor Green 
 }
 
+    "GM_ILS_Score_GFE_36cyclesCounter"; $36cyclesCount = ($GM_ILS_Score_GFE_36cycles.count -gt 0)
+    "GM_ILS_Score_GFE_BVCounter"; $GFE_BVCount = ($GM_ILS_Score_GFE_BV.count -gt 0)
+    "GM_ILS_Score_Allelic_LadderCounter"; $LadderCount = ($GM_ILS_Score_Allelic_Ladder.count -gt 0)
+    "GM_ILS_Score_GFE_007Counter"; $GFE_007Count = ($GM_ILS_Score_GFE_007.count -gt 0)
+    "GM_ILS_Score_NGM_007Counter"; $NGM_007Count = ($GM_ILS_Score_NGM_007.count -gt 0)
+    "BlankRunCounter"; $BLANKCount = ($GM_ILS_Score_BLANK.count -gt 9)
+    $FullRunCounter = $36cyclesCount, $GFE_BVCount, $LadderCount, $GFE_007Count, $NGM_007Count, $BLANKCount
+    ($FullRunCounter -match "True").count
+    ($FullRunCounter -match "False").count
 
 if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch -eq "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green
