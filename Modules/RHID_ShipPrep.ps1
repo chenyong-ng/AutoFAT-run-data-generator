@@ -37,15 +37,27 @@ If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : N/A" -ForegroundColor Green 
 }
 
-$36cyclesCount = ($GM_ILS_Score_GFE_36cycles.count -gt 0)
+$GFE36cyclesCount = ($GM_ILS_Score_GFE_36cycles.count -gt 0)
 $GFE_BVCount = ($GM_ILS_Score_GFE_BV.count -gt 0)
 $LadderCount = ($GM_ILS_Score_Allelic_Ladder.count -gt 0)
 $GFE_007Count = ($GM_ILS_Score_GFE_007.count -gt 0)
 $NGM_007Count = ($GM_ILS_Score_NGM_007.count -gt 0)
 $BLANKCount = ($GM_ILS_Score_BLANK.count -gt 3)
-    $FullRunCounter = $36cyclesCount, $GFE_BVCount, $LadderCount, $GFE_007Count, $NGM_007Count, $BLANKCount
+$FullRunCounter = $GFE36cyclesCount, $GFE_BVCount, $LadderCount, $GFE_007Count, $NGM_007Count, $BLANKCount
     ($FullRunCounter -match "True").count
     ($FullRunCounter -match "False").count
+
+[XML]$xmlMmat = (Get-Content -Encoding utf8 -Raw "$TempXMLFile")
+$xmlFragment = $xmlMmat.CreateDocumentFragment()
+$xmlFragment.InnerXml =
+@"
+<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
+"@
+
+$null = $xmlMmat.TestReport.AppendChild($xmlFragment)
+$xmlMmat.save("$TempXMLFile")
+$xmlWriter.Flush()
+$xmlWriter.Dispose()
 
 if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch -eq "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green

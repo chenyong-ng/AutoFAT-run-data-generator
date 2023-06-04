@@ -12,14 +12,14 @@ Add-Type -Assembly System.Windows.Forms
 "[Probing] USB Devices"
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 $FPMatch = $RHID_USBDvices -match "TouchChip Fingerprint Coprocessor"
-$CameraMAtch = $RHID_USBDvices -match "HD USB Camera"
+$CameraMatch = $RHID_USBDvices -match "HD USB Camera"
 if ($FPMatch -eq "True" ) {
-    $FP_Check = "Present" }
-    else { $FP_Check = "N/A" }
+    $FP_Check = "Present"
+    } else { $FP_Check = "N/A" }
     "$FP : $FP_Sensor_Str : $FP_Check"
-if ($CameraMAtch -eq "True" ) {
-    $HD_USB_CAM_Check = "Present" }
-    else { $HD_USB_CAM_Check = "N/A" }
+if ($CameraMatch -eq "True" ) {
+    $HD_USB_CAM_Check = "Present"
+    } else { $HD_USB_CAM_Check = "N/A" }
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
     "$info : $RHID_USBDvices"
 }
@@ -63,23 +63,23 @@ If ([Bool]$DannoAppRhidCheck -eq "True" ) {
 "DannoAppConfigCheck $DannoAppConfigCheck"
 "DannoAppRhidCheck $DannoAppRhidCheck"
 "$Loading : Q-mini textual filtering commands"
-$RHID_QMini_SN          = ($storyboard | Select-String "Q-mini serial number" | Select-object -last 1)
-$RHID_QMini_Coeff       = ($storyboard | Select-String "Coefficients" | Select-object -last 1)
-$RHID_QMini_Infl        = ($storyboard | Select-String "Inflection Point" | Select-object -last 1)
-"$Found : $RHID_QMini_SN"
-"$Found : $RHID_QMini_Coeff"
-"$Found : $RHID_Mainboard_FW_Ver"
+$RHID_QMini_SN          = $storyboard | Select-String "Q-mini serial number"
+$RHID_QMini_Coeff       = $storyboard | Select-String "Coefficients"
+$RHID_QMini_Infl        = $storyboard | Select-String "Inflection Point"
+"$Found :" + $RHID_QMini_SN[-1]
+"$Found :" + $RHID_QMini_Coeff[-1]
+"$Found :" + $RHID_QMini_Infl[-1]
 <#
 IF ($VerboseMode -eq "True") { $RHID_QMini_SN , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number" , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 #>
 
 "$Loading : Main board and Mezz PCB textual filtering commands"
-$RHID_Mainboard_FW_Ver  = ($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_Mezzbaord_FW_Ver  = ($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart() | Select-object -last 1
-$RHID_ExecutionLOG      = $ExecutionLOG | Select-String 'Your trial has | License is Valid' | Select-object -last 1
+$RHID_Mainboard_FW_Ver  = (($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
+$RHID_Mezzbaord_FW_Ver  = (($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
+$RHID_ExecutionLOG      = ($ExecutionLOG | Select-String 'Your trial has | License is Valid')[-1]
 # $RHID_ExecutionLOG_Valid= $ExecutionLOG | Select-String "License is Valid" | Select-object -last 1
-$RHID_GM_Analysis_PeakTable = $GM_Analysis_PeakTable | Select-String "Date/Time:" | Select-object -last 1
+$RHID_GM_Analysis_PeakTable = ($GM_Analysis_PeakTable | Select-String "Date/Time:")[-1]
 "$Found : $RHID_Mainboard_FW_Ver"
 "$Found : $RHID_Mezzbaord_FW_Ver"
 "$Found : $RHID_ExecutionLOG"
@@ -116,27 +116,33 @@ $RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHour
 "$Found : SyringePump Calibration   : $RHID_MachineConfig_Syringe"
 
 function RHID_Optics {
-IF ([Bool]$RHID_QMini_SN -eq "True") {
-    $RHID_QMini_SN_Filter = $RHID_QMini_SN.line.split(":").TrimStart() | Select-object -last 1
-    Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN_Filter" -ForegroundColor Green}
-    Else { Write-Host "$Optics : $RHID_QMini_str : $Not_Available" -ForegroundColor Yellow}
+IF ($RHID_QMini_SN[-1].count -gt "0") {
+    $RHID_QMini_SN_Filter = ($RHID_QMini_SN.line.split(":").TrimStart())[-1]
+    Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN_Filter" -ForegroundColor Green
+    } Else { 
+    Write-Host "$Optics : $RHID_QMini_str : $Not_Available" -ForegroundColor Yellow
+    } #  Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN_Result" -ForegroundColor $QMini_SN_Color
 
-IF ([Bool]$RHID_QMini_Coeff -eq "True") {
-    $RHID_QMini_Coeff_Filter = $RHID_QMini_Coeff.line.split(":").TrimStart() | Select-object -last 1
-    Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff_Filter" -ForegroundColor Green}
-    Else{ Write-Host "$Optics : $RHID_Coeff_Str : $Not_Available" -ForegroundColor Yellow}
+IF ($RHID_QMini_Coeff[-1].count -gt "0") {
+    $RHID_QMini_Coeff_Filter = ($RHID_QMini_Coeff.line.split(":").TrimStart())[-1]
+    Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff_Filter" -ForegroundColor Green
+    } Else {
+    Write-Host "$Optics : $RHID_Coeff_Str : $Not_Available" -ForegroundColor Yellow
+    } # $Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff_Result" -ForegroundColor $QMini_Coeff_Color
 
-IF ([Bool]$RHID_QMini_Infl -eq "True") {
-    $RHID_QMini_Infl_Filter = $RHID_QMini_Infl.line.split(":").TrimStart() | Select-object -last 1
-    Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Filter" -ForegroundColor Green }
-    Else{ Write-Host "$Optics : $RHID_Infl_Str : $Not_Available" -ForegroundColor Yellow}
+IF ($RHID_QMini_Infl[-1].count -gt "0") {
+    $RHID_QMini_Infl_Filter = ($RHID_QMini_Infl.line.split(":").TrimStart())[-1]
+    Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Filter" -ForegroundColor Green
+    } Else {
+    Write-Host "$Optics : $RHID_Infl_Str : $Not_Available" -ForegroundColor Yellow
+    } # $Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Result" -ForegroundColor $QMini_Infl_Color
 }
 
 function RHID_TC {
-If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
+If (($RHID_TC_Calibration -match "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
-    Write-Host "$TC_Cal :      $Warning : Unpopulated TC_Calibration.XML Found" -ForegroundColor RED
-} elseif ($RHID_TC_Calibration.count -eq "0") {
+} elseif (
+    $RHID_TC_Calibration.count -eq "0") {
     Write-Host "$TC_Cal :               $Warning : TC_Calibration.XML Not Found" -ForegroundColor RED
     #add option to generate TC_Calibration.XML
 } else {

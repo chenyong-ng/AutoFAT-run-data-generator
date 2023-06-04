@@ -9,13 +9,11 @@
 .Usage          : 
 #>
 
-#$XMLFile = "$Inst_rhid_Result\$TestResultXML_File"
- $XMLFile = "$PSScriptRoot\..\Config\$TestResultXML_File"
 $xmlsettings = New-Object System.Xml.XmlWriterSettings
 $xmlsettings.Indent = $true
 $xmlsettings.IndentChars = "	"
 
-$xmlWriter = [System.XML.XmlWriter]::Create($XMLFile, $xmlsettings)
+$xmlWriter = [System.XML.XmlWriter]::Create($TempXMLFile, $xmlsettings)
 $xmlWriter.WriteStartElement("TestReport") 
 $xmlWriter.WriteAttributeString("Version", "1.0")
 $XmlWriter.WriteAttributeString("xmlns", "xsi", 
@@ -37,7 +35,7 @@ $xmlWriter.WriteEndElement()
 $xmlWriter.Flush()
 $xmlWriter.Close()
 
-
+<#
 [XML]$xmlMmat = (Get-Content -Encoding utf8 -Raw $XMLFile)
 $xmlFragment = $xmlMmat.CreateDocumentFragment()
 $xmlFragment.InnerXml =
@@ -52,4 +50,4 @@ $xmlWriter = [System.Xml.XmlTextWriter] [System.IO.StreamWriter] $XMLFile
 $xmlWriter.Flush()
 $xmlWriter.Dispose()
 
-#
+#>

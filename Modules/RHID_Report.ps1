@@ -88,8 +88,14 @@ IF ($QuiteMode -ne "True") {
 RHID_ReportGen}
 
 IF ($NoReport -ne "True") {
-RHID_ReportGen *> $TempFile
+RHID_ReportGen *> $TempLogFile
 $TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].LOG"
-Copy-Item -Force $TempFile -Destination $TestResultLOG_File
+Copy-Item -Force $TempLogFile -Destination $TestResultLOG_File
 notepad $TestResultLOG_File
+}
+
+IF ($NoXML -ne "True") {
+$TestResultXML_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].XML"
+Copy-Item -Force $TempXMLFile -Destination $TestResultXML_File
+notepad $TestResultXML_File
 }

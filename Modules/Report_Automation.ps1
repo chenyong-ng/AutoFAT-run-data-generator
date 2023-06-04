@@ -67,7 +67,8 @@ $DannoAppConfigXML_File = "DannoAppConfig.xml"
 $OverrideSettingsXML_File = "OverrideSettings.xml"
 $TestResultXML_File     = "TestResult $MachineName.xml"
 $TestResultLOG_File     = "TestResult $MachineName.LOG"
-$TempFile = Get-Item ([System.IO.Path]::GetTempFilename())
+$TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
+$TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
 
 $TestResultLOG_Leaf     = Test-Path -Path $Inst_rhid_Result\$TestResultLOG_File -PathType Leaf
 $TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
@@ -96,7 +97,7 @@ $HistoryMode = "False"
 . $PSScriptRoot\VerboseMode.ps1
 # move verbose mode to above and add option to enable/disable 
 . $PSScriptRoot\XML_and_Config.ps1
-#. $PSScriptRoot\RHID_XmlWriter.ps1
+. $PSScriptRoot\RHID_XmlWriter.ps1
 
 if ($SerialRegMatch -ne "True") {
     $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
@@ -106,7 +107,7 @@ if ($SerialRegMatch -ne "True") {
     "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
     "$Info : Pacific Time is now : $PST_TimeZone"
     "$Info : Powershell version: $PSVersion on $HostName"
-    "$Info : Created Temp file $TempFile for logging"
+    "$Info : Created Temp file $TempLogFile for logging"
     If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
         Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow}
     "$Info : Only first 4 ditigs are indexed for RHID result generation"
@@ -141,7 +142,10 @@ if ($Arguments -match '[nr]') {
   $NoReport = "True"
   Write-Host "$Info : [N]o[R]eport Log Generation via NR switch" -ForegroundColor Yellow
 }
-
+if ($Arguments -match '[nx]') {
+  $NoXML = "True"
+  Write-Host "$Info : [N]o[X]ML Generation via X switch" -ForegroundColor Yellow
+}
 # add switch to perform full backup
 
 . $PSScriptRoot\RHID_Report.ps1
