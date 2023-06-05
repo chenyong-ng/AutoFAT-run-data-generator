@@ -122,7 +122,8 @@ if ($SerialRegMatch -ne "True") {
       "$Info : Usage : enter 0855nrv to enable Verbose mode but disable report generation, space are optional"
       "$Info : Enter V to enable VerboseMode"
       "$Info :       Q to anable Quiet Mode on console"
-      "$Info :      NR to disable Report Log Generation"
+      "$Info :      R to disable Report Log Generation"
+      "$Info :      X to disable XML Generation"
       break
     } elseif (($LocalServerTestPath -or $US_ServerTestPath) -ne "True") {
         Write-Error -Message "Selected Serial Number $IndexedSerialNumber does not have record in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
@@ -138,11 +139,11 @@ if ($Arguments -match 'q') {
   $QuiteMode = "True"
   Write-Host "$Info : [Q]uiet Mode Enabled via Q switch" -ForegroundColor Yellow
 }
-if ($Arguments -match '[nr]') {
+if ($Arguments -match 'r') {
   $NoReport = "True"
   Write-Host "$Info : [N]o[R]eport Log Generation via NR switch" -ForegroundColor Yellow
 }
-if ($Arguments -match '[nx]') {
+if ($Arguments -match 'x') {
   $NoXML = "True"
   Write-Host "$Info : [N]o[X]ML Generation via X switch" -ForegroundColor Yellow
 }
