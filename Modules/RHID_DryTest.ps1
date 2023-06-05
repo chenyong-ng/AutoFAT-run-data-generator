@@ -268,7 +268,7 @@ if (($RHID_Syringe_Stallout_FAT).count -eq "0") {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
-    $RHID_Syringe_MIN_CURRENT = ($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 1
+    $RHID_Syringe_MIN_CURRENT = (($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(",").TrimStart())[-1]
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed " -ForegroundColor Green
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Cal : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Cyan 
 }
@@ -289,8 +289,8 @@ else {
 }
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
-    $RHID_Gel_Void_First = ($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart() | Select-Object -Last 1
-    $RHID_BEC_ID_First = $RHID_BEC_insert_ID.line.split(" ").TrimStart() | Select-Object -Last 1
+    $RHID_Gel_Void_First = (($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart())[-1]
+    $RHID_BEC_ID_First = ($RHID_BEC_insert_ID.line.split(" ").TrimStart())[-1]
     Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed ; BEC_ID : $RHID_BEC_ID_First"
     Write-host "$BEC_Insertion : $RHID_First_Gel_Void : $RHID_Gel_Void_First" -ForegroundColor Cyan 
 }
@@ -312,8 +312,8 @@ if (($RHID_HV_FAT).count -eq "0") {
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_HV_FAT | Select-String "Pass") -eq "True") {
-    $RHID_HV_FAT_Voltage = ($storyboard | Select-String "Voltage =" | Select-String "(8650/9300V)" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 1
-    $RHID_HV_FAT_Current = ($storyboard | Select-String "Current =" | Select-String "(> 5uA)" | Select-Object -Last 1).line.split(",").TrimStart() | Select-Object -Last 1
+    $RHID_HV_FAT_Voltage = (($storyboard | Select-String "Voltage =" | Select-String "(8650/9300V)" | Select-Object -Last 1).line.split(",").TrimStart())[-1]
+    $RHID_HV_FAT_Current = (($storyboard | Select-String "Current =" | Select-String "(> 5uA)" | Select-Object -Last 1).line.split(",").TrimStart())[-1]
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green
     Write-Host "$HV : $RHID_HV_FAT_Voltage , $RHID_HV_FAT_Current" -ForegroundColor Green
 }
@@ -326,8 +326,8 @@ if (($RHID_Laser_FAT).count -eq "0") {
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Laser_FAT | Select-String "Pass") -eq "True") {
-    $RHID_Raman_Signal = ($storyboard | Select-String "Raman =").Line.Split("=").TrimStart() | Select-Object -Last 1
-    $RHID_Raman_Bin = ($storyboard | Select-String "Bin =").Line.Split("=").TrimStart() | Select-Object -Last 1
+    $RHID_Raman_Signal = (($storyboard | Select-String "Raman =").Line.Split("=").TrimStart())[-1]
+    $RHID_Raman_Bin = (($storyboard | Select-String "Bin =").Line.Split("=").TrimStart())[-1]
     Write-Host "$Laser : $RHID_Laser_FAT_Str $Test_Passed" -ForegroundColor Green
     Write-Host "$Laser : $RHID_Laser_Raman = $RHID_Raman_Signal ; Bin = $RHID_Raman_Bin" -ForegroundColor Green
 }
