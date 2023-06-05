@@ -90,7 +90,6 @@ $RealtimeProtection = Get-MpPreference | select-object DisableRealtimeMonitoring
 
 $Debug = "off"
 $exicode = $Null
-$VerboseMode = "False"
 $HistoryMode = "False"
 
 . $PSScriptRoot\RHID_Str.ps1
@@ -141,11 +140,11 @@ if ($Arguments -match 'q') {
 }
 if ($Arguments -match 'r') {
   $NoReport = "True"
-  Write-Host "$Info : [N]o[R]eport Log Generation via NR switch" -ForegroundColor Yellow
+  Write-Host "$Info : No [R]eport Log Generation via NR switch" -ForegroundColor Yellow
 }
 if ($Arguments -match 'x') {
   $NoXML = "True"
-  Write-Host "$Info : [N]o[X]ML Generation via X switch" -ForegroundColor Yellow
+  Write-Host "$Info : No [X]ML Generation via X switch" -ForegroundColor Yellow
 }
 # add switch to perform full backup
 

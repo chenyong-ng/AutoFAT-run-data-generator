@@ -14,7 +14,7 @@ $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo    
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" ; $FP           = "[ FP Sensor  ]"
 $Mezz_PCBA    = "[ MEZZ PCBA  ]" ; $MezzActuator = "[MezzActuator]" ; $Warning      = "[ Warning    ]" 
 $Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]" ; $HD_USB_CAM   = "[ HD USB CAM ]"
-$Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA = ": Test N/A"
+$Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA      = ": Test N/A"
 
 $RHID_Firmware79 = "1001.4.79"
 $File_not_Found = "Not found or no full run has been performed"

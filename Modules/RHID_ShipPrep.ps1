@@ -44,8 +44,10 @@ $GFE_007Count = ($GM_ILS_Score_GFE_007.count -gt 0)
 $NGM_007Count = ($GM_ILS_Score_NGM_007.count -gt 0)
 $BLANKCount = ($GM_ILS_Score_BLANK.count -gt 3)
 $FullRunCounter = $GFE36cyclesCount, $GFE_BVCount, $LadderCount, $GFE_007Count, $NGM_007Count, $BLANKCount
-    ($FullRunCounter -match "True").count
-    ($FullRunCounter -match "False").count
+if ($VerboseMode -eq "True") {
+    "$DebugStr : FullRunCounter True :" + ($FullRunCounter -match "True").count
+    "$DebugStr : FullRunCounter False :" + ($FullRunCounter -match "False").count
+}
 
 [XML]$xmlMmat = (Get-Content -Encoding utf8 -Raw "$TempXMLFile")
 $xmlFragment = $xmlMmat.CreateDocumentFragment()
@@ -59,15 +61,10 @@ $xmlMmat.save("$TempXMLFile")
 $xmlWriter.Flush()
 $xmlWriter.Dispose()
 
-if (($RemoteSize -lt $LocalSize) -and ($SerialRegMatch -eq "True")) {
+if ((($FullRunCounter -match "True").count -gt 5) -and ($SerialRegMatch -eq "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green
-    $KeyPress_Backup = "Enter to skip backup operation"
-    IF ($KeyPress_Backup -eq "") {
-        "Skipped backup operation"
-    }
-    else {
+
         "Performing backup operation"
         # BackupBeforeShipprep
     }
-}
 }

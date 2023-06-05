@@ -77,7 +77,7 @@ elseif ($RHID_Optics_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL")
 }
 Write-Host "$Heater : $RHID_Optics_Heater_str $Optics_Heater_Test_Result" -ForegroundColor $OpticsHColor    
 
-RHID_Heater_Verbose
+if ($VerboseMode -eq "True") {RHID_Heater_Verbose}
 } # End of RHID_Heater_Test function
 
 $RHID_Gel_Cooler_FAT_PASS = ($RHID_Gel_Cooler_FAT | Select-String "PASS" )
