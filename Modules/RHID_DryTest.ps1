@@ -34,8 +34,8 @@ elseif ($RHID_DN_Heater_FAT_FAIL.Line.split(":").TrimStart()[-1] -eq "FAIL") {
 }
 Write-Host "$Heater : $RHID_DN_Heater_str $DN_Heater_Test_Result" -ForegroundColor $DNHColor
 
-$RHID_DN_Heater_FAT_Result = ($RHID_DN_Heater_FAT | Select-String "PASS","FAIL" ).Line.split(":")[-1]
-if ($RHID_DN_Heater_FAT_Result -noMatch "") {
+$RHID_DN_Heater_FAT_Result = ($RHID_DN_Heater_FAT | Select-String "PASS","FAIL" )
+if ($RHID_DN_Heater_FAT_Result -Match "") {
     $DN_Heater_Test_Result = $Test_NA
     $DNHColor = "Yellow"
 } elseif ($RHID_DN_Heater_FAT_Result -Match "PASS") {

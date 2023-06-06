@@ -66,9 +66,9 @@ If ([Bool]$DannoAppRhidCheck -eq "True" ) {
 $RHID_QMini_SN          = $storyboard | Select-String "Q-mini serial number"
 $RHID_QMini_Coeff       = $storyboard | Select-String "Coefficients"
 $RHID_QMini_Infl        = $storyboard | Select-String "Inflection Point"
-"$Found :" + $RHID_QMini_SN[-1]
-"$Found :" + $RHID_QMini_Coeff[-1]
-"$Found :" + $RHID_QMini_Infl[-1]
+"$Found :" + $RHID_QMini_SN.line.split(",")[-1]
+"$Found :" + $RHID_QMini_Coeff.line.split(",")[-1]
+"$Found :" + $RHID_QMini_Infl.line.split(",")[-1]
 <#
 IF ($VerboseMode -eq "True") { $RHID_QMini_SN , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number" , $RHID_QMini_Coeff, $RHID_QMini_Infl }
@@ -87,7 +87,7 @@ $RHID_GM_Analysis_PeakTable = ($GM_Analysis_PeakTable | Select-String "Date/Time
 #If ($VerboseMode -eq "True") { $RHID_Mainboard_FW_Ver , $RHID_Mezzbaord_FW_Ver , $RHID_ExecutionLOG , $RHID_GM_Analysis_PeakTable }
 
 "$Looping : TC_CalibrationXML"
-$RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//Offsets" | ForEach-Object { $_.node.InnerXML }
+$RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//MachineName | //Offsets" | ForEach-Object { $_.node.InnerXML }
 "$Found  : $RHID_TC_Calibration"
 
 "$Looping : through MachineConfigXML "
@@ -139,7 +139,7 @@ IF ($RHID_QMini_Infl[-1].count -gt "0") {
 }
 
 function RHID_TC {
-If (($RHID_TC_Calibration -match "NaN") -eq "True") {
+If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
 } elseif (
     $RHID_TC_Calibration.count -eq "0") {
@@ -148,7 +148,8 @@ If (($RHID_TC_Calibration -match "NaN") -eq "True") {
 } else {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green
     Write-Host "$TC_Offsets :" $RHID_TC_Calibration[0]
-    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[1] }
+    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[1] + $RHID_TC_Calibration[2]
+}
 }
 
 function RHID_MachineConfig_check {
