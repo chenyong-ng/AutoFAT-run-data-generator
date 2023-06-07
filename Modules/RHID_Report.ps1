@@ -45,7 +45,8 @@ RHID_USBDevices_Check
 ABRHID_Patch
 RHID_MainFunctions
 } else {
-Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date until Instrument folder fully backed up" -ForegroundColor Yellow}
+Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date until Instrument folder fully backed up" -ForegroundColor Yellow
+}
 "$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  
 RHID_Optics
 RHID_TC
@@ -64,10 +65,13 @@ $Section_Separator
 RHID_MezzFuctionTest
 RHID_SyringePump
 RHID_MezzBEC_Test
+
+
 $Section_Separator 
 RHID_WetTest
 RHID_CoverOff_FullRun
 $Section_Separator 
+
 
 #CoverOn test
 RHID_CoverOn_FullRun
@@ -85,10 +89,11 @@ RHID_ShipPrep_Check
 }
 
 IF ($QuiteMode -ne "True") {
-RHID_ReportGen}
+RHID_ReportGen
+}
 
 IF ($NoReport -ne "True") {
-RHID_ReportGen *> $TempLogFile
+    RHID_ReportGen *> $TempLogFile
 $TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].LOG"
 Copy-Item -Force $TempLogFile -Destination $TestResultLOG_File
 notepad $TestResultLOG_File
@@ -99,5 +104,5 @@ $TestResultXML_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResu
 Copy-Item -Force $TempXMLFile -Destination $TestResultXML_File
 notepad $TestResultXML_File
 }
-"$info : Clearing up temp files " + $TempLogFile.name + $TempXMLFile.name
+"$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name
 Remove-item $TempLogFile, $TempXMLFile

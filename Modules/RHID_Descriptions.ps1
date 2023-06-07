@@ -1,0 +1,5 @@
+$OpticsDescription = "$Desc : Qmini and Laser infos generated during initialization of AutoFAT"
+$TCDescription = "$Desc : SCI Thermocycler Calibration data, NaN means not yet Calibrated"
+$MachineConfigDescription = "$Desc : Info extracted from MachineCofig.xml file, Essential files"
+$FirmwareDescription = "$Desc : Win10 firmware 1001.4.79 is the Production version"
+$HIDAutoLiteDescription = "$Desc : TestPrep installed HIDAutoLite only valid for 35 days, Data extracted from Execution.Log"

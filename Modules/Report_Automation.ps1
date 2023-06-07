@@ -95,7 +95,7 @@ $HistoryMode = "False"
 . $PSScriptRoot\VerboseMode.ps1
 # move verbose mode to above and add option to enable/disable 
 . $PSScriptRoot\XML_and_Config.ps1
-. $PSScriptRoot\RHID_Descriptios.ps1
+
 
 if ($SerialRegMatch -ne "True") {
     $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
@@ -113,7 +113,7 @@ if ($SerialRegMatch -ne "True") {
 	"$Info : Usage : enter 0477xv to enable Verbose mode but disable report generation, space are optional"
 	"$Info : Enter V to enable VerboseMode, Q to anable Quiet Mode on console"
 	"$Info :	R to disable Report Log Generation, X to disable XML Generation"
-	"$Info :	X to disable XML Generation"
+	"$Info :	D to enable descriptive information"
     #"$Info : Enter again to show detailed information for additional switches for various options"
     $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
     $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
@@ -142,6 +142,14 @@ if ($Arguments -match 'r') {
 if ($Arguments -match 'x') {
   $NoXML = "True"
   Write-Host "$Info : No [X]ML Generation via X switch" -ForegroundColor Yellow
+}
+if ($Arguments -match 'd') {
+  $EnableDescriptions = "True"
+  Write-Host "$Info : Enabled more detailed description of each tests via D switch" -ForegroundColor Yellow
+}
+
+if ($EnableDescriptions -eq "True") {
+. $PSScriptRoot\RHID_Descriptions.ps1
 }
 # add switch to perform full backup
 # generate temp files after input to prevent create junk files

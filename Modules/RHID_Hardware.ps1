@@ -190,22 +190,28 @@ $MachineConfigDescription
 }
 
 function RHID_Firmware_Check {
-if (($RHID_Mainboard_FW_Ver -and $RHID_Mezzbaord_str) -eq $RHID_Firmware79) {
-    Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver ,$RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
-else {
-    Write-Host "$PCBA : $Error_msg $RHID_Mainboard_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
+if (($RHID_Mainboard_FW_Ver -and $RHID_Mezzbaord_FW_Ver) -eq $RHID_Firmware79) {
+    Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver ,$RHID_Mezzbaord_FW_Ver" -ForegroundColor Green
+} else {
+    Write-Host "$PCBA : $Error_msg Firmware mismatch, $RHID_Mainboard_FW_Ver $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red
+}
+$FirmwareDescription
+}
+<#
 if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
     Write-Host "$PCBA : $RHID_Mezzbaord_str : $RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
 else {   
     Write-Host "$PCBA : $Error_msg $RHID_Mezzbaord_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red } 
-}
+}#>
 
 function RHID_HIDAutolite_Check {
 IF ([Bool]$RHID_ExecutionLOG -eq "True") {
     $RHID_GM_Analysis_PeakTable_Filter = $RHID_GM_Analysis_PeakTable.line
-    $RHID_ExecutionLOG_Filter = $RHID_ExecutionLOG.Line.Split("-").TrimStart() | Select-Object -Last 1
+    $RHID_ExecutionLOG_Filter = ($RHID_ExecutionLOG.Line.Split("-").TrimStart())[-1]
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : $RHID_ExecutionLOG_Filter"
     Write-Host "$HIDAutolite : $HIDAutolite_Execution_Str $RHID_GM_Analysis_PeakTable_Filter "
 } Else {
-    Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or Expired" -ForegroundColor Red }
+    Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or Expired" -ForegroundColor Red
+}
+    $HIDAutoLiteDescription
 }
