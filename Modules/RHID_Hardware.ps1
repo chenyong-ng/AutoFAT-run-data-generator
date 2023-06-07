@@ -136,7 +136,7 @@ IF ($RHID_QMini_Infl[-1].count -gt "0") {
     } Else {
     Write-Host "$Optics : $RHID_Infl_Str : $Not_Available" -ForegroundColor Yellow
     } # $Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Result" -ForegroundColor $QMini_Infl_Color
-$OpticsDescription
+    $Desc_Optics
 }
 
 function RHID_TC {
@@ -151,7 +151,7 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Offsets :" $RHID_TC_Calibration[1]
     Write-Host "$TC_Offsets :" $RHID_TC_Calibration[2]
 }
-$TCDescription
+    $Desc_TC
 }
 
 function RHID_MachineConfig_check {
@@ -172,21 +172,25 @@ Write-Host "$MachineConf : $PrimeLysisBuffer : $RHID_MachineConfig_PrimeLysisBuf
 
 If ([Bool]$RHID_MachineConfig_Blue -eq "True") {
     Write-Host "$Raman_Bkg : $Blue_Background_Str : Stashed" -ForegroundColor Green
-} else {
-    Write-Host "$Raman_Bkg : $Blue_Background_Str : N/A" -ForegroundColor Yellow }
+    } else {
+    Write-Host "$Raman_Bkg : $Blue_Background_Str : N/A" -ForegroundColor Yellow
+}
 
 If ([Bool]$RHID_MachineConfig_SCI -eq "True") {
-    Write-Host "$SCI_Cal : $SCI_Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green }
-    Else {Write-Host $SCI_Cal : $SCI_Calibration : Uncalibrated -ForegroundColor Red}
+    Write-Host "$SCI_Cal : $SCI_Calibration : $RHID_MachineConfig_SCI mm" -ForegroundColor Green
+    } Else {
+    Write-Host "$SCI_Cal : $SCI_Calibration : Uncalibrated" -ForegroundColor Red
+}
 
 If ([Bool]$RHID_MachineConfig_BEC -eq "True") {
-Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -ForegroundColor Green }
+    Write-Host "$BEC_Status : $Bec_Status_Str : $RHID_MachineConfig_BEC" -ForegroundColor Green
+}
 
 If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
-Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
-
-Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
-$MachineConfigDescription
+    Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green
+}
+    Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
+    $Desc_MachineConfig
 }
 
 function RHID_Firmware_Check {
@@ -195,7 +199,7 @@ if (($RHID_Mainboard_FW_Ver -and $RHID_Mezzbaord_FW_Ver) -eq $RHID_Firmware79) {
 } else {
     Write-Host "$PCBA : $Error_msg Firmware mismatch, $RHID_Mainboard_FW_Ver $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red
 }
-$FirmwareDescription
+    $Desc_Firmware
 }
 <#
 if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {
@@ -213,5 +217,5 @@ IF ([Bool]$RHID_ExecutionLOG -eq "True") {
 } Else {
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Trial : Undetected or Expired" -ForegroundColor Red
 }
-    $HIDAutoLiteDescription
+    $Desc_HIDAutoLite
 }

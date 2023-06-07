@@ -22,8 +22,7 @@ Function RHID_Heater_Verbose {
         "$DebugStr : [Optics Heater Pass Result ] : " + $RHID_Optics_Heater_FAT_PASS.line.split(",").TrimStart()[-1] }
         "$DebugStr : [Optics Heater Fail Counter] : " + $RHID_Optics_Heater_FAT_FAIL.count
     if ($RHID_Optics_Heater_FAT_FAIL.count -gt 0) {
-        "$DebugStr : [Optics Heater Fail Result ] : " 
-        $RHID_Optics_Heater_FAT_FAIL.line.split("==>").TrimStart() | Select-String "PWM" | Select-Object -last 1
+        "$DebugStr : [Optics Heater Fail Result ] : " + ($RHID_Optics_Heater_FAT_FAIL.line.split("==>").TrimStart() | Select-String "PWM")[-1]
     }
 }
 
