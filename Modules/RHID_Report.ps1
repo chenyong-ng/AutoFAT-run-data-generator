@@ -99,3 +99,5 @@ $TestResultXML_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResu
 Copy-Item -Force $TempXMLFile -Destination $TestResultXML_File
 notepad $TestResultXML_File
 }
+"$info : Clearing up temp files " + $TempLogFile.name + $TempXMLFile.name
+Remove-item $TempLogFile, $TempXMLFile

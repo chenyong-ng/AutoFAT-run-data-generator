@@ -136,6 +136,7 @@ IF ($RHID_QMini_Infl[-1].count -gt "0") {
     } Else {
     Write-Host "$Optics : $RHID_Infl_Str : $Not_Available" -ForegroundColor Yellow
     } # $Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Result" -ForegroundColor $QMini_Infl_Color
+$OpticsDescription
 }
 
 function RHID_TC {
@@ -147,9 +148,10 @@ If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     #add option to generate TC_Calibration.XML
 } else {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Calibrated" -ForegroundColor Green
-    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[0]
-    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[1] + $RHID_TC_Calibration[2]
+    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[1]
+    Write-Host "$TC_Offsets :" $RHID_TC_Calibration[2]
 }
+$TCDescription
 }
 
 function RHID_MachineConfig_check {
@@ -184,11 +186,12 @@ If ([Bool]$RHID_MachineConfig_Prime -eq "True") {
 Write-Host "$Prime : $Prime_Status : $RHID_MachineConfig_Prime" -ForegroundColor Green }
 
 Write-Host "$Laser : $Laser_Hour : $RHID_MachineConfig_Laser" -ForegroundColor Green
+$MachineConfigDescription
 }
 
 function RHID_Firmware_Check {
-if ("$RHID_Mainboard_FW_Ver" -eq $RHID_Firmware79) {
-    Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver" -ForegroundColor Green }
+if (($RHID_Mainboard_FW_Ver -and $RHID_Mezzbaord_str) -eq $RHID_Firmware79) {
+    Write-Host "$PCBA : $RHID_Mainboard_str : $RHID_Mainboard_FW_Ver ,$RHID_Mezzbaord_FW_Ver" -ForegroundColor Green }
 else {
     Write-Host "$PCBA : $Error_msg $RHID_Mainboard_str not updated, $RHID_Mezzbaord_FW_Ver detected" -ForegroundColor Red }
 if ("$RHID_Mezzbaord_FW_Ver" -eq $RHID_Firmware79) {

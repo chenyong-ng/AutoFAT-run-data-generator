@@ -67,8 +67,6 @@ $DannoAppConfigXML_File = "DannoAppConfig.xml"
 $OverrideSettingsXML_File = "OverrideSettings.xml"
 $TestResultXML_File     = "TestResult $MachineName.xml"
 $TestResultLOG_File     = "TestResult $MachineName.LOG"
-$TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
-$TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
 
 $TestResultLOG_Leaf     = Test-Path -Path $Inst_rhid_Result\$TestResultLOG_File -PathType Leaf
 $TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
@@ -92,11 +90,12 @@ $Debug = "off"
 $exicode = $Null
 $HistoryMode = "False"
 
+
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
 # move verbose mode to above and add option to enable/disable 
 . $PSScriptRoot\XML_and_Config.ps1
-. $PSScriptRoot\RHID_XmlWriter.ps1
+. $PSScriptRoot\RHID_Descriptios.ps1
 
 if ($SerialRegMatch -ne "True") {
     $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
@@ -106,23 +105,21 @@ if ($SerialRegMatch -ne "True") {
     "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
     "$Info : Pacific Time is now : $PST_TimeZone"
     "$Info : Powershell version: $PSVersion on $HostName"
-    "$Info : Created Temp file $TempLogFile for logging"
     If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
         Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow}
     "$Info : Only first 4 ditigs are indexed for RHID result generation"
     "$Info : Extra alphanumeric characters are passed as arguments"
     "$Info : Press Ctrl+C to Abort Script Execution"
-    "$Info : Enter again to show detailed information for additional switches for variius options"
+	"$Info : Usage : enter 0477xv to enable Verbose mode but disable report generation, space are optional"
+	"$Info : Enter V to enable VerboseMode, Q to anable Quiet Mode on console"
+	"$Info :	R to disable Report Log Generation, X to disable XML Generation"
+	"$Info :	X to disable XML Generation"
+    #"$Info : Enter again to show detailed information for additional switches for various options"
     $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
     $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
     $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
     $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {
-      "$Info : Usage : enter 0855nrv to enable Verbose mode but disable report generation, space are optional"
-      "$Info : Enter V to enable VerboseMode"
-      "$Info :       Q to anable Quiet Mode on console"
-      "$Info :      R to disable Report Log Generation"
-      "$Info :      X to disable XML Generation"
       break
     } elseif (($LocalServerTestPath -or $US_ServerTestPath) -ne "True") {
         Write-Error -Message "Selected Serial Number $IndexedSerialNumber does not have record in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
@@ -147,5 +144,8 @@ if ($Arguments -match 'x') {
   Write-Host "$Info : No [X]ML Generation via X switch" -ForegroundColor Yellow
 }
 # add switch to perform full backup
-
+# generate temp files after input to prevent create junk files
+$TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
+$TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
+. $PSScriptRoot\RHID_XmlWriter.ps1
 . $PSScriptRoot\RHID_Report.ps1
