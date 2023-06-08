@@ -14,6 +14,16 @@ if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     $Lysis_Heater_Test_Result = $Test_Failed
     $LHColor = "Red"
 }
+$RHID_Lysis1_Ramp       
+$RHID_Lysis1_Temp_Avg   
+$RHID_Lysis1_Temp_SD    
+$RHID_Lysis1_PWM_Avg    
+$RHID_Lysis1_PWM_SD     
+$RHID_Lysis2_Ramp       
+$RHID_Lysis2_Temp_Avg   
+$RHID_Lysis2_Temp_SD    
+$RHID_Lysis2_PWM_Avg    
+$RHID_Lysis2_PWM_SD     
 Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
@@ -81,15 +91,16 @@ elseif ($RHID_Gel_Cooler_FAT_FAIL.Line -match "FAIL") {
 
 $RHID_Ambient_FAT_PASS = ($RHID_Ambient_FAT | Select-String "PASS" )
 $RHID_Ambient_FAT_FAIL = ($RHID_Ambient_FAT | Select-String "FAIL" )
+
 function RHID_Ambient_Sensor {
 if ($RHID_Ambient_FAT.count -eq "0") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ($RHID_Ambient_FAT_PASS.Line -match "PASS") {
-    Write-Host "$Ambient : $RHID_Ambient_str $Test_Passed" -ForegroundColor Green 
+    Write-Host "$Ambient : $RHID_Ambient_str $Test_Passed $RHID_Ambient_Temp" -ForegroundColor Green 
 }
 elseif ($RHID_Ambient_FAT_FAIL.Line -match "FAIL") {
-    Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor Red    
+    Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed $RHID_Ambient_Temp" -ForegroundColor Red    
 }
   #  Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed" -ForegroundColor $AmbientColor  
 }

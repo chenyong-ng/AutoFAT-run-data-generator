@@ -1,3 +1,7 @@
+<#
+Verbose function to log more detailed information
+#>
+
 Function RHID_Heater_Verbose {
         "$DebugStr : [Lysis Heater Pass Counter ] : " + $RHID_Lysis_Heater_FAT_PASS.count
     if ($RHID_Lysis_Heater_FAT_PASS.count -gt 0) {

@@ -155,5 +155,6 @@ if ($EnableDescriptions -eq "True") {
 # generate temp files after input to prevent create junk files
 $TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
 $TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
+. $PSScriptRoot\RHID_Detailed.ps1
 . $PSScriptRoot\RHID_XmlWriter.ps1
 . $PSScriptRoot\RHID_Report.ps1
