@@ -44,3 +44,7 @@ Function RHID_Heater_Verbose {
     }
 }
 
+Function RHID_FullRunCounter_Verbose {
+    "$DebugStr : FullRunCounter True : " + ($FullRunCounter -match "True").count
+    "$DebugStr : FullRunCounter False : " + ($FullRunCounter -match "False").count
+}
