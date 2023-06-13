@@ -155,6 +155,44 @@ if ($EnableDescriptions -eq "True") {
 # generate temp files after input to prevent create junk files
 $TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
 $TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
-. $PSScriptRoot\RHID_Detailed.ps1
 . $PSScriptRoot\RHID_XmlWriter.ps1
 . $PSScriptRoot\RHID_Report.ps1
+
+
+<#
+
+for ($i = 0; $i -le 100; $i++) {
+  if ([Console]::KeyAvailable) {
+    $key = [Console]::ReadKey($true).Key
+    if ($key -in 'X', 'P') {
+      break
+    }
+  }
+    
+  
+  $total_time = 5   # Seconds in total to countdown
+  $interval = $total_time / 100   # There are always 100 percentage pips
+  $ms_per_pip = $interval * 1000
+
+
+    # Always 100 pips
+    Start-Sleep -Milliseconds $ms_per_pip
+    $remaining_time = [math]::Round($total_time - ($i * $ms_per_pip / 1000), 2)
+    Write-Progress -Activity "Sleeping For $total_time Seconds ($i% complete, $remaining_time Seconds left)" -Status "StatusString" -PercentComplete $i -CurrentOperation "CurrentOperationString"
+  
+}
+switch ($key) {
+  X {
+    'X was pressed'
+    # do something with X
+  }
+  P {
+    'P was pressed'
+    clear-host
+  }
+  default {
+    "default"
+  }
+}
+
+#>
