@@ -12,5 +12,9 @@
 		"svn.ignoreMissingSvnWarning": true,
 		"powershell.cwd": "c:\\Users\\charl\\OneDrive\\Sources\\AutoFAT-run-data-generator",
 		"commentTranslate.hover.enabled": false
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": []
 	}
 }

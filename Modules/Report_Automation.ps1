@@ -8,8 +8,6 @@
 .Notes          : Generate Test result progress into XML
 .Usage          : .\Report_Automation.ps1: Generate Test result progress into console.
 
-
-
 $content = [System.IO.File]::ReadAllText("c:\bla.txt").Replace("[MYID]","MyValue")
 [System.IO.File]::WriteAllText("c:\bla.txt", $content)
 
@@ -68,7 +66,7 @@ $OverrideSettingsXML_File = "OverrideSettings.xml"
 $TestResultXML_File     = "TestResult $MachineName.xml"
 $TestResultLOG_File     = "TestResult $MachineName.LOG"
 
-$TestResultLOG_Leaf     = Test-Path -Path $Inst_rhid_Result\$TestResultLOG_File -PathType Leaf
+$TestResultLOG_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultLOG_File" -PathType Leaf
 $TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
 $Nonlinearity_Leaf      = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
 $Waves_Leaf             = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
@@ -96,30 +94,37 @@ $HistoryMode = "False"
 # move verbose mode to above and add option to enable/disable 
 . $PSScriptRoot\XML_and_Config.ps1
 
-for ($i = 0; $i -le 100; $i++) {
+    $t = New-TimeSpan -Seconds 8
+    $origpos = $host.UI.RawUI.CursorPosition
+    $spinner =@('|', '/', '-', '\')
+    $spinnerPos = 0
+    $remain = $t
+    $d =( get-date) + $t
+    $remain = ($d - (get-date))
+
+while ($remain.TotalSeconds -gt 0) {
   if ([Console]::KeyAvailable) {
     $key = [Console]::ReadKey($true).Key
     if ($key -in 'X', 'P') {
       break
     }
   }
-    
-  
-  $total_time = 5   # Seconds in total to countdown
-  $interval = $total_time / 100   # There are always 100 percentage pips
-  $ms_per_pip = $interval * 1000
-
-
-  # Always 100 pips
-  Start-Sleep -milliseconds $ms_per_pip
-  $remaining_time = [math]::Round($total_time - ($i * $ms_per_pip / 1000), 1)
-  Write-Progress -Activity "RapidHIT ID Script execution in $total_time Seconds" -CurrentOperation "Press X to Interrupt"
-  
+      Write-Host (" {0} " -f $spinner[$spinnerPos%4]) -BackgroundColor White -ForegroundColor Black -NoNewline
+      write-host (" {0:d2}s " -f $remain.Seconds) -NoNewline
+      $host.UI.RawUI.CursorPosition = $origpos
+      $spinnerPos += 1
+      Start-Sleep -seconds 1
+      $remain = ($d - (get-date))
 }
+    $host.UI.RawUI.CursorPosition = $origpos
+
+    Write-Host " * "  -BackgroundColor White -ForegroundColor Black -NoNewline
+    " Countdown finished"
 switch ($key) {
   X {
     'X was pressed'
-    # do something with X
+    "break"
+    break
   }
   P {
     'P was pressed'
@@ -129,9 +134,6 @@ switch ($key) {
     . $PSScriptRoot\Branch.ps1
   }
 }
-
-
-
 
 if ($EnableDescriptions -eq "True") {
 . $PSScriptRoot\RHID_Descriptions.ps1
@@ -143,7 +145,6 @@ $TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
 . $PSScriptRoot\RHID_XmlWriter.ps1
 . $PSScriptRoot\RHID_Report.ps1
 
-
 <#
 
 for ($i = 0; $i -le 100; $i++) {
@@ -153,7 +154,6 @@ for ($i = 0; $i -le 100; $i++) {
       break
     }
   }
-    
   
   $total_time = 5   # Seconds in total to countdown
   $interval = $total_time / 100   # There are always 100 percentage pips
