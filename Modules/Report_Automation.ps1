@@ -94,32 +94,31 @@ $HistoryMode = "False"
 # move verbose mode to above and add option to enable/disable 
 . $PSScriptRoot\XML_and_Config.ps1
 
-    $t = New-TimeSpan -Seconds 8
-    $origpos = $host.UI.RawUI.CursorPosition
-    $spinner =@('|', '/', '-', '\')
-    $spinnerPos = 0
-    $remain = $t
-    $d =( get-date) + $t
-    $remain = ($d - (get-date))
+$t = New-TimeSpan -Seconds 8
+$origpos = $host.UI.RawUI.CursorPosition
+$spinner =@('|', '/', '-', '\')
+$spinnerPos = 0
+$remain = $t
+$d =( get-date) + $t
+$remain = ($d - (get-date))
 
 while ($remain.TotalSeconds -gt 0) {
   if ([Console]::KeyAvailable) {
     $key = [Console]::ReadKey($true).Key
     if ($key -in 'X', 'P') {
-      break
+      break # keypress to break out from whileloop
     }
   }
-      Write-Host (" {0} " -f $spinner[$spinnerPos%4]) -BackgroundColor White -ForegroundColor Black -NoNewline
-      write-host (" {0:d2}s " -f $remain.Seconds) -NoNewline
+      Write-Host (" {0} " -f $spinner[$spinnerPos%4]) -NoNewline
+      write-host (" {0:d2}s press spacebar/enter to stop script execution" -f $remain.Seconds) -NoNewline
       $host.UI.RawUI.CursorPosition = $origpos
       $spinnerPos += 1
       Start-Sleep -seconds 1
       $remain = ($d - (get-date))
 }
     $host.UI.RawUI.CursorPosition = $origpos
-
-    Write-Host " * "  -BackgroundColor White -ForegroundColor Black -NoNewline
-    " Countdown finished"
+    Write-Host " * " -NoNewline
+    clear-host
 switch ($key) {
   X {
     'X was pressed'
@@ -128,7 +127,6 @@ switch ($key) {
   }
   P {
     'P was pressed'
-    clear-host
   }
   default {
     . $PSScriptRoot\Branch.ps1
