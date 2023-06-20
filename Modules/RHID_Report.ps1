@@ -4,7 +4,9 @@ $serverdir = "$path-$IndexedSerialNumber"
 $LocalFolder = "$Inst_rhid_Result"
 $storyboard = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
 if ([bool]$storyboard -ne "True") {
-    Write-Error -Message "Storyboard logfile does not exist (yet)" -ErrorAction Stop}
+    Write-Host "$Info : Storyboard logfile does not exist, Select the correct Serial Number to proceed" -ForegroundColor red
+    break
+}
 "$Searching : MachineName"
 $MachineName = (($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart())[-1]
 "$Found : $MachineName"

@@ -158,7 +158,7 @@ function debug {
     "[$D] Display        : $screen_cnt"; "[$D] DIMM           : $DIMM"
     "[$D] Administrator ?: $AdminMode" ; "[$D] MalwareScanner : $RealtimeProtection"
     "[$D] Local Folder  ?: $Local"     ; "[$D] Remote Folder ?: $Remote"
-    "[$D] PSVersion     ?:";" $PSversion"
+    "[$D] PSVersion     ?: " + $PSversion
     $col_screens, $strMonitors
 }
 

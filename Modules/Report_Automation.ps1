@@ -20,26 +20,26 @@ $ini.path
  #$XMLFile = "$PSScriptRoot\..\config\ScriptConfig.xml"
 #$XMLFile = "C:\Users\chenyong.ng\OneDrive - Thermo Fisher Scientific\Desktop\Source\Stable\Config\ScriptConfig.xml"
 #$ScriptConfig = ([XML](Get-Content $XMLFile -Encoding utf8 -Raw)).ScriptConfig.Workstation
-  $ScriptConfig.Profiles
-  $ScriptConfig.Drive
-  $ScriptConfig.path
-  $ScriptConfig.danno
-  $ScriptConfig.US_Drive
-  $ScriptConfig.US_Path
-  $ScriptConfig.US_danno
+	$ScriptConfig.Profiles
+	$ScriptConfig.Drive
+	$ScriptConfig.path
+	$ScriptConfig.danno
+	$ScriptConfig.US_Drive
+	$ScriptConfig.US_Path
+	$ScriptConfig.US_danno
 #>
 Clear-Host
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
-    $Drive = "S:"
-    $path = "S:\RHID"
-    $danno = "S:\Dano Planning\Test Data\"
-    $US_Drive = "Y:"
-    $US_Path = "Y:\RHID"
-    $US_danno = "Y:\Dano Planning\Test Data\"
+		$Drive = "S:"
+		$path = "S:\RHID"
+		$danno = "S:\Dano Planning\Test Data\"
+		$US_Drive = "Y:"
+		$US_Path = "Y:\RHID"
+		$US_danno = "Y:\Dano Planning\Test Data\"
 } else {
-    $Drive = "U:"
-    $path = "U:\RHID"
-    $danno = "U:\Dano Planning\Test Data\"
+		$Drive = "U:"
+		$path = "U:\RHID"
+		$danno = "U:\Dano Planning\Test Data\"
 } #RHID Workststion laptop has differnt network drive path
 
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
@@ -91,7 +91,7 @@ $HistoryMode = "False"
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
-# move verbose mode to above and add option to enable/disable 
+# move verbose mode to above and add option to enable/disable
 . $PSScriptRoot\XML_and_Config.ps1
 
 $t = New-TimeSpan -Seconds 8
@@ -102,35 +102,35 @@ $remain = $t
 $d =( get-date) + $t
 $remain = ($d - (get-date))
 
+#coundown timer for script execution.
 while ($remain.TotalSeconds -gt 0) {
-  if ([Console]::KeyAvailable) {
-    $key = [Console]::ReadKey($true).Key
-    if ($key -in 'X', 'P') {
-      break # keypress to break out from whileloop
-    }
-  }
-      Write-Host (" {0} " -f $spinner[$spinnerPos%4]) -NoNewline
-      write-host (" {0:d2}s press spacebar/enter to stop script execution" -f $remain.Seconds) -NoNewline
-      $host.UI.RawUI.CursorPosition = $origpos
-      $spinnerPos += 1
-      Start-Sleep -seconds 1
-      $remain = ($d - (get-date))
+	if ([Console]::KeyAvailable) {
+		$key = [Console]::ReadKey($true).Key
+		if ($key -in 'X', 'P', 'Spacebar', 'Enter') {
+			break # keypress to break out from whileloop
+		}
+	}
+			Write-Host (" {0} " -f $spinner[$spinnerPos%4]) -NoNewline
+			write-host (" {0:d2}s : Press spacebar/enter to stop script execution" -f $remain.Seconds) -NoNewline
+			$host.UI.RawUI.CursorPosition = $origpos
+			$spinnerPos += 1
+			Start-Sleep -seconds 1
+			$remain = ($d - (get-date))
 }
-    $host.UI.RawUI.CursorPosition = $origpos
-    Write-Host " * " -NoNewline
-    clear-host
+		$host.UI.RawUI.CursorPosition = $origpos
+		Write-Host " * " -NoNewline
+		clear-host
+
 switch ($key) {
-  X {
-    'X was pressed'
-    "break"
-    break
-  }
-  P {
-    'P was pressed'
-  }
-  default {
-    . $PSScriptRoot\Branch.ps1
-  }
+	('Spacebar' -or 'Enter') {
+		break
+	}
+	P {
+		debug
+	}
+	default {
+		. $PSScriptRoot\Branch.ps1
+	}
 }
 
 if ($EnableDescriptions -eq "True") {
@@ -142,40 +142,3 @@ $TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
 $TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
 . $PSScriptRoot\RHID_XmlWriter.ps1
 . $PSScriptRoot\RHID_Report.ps1
-
-<#
-
-for ($i = 0; $i -le 100; $i++) {
-  if ([Console]::KeyAvailable) {
-    $key = [Console]::ReadKey($true).Key
-    if ($key -in 'X', 'P') {
-      break
-    }
-  }
-  
-  $total_time = 5   # Seconds in total to countdown
-  $interval = $total_time / 100   # There are always 100 percentage pips
-  $ms_per_pip = $interval * 1000
-
-
-    # Always 100 pips
-    Start-Sleep -Milliseconds $ms_per_pip
-    $remaining_time = [math]::Round($total_time - ($i * $ms_per_pip / 1000), 2)
-    Write-Progress -Activity "Sleeping For $total_time Seconds ($i% complete, $remaining_time Seconds left)" -Status "StatusString" -PercentComplete $i -CurrentOperation "CurrentOperationString"
-  
-}
-switch ($key) {
-  X {
-    'X was pressed'
-    # do something with X
-  }
-  P {
-    'P was pressed'
-    clear-host
-  }
-  default {
-    "default"
-  }
-}
-
-#>
