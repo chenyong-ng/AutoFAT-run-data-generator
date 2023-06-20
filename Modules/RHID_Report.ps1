@@ -3,7 +3,7 @@ $US_serverdir = "$US_path-$IndexedSerialNumber"
 $serverdir = "$path-$IndexedSerialNumber"
 $LocalFolder = "$Inst_rhid_Result"
 $storyboard = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
-if ([bool]$storyboard -ne "True") {
+if ($storyboard.count -eq 0) {
     Write-Host "$Info : Storyboard logfile does not exist, Select the correct Serial Number to proceed" -ForegroundColor red
     break
 }

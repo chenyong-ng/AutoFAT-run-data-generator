@@ -16,7 +16,7 @@ $GM_ILS_Score_GFE_36cycles   = ( $SampleQuality | Where-Object { $_.PsIsContaine
 $GM_ILS_Score_GFE_BV         = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV")
 
 function RHID_WetTest {
-if (($RHID_Water_Prime).count -eq "") {
+if ($RHID_Water_Prime.count -eq "0") {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_NA" -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
@@ -28,7 +28,7 @@ else {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_Failed" -ForegroundColor Red    
 }
 
-if (($RHID_Lysis_Prime).count -eq "") {
+if ($RHID_Lysis_Prime.count -eq 0) {
     Write-Host "$WetTest : $RHID_Lysis_Prime_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Lysis_Prime | Select-String "Pass") -eq "True") {

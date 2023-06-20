@@ -28,7 +28,7 @@ Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -Foregro
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
 $RHID_DN_Heater_FAT_FAIL = ($RHID_DN_Heater_FAT | Select-String "FAIL" )
-if (($RHID_DN_Heater_FAT).count -eq "0") {
+if ($RHID_DN_Heater_FAT.count -eq "0") {
     $DN_Heater_Test_Result = $Test_NA
     $DNHColor = "Yellow"
 } elseif ($RHID_DN_Heater_FAT_PASS.Line -match "PASS") {
