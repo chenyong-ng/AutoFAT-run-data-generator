@@ -18,6 +18,8 @@ $TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$Inst_rhid_F
 "$Searching : SampleQuality.txt"
 $SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
 "$Searching : DannoGUIState.xml"
+$BufferPrimeScrnShot = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I BufferPrime*.* -R -ErrorAction SilentlyContinue
+"$Searching : BufferPrime Result Screenshot Counter : " + $BufferPrimeScrnShot.count
 $DannoGUIStateXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 "$Searching : execution.log"
 $ExecutionLOG = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I execution.log -R -ErrorAction SilentlyContinue

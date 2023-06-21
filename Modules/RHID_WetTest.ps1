@@ -3,10 +3,19 @@
 $RHID_Water_Prime    = ($storyboard | Select-String "Bring Up: Water Prime" | Select-Object -Last 1)
 $RHID_Lysis_Prime    = ($storyboard | Select-String "Bring Up: Lysis Prime" | Select-Object -Last 1)
 $RHID_Buffer_Prime   = ($storyboard | Select-String "Bring Up: Buffer Prime" |  Select-Object -Last 1)
+
 $RHID_Lysis_Dispense = ($storyboard | Select-String "Bring Up: Lysis Dispense Test" | Select-Object -Last 1)
 $RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | Select-Object -Last 1)
 $RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1)
 $RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
+
+$RHID_Bolus_DN = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "% in DN =").line.split(",").TrimStart()
+$RHID_Bolus_Volume = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Volume  =").line.split(",").TrimStart()
+$RHID_Bolus_Timing = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Timing =").line.split(",").TrimStart()
+"Last 10 runs DN%" + $RHID_Bolus_DN[-1,-2,-3,-4,-5,-6,-7,-8,-9,-10]
+"Last 10 runs Bolus Vol" + $RHID_Bolus_Volume[-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+"Last 10 runs Bolus Timing" + $RHID_Bolus_Timing[-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+
 "$Loading : BEC Insertion textual filtering commands "
 $RHID_BEC_Reinsert = ( $CoverOn_BEC_Reinsert | Select-String "BEC Reinsert completed" | Select-Object -Last 1) 
 $RHID_BEC_Reinsert_ID = ( $CoverOn_BEC_Reinsert | Select-String "BEC ID" | Select-Object -Last 1)
