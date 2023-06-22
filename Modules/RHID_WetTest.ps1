@@ -9,12 +9,22 @@ $RHID_Lysate_Pull = ($storyboard | Select-String "Bring Up: Lysate Pull" | Selec
 $RHID_Capillary_Gel_Prime = ($storyboard | Select-String "Bring Up: Capillary Gel Prime" | Select-Object -Last 1)
 $RHID_Raman = ($storyboard | Select-String "Bring Up: Verify Raman"  | Select-Object -Last 1)
 
-$RHID_Bolus_DN = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "% in DN =").line.split(",").TrimStart()
-$RHID_Bolus_Volume = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Volume  =").line.split(",").TrimStart()
-$RHID_Bolus_Timing = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Timing =").line.split(",").TrimStart()
-"Last 10 runs DN%" + $RHID_Bolus_DN[-1,-2,-3,-4,-5,-6,-7,-8,-9,-10]
-"Last 10 runs Bolus Vol" + $RHID_Bolus_Volume[-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
-"Last 10 runs Bolus Timing" + $RHID_Bolus_Timing[-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+$RHID_Bolus_DN = ((Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "% in DN =").line.split(",") | Select-String "% in DN")
+$RHID_Bolus_DN_Alt = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus detected").line.split(",") | Select-String "Bolus detected" | Select-String "into the denaturing window"
+$RHID_Bolus_Volume = ((Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Volume  =").line.split(",") | Select-String "Volume  =")
+$RHID_Bolus_Volume_Alt = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus first detected at").line
+$RHID_Bolus_Timing = ((Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Timing =").line.split(",") | Select-String "Timing =") 
+$RHID_Bolus_Current = ((Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =")
+"Last 10 runs DN% :"
+$RHID_Bolus_DN.line.trimStart()
+$RHID_Bolus_DN_Alt.line.trimStart() 
+"Last 10 runs Bolus Vol :"
+($RHID_Bolus_Volume.line.trimStart())
+$RHID_Bolus_Volume_Alt
+"Last 10 runs Bolus Timing :"
+($RHID_Bolus_Timing.line.trimStart())
+"Last 10 runs Bolus Current :"
+($RHID_Bolus_Current.line.trimStart())
 
 "$Loading : BEC Insertion textual filtering commands "
 $RHID_BEC_Reinsert = ( $CoverOn_BEC_Reinsert | Select-String "BEC Reinsert completed" | Select-Object -Last 1) 

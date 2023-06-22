@@ -19,6 +19,7 @@ if ($SerialRegMatch -ne "True") {
     #"$Info : Enter again to show detailed information for additional switches for various options"
     $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
     $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
+    # add option to check additional serial numbers
     $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
     $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {

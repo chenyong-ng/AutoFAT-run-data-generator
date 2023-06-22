@@ -93,10 +93,9 @@ $HistoryMode = "False"
 . $PSScriptRoot\VerboseMode.ps1
 # move verbose mode to above and add option to enable/disable
 . $PSScriptRoot\XML_and_Config.ps1
-
 $t = New-TimeSpan -Seconds 8
 $origpos = $host.UI.RawUI.CursorPosition
-$spinner =@('|', '/', '-', '\')
+$spinner = @('☼', '♀', '♂', '♠', '♣', '♥', '♦', '#')
 $spinnerPos = 0
 $remain = $t
 $d =( get-date) + $t
@@ -110,11 +109,11 @@ while ($remain.TotalSeconds -gt 0) {
 			break # keypress to break out from whileloop
 		}
 	}
-			Write-Host (" {0} " -f $spinner[$spinnerPos%4]) -NoNewline
-			write-host (" {0:d2}s : Press spacebar/enter to stop script execution" -f $remain.Seconds) -NoNewline
+			Write-Host (" {0} " -f $spinner[$spinnerPos%8]) -NoNewline
+			write-host (" {0:d4}s {1:d4}ms : Press spacebar/enter to stop script execution" -f $remain.Seconds, $remain.MilliSeconds) -NoNewline
 			$host.UI.RawUI.CursorPosition = $origpos
 			$spinnerPos += 1
-			Start-Sleep -seconds 1
+			Start-Sleep -seconds 0.5
 			$remain = ($d - (get-date))
 }
 		$host.UI.RawUI.CursorPosition = $origpos

@@ -60,15 +60,15 @@ If ([Bool]$DannoAppRhidCheck -eq "True" ) {
     Write-Host "$info : D:\DannoGUI\$DannoAppConfigXML_File missing" -ForegroundColor Red}
 #add option to check and generate DannoAppConfig.xml
 }
-"DannoAppConfigCheck $DannoAppConfigCheck"
-"DannoAppRhidCheck $DannoAppRhidCheck"
+"$info : DannoAppConfigCheck $DannoAppConfigCheck"
+"$info : DannoAppRhidCheck $DannoAppRhidCheck"
 "$Loading : Q-mini textual filtering commands"
 $RHID_QMini_SN          = $storyboard | Select-String "Q-mini serial number"
 $RHID_QMini_Coeff       = $storyboard | Select-String "Coefficients"
 $RHID_QMini_Infl        = $storyboard | Select-String "Inflection Point"
-"$Found :" + $RHID_QMini_SN.line.split(",")[-1]
-"$Found :" + $RHID_QMini_Coeff.line.split(",")[-1]
-"$Found :" + $RHID_QMini_Infl.line.split(",")[-1]
+"$Found : " + $RHID_QMini_SN.line.split(",").TrimStart()[-1]
+"$Found : " + $RHID_QMini_Coeff.line.split(":").TrimStart()[-1]
+"$Found : " + $RHID_QMini_Infl.line.split(",").TrimStart()[-1]
 <#
 IF ($VerboseMode -eq "True") { $RHID_QMini_SN , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number" , $RHID_QMini_Coeff, $RHID_QMini_Infl }
@@ -88,7 +88,7 @@ $RHID_GM_Analysis_PeakTable = ($GM_Analysis_PeakTable | Select-String "Date/Time
 
 "$Looping : TC_CalibrationXML"
 $RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//MachineName | //Offsets" | ForEach-Object { $_.node.InnerXML }
-"$Found  : $RHID_TC_Calibration"
+"$Found : $RHID_TC_Calibration"
 
 "$Looping : through MachineConfigXML "
 $RHID_MachineConfig_SN     = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
