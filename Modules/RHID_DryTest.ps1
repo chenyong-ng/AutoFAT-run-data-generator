@@ -14,16 +14,9 @@ if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     $Lysis_Heater_Test_Result = $Test_Failed
     $LHColor = "Red"
 }
-$RHID_Lysis1_Ramp       
-$RHID_Lysis1_Temp_Avg   
-$RHID_Lysis1_Temp_SD    
-$RHID_Lysis1_PWM_Avg    
-$RHID_Lysis1_PWM_SD     
-$RHID_Lysis2_Ramp       
-$RHID_Lysis2_Temp_Avg   
-$RHID_Lysis2_Temp_SD    
-$RHID_Lysis2_PWM_Avg    
-$RHID_Lysis2_PWM_SD     
+
+RHID_Heater_Lysis_Details
+
 Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
