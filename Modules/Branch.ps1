@@ -20,6 +20,7 @@ if ($SerialRegMatch -ne "True") {
     $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
     $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
     # add option to check additional serial numbers
+    # add function to initiate HIDAutolite with code and email for troubleshoot
     $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
     $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {
