@@ -118,7 +118,6 @@ while ($remain.TotalSeconds -gt 0) {
 }
 		$host.UI.RawUI.CursorPosition = $origpos
 		Write-Host " * " -NoNewline
-		clear-host
 
 switch ($key) {
 	('Spacebar' -or 'Enter') {
