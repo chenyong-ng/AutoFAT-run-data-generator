@@ -93,6 +93,8 @@ $HistoryMode = "False"
 . $PSScriptRoot\VerboseMode.ps1
 # move verbose mode to above and add option to enable/disable
 . $PSScriptRoot\XML_and_Config.ps1
+. $PSScriptRoot\CheckSum.ps1
+# add option to enable/disable script pre-run check
 $t = New-TimeSpan -Seconds 8
 $origpos = $host.UI.RawUI.CursorPosition
 $spinner = @('☼', '♀', '♂', '♠', '♣', '♥', '♦', '#')
