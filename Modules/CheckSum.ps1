@@ -24,57 +24,55 @@ $File_TC_VerificationTXT= "$PSScriptRoot\TC_VerificationTXT.ps1"
 $File_VerboseMode       = "$PSScriptRoot\VerboseMode.ps1"
 $File_XML_and_Config    = "$PSScriptRoot\XML_and_Config.ps1"
 
-$ScriptPreCheck =
-Test-Path -Path
-$File_Script_automation 
-$File_CheckSum          
-$File_AdapterTypes      
-$File_Branch            
-$File_Info_Screens      
-$File_Report_Automation 
-$File_RHID_CoverOnTest  
-$File_RHID_Descriptions 
-$File_RHID_DryTest      
-$File_RHID_DryTestHeader
-$File_RHID_Hardware     
-$File_RHID_MainFunction 
-$File_RHID_Report       
-$File_RHID_ShipPrep     
-$File_RHID_Str          
-$File_RHID_WetTest      
-$File_RHID_XmlWriter    
-$File_RunSummaryCSV     
-$File_SetScreenResolutio
-$File_setvolume         
-$File_SetWindowStyle    
-$File_TC_VerificationTXT
-$File_VerboseMode       
+$ScriptPreCheck = Test-Path -Path $File_Script_automation ,
+$File_CheckSum          ,
+$File_AdapterTypes      ,
+$File_Branch            ,
+$File_Info_Screens      ,
+$File_Report_Automation ,
+$File_RHID_CoverOnTest  ,
+$File_RHID_Descriptions ,
+$File_RHID_DryTest      ,
+$File_RHID_DryTestHeader,
+$File_RHID_Hardware     ,
+$File_RHID_MainFunction ,
+$File_RHID_Report       ,
+$File_RHID_ShipPrep     ,
+$File_RHID_Str          ,
+$File_RHID_WetTest      ,
+$File_RHID_XmlWriter    ,
+$File_RunSummaryCSV     ,
+$File_SetScreenResolutio,
+$File_setvolume         ,
+$File_SetWindowStyle    ,
+$File_TC_VerificationTXT,
+$File_VerboseMode       ,
 $File_XML_and_Config -PathType Leaf
 
 
-(Get-FileHash $File_Script_automation 
-$File_CheckSum          
-$File_AdapterTypes      
-$File_Branch            
-$File_Info_Screens      
-$File_Report_Automation 
-$File_RHID_CoverOnTest  
-$File_RHID_Descriptions 
-$File_RHID_DryTest      
-$File_RHID_DryTestHeader
-$File_RHID_Hardware     
-$File_RHID_MainFunction 
-$File_RHID_Report       
-$File_RHID_ShipPrep     
-$File_RHID_Str          
-$File_RHID_WetTest      
-$File_RHID_XmlWriter    
-$File_RunSummaryCSV     
-$File_SetScreenResolutio
-$File_setvolume         
-$File_SetWindowStyle    
-$File_TC_VerificationTXT
-$File_VerboseMode       
+(Get-FileHash $File_Script_automation ,
+$File_CheckSum          ,
+$File_AdapterTypes      ,
+$File_Branch            ,
+$File_Info_Screens      ,
+$File_Report_Automation ,
+$File_RHID_CoverOnTest  ,
+$File_RHID_Descriptions ,
+$File_RHID_DryTest      ,
+$File_RHID_DryTestHeader,
+$File_RHID_Hardware     ,
+$File_RHID_MainFunction ,
+$File_RHID_Report       ,
+$File_RHID_ShipPrep     ,
+$File_RHID_Str          ,
+$File_RHID_WetTest      ,
+$File_RHID_XmlWriter    ,
+$File_RunSummaryCSV     ,
+$File_SetScreenResolutionEx,
+$File_setvolume         ,
+$File_SetWindowStyle    ,
+$File_TC_VerificationTXT,
+$File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
 # Get-FileHash is bugged in Powershell 5.1, only hashing and compare hastable in Powershell 7
