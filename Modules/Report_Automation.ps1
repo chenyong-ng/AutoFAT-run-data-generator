@@ -28,7 +28,6 @@ $ini.path
 	$ScriptConfig.US_Path
 	$ScriptConfig.US_danno
 #>
-Clear-Host
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 		$Drive = "S:"
 		$path = "S:\RHID"
@@ -52,8 +51,8 @@ $DELL_Display   = "DEL $env:COMPUTERNAME (VGA)"
 $SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
 $NewDate = ([String](Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms"))
 $PSVersion = [string]($psversiontable.psversion)
-$SystemUptime = (Get-Uptime).totalhours
-# $SystemUptime = ((get-date) - ((Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime)).totalhours
+# $SystemUptime = (Get-Uptime).totalhours
+$SystemUptime = ((get-date) - ((Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime)).totalhours
 $Inst_rhid_Folder   = "E:\RapidHIT ID"
 $Inst_rhid_Result   = "E:\RapidHIT ID\Results"
 $Nonlinearity_File  = "Non-linearity Calibration $HostName.PNG"
@@ -114,7 +113,7 @@ while ($remain.TotalSeconds -gt 0) {
 		}
 	}
 			Write-Host (" {0} " -f $spinner[$spinnerPos%8]) -NoNewline
-			write-host (" {0:d4}s {1:d4}ms : Press spacebar/enter to stop script execution" -f $remain.Seconds, $remain.MilliSeconds) -NoNewline
+			write-host (" {0:d3}s {1:d3}ms : Press spacebar/enter to stop script execution" -f $remain.Seconds, $remain.MilliSeconds) -NoNewline
 			$host.UI.RawUI.CursorPosition = $origpos
 			$spinnerPos += 1
 			Start-Sleep -seconds 0.5

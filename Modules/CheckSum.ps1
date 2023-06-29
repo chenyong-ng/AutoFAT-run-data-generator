@@ -49,7 +49,6 @@ $File_TC_VerificationTXT,
 $File_VerboseMode       ,
 $File_XML_and_Config -PathType Leaf
 
-
 (Get-FileHash $File_Script_automation ,
 $File_CheckSum          ,
 $File_AdapterTypes      ,
@@ -77,12 +76,13 @@ $File_XML_and_Config -Algorithm SHA256).hash
 
 # Get-FileHash is bugged in Powershell 5.1, only hashing and compare hastable in Powershell 7
 # export git info " git log -1 --format=%cd --date=local" "git rev-parse --short HEAD"
-
 $ScriptPreCheckCounter = ($ScriptPreCheck | select-string "true").count
 
-if ($ScriptPreCheckCounter -eq 23) {
+if ($ScriptPreCheckCounter -eq 24) {
     "[ Info       ] : $ScriptPreCheckCounter Scripts pre-run check passed"
     start-sleep 1
-} elseif ($ScriptPreCheckCounter -lt 23) {
+} elseif ($ScriptPreCheckCounter -lt 24) {
     "[ Error      ] : Scripts count $ScriptPreCheckCounter checksum failed, Script execution may not produce correct results"
 }
+git log -1 --date=local
+git rev-parse --short HEAD
