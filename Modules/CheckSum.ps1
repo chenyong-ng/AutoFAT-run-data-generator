@@ -42,7 +42,7 @@ $File_RHID_Str          ,
 $File_RHID_WetTest      ,
 $File_RHID_XmlWriter    ,
 $File_RunSummaryCSV     ,
-$File_SetScreenResolutio,
+$File_SetScreenResolutionEx,
 $File_setvolume         ,
 $File_SetWindowStyle    ,
 $File_TC_VerificationTXT,
@@ -76,6 +76,7 @@ $File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
 # Get-FileHash is bugged in Powershell 5.1, only hashing and compare hastable in Powershell 7
+# export git info " git log -1 --format=%cd --date=local" "git rev-parse --short HEAD"
 
 $ScriptPreCheckCounter = ($ScriptPreCheck | select-string "true").count
 
