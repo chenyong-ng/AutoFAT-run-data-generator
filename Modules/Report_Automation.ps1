@@ -53,6 +53,7 @@ $SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
 $NewDate = ([String](Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms"))
 $PSVersion = [string]($psversiontable.psversion)
 $SystemUptime = (Get-Uptime).totalhours
+# $SystemUptime = ((get-date) - ((Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime)).totalhours
 $Inst_rhid_Folder   = "E:\RapidHIT ID"
 $Inst_rhid_Result   = "E:\RapidHIT ID\Results"
 $Nonlinearity_File  = "Non-linearity Calibration $HostName.PNG"
