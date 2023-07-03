@@ -74,13 +74,21 @@ $File_TC_VerificationTXT,
 $File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
-(Get-Content $PSScriptRoot\..\Config\Script_Metadata.txt)[-1]
+# New-Item "$PSScriptRoot\..\Config\Script_Metadata.txt" -ItemType File
+# write-output "
+# =============================SHA256=============================
+# =============================SHA256=============================" | Out-File "$PSScriptRoot\..\Config\Script_Metadata.TXT"
 
-if ((Test-Path -PathType Leaf -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT") -ne "True") {
-$ScriptMetadata | Out-File "$PSScriptRoot\..\Config\Script_Metadata.TXT"}
+# (Get-Content $PSScriptRoot\..\Config\Script_Metadata.txt)
+# $content = [System.IO.File]::ReadAllText("$PSScriptRoot\..\Config\Script_Metadata.txt").Replace("[Placeholder]", $ScriptMetadata)
+# [System.IO.File]::WriteAllText("$PSScriptRoot\..\Config\Script_Metadata.txt", $content)
+
+# if ((Test-Path -PathType Leaf -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT") -ne "True") {
+# $ScriptMetadata | Out-File "$PSScriptRoot\..\Config\Script_Metadata.TXT"}
+Add-Content -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT" -Value $GitCommitHash , $GitCommitDate -PassThru
 
 # Get-FileHash is bugged in Powershell 5.1, only hashing and compare hastable in Powershell 7
-# export git info " git log -1 --format=%cd --date=local" "git rev-parse --short HEAD"
+
 $ScriptPreCheckCounter = ($ScriptPreCheck | select-string "true").count
 
 if ($ScriptPreCheckCounter -eq 24) {
