@@ -74,6 +74,8 @@ $File_TC_VerificationTXT,
 $File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
+(Get-Content $PSScriptRoot\..\Config\Script_Metadata.txt)[-1]
+
 if ((Test-Path -PathType Leaf -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT") -ne "True") {
 $ScriptMetadata | Out-File "$PSScriptRoot\..\Config\Script_Metadata.TXT"}
 
