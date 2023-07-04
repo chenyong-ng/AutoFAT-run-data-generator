@@ -74,10 +74,30 @@ $File_TC_VerificationTXT,
 $File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
-# New-Item "$PSScriptRoot\..\Config\Script_Metadata.txt" -ItemType File
-# write-output "
-# =============================SHA256=============================
-# =============================SHA256=============================" | Out-File "$PSScriptRoot\..\Config\Script_Metadata.TXT"
+New-Item $ScriptMetadataTXT -ItemType File | Out-Null
+"=============================SHA256=============================" >> $ScriptMetadataTXT 
+$ScriptMetadata[0..2] >> $ScriptMetadataTXT
+"
+something1'
+something2'
+something3'
+something4'
+something5'
+something6'
+" >> $ScriptMetadataTXT
+"=============================SHA256=============================" >> $ScriptMetadataTXT 
+$ScriptPreCheck[0..2] >> $ScriptMetadataTXT 
+Add-Content -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT" -PassThru -Value "
+[ ScriptInfo ] : Git Commit ID & Date : $GitCommitHash  $GitCommitDate" 
+
+(Get-Content $ScriptMetadataTXT ) | Foreach-Object {
+    $_ -replace 'something1', 'something1aa'
+    $_ -replace 'something2', 'something2bb'
+    $_ -replace 'something3', 'something3cc'
+    $_ -replace 'something4', 'something4dd'
+    $_ -replace 'something5', 'something5dsf'
+    $_ -replace 'something6', 'something6dfsfds'
+    } >> $ScriptMetadataTXT 
 
 # (Get-Content $PSScriptRoot\..\Config\Script_Metadata.txt)
 # $content = [System.IO.File]::ReadAllText("$PSScriptRoot\..\Config\Script_Metadata.txt").Replace("[Placeholder]", $ScriptMetadata)
@@ -85,8 +105,6 @@ $File_XML_and_Config -Algorithm SHA256).hash
 
 # if ((Test-Path -PathType Leaf -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT") -ne "True") {
 # $ScriptMetadata | Out-File "$PSScriptRoot\..\Config\Script_Metadata.TXT"}
-Add-Content -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT" -Value $GitCommitHash , $GitCommitDate -PassThru
-
 # Get-FileHash is bugged in Powershell 5.1, only hashing and compare hastable in Powershell 7
 
 $ScriptPreCheckCounter = ($ScriptPreCheck | select-string "true").count
@@ -97,4 +115,3 @@ if ($ScriptPreCheckCounter -eq 24) {
 } elseif ($ScriptPreCheckCounter -lt 24) {
     "[ Error      ] : Scripts count $ScriptPreCheckCounter checksum failed, Script execution may not produce correct results"
 }
-"[ ScriptInfo ] : Git Commit ID & Date : " +$GitCommitHash + " : " + $GitCommitDate

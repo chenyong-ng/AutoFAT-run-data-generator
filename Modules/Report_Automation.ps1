@@ -68,6 +68,8 @@ $DannoAppConfigXML_File = "DannoAppConfig.xml"
 $OverrideSettingsXML_File = "OverrideSettings.xml"
 $TestResultXML_File     = "TestResult $MachineName.xml"
 $TestResultLOG_File     = "TestResult $MachineName.LOG"
+$ScriptMetadataTXT     = "$PSScriptRoot\..\Config\Script_Metadata.txt"
+$ScriptMetadataXML     = "$PSScriptRoot\..\Config\Script_Metadata.XML"
 
 $TestResultLOG_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultLOG_File" -PathType Leaf
 $TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
