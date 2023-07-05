@@ -78,26 +78,20 @@ New-Item $ScriptMetadataTXT -ItemType File | Out-Null
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptMetadata[0..2] >> $ScriptMetadataTXT
 "
-something1'
-something2'
-something3'
-something4'
-something5'
-something6'
+something1
+something2
+something3
+something4
+something5
+something6
 " >> $ScriptMetadataTXT
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptPreCheck[0..2] >> $ScriptMetadataTXT 
 Add-Content -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT" -PassThru -Value "
 [ ScriptInfo ] : Git Commit ID & Date : $GitCommitHash  $GitCommitDate" 
 
-(Get-Content $ScriptMetadataTXT ) | Foreach-Object {
-    $_ -replace 'something1', 'something1aa'
-    $_ -replace 'something2', 'something2bb'
-    $_ -replace 'something3', 'something3cc'
-    $_ -replace 'something4', 'something4dd'
-    $_ -replace 'something5', 'something5dsf'
-    $_ -replace 'something6', 'something6dfsfds'
-    } >> $ScriptMetadataTXT 
+((Get-Content $ScriptMetadataTXT).replace('something1', 'something1aa').replace('something2', 'something1bb')) | out-file $ScriptMetadataTXT 
+
 
 # (Get-Content $PSScriptRoot\..\Config\Script_Metadata.txt)
 # $content = [System.IO.File]::ReadAllText("$PSScriptRoot\..\Config\Script_Metadata.txt").Replace("[Placeholder]", $ScriptMetadata)
