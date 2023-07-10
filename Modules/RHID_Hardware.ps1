@@ -7,6 +7,9 @@ $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -ma
 $FPMatch = $RHID_USBDvices -match "TouchChip Fingerprint Coprocessor"
 $CameraMAtch = $RHID_USBDvices -match "HD USB Camera"
 #>
+
+#Query for the mac address and ip address 
+
 function RHID_USBDevices_Check {
 Add-Type -Assembly System.Windows.Forms 
 "[Probing] USB Devices"
