@@ -1,11 +1,11 @@
 if ($SerialRegMatch -ne "True") {
     $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
-    $RHID_FolderList | Format-wide -Property name -AutoSize
     Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
+    $RHID_FolderList | Format-wide -Property name -AutoSize
     "$Info : For latest update, get source code from Github:"
     "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
     "$Info : Pacific Time is now : $PST_TimeZone"
-    "$Info : Powershell version: $PSVersion on $HostName"
+    "$Info : Powershell version  : $PSVersion on $HostName"
     If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
         Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
     }
