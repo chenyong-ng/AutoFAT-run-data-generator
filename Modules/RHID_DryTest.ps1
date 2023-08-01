@@ -15,7 +15,9 @@ if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     $LHColor = "Red"
 }
 
-RHID_Heater_Lysis_Details
+if ($EnableDescriptions -eq "True") {
+    RHID_Heater_Lysis_Details
+}
 
 Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
 

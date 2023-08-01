@@ -16,6 +16,8 @@ else {
     Write-Host "$SHP_BEC :           Shipping BEC not yet inserted" -ForegroundColor Yellow 
 }
 
+$Remote_Str                 = "     Remote $Drive\$MachineName\Internal\ Size" 
+$Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
 # block empty machine name
 $Local_Folder_Msg = Write-Host "$boxPrep : $Local_Str : $LocalSize ; Files : $LocalFileCount"
 $Remote_Folder_Msg = Write-Host "$boxPrep : $Remote_Str : $RemoteSize ; Files : $RemoteFileCount"
