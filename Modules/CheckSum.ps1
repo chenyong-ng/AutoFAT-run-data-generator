@@ -74,6 +74,7 @@ $File_TC_VerificationTXT,
 $File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
+MKDIR "$Env:Temp\$HostName" | Out-Null
 New-Item $ScriptMetadataTXT -ItemType File | Out-Null
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptMetadata[0..2] >> $ScriptMetadataTXT
@@ -87,7 +88,8 @@ something6
 " >> $ScriptMetadataTXT
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptPreCheck[0..2] >> $ScriptMetadataTXT 
-Add-Content -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT" -PassThru -Value "
+#disable git.exe detection on instrument
+Add-Content -Path "$ScriptMetadataTXT" -PassThru -Value "
 [ ScriptInfo ] : Git Commit brach : $GitCommitBranch, ID: $GitCommitHash , & Date : $GitCommitDate" 
 
 ((Get-Content $ScriptMetadataTXT).replace('something1', 'something1aa').replace('something2', 'something1bb')) | out-file $ScriptMetadataTXT 
@@ -109,3 +111,5 @@ if ($ScriptPreCheckCounter -eq 24) {
 } elseif ($ScriptPreCheckCounter -lt 24) {
     "[ Error      ] : Scripts count $ScriptPreCheckCounter checksum failed, Script execution may not produce correct results"
 }
+
+Remove-Item -Recurse -Path "$Env:Temp\$HostName"

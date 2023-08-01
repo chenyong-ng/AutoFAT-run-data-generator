@@ -42,7 +42,7 @@ if ($Arguments -match 'q') {
 }
 if ($Arguments -match 'r') {
     $NoReport = "True"
-    Write-Host "$Info : No [R]eport Log Generation via NR switch" -ForegroundColor Yellow
+    Write-Host "$Info : No [R]eport Log Generation via R switch" -ForegroundColor Yellow
 }
 if ($Arguments -match 'x') {
     $NoXML = "True"

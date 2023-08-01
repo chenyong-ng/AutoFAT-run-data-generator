@@ -18,8 +18,11 @@ $TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$Inst_rhid_F
 "$Searching : SampleQuality.txt"
 $SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
 "$Searching : DannoGUIState.xml"
-$BufferPrimeScrnShot = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I BufferPrime*.* -R -ErrorAction SilentlyContinue
-"$Searching : BufferPrime Result Screenshot Counter : " + $BufferPrimeScrnShot.count
+$BufferPrimeScreenShot = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I BufferPrime*.* -R -ErrorAction SilentlyContinue
+"$Searching : BufferPrime Result Screenshot Counter : " + $BufferPrimeScreenShot.count
+#add option to disable image display
+"$Found : $BufferPrimeScreenShot" ; Start-Process $BufferPrimeScreenShot[-1]
+
 $DannoGUIStateXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 "$Searching : execution.log"
 $ExecutionLOG = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I execution.log -R -ErrorAction SilentlyContinue
@@ -95,7 +98,7 @@ RHID_ShipPrep_Check
 }
 
 IF ($QuiteMode -ne "True") {
-    RHID_ReportGen | Out-GridView
+    RHID_ReportGen
 }
 
 IF ($NoReport -ne "True") {
@@ -111,4 +114,5 @@ Copy-Item -Force $TempXMLFile -Destination $TestResultXML_File
 notepad $TestResultXML_File
 }
 "$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name
+"$info : Script ended with exit code of $LASTEXITCODE"
 Remove-item $TempLogFile, $TempXMLFile

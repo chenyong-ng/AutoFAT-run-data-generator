@@ -1,7 +1,7 @@
 ﻿
 # add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
-$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[ Info       ]"
+$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[PSScriptInfo]"
 $Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]" ; $System       = "[ System     ]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]" ; $TC_Offsets   = "[ TC Offsets ]"
 $Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]" ; $Verification = "[Verification]" ; $D = "DEBUG"
@@ -78,7 +78,7 @@ $RHID_Laser_FAT_Str         = "[29/41]                       Laser FAT"
 $RHID_Laser_Raman           = "[30/41]        Raman"
 $RHID_Water_Prime_Str       = "[31/41]  Bring Up:          Water Prime"
 $RHID_Lysis_Prime_Str       = "[33/41]  Bring Up:          Lysis Prime"
-$RHID_Buffer_Prime_Str      = "[34/41]  Bring Up:   Buffe Buffer Prime"
+$RHID_Buffer_Prime_Str      = "[34/41]  Bring Up:         Buffer Prime"
 $RHID_Lysis_Dispense_Str    = "[35/41]  Bring Up:  Lysis Dispense Test"
 $RHID_Lystate_Pull_Str      = "[36/41]  Bring Up:          Lysate Pull"
 $RHID_Capillary_Gel_Prime_Str = "[37/41]  Bring Up:  Capillary Gel Prime"
@@ -90,8 +90,7 @@ $Section_Separator          = "=================================================
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
 $USB_Temp_RD                = " Last 3 Runs end Ambient  reading in °C"
 $USB_Humi_RD                = " Last 3 Runs end Humidity reading in  %"
-$Remote_Str                 = "     Remote $Drive\$MachineName\Internal\ Size" 
-$Local_Str                  = "       Local Folder E:\RapidHIT ID Size" 
+
 $HIDAutolite_Execution_Str  = "  Latest HIDAutolite Execution"
 $RHID_HIDAutolite_Str       = "SoftGenetics License number provided is"
 

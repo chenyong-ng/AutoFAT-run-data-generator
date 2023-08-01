@@ -69,8 +69,8 @@ $DannoAppConfigXML_File = "DannoAppConfig.xml"
 $OverrideSettingsXML_File = "OverrideSettings.xml"
 $TestResultXML_File     = "TestResult $MachineName.xml"
 $TestResultLOG_File     = "TestResult $MachineName.LOG"
-$ScriptMetadataTXT     = "$PSScriptRoot\..\Config\Script_Metadata.txt"
-$ScriptMetadataXML     = "$PSScriptRoot\..\Config\Script_Metadata.XML"
+$ScriptMetadataTXT     = "$Env:Temp\$HostName\Script_Metadata.txt"
+$ScriptMetadataXML     = "$Env:Temp\$HostName\Script_Metadata.XML"
 
 $TestResultLOG_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultLOG_File" -PathType Leaf
 $TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
@@ -113,7 +113,7 @@ $remain = ($d - (get-date))
 while ($remain.TotalSeconds -gt 0) {
 	if ([Console]::KeyAvailable) {
 		$key = [Console]::ReadKey($true).Key
-		if ($key -in 'X', 'P', 'Spacebar', 'Enter') {
+		if ($key -in 'X', 'P', 'C', 'V', 'Spacebar', 'Enter') {
 			break # keypress to break out from whileloop
 		}
 	}
@@ -133,6 +133,12 @@ switch ($key) {
 	}
 	P {
 		debug
+	}
+	C {
+		Clear-Host
+	}
+	V {
+		Start-Process "https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
 	}
 	default {
 		. $PSScriptRoot\Branch.ps1
