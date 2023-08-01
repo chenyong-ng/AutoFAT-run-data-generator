@@ -53,9 +53,11 @@ $NewDate = ([String](Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms"))
 $PSVersion = [string]($psversiontable.psversion)
 # $SystemUptime = (Get-Uptime).totalhours
 $SystemUptime = ((get-date) - ((Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime)).totalhours
+if (((where.exe git.exe) -match "git.exe") -eq "True") {
 $GitCommitDate = (git log -1 --date=local --format=%cd)
 $GitCommitHash = (git rev-parse --short HEAD)
 $GitCommitBranch = (git branch --show current)
+}
 $Inst_rhid_Folder   = "E:\RapidHIT ID"
 $Inst_rhid_Result   = "E:\RapidHIT ID\Results"
 $Nonlinearity_File  = "Non-linearity Calibration $HostName.PNG"
@@ -69,8 +71,8 @@ $DannoAppConfigXML_File = "DannoAppConfig.xml"
 $OverrideSettingsXML_File = "OverrideSettings.xml"
 $TestResultXML_File     = "TestResult $MachineName.xml"
 $TestResultLOG_File     = "TestResult $MachineName.LOG"
-$ScriptMetadataTXT     = "$PSScriptRoot\..\Config\Script_Metadata.txt"
-$ScriptMetadataXML     = "$PSScriptRoot\..\Config\Script_Metadata.XML"
+$ScriptMetadataTXT     = "$Env:Temp\$HostName\Script_Metadata.txt"
+$ScriptMetadataXML     = "$Env:Temp\$HostName\Script_Metadata.XML"
 
 $TestResultLOG_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultLOG_File" -PathType Leaf
 $TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
@@ -135,8 +137,13 @@ switch ($key) {
 		debug
 	}
 	Q {
-		# open HIDAutolite dialog
-		
+		# open HIDAutolite dialog		
+	}
+	C {
+		Clear-Host
+	}
+	V {
+		Start-Process "https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
 	}
 	default {
 		. $PSScriptRoot\Branch.ps1
