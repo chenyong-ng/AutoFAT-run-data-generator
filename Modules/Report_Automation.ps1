@@ -134,6 +134,10 @@ switch ($key) {
 	P {
 		debug
 	}
+	Q {
+		# open HIDAutolite dialog
+		
+	}
 	default {
 		. $PSScriptRoot\Branch.ps1
 	}
