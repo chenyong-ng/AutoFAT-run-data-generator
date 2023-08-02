@@ -1,7 +1,7 @@
 @Title [%computername%] RapidHIT ID Powershell Automation and Troubleshooting Tools
 @echo off
 REM Checking Pwsh.exe presence
-where.exe /q pwsdfgh.exe
+where.exe /q pwsh.exe
 if %Errorlevel%==0 (
     set PowerShell=pwsh.exe
 ) Else (
