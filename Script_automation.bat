@@ -1,13 +1,11 @@
 @Title [%computername%] RapidHIT ID Powershell Automation and Troubleshooting Tools
 @echo off
 REM Checking Pwsh.exe presence
-where.exe /q pwsh.exe
+where.exe /q pwsdfgh.exe
 if %Errorlevel%==0 (
     set PowerShell=pwsh.exe
-	@echo [Batch Script] : Powershell version 7 detected
 ) Else (
 	set PowerShell=Powershell
-	@echo [Batch Script] : Powershell version 5.1.1 detected
 )
 :0
 pushd "%~dp0%"

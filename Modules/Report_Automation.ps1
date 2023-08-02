@@ -53,7 +53,7 @@ $NewDate = ([String](Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms"))
 $PSVersion = [string]($psversiontable.psversion)
 # $SystemUptime = (Get-Uptime).totalhours
 $SystemUptime = ((get-date) - ((Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime)).totalhours
-if (((get-command git).Path -match "git.exe") -eq "True") {
+if (((get-command git -ErrorAction SilentlyContinue).Path -match "git.exe") -eq "True") {
 $GitCommitDate = (git log -1 --date=local --format=%cd)
 $GitCommitHash = (git rev-parse --short HEAD)
 $GitCommitBranch = (git branch --show current)
