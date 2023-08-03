@@ -1,7 +1,7 @@
 ﻿
 # add check machine name first, last from log and compare with $env:computername
 # convert everything to functios, execute only if condition is true
-$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[PSScriptInfo]"
+$Optics       = "[ Optics     ]" ; $PCBA         = "[ PCBA       ]" ; $Raman_Bkg    = "[ Raman Bkg  ]" ; $Info         = "[ PSScript   ]"
 $Heater       = "[ Heater     ]" ; $SCI          = "[ SCI        ]" ; $MachineConf  = "[MachineConf.]" ; $System       = "[ System     ]"
 $Ambient      = "[ Ambient_Sr ]" ; $Gel_Cooler   = "[ Gel Cooler ]" ; $TC_Cal       = "[ TC_Cal     ]" ; $TC_Offsets   = "[ TC Offsets ]"
 $Full_Run     = "[ Full-Run   ]" ; $SCI_Cal      = "[ SCI_Cal    ]" ; $Verification = "[Verification]" ; $D = "DEBUG"

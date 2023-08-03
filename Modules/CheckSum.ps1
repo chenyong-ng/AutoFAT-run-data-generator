@@ -89,6 +89,7 @@ something6
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptPreCheck[0..2] >> $ScriptMetadataTXT 
 #disable git.exe detection on instrument
+#export git info then read from file
 Add-Content -Path "$ScriptMetadataTXT" -PassThru -Value "
 [ ScriptInfo ] : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate" 
 

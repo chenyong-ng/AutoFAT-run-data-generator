@@ -91,6 +91,7 @@ $Danno_leaf     = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
 $US_Danno_leaf  = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
 
 $RealtimeProtection = Get-MpPreference | select-object DisableRealtimeMonitoring
+$HIDAutoLitev295 = "C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE"
 
 $Debug = "off"
 $exicode = $Null
@@ -137,7 +138,11 @@ switch ($key) {
 		debug
 	}
 	Q {
-		# open HIDAutolite dialog		
+		If ((Test-Path -PathType Leaf -Path $HIDAutoLitev295) -eq "True") {
+			Start-Process $HIDAutoLitev295
+		} Else {
+			Write-Host "$Info : HIDAutoLite License Registration Application not found" -ForegroundColor Yellow
+		}
 	}
 	C {
 		Clear-Host
