@@ -1,7 +1,7 @@
 $Desc_Optics        = "$Desc : Qmini and Laser infos generated during initialization of AutoFAT"
 $Desc_TC            = "$Desc : SCI Thermocycler Calibration data, NaN means not yet Calibrated"
 $Desc_MachineConfig = "$Desc : Info extracted from MachineCofig.xml file, Essential files"
-$Desc_Firmware      = "$Desc : Win10 firmware 1001.4.79 is the Production version"
+$Desc_Firmware      = "$Desc : Win10 firmware, 1001.4.79 is the Production version"
 $Desc_HIDAutoLite   = "$Desc : TestPrep installed HIDAutoLite only valid for 35 days, Data extracted from Execution.Log"
 # add location info
 

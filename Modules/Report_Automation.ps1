@@ -17,32 +17,24 @@ $ini.SystemTimeZone
 $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
- #$XMLFile = "$PSScriptRoot\..\config\ScriptConfig.xml"
-#$XMLFile = "C:\Users\chenyong.ng\OneDrive - Thermo Fisher Scientific\Desktop\Source\Stable\Config\ScriptConfig.xml"
-#$ScriptConfig = ([XML](Get-Content $XMLFile -Encoding utf8 -Raw)).ScriptConfig.Workstation
-	$ScriptConfig.Profiles
-	$ScriptConfig.Drive
-	$ScriptConfig.path
-	$ScriptConfig.danno
-	$ScriptConfig.US_Drive
-	$ScriptConfig.US_Path
-	$ScriptConfig.US_danno
 #>
+$ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
+$ScriptConfig = ([XML](Get-Content $ScriptConfigXML -Encoding utf8 -Raw)).ScriptConfig
+
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
-		$Drive = "S:"
-		$path = "S:\RHID"
-		$danno = "S:\Dano Planning\Test Data\"
-		$US_Drive = "Y:"
-		$US_Path = "Y:\RHID"
-		$US_danno = "Y:\Dano Planning\Test Data\"
+	$Drive 		= [String]$ScriptConfig.Workstation.Drive
+	$Path 		= [String]$ScriptConfig.Workstation.Path
+	$Danno 		= [String]$ScriptConfig.Workstation.Danno
+	$US_Drive 	= [String]$ScriptConfig.Workstation.US_Drive
+	$US_Path 	= [String]$ScriptConfig.Workstation.US_Path
+	$US_danno	= [String]$ScriptConfig.Workstation.US_danno
 } else {
-		$Drive = "U:"
-		$path = "U:\RHID"
-		$danno = "U:\Dano Planning\Test Data\"
+	$Drive 		= [String]$ScriptConfig.Default.Drive
+	$Path 		= [String]$ScriptConfig.Default.Path
+	$Danno		= [String]$ScriptConfig.Default.Danno
 } #RHID Workststion laptop has differnt network drive path
 
 . $PSScriptRoot\GlobalVariables.ps1
-
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
 # move verbose mode to above and add option to enable/disable
