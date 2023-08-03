@@ -41,62 +41,7 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 		$danno = "U:\Dano Planning\Test Data\"
 } #RHID Workststion laptop has differnt network drive path
 
-$PSDefaultParameterValues['*:Encoding'] = 'utf8'
-$HostName = "$env:COMPUTERNAME"
-$SystemTimeZone = [System.TimeZoneInfo]::Local.DisplayName
-$PST_TimeZone   = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
-$NewGuid        = [guid]::NewGuid().guid.toUpper()
-$InteralDisplay = "CHR $env:COMPUTERNAME (Internal)"
-$DELL_Display   = "DEL $env:COMPUTERNAME (VGA)"
-$SerialRegMatch = "$HostName" -match "RHID-\d\d\d\d"
-$NewDate = ([String](Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms"))
-$PSVersion = [string]($psversiontable.psversion)
-# $SystemUptime = (Get-Uptime).totalhours
-$SystemUptime = ((get-date) - ((Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime)).totalhours
-if (((get-command git -ErrorAction SilentlyContinue).Path -match "git.exe") -eq "True") {
-$GitCommitDate = (git log -1 --date=local --format=%cd)
-$GitCommitHash = (git rev-parse --short HEAD)
-$GitCommitBranch = (git branch --show current)
-}
-$Inst_rhid_Folder   = "E:\RapidHIT ID"
-$Inst_rhid_Result   = "E:\RapidHIT ID\Results"
-$Nonlinearity_File  = "Non-linearity Calibration $HostName.PNG"
-$Waves_File         = "Waves $HostName.PNG"
-$TC_verification_File   = "TC_verification $HostName.TXT"
-$MachineConfig_File  = "MachineConfig.xml"
-$StatusData_File     = "StatusData_Graphs.pdf"
-$GM_Analysis_File    = "GM_Analysis.sgf"
-$TC_CalibrationXML_File = "TC_Calibration.xml"
-$DannoAppConfigXML_File = "DannoAppConfig.xml"
-$OverrideSettingsXML_File = "OverrideSettings.xml"
-$TestResultXML_File     = "TestResult $MachineName.xml"
-$TestResultLOG_File     = "TestResult $MachineName.LOG"
-$ScriptMetadataTXT     = "$Env:Temp\$HostName\Script_Metadata.txt"
-$ScriptMetadataXML     = "$Env:Temp\$HostName\Script_Metadata.XML"
-
-$TestResultLOG_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultLOG_File" -PathType Leaf
-$TestResultXML_Leaf     = Test-Path -Path "$Drive\$HostName\Internal\$TestResultXML_File" -PathType Leaf
-$Nonlinearity_Leaf      = Test-Path -Path $Inst_rhid_Result\$Nonlinearity_File -PathType Leaf
-$Waves_Leaf             = Test-Path -Path $Inst_rhid_Result\$Waves_File -PathType Leaf
-$TC_verification_Leaf   = Test-Path -Path $Inst_rhid_Result\$TC_verification_File -PathType Leaf
-$MachineConfig_Leaf     = Test-Path -Path $Inst_rhid_Folder\$MachineConfig_File -PathType Leaf
-$TC_CalibrationXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$TC_CalibrationXML_File -PathType Leaf
-$DannoAppConfigCheck    = Test-Path -Path $Inst_rhid_Result\"Data $HostName"\$DannoAppConfigXML_File -PathType Leaf
-$DannoAppRhidCheck      = Test-Path -Path "D:\DannoGUI\DannoAppConfig.xml" -PathType Leaf
-$OverrideSettingsXML_Leaf = Test-Path -Path $Inst_rhid_Folder\$OverrideSettingsXML_File -PathType Leaf
-
-$Server_Internal    = Test-Path -Path "U:\$HostName\Internal\"
-$USServer_Internal  = Test-Path -Path "Y:\$HostName\Internal\"
-$Danno_leaf     = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
-$US_Danno_leaf  = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
-
-$RealtimeProtection = Get-MpPreference | select-object DisableRealtimeMonitoring
-$HIDAutoLitev295 = "C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE"
-
-$Debug = "off"
-$exicode = $Null
-$HistoryMode = "False"
-
+. $PSScriptRoot\GlobalVariables.ps1
 
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
@@ -104,56 +49,7 @@ $HistoryMode = "False"
 . $PSScriptRoot\XML_and_Config.ps1
 . $PSScriptRoot\CheckSum.ps1
 # add option to enable/disable script pre-run check
-$t = New-TimeSpan -Seconds 8
-$origpos = $host.UI.RawUI.CursorPosition
-$spinner = @('☼', '♀', '♂', '♠', '♣', '♥', '♦', '#')
-$spinnerPos = 0
-$remain = $t
-$d =( get-date) + $t
-$remain = ($d - (get-date))
-
-#coundown timer for script execution.
-while ($remain.TotalSeconds -gt 0) {
-	if ([Console]::KeyAvailable) {
-		$key = [Console]::ReadKey($true).Key
-		if ($key -in 'X', 'P', 'Spacebar', 'Enter') {
-			break # keypress to break out from whileloop
-		}
-	}
-			Write-Host (" {0} " -f $spinner[$spinnerPos%8]) -NoNewline
-			write-host (" {0:d3}s {1:d3}ms : Press spacebar/enter to stop script execution" -f $remain.Seconds, $remain.MilliSeconds) -NoNewline
-			$host.UI.RawUI.CursorPosition = $origpos
-			$spinnerPos += 1
-			Start-Sleep -seconds 0.5
-			$remain = ($d - (get-date))
-}
-		$host.UI.RawUI.CursorPosition = $origpos
-		Write-Host " * " -NoNewline
-
-switch ($key) {
-	('Spacebar' -or 'Enter') {
-		break
-	}
-	P {
-		debug
-	}
-	Q {
-		If ((Test-Path -PathType Leaf -Path $HIDAutoLitev295) -eq "True") {
-			Start-Process $HIDAutoLitev295
-		} Else {
-			Write-Host "$Info : HIDAutoLite License Registration Application not found" -ForegroundColor Yellow
-		}
-	}
-	C {
-		Clear-Host
-	}
-	V {
-		Start-Process "https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
-	}
-	default {
-		. $PSScriptRoot\Branch.ps1
-	}
-}
+. $PSScriptRoot\CountDown.ps1
 
 if ($EnableDescriptions -eq "True") {
 . $PSScriptRoot\RHID_Descriptions.ps1
