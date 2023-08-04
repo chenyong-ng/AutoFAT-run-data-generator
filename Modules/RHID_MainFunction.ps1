@@ -5,7 +5,6 @@ function RHID_MainFunctions {
 . $PSScriptRoot\AdapterTypes.ps1
 set-variable -name "serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
-Add-Type -Assembly System.Windows.Forms #duplicate entry
 $ScreenWidth = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
 $ScreenHeight = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
     if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -lt "1080")) {

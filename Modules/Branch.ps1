@@ -29,9 +29,7 @@ if ($SerialRegMatch -ne "True") {
     elseif (($LocalServerTestPath -or $US_ServerTestPath) -ne "True") {
         Write-Error -Message "Selected Serial Number $IndexedSerialNumber does not have record in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
     }
-}
-
-If (($serialNumber[4..13].count) -gt 0) {
+    
 $Arguments = $serialNumber[4, 5, 6, 7, 8, 9, 10,11,12,13]
 if ($Arguments -match 'v') {
     $VerboseMode = "True"

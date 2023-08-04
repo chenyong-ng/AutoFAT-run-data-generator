@@ -1,7 +1,6 @@
 ﻿
 if ($SerialRegMatch -eq "True") {
 <#
-Add-Type -Assembly System.Windows.Forms 
 "[Probing] USB Devices"
 $RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 $FPMatch = $RHID_USBDvices -match "TouchChip Fingerprint Coprocessor"
@@ -11,7 +10,7 @@ $CameraMAtch = $RHID_USBDvices -match "HD USB Camera"
 #Query for the mac address and ip address 
 
 function RHID_USBDevices_Check {
-Add-Type -Assembly System.Windows.Forms 
+
 "$Probing : USB Devices"
 $RHID_USBDevices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 $FPMatch = $RHID_USBDevices -match "TouchChip Fingerprint Coprocessor"

@@ -18,6 +18,7 @@ $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
 #>
+Add-Type -Assembly System.Windows.Forms 
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
 $ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 
