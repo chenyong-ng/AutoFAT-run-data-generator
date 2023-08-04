@@ -34,7 +34,8 @@ switch ($key) {
     Q {
         If ((Test-Path -PathType Leaf -Path $HIDAutoLitev295) -eq "True") {
             Start-Process $HIDAutoLitev295
-        }
+            Set-Clipboard IntegenXProduction & Set-Clipboard rhid-licensing@thermofisher.com
+        } 
         Else {
             Write-Host "$Info : HIDAutoLite License Registration Application not found" -ForegroundColor Yellow
             break
@@ -42,6 +43,7 @@ switch ($key) {
     }
     C {
         Clear-Host
+        break
     }
     V {
         Start-Process "https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"

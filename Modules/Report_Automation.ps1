@@ -19,7 +19,7 @@ $ini.path
 "profile 1 : "+$ini.Profile[1]
 #>
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
-$ScriptConfig = ([XML](Get-Content $ScriptConfigXML -Encoding utf8 -Raw)).ScriptConfig
+$ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 	$Drive 		= [String]$ScriptConfig.Workstation.Drive
@@ -33,6 +33,9 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 	$Path 		= [String]$ScriptConfig.Default.Path
 	$Danno		= [String]$ScriptConfig.Default.Danno
 } #RHID Workststion laptop has differnt network drive path
+
+$ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
+
 
 . $PSScriptRoot\GlobalVariables.ps1
 . $PSScriptRoot\RHID_Str.ps1
