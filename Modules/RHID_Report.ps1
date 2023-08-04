@@ -51,14 +51,14 @@ IF ($VerboseMode -ne "True") {
 
 Function RHID_ReportGen {
 $Section_Separator 
-Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive drive run data for consolidated test result..." -ForegroundColor Cyan
+Write-Host "[ RapidHIT ID] : Running query on Instrument $MachineName on $Drive for test result..." -ForegroundColor Cyan
 #Instrument hardware check
 if ($SerialRegMatch -eq "True") {
     RHID_USBDevices_Check
     ABRHID_Patch
     RHID_MainFunctions
     } else {
-    Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date until Instrument folder fully backed up" -ForegroundColor Yellow
+    Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date" -ForegroundColor Yellow
 }
 
 "$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  

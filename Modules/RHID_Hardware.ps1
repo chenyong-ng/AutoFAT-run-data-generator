@@ -15,11 +15,11 @@ function RHID_USBDevices_Check {
 $RHID_USBDevices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 $FPMatch = $RHID_USBDevices -match "TouchChip Fingerprint Coprocessor"
 $CameraMatch = $RHID_USBDevices -match "HD USB Camera"
-if ($FPMatch -eq "True" ) {
+if ([Bool]$FPMatch -eq "True" ) {
     $FP_Check = "Present"
     } else { $FP_Check = "N/A" }
     "$FP : $FP_Sensor_Str : $FP_Check"
-if ($CameraMatch -eq "True" ) {
+if ([Bool]$CameraMatch -eq "True" ) {
     $HD_USB_CAM_Check = "Present"
     } else { $HD_USB_CAM_Check = "N/A" }
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
