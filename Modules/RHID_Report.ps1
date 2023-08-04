@@ -21,7 +21,10 @@ $SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -
 $BufferPrimeScreenShot = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I BufferPrime*.* -R -ErrorAction SilentlyContinue
 "$Searching : BufferPrime Result Screenshot Counter : " + $BufferPrimeScreenShot.count
 #add option to disable image display
-"$Found : $BufferPrimeScreenShot" ; Start-Process $BufferPrimeScreenShot[-1]
+"$Found : $BufferPrimeScreenShot"
+IF ($NoIMGPopUp -ne "True") {
+Start-Process $BufferPrimeScreenShot[-1]
+}
 
 $DannoGUIStateXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 "$Searching : execution.log"

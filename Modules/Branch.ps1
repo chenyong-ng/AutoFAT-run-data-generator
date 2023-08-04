@@ -31,7 +31,8 @@ if ($SerialRegMatch -ne "True") {
     }
 }
 
-$Arguments = $serialNumber[4, 5, 6, 7, 8, 9, 10]
+If (($serialNumber[4..13].count) -gt 0) {
+$Arguments = $serialNumber[4, 5, 6, 7, 8, 9, 10,11,12,13]
 if ($Arguments -match 'v') {
     $VerboseMode = "True"
     Write-Host "$Info : [V]erboseMode Enabled via V switch" -ForegroundColor Yellow
@@ -42,13 +43,18 @@ if ($Arguments -match 'q') {
 }
 if ($Arguments -match 'r') {
     $NoReport = "True"
-    Write-Host "$Info : No [R]eport Log Generation via R switch" -ForegroundColor Yellow
+    Write-Host "$Info : [R]eport Log Generation Disabled via R switch" -ForegroundColor Yellow
 }
 if ($Arguments -match 'x') {
     $NoXML = "True"
-    Write-Host "$Info : No [X]ML Generation via X switch" -ForegroundColor Yellow
+    Write-Host "$Info : [X]ML Generation Disabled via X switch" -ForegroundColor Yellow
 }
 if ($Arguments -match 'd') {
     $EnableDescriptions = "True"
     Write-Host "$Info : Enabled more detailed description of each tests via D switch" -ForegroundColor Yellow
+}
+if ($Arguments -match 'I') {
+    $NoIMGPopUp = "True"
+    Write-Host "$Info : [I]mage Popup Disabled via G switch" -ForegroundColor Yellow
+}
 }
