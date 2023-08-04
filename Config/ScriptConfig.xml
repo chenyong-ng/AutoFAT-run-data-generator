@@ -26,18 +26,18 @@
 </Default>
 
 <!-- Script-wide Variables -->
-<Inst_rhid_Folder>E:\RapidHIT ID</Inst_rhid_Folder>
-<Inst_rhid_Result>E:\RapidHIT ID\Results</Inst_rhid_Result>
-
-<TC_CalibrationXML>TC_Calibration.XML</TC_CalibrationXML>
-<OverrideSettings>OverrideSettings.XML</OverrideSettings>
-<DannoAppConfig>DannoAppConfig.xml</DannoAppConfig>
-<MachineConfig>MachineConfig.xml</MachineConfig>
-<StatusData>StatusData_Graphs.pdf</StatusData>
-<GM_Analysis>GM_Analysis.sgf</GM_Analysis>
-<TC_CalibrationXML_File>TC_Calibration.xml</TC_CalibrationXML_File>
-<DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
-<OverrideSettingsXML_File>OverrideSettings.xml</OverrideSettingsXML_File>
-<HIDAutoLitev295>C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE</HIDAutoLitev295>
-
+<Global>
+    <Inst_rhid_Folder>E:\RapidHIT ID</Inst_rhid_Folder>
+    <Inst_rhid_Result>E:\RapidHIT ID\Results</Inst_rhid_Result>
+    <TC_CalibrationXML>TC_Calibration.XML</TC_CalibrationXML>
+    <OverrideSettings>OverrideSettings.XML</OverrideSettings>
+    <DannoAppConfig>DannoAppConfig.xml</DannoAppConfig>
+    <MachineConfig>MachineConfig.xml</MachineConfig>
+    <StatusData>StatusData_Graphs.pdf</StatusData>
+    <GM_Analysis>GM_Analysis.sgf</GM_Analysis>
+    <TC_CalibrationXML_File>TC_Calibration.xml</TC_CalibrationXML_File>
+    <DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
+    <OverrideSettingsXML_File>OverrideSettings.xml</OverrideSettingsXML_File>
+    <HIDAutoLitev295>C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE</HIDAutoLitev295>
+</Global>
 </ScriptConfig>

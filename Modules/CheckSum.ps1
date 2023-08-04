@@ -91,7 +91,7 @@ $ScriptPreCheck[0..2] >> $ScriptMetadataTXT
 #disable git.exe detection on instrument
 #export git info then read from file
 Add-Content -Path "$ScriptMetadataTXT" -PassThru -Value "
-$Info : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate" 
+$GitCommitInfo" 
 
 ((Get-Content $ScriptMetadataTXT).replace('something1', 'something1aa').replace('something2', 'something1bb')) | out-file $ScriptMetadataTXT 
 

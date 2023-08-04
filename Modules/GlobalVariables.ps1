@@ -14,6 +14,7 @@ if (((get-command git -ErrorAction SilentlyContinue).Path -match "git.exe") -eq 
     $GitCommitDate = (git log -1 --date=local --format=%cd)
     $GitCommitHash = (git rev-parse --short HEAD)
     $GitCommitBranch = (git branch --show current)
+    $GitCommitInfo = "$Info : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate"
 }
 $Inst_rhid_Folder   = "E:\RapidHIT ID"
 $Inst_rhid_Result   = "E:\RapidHIT ID\Results"

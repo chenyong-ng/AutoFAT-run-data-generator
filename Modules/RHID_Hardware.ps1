@@ -10,31 +10,32 @@ $CameraMAtch = $RHID_USBDvices -match "HD USB Camera"
 #Query for the mac address and ip address 
 
 function RHID_USBDevices_Check {
-
-"$Probing : USB Devices"
+"$Probing : USB Camera and Fingerprint Sensor"
 $RHID_USBDevices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
 $FPMatch = $RHID_USBDevices -match "TouchChip Fingerprint Coprocessor"
 $CameraMatch = $RHID_USBDevices -match "HD USB Camera"
 if ([Bool]$FPMatch -eq "True" ) {
     $FP_Check = "Present"
-    } else { $FP_Check = "N/A" }
+    } else {
+    $FP_Check = "N/A" }
     "$FP : $FP_Sensor_Str : $FP_Check"
 if ([Bool]$CameraMatch -eq "True" ) {
     $HD_USB_CAM_Check = "Present"
-    } else { $HD_USB_CAM_Check = "N/A" }
+    } else {
+    $HD_USB_CAM_Check = "N/A" }
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
-    "$info : $RHID_USBDevices"
 }
+"$info : $FPMatch"
+"$info : $CameraMatch"
 
 function ABRHID_Patch {
-        "$Probing : ABRHID_Win10_Patch20201208 Presence"
-        $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
+    "$Probing : ABRHID_Win10_Patch20201208 Presence"
+    $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
     $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
     if ($Win10patch_leaf -eq "True") {
         $Win10patch = Get-ItemPropertyValue "$Win110Patch_RegKey" 'DisplayName'
         Write-host "$info : $Win10patch Installed" -ForegroundColor Magenta
-    }
-    else {
+    } else {
         Write-host "$Warning : Patch ABRHID_Win10_Patch20201208 not installed" -ForegroundColor red
     }
 }

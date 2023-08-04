@@ -37,7 +37,6 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 
 $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
 
-
 . $PSScriptRoot\GlobalVariables.ps1
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
