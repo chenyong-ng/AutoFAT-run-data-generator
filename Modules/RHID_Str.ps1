@@ -12,7 +12,7 @@ $SHP_BEC      = "[Shipping BEC]" ; $Error_msg    = "[ Error! ]"     ; $SyringePu
 $Anode_Motor  = "[Anode Motor ]" ; $Gel_RFID     = "[ Gel_RFID   ]" ; $BEC_Itlck    = "[ BEC_Intlck ]" ; $Looping      = "[ Looping    ]"
 $HP_FAT       = "[ HP FAT     ]" ; $Syrg_Pmp     = "[Syringe Pump]" ; $Piezo        = "[ Piezo      ]" ; $LogTimer     = "[ LogTimer   ]"
 $LP_FAT       = "[ LP FAT     ]" ; $HV           = "[ HV         ]" ; $FP           = "[ FP Sensor  ]" ; $Desc         = "[Descriptions]"
-$Mezz_PCBA    = "[ MEZZ PCBA  ]" ; $MezzActuator = "[MezzActuator]" ; $Warning      = "[ Warning    ]" 
+$Mezz_PCBA    = "[ MEZZ PCBA  ]" ; $MezzActuator = "[MezzActuator]" ; $Warning      = "[ Warning    ]" ; $Probing      = "[ Probing    ]"
 $Laser        = "[ Laser      ]" ; $BEC_Insertion= "[BECInsertion]" ; $HD_USB_CAM   = "[ HD USB CAM ]"
 $Test_Failed  = ": Test FAILED"  ; $Test_Passed  = ": Test PASSED"  ; $Test_NA      = ": Test N/A"
 

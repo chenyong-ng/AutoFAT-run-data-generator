@@ -12,10 +12,10 @@ $CameraMAtch = $RHID_USBDvices -match "HD USB Camera"
 
 function RHID_USBDevices_Check {
 Add-Type -Assembly System.Windows.Forms 
-"[Probing] USB Devices"
-$RHID_USBDvices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
-$FPMatch = $RHID_USBDvices -match "TouchChip Fingerprint Coprocessor"
-$CameraMatch = $RHID_USBDvices -match "HD USB Camera"
+"$Probing : USB Devices"
+$RHID_USBDevices = (Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' } | Select-String "TouchChip Fingerprint Coprocessor", "HD USB Camera" )
+$FPMatch = $RHID_USBDevices -match "TouchChip Fingerprint Coprocessor"
+$CameraMatch = $RHID_USBDevices -match "HD USB Camera"
 if ($FPMatch -eq "True" ) {
     $FP_Check = "Present"
     } else { $FP_Check = "N/A" }
@@ -24,11 +24,11 @@ if ($CameraMatch -eq "True" ) {
     $HD_USB_CAM_Check = "Present"
     } else { $HD_USB_CAM_Check = "N/A" }
     "$HD_USB_CAM : $HD_USB_CAM_Str : $HD_USB_CAM_Check"
-    "$info : $RHID_USBDvices"
+    "$info : $RHID_USBDevices"
 }
 
 function ABRHID_Patch {
-        "[Probing] ABRHID_Win10_Patch20201208 Presence"
+        "$Probing : ABRHID_Win10_Patch20201208 Presence"
         $Win110Patch_RegKey = "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1"
     $Win10patch_leaf = Test-Path -Path "$Win110Patch_RegKey" 
     if ($Win10patch_leaf -eq "True") {

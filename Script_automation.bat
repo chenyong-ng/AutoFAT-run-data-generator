@@ -11,7 +11,7 @@ if %Errorlevel%==0 (
 pushd "%~dp0%"
 rem Pushd does not work with folder name containts dash symbol, as it will fail to work, necessary for Git 
 If Exist "%~dp0\Modules\Report_Automation.ps1" (
-	%PowerShell% -Mta -ExecutionPolicy ByPass -File "%~dp0\Modules\Report_Automation.ps1"
+	%PowerShell% -sta -ExecutionPolicy ByPass -File "%~dp0\Modules\Report_Automation.ps1"
 rem Inline Powershell Workaround for different Powershell version in Workstation environment and the Instruments
 )
 @echo [Batch Script] : Press any key to Clear Console screen and refresh test result.

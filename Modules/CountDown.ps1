@@ -1,4 +1,4 @@
-$t = New-TimeSpan -Seconds 8
+﻿$t = New-TimeSpan -Seconds 8
 $origpos = $host.UI.RawUI.CursorPosition
 $spinner = @('☼', '♀', '♂', '♠', '♣', '♥', '♦', '#')
 $spinnerPos = 0
@@ -34,7 +34,9 @@ switch ($key) {
     Q {
         If ((Test-Path -PathType Leaf -Path $HIDAutoLitev295) -eq "True") {
             Start-Process $HIDAutoLitev295
-            Set-Clipboard IntegenXProduction & Set-Clipboard rhid-licensing@thermofisher.com
+            Set-Clipboard rhid-licensing@thermofisher.com
+            start-sleep 0.5
+            Set-Clipboard IntegenXProduction
         } 
         Else {
             Write-Host "$Info : HIDAutoLite License Registration Application not found" -ForegroundColor Yellow
