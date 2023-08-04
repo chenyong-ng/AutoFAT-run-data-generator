@@ -20,7 +20,7 @@ function RHID_CoverOn_FullRun {
 <#
 Cover On Allelic Ladder Tests
 #>
-IF ($GM_ILS_Score_Allelic_Ladder[-1].count -gt "0") {
+IF ($GM_ILS_Score_Allelic_Ladder.count -gt "0") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
     $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
     $DxCode = Get-ChildItem $serverdir_Ladder -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -36,7 +36,7 @@ $Section_Separator
 <#
 Cover On GFE Tests
 #>
-IF ($GM_ILS_Score_GFE_007[-1].count -gt "0") {
+IF ($GM_ILS_Score_GFE_007.count -gt "0") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_GFE_007 = "$Drive\$MachineName\*GFE_007*"
     $DxCode = Get-ChildItem $serverdir_GFE_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -54,7 +54,7 @@ $Section_SeparatoR
 Cover On NGM Tests, to be retired after NGM Catridges runs out of supply after May of 2023
 Keeping codes for checking test results for older instruments
 #>
-IF ($GM_ILS_Score_NGM_007[-1].count -gt "0") {
+IF ($GM_ILS_Score_NGM_007.count -gt "0") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
     $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
     $DxCode = Get-ChildItem $serverdir_NGM_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
@@ -72,7 +72,7 @@ $Section_Separator
 <#
 Cover On Blank Tests
 #>
-IF ($GM_ILS_Score_BLANK[-1].count -gt "0") {
+IF ($GM_ILS_Score_BLANK.count -gt "0") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
     $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
