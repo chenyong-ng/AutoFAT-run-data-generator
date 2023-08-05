@@ -35,7 +35,7 @@ switch ($key) {
         If ((Test-Path -PathType Leaf -Path $HIDAutoLitev295) -eq "True") {
             Start-Process $HIDAutoLitev295
             Set-Clipboard rhid-licensing@thermofisher.com
-            start-sleep 0.5
+            start-sleep 1
             Set-Clipboard IntegenXProduction
         } 
         Else {

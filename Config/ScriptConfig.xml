@@ -39,5 +39,12 @@
     <DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
     <OverrideSettingsXML_File>OverrideSettings.xml</OverrideSettingsXML_File>
     <HIDAutoLitev295>C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE</HIDAutoLitev295>
+    <!-- Windows Tools -->
+    <Notepad>Notepad.exe</Notepad>
+    <SnippingTool>SnippingTool.exe</SnippingTool>
+    <!-- Broadcom Waves -->
+    <Broadcom_Waves>C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe</Broadcom_Waves>
+    <!-- RHID I/O Diagnostic Tool -->
+    <GuiSec>D:\gui-sec\gui_sec_V1001_4_79.exe</GuiSec>
 </Global>
 </ScriptConfig>

@@ -103,11 +103,11 @@ $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
         "$info : Make sure AutoFAT is not running, as Waves will cause resource conflict"
 
         if ($keypress -eq 'y') {
-            Start-Process -WindowStyle Normal -FilePath notepad.exe "TC_verification $HostName.TXT"
-            Start-Process -WindowStyle Normal -FilePath SnippingTool.exe
-            Start-Process -WindowStyle Normal -FilePath C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe
-            Start-Process -WindowStyle Normal -FilePath D:\gui-sec\gui_sec_V1001_4_79.exe
-        }    
+            Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.Notepad "TC_verification $HostName.TXT"
+            Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.SnippingTool
+            Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.Broadcom_Waves
+            Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.GuiSec
     }
+}
 }
  # Main function to check whether if it's RHID instrument or Workstation
