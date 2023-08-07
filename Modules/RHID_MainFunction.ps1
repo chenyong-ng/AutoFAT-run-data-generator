@@ -3,6 +3,7 @@ function RHID_MainFunctions {
 . $PSScriptRoot\set-volume.ps1
 . $PSScriptRoot\Set-ScreenResolutionEx.ps1
 . $PSScriptRoot\AdapterTypes.ps1
+# . $PSScriptRoot\RHID_MiniFunctions.ps1
 set-variable -name "serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
 $ScreenWidth = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
