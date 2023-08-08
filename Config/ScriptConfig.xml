@@ -27,6 +27,7 @@
 
 <!-- Script-wide Variables -->
 <Global>
+    <PST>(UTC-08:00) Pacific Time (US &amp; Canada)</PST>
     <Inst_rhid_Folder>E:\RapidHIT ID</Inst_rhid_Folder>
     <Inst_rhid_Result>E:\RapidHIT ID\Results</Inst_rhid_Result>
     <TC_CalibrationXML>TC_Calibration.XML</TC_CalibrationXML>

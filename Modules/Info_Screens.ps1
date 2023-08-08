@@ -1,6 +1,3 @@
-Add-Type -AssemblyName System.Windows.Forms
-$screen_cnt  = [System.Windows.Forms.Screen]::AllScreens.Count
-$col_screens = [system.windows.forms.screen]::AllScreens
 
 $info_screens = ($col_screens | ForEach-Object {
 if ("$($_.Primary)" -eq "True") {$monitor_type = "Primary Monitor    "} else {$monitor_type = "Secondary Monitor  "}

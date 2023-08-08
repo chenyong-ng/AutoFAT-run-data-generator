@@ -19,6 +19,12 @@ $ini.path
 "profile 1 : "+$ini.Profile[1]
 #>
 Add-Type -Assembly System.Windows.Forms 
+# Add-Type -AssemblyName System.Windows.Forms
+$screen_cnt 	= [System.Windows.Forms.Screen]::AllScreens.Count
+$col_screens 	= [System.Windows.Forms.Screen]::AllScreens
+$ScreenWidth 	= [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
+$ScreenHeight 	= [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
+
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
 $ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 
@@ -55,3 +61,4 @@ $TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
 $TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
 . $PSScriptRoot\RHID_XmlWriter.ps1
 . $PSScriptRoot\RHID_Report.ps1
+

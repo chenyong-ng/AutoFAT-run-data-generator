@@ -1,5 +1,4 @@
-$ScreenWidth = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
-$ScreenHeight = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
+
 if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -lt "1080")) {
     displayswitch /external
     Start-Sleep -Seconds 5
@@ -9,7 +8,8 @@ if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -lt "1080")) {
 else { Write-Host "$info : Display Resolution: $ScreenWidth x $ScreenHeight" }
 Write-Host "$info : Display Type: $strMonitors"
 
-if ($SystemTimeZone -ne "(UTC-08:00) Pacific Time (US & Canada)" ) {
+$PST_TimeZone = [String]$ScriptConfig.Global.PST
+if ($SystemTimeZone -ne "$PST_TimeZone" ) {
     Write-host "$Warning : Wrong Time Zone setting! Check Date setting in BIOS" -ForegroundColor Red
 }
 else {
