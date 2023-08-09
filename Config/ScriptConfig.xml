@@ -27,6 +27,7 @@
 
 <!-- Script-wide Variables -->
 <Global>
+    <RHID_Firmware79>1001.4.79</RHID_Firmware79>
     <PST>(UTC-08:00) Pacific Time (US &amp; Canada)</PST>
     <Inst_rhid_Folder>E:\RapidHIT ID</Inst_rhid_Folder>
     <Inst_rhid_Result>E:\RapidHIT ID\Results</Inst_rhid_Result>

@@ -51,6 +51,7 @@ $US_Danno_leaf              = Test-Path -Path "Y:\Dano Planning\Test Data\$HostN
 $RealtimeProtection         = Get-MpPreference | select-object DisableRealtimeMonitoring
 
 $ConsoleWidth               = (Get-Host).UI.RawUI.buffersize.width
+$Section_Separator          = ("=" * $ConsoleWidth) # Adaptive Consoles Seperator
 
 $Debug = "off"
 $exicode = $Null
