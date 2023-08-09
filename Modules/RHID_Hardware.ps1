@@ -78,9 +78,9 @@ IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number
 #>
 
 "$Loading : Main board and Mezz PCB textual filtering commands"
-$RHID_Mainboard_FW_Ver              = (($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
-$RHID_Mezzbaord_FW_Ver              = (($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
-$RHID_ExecutionLOG                  = ($ExecutionLOG | Select-String 'Your trial has | License is Valid')[-1]
+$RHID_Mainboard_FW_Ver              = (($storyboard     | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
+$RHID_Mezzbaord_FW_Ver              = (($storyboard     | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
+$RHID_ExecutionLOG                  = ($ExecutionLOG    | Select-String 'Your trial has | License is Valid')[-1]
 # $RHID_ExecutionLOG_Valid= $ExecutionLOG | Select-String "License is Valid" | Select-object -last 1
 $RHID_GM_Analysis_PeakTable         = ($GM_Analysis_PeakTable | Select-String "Date/Time:")[-1]
 "$Found : $RHID_Mainboard_FW_Ver"
@@ -94,17 +94,17 @@ $RHID_TC_Calibration                = $TC_CalibrationXML | Select-Xml -XPath "//
 "$Found : $RHID_TC_Calibration"
 
 "$Looping : through MachineConfigXML "
-$RHID_MachineConfig_SN              = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HWVer           = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_SN              = $MachineConfigXML  | Select-Xml -XPath "//MachineName"    | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HWVer           = $MachineConfigXML  | Select-Xml -XPath "//HWVersion"      | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_HWID            = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_ServerPath      = $MachineConfigXML  | Select-Xml -XPath "//DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_Syringe         = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Blue            = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Blue            = $MachineConfigXML  | Select-Xml -XPath "//Signature"      | ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_SCI             = $MachineConfigXML  | Select-Xml -XPath "//FluidicHomeOffset_mm | //PreMixHomeOffset_mm | //DiluentHomeOffset_mm"| ForEach-Object { $_.node.InnerXML }
 $RHID_MachineConfig_BEC             = $MachineConfigXML  | Select-Xml -XPath "//IsBECInsertion | //LastGelPurgeOK | //RunsSinceLastGelFill" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_PrimeWater      = $MachineConfigXML  | Select-Xml -XPath "//Water"| ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML | Select-Xml -XPath "//LysisBuffer" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Laser           = $MachineConfigXML  | Select-Xml -XPath "//LaserHours" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_PrimeWater      = $MachineConfigXML  | Select-Xml -XPath "//Water"          | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML | Select-Xml -XPath "//LysisBuffer"    | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Laser           = $MachineConfigXML  | Select-Xml -XPath "//LaserHours"     | ForEach-Object { $_.node.InnerXML }
 
 "$Found : MachineName               : $RHID_MachineConfig_SN"
 "$Found : HWVersion                 : $RHID_MachineConfig_HWVer"

@@ -38,12 +38,13 @@
     <MachineConfigXML_File>MachineConfig.xml</MachineConfigXML_File>
     <StatusDataPDF_File>StatusData_Graphs.pdf</StatusDataPDF_File>
     <GM_AnalysisSGF_File>GM_Analysis.sgf</GM_AnalysisSGF_File>
-    <TC_CalibrationXML_File>TC_Calibration.xml</TC_CalibrationXML_File>
     <DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
     <OverrideSettingsXML_File>OverrideSettings.xml</OverrideSettingsXML_File>
     <SampleQualityTXT_File>SampleQuality.txt</SampleQualityTXT_File>
     <ExcutionLOG_File>execution.log</ExcutionLOG_File>
     <GM_Analysis_PeakTableTXT_File>GM_Analysis_PeakTable.txt</GM_Analysis_PeakTableTXT_File>
+    <ABRHID_Win10_Patch_Str>ABRHID_Win10_Patch20201208</ABRHID_Win10_Patch_Str>
+    <Win110Patch_RegKey>HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{96236EEA-504A-4395-8C4D-299A6CA26A3F}_is1</Win110Patch_RegKey>
 </Global>
 <Apps>
     <HIDAutoLitev295>C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE</HIDAutoLitev295>
