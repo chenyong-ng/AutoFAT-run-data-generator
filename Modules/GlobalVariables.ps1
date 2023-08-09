@@ -32,6 +32,11 @@ $TestResultLOG_File         = "TestResult $MachineName.LOG"
 $ScriptMetadataTXT          = "$Env:Temp\$HostName\Script_Metadata.txt"
 $ScriptMetadataXML          = "$Env:Temp\$HostName\Script_Metadata.XML"
 
+$LogTimerStart              = "$LogTimer : Logging Started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"
+$LogTimerEnd                = "$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
+$TestResultLOG_File         = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].LOG"
+$TestResultXML_File         = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].XML"
+
 $TestResultLOG_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$HostName\Internal\$TestResultLOG_File"
 $TestResultXML_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$HostName\Internal\$TestResultXML_File"
 $Nonlinearity_Leaf          = Test-Path -PathType Leaf -Path $Inst_rhid_Result\$Nonlinearity_File

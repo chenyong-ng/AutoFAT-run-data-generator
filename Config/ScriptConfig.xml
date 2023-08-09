@@ -31,15 +31,19 @@
     <PST>(UTC-08:00) Pacific Time (US &amp; Canada)</PST>
     <Inst_rhid_Folder>E:\RapidHIT ID</Inst_rhid_Folder>
     <Inst_rhid_Result>E:\RapidHIT ID\Results</Inst_rhid_Result>
-    <TC_CalibrationXML>TC_Calibration.XML</TC_CalibrationXML>
-    <OverrideSettings>OverrideSettings.XML</OverrideSettings>
-    <DannoAppConfig>DannoAppConfig.xml</DannoAppConfig>
-    <MachineConfig>MachineConfig.xml</MachineConfig>
-    <StatusData>StatusData_Graphs.pdf</StatusData>
-    <GM_Analysis>GM_Analysis.sgf</GM_Analysis>
+    <TC_CalibrationXML_File>TC_Calibration.XML</TC_CalibrationXML_File>
+    <OverrideSettingsXML_File>OverrideSettings.XML</OverrideSettingsXML_File>
+    <DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
+    <DannoGUIStateXML_File>DannoGUIState.xml</DannoGUIStateXML_File>
+    <MachineConfigXML_File>MachineConfig.xml</MachineConfigXML_File>
+    <StatusDataPDF_File>StatusData_Graphs.pdf</StatusDataPDF_File>
+    <GM_AnalysisSGF_File>GM_Analysis.sgf</GM_AnalysisSGF_File>
     <TC_CalibrationXML_File>TC_Calibration.xml</TC_CalibrationXML_File>
     <DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
     <OverrideSettingsXML_File>OverrideSettings.xml</OverrideSettingsXML_File>
+    <SampleQualityTXT_File>SampleQuality.txt</SampleQualityTXT_File>
+    <ExcutionLOG_File>execution.log</ExcutionLOG_File>
+    <GM_Analysis_PeakTableTXT_File>GM_Analysis_PeakTable.txt</GM_Analysis_PeakTableTXT_File>
 </Global>
 <Apps>
     <HIDAutoLitev295>C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE</HIDAutoLitev295>

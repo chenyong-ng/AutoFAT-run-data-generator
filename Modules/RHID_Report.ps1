@@ -16,8 +16,8 @@ $MachineConfigXML   = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_
 "$Searching : TC_Calibration.xml"
 $TC_CalibrationXML  = Get-Childitem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
 "$Searching : SampleQuality.txt"
-$SampleQuality      = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
-"$Searching : DannoGUIState.xml"
+$SampleQuality      = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"       -I SampleQuality.txt -R -ErrorAction SilentlyContinue
+
 $BufferPrimeScreenShot = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I BufferPrime*.* -R -ErrorAction SilentlyContinue
 "$Searching : BufferPrime Result Screenshot Counter : " + $BufferPrimeScreenShot.count
 #add option to disable image display
@@ -28,7 +28,7 @@ Start-Process $BufferPrimeScreenShot[-1]
     # Start-Process "$Inst_rhid_Result\$Nonlinearity_File" , "$US_serverdir\$Nonlinearity_File"
     # Start-Process "$Inst_rhid_Result\$Waves_File" , "$US_serverdir\$Waves_File"
 }
-
+"$Searching : DannoGUIState.xml"
 $DannoGUIStateXML   = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 "$Searching : execution.log"
 $ExecutionLOG       = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I execution.log -R -ErrorAction SilentlyContinue
@@ -64,7 +64,7 @@ if ($SerialRegMatch -eq "True") {
     Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date" -ForegroundColor Yellow
 }
 
-"$LogTimer : Logging started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"  
+$LogTimerStart
 RHID_Optics
 RHID_TC
 RHID_TC_Verification
@@ -100,7 +100,7 @@ $Section_Separator
 RHID_TempHumi_Check
 $Section_Separator 
 RHID_ShipPrep_Check
-"$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
+$LogTimerEnd
 }
 
 IF ($QuiteMode -ne "True") {
@@ -109,15 +109,15 @@ IF ($QuiteMode -ne "True") {
 
 IF ($NoReport -ne "True") {
     RHID_ReportGen *> $TempLogFile
-$TestResultLOG_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].LOG"
+$TestResultLOG_File
 Copy-Item -Force $TempLogFile -Destination $TestResultLOG_File
-notepad $TestResultLOG_File
+Start-Process -WindowStyle Minimized -FilePath [String]$ScriptConfig.Apps.Notepad "$TestResultLOG_File"
 }
 
 IF ($NoXML -ne "True") {
-$TestResultXML_File = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].XML"
+$TestResultXML_File
 Copy-Item -Force $TempXMLFile -Destination $TestResultXML_File
-notepad $TestResultXML_File
+Start-Process -WindowStyle Minimized -FilePath [String]$ScriptConfig.Apps.Notepad "$TestResultXML_File"
 }
 "$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name
 "$info : Script ended with exit code of $LASTEXITCODE"
