@@ -1,10 +1,10 @@
-﻿$t = New-TimeSpan -Seconds 8
-$origpos = $host.UI.RawUI.CursorPosition
-$spinner = @('☼', '♀', '♂', '♠', '♣', '♥', '♦', '#')
+﻿$t          = New-TimeSpan -Seconds 8
+$origpos    = $host.UI.RawUI.CursorPosition
+$spinner    = @('☼', '♀', '♂', '♠', '♣', '♥', '♦', '#')
 $spinnerPos = 0
-$remain = $t
-$d = ( get-date) + $t
-$remain = ($d - (get-date))
+$remain     = $t
+$d          = ( get-date) + $t
+$remain     = ($d - (get-date))
 
 #coundown timer for script execution.
 while ($remain.TotalSeconds -gt 0) {

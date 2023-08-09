@@ -1,5 +1,5 @@
 if ($SerialRegMatch -ne "True") {
-    $RHID_FolderList = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
+    $RHID_FolderList        = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
     Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
     $RHID_FolderList | Format-wide -Property name -AutoSize
     "$Info : For latest update, get source code from Github:"
@@ -17,42 +17,42 @@ if ($SerialRegMatch -ne "True") {
     "$Info :	R to disable Report Log Generation, X to disable XML Generation"
     "$Info :	D to enable descriptive information"
     #"$Info : Enter again to show detailed information for additional switches for various options"
-    $SerialNumber = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
-    $IndexedSerialNumber = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
+    $SerialNumber           = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
+    $IndexedSerialNumber    = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
     # add option to check additional serial numbers
     # add function to initiate HIDAutolite with code and email for troubleshoot
-    $LocalServerTestPath = Test-Path -Path $path-$IndexedSerialNumber
-    $US_ServerTestPath = Test-Path -Path $US_path-$IndexedSerialNumber
+    $LocalServerTestPath    = Test-Path -Path $path-$IndexedSerialNumber
+    $US_ServerTestPath      = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {
         break
     }
     elseif (($LocalServerTestPath -or $US_ServerTestPath) -ne "True") {
-        Write-Error -Message "Selected Serial Number $IndexedSerialNumber does not have record in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
+        Write-Error -Message "No Matchiing Serial Number $IndexedSerialNumber found in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
     }
     
 $Arguments = $serialNumber[4, 5, 6, 7, 8, 9, 10,11,12,13]
 if ($Arguments -match 'v') {
-    $VerboseMode = "True"
-    Write-Host "$Info : [V] Swtich Activated, VerboseMode Enabled" -ForegroundColor Yellow
+    $VerboseMode            = "True"
+    Write-Host "$Info : [V] Swtich Activated, VerboseMode Enabled"                   -ForegroundColor Yellow
 }
 if ($Arguments -match 'q') {
-    $QuiteMode = "True"
-    Write-Host "$Info : [Q] Switch Activated, Quiet Mode Enabled" -ForegroundColor Yellow
+    $QuiteMode              = "True"
+    Write-Host "$Info : [Q] Switch Activated, Quiet Mode Enabled"                    -ForegroundColor Yellow
 }
 if ($Arguments -match 'r') {
-    $NoReport = "True"
-    Write-Host "$Info : [R] Switch Activated, Report Log Generation Disabled" -ForegroundColor Yellow
+    $NoReport               = "True"
+    Write-Host "$Info : [R] Switch Activated, Report Log Generation Disabled"        -ForegroundColor Yellow
 }
 if ($Arguments -match 'x') {
-    $NoXML = "True"
-    Write-Host "$Info : [X] Switch Activated, XML Generation Disable" -ForegroundColor Yellow
+    $NoXML                  = "True"
+    Write-Host "$Info : [X] Switch Activated, XML Generation Disable"                -ForegroundColor Yellow
 }
 if ($Arguments -match 'd') {
-    $EnableDescriptions = "True"
+    $EnableDescriptions     = "True"
     Write-Host "$Info : [D] Switch Activated, Detailed Describion Enabled For Each Tests" -ForegroundColor Yellow
 }
 if ($Arguments -match 'I') {
-    $NoIMGPopUp = "True"
-    Write-Host "$Info : [I] Switch Activated, Image Popup Disabled" -ForegroundColor Yellow
+    $NoIMGPopUp             = "True"
+    Write-Host "$Info : [I] Switch Activated, Image Popup Disabled"                 -ForegroundColor Yellow
 }
 }

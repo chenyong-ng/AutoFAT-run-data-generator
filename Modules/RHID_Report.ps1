@@ -1,22 +1,22 @@
 
-$US_serverdir = "$US_path-$IndexedSerialNumber"
-$serverdir = "$path-$IndexedSerialNumber"
-$LocalFolder = "$Inst_rhid_Result"
-$storyboard = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
+$US_serverdir       = "$US_path-$IndexedSerialNumber"
+$serverdir          = "$path-$IndexedSerialNumber"
+$LocalFolder        = "$Inst_rhid_Result"
+$storyboard         = Get-ChildItem "$serverdir", "$US_serverdir", "$localFolder" -I storyboard*.* -R -ErrorAction SilentlyContinue
 if ($storyboard.count -eq 0) {
     Write-Host "$Info : Storyboard logfile does not exist, Select the correct Serial Number to proceed" -ForegroundColor red
     break
 }
 "$Searching : MachineName"
-$MachineName = (($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart())[-1]
+$MachineName        = (($storyboard | Select-String "MachineName" | Select-Object -First 1).Line.Split(":").TrimStart())[-1]
 "$Found : $MachineName"
 
 "$Searching : MachineConfig.xml"
-$MachineConfigXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue
+$MachineConfigXML   = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I MachineConfig.xml -R -ErrorAction SilentlyContinue
 "$Searching : TC_Calibration.xml"
-$TC_CalibrationXML = Get-Childitem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
+$TC_CalibrationXML  = Get-Childitem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
 "$Searching : SampleQuality.txt"
-$SampleQuality = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
+$SampleQuality      = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I SampleQuality.txt -R -ErrorAction SilentlyContinue
 "$Searching : DannoGUIState.xml"
 $BufferPrimeScreenShot = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rhid_Folder"  -I BufferPrime*.* -R -ErrorAction SilentlyContinue
 "$Searching : BufferPrime Result Screenshot Counter : " + $BufferPrimeScreenShot.count
@@ -24,11 +24,14 @@ $BufferPrimeScreenShot = Get-ChildItem  "$serverdir", "$US_serverdir", "$Inst_rh
 "$Found : $BufferPrimeScreenShot"
 IF ($NoIMGPopUp -ne "True") {
 Start-Process $BufferPrimeScreenShot[-1]
+# placeholder: check before open
+    # Start-Process "$Inst_rhid_Result\$Nonlinearity_File" , "$US_serverdir\$Nonlinearity_File"
+    # Start-Process "$Inst_rhid_Result\$Waves_File" , "$US_serverdir\$Waves_File"
 }
 
-$DannoGUIStateXML = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
+$DannoGUIStateXML   = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 "$Searching : execution.log"
-$ExecutionLOG = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I execution.log -R -ErrorAction SilentlyContinue
+$ExecutionLOG       = Get-ChildItem  "$serverdir", "$US_serverdir", "$localFolder"  -I execution.log -R -ErrorAction SilentlyContinue
 "$Searching : BEC Insertion Storyboard.txt" 
 $CoverOn_BEC_Reinsert = Get-ChildItem "$serverdir\*BEC Insertion BEC_*" , "$US_serverdir\*BEC Insertion BEC_*" -I storyboard*.* -R -ErrorAction SilentlyContinue
 "$Searching : GM_Analysis_PeakTable.txt" 
