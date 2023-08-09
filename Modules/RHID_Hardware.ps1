@@ -78,11 +78,11 @@ IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number
 #>
 
 "$Loading : Main board and Mezz PCB textual filtering commands"
-$RHID_Mainboard_FW_Ver  = (($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
-$RHID_Mezzbaord_FW_Ver  = (($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
-$RHID_ExecutionLOG      = ($ExecutionLOG | Select-String 'Your trial has | License is Valid')[-1]
+$RHID_Mainboard_FW_Ver              = (($storyboard | Select-String "Main board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
+$RHID_Mezzbaord_FW_Ver              = (($storyboard | Select-String "Mezz board firmware version" | Select-object -last 1).line.split(":").TrimStart())[-1]
+$RHID_ExecutionLOG                  = ($ExecutionLOG | Select-String 'Your trial has | License is Valid')[-1]
 # $RHID_ExecutionLOG_Valid= $ExecutionLOG | Select-String "License is Valid" | Select-object -last 1
-$RHID_GM_Analysis_PeakTable = ($GM_Analysis_PeakTable | Select-String "Date/Time:")[-1]
+$RHID_GM_Analysis_PeakTable         = ($GM_Analysis_PeakTable | Select-String "Date/Time:")[-1]
 "$Found : $RHID_Mainboard_FW_Ver"
 "$Found : $RHID_Mezzbaord_FW_Ver"
 "$Found : $RHID_ExecutionLOG"
@@ -90,28 +90,28 @@ $RHID_GM_Analysis_PeakTable = ($GM_Analysis_PeakTable | Select-String "Date/Time
 #If ($VerboseMode -eq "True") { $RHID_Mainboard_FW_Ver , $RHID_Mezzbaord_FW_Ver , $RHID_ExecutionLOG , $RHID_GM_Analysis_PeakTable }
 
 "$Looping : TC_CalibrationXML"
-$RHID_TC_Calibration    = $TC_CalibrationXML | Select-Xml -XPath "//MachineName | //Offsets" | ForEach-Object { $_.node.InnerXML }
+$RHID_TC_Calibration                = $TC_CalibrationXML | Select-Xml -XPath "//MachineName | //Offsets" | ForEach-Object { $_.node.InnerXML }
 "$Found : $RHID_TC_Calibration"
 
 "$Looping : through MachineConfigXML "
-$RHID_MachineConfig_SN     = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HWVer = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_HWID    = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_ServerPath = $MachineConfigXML  | Select-Xml -XPath "//DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Syringe = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Blue   = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_SCI    = $MachineConfigXML  | Select-Xml -XPath "//FluidicHomeOffset_mm | //PreMixHomeOffset_mm | //DiluentHomeOffset_mm"| ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_BEC    = $MachineConfigXML  | Select-Xml -XPath "//IsBECInsertion | //LastGelPurgeOK | //RunsSinceLastGelFill" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_PrimeWater  = $MachineConfigXML  | Select-Xml -XPath "//Water"| ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML  | Select-Xml -XPath "//LysisBuffer" | ForEach-Object { $_.node.InnerXML }
-$RHID_MachineConfig_Laser  = $MachineConfigXML  | Select-Xml -XPath "//LaserHours" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_SN              = $MachineConfigXML  | Select-Xml -XPath "//MachineName" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HWVer           = $MachineConfigXML  | Select-Xml -XPath "//HWVersion" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_HWID            = $MachineConfigXML  | Select-Xml -XPath "//MachineConfiguration" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_ServerPath      = $MachineConfigXML  | Select-Xml -XPath "//DataServerUploadPath" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Syringe         = $MachineConfigXML  | Select-Xml -XPath "//SyringePumpResetCalibration_ms | //SyringePumpStallCurrent" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Blue            = $MachineConfigXML  | Select-Xml -XPath "//Signature" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_SCI             = $MachineConfigXML  | Select-Xml -XPath "//FluidicHomeOffset_mm | //PreMixHomeOffset_mm | //DiluentHomeOffset_mm"| ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_BEC             = $MachineConfigXML  | Select-Xml -XPath "//IsBECInsertion | //LastGelPurgeOK | //RunsSinceLastGelFill" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_PrimeWater      = $MachineConfigXML  | Select-Xml -XPath "//Water"| ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_PrimeLysisBuffer = $MachineConfigXML | Select-Xml -XPath "//LysisBuffer" | ForEach-Object { $_.node.InnerXML }
+$RHID_MachineConfig_Laser           = $MachineConfigXML  | Select-Xml -XPath "//LaserHours" | ForEach-Object { $_.node.InnerXML }
 
-"$Found : MachineName   : $RHID_MachineConfig_SN"
-"$Found : HWVersion : $RHID_MachineConfig_HWVer"
-"$Found : Signature : $RHID_MachineConfig_Blue"
-"$Found : BEC Status    : $RHID_MachineConfig_BEC"
-"$Found : PrimeWater    : $RHID_MachineConfig_PrimeWater"
-"$Found : LysisBuffer   : $RHID_MachineConfig_PrimeLysisBuffer"
+"$Found : MachineName               : $RHID_MachineConfig_SN"
+"$Found : HWVersion                 : $RHID_MachineConfig_HWVer"
+"$Found : Signature                 : $RHID_MachineConfig_Blue"
+"$Found : BEC Status                : $RHID_MachineConfig_BEC"
+"$Found : PrimeWater                : $RHID_MachineConfig_PrimeWater"
+"$Found : LysisBuffer               : $RHID_MachineConfig_PrimeLysisBuffer"
 "$Found : Laser Hours               : $RHID_MachineConfig_Laser"
 "$Found : MachineConfiguration      : $RHID_MachineConfig_HWID"
 "$Found : DataServerUploadPath      : $RHID_MachineConfig_ServerPath"
@@ -143,6 +143,7 @@ IF ($RHID_QMini_Infl[-1].count -gt "0") {
 }
 
 function RHID_TC {
+    # replace with -match "NaN" instead of SS, then print the result
 If ([Bool]($RHID_TC_Calibration | Select-String "NaN") -eq "True") {
     Write-Host "$TC_Cal : $RHID_TC_Calibration_Str : Uncalibrated" -ForegroundColor Yellow
 } elseif (

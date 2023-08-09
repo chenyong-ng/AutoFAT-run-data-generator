@@ -86,7 +86,7 @@ $RHID_Verify_Raman_Str      = "[38/41]  Bring Up:         Verify Raman"
 $Bolus_Test_count_Str       = "[39/41]         Passed Bolus test Count"
 $RHID_CoverOn_BEC_Reinsert  = "[40/41]           Cover-On BEC Reinsert"
 $RHID_Last_Gel_Void         = "[41/41]  Last Estimated Gel Void Volume"
-$Section_Separator          = "======================================================================================"
+$Section_Separator          = ("=" * $ConsoleWidth) # Consoles Seperator
 $Danno_SS_Count             = "          Saved Danno Screenshots Count"
 $USB_Temp_RD                = " Last 3 Runs end Ambient  reading in °C"
 $USB_Humi_RD                = " Last 3 Runs end Humidity reading in  %"

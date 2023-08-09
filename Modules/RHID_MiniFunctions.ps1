@@ -94,6 +94,7 @@ if ($TC_verification_Leaf -eq $False) {
 
 if (($Waves_Filesize -gt 1) -and ($NonLinearity_FileSize -gt 1)) {
     BackupConfig
+    # add function to veirfy if backup was successful
     Write-host "$info : Backup Instrument TC_Calibration.xml & Waves screenshot to server"
 }
 
@@ -102,9 +103,9 @@ if (($Waves_Filesize -eq 0) -or ($NonLinearity_FileSize -eq 0)) {
     "$info : Make sure AutoFAT is not running, as Waves will cause resource conflict"
 
     if ($keypress -eq 'y') {
-        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.Notepad "TC_verification $HostName.TXT"
-        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.SnippingTool
-        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.Broadcom_Waves
-        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Global.GuiSec
+        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.Notepad "TC_verification $HostName.TXT"
+        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.SnippingTool
+        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.Broadcom_Waves
+        Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.GuiSec
     }
 }

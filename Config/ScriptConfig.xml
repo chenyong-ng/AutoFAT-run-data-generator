@@ -39,6 +39,8 @@
     <TC_CalibrationXML_File>TC_Calibration.xml</TC_CalibrationXML_File>
     <DannoAppConfigXML_File>DannoAppConfig.xml</DannoAppConfigXML_File>
     <OverrideSettingsXML_File>OverrideSettings.xml</OverrideSettingsXML_File>
+</Global>
+<Apps>
     <HIDAutoLitev295>C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\Register.EXE</HIDAutoLitev295>
     <!-- Windows Tools -->
     <Notepad>Notepad.exe</Notepad>
@@ -47,5 +49,5 @@
     <Broadcom_Waves>C:\"Program Files (x86)\RGB Lasersystems"\Waves\Waves.exe</Broadcom_Waves>
     <!-- RHID I/O Diagnostic Tool -->
     <GuiSec>D:\gui-sec\gui_sec_V1001_4_79.exe</GuiSec>
-</Global>
+</Apps>
 </ScriptConfig>
