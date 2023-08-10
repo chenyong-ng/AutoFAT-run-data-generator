@@ -10,18 +10,20 @@ $NewDate                    = ([String](Get-Date -format "dddd dd MMMM yyyy HH:m
 $PSVersion                  = [string]($psversiontable.psversion)
 # $SystemUptime             = (Get-Uptime).totalhours
 $SystemUptime               = ((get-date) - ((Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime)).totalhours
-$WhereGit                   = (get-command git -ErrorAction SilentlyContinue).Path
-if (($WhereGit -match "git.exe") -eq "True") {
-    $GitCommitDate          = (git log -1 --date=local --format=%cd)
-    $GitCommitHash          = (git rev-parse --short HEAD)
-    $GitCommitBranch        = (git branch --show current)
-    $GitCommitInfo          = "$Info : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate"
+$WhereGitExe                = (get-command git -ErrorAction SilentlyContinue).Path -match "git.exe"
+$WhereGitFolder             = Test-Path -Path ".git"
+if (($WhereGitExe -and $WhereGitFolder) -eq "True") {
+    $GitCommitDate          = (git.exe log -1 --date=local --format=%cd)
+    $GitCommitHash          = (git.exe rev-parse --short HEAD)
+    $GitCommitBranch        = (git.exe branch --show current)
+    $GitCommitInfo          = "GIT : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate"
+    # Get info from ScripConfig instead of probing the folder if git folder not available
 }
 $Inst_rhid_Folder           = "E:\RapidHIT ID"
 $Inst_rhid_Result           = "E:\RapidHIT ID\Results"
-$Nonlinearity_File          = "Non-linearity Calibration $HostName.PNG"
-$Waves_File                 = "Waves $HostName.PNG"
-$TC_verification_File       = "TC_verification $HostName.TXT"
+$Nonlinearity_File          = "Non-linearity Calibration $MachineName.PNG"
+$Waves_File                 = "Waves $MachineName.PNG"
+$TC_verification_File       = "TC_verification $MachineName.TXT"
 $MachineConfig_File         = "MachineConfig.xml"
 $StatusData_File            = "StatusData_Graphs.pdf"
 $GM_Analysis_File           = "GM_Analysis.sgf"
@@ -38,10 +40,12 @@ $LogTimerEnd                = "$LogTimer : Logging Ended at $(Get-Date -format "
 $TestResultLOG_File         = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].LOG"
 $TestResultXML_File         = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].XML"
 
-$TestResultLOG_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$HostName\Internal\$TestResultLOG_File"
-$TestResultXML_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$HostName\Internal\$TestResultXML_File"
+$TestResultLOG_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$MachineName\Internal\$TestResultLOG_File"
+$TestResultXML_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$MachineName\Internal\$TestResultXML_File"
 $Nonlinearity_Leaf          = Test-Path -PathType Leaf -Path $Inst_rhid_Result\$Nonlinearity_File
 $Waves_Leaf                 = Test-Path -PathType Leaf -Path $Inst_rhid_Result\$Waves_File
+$Nonlinearity_Leaf_Server   = Test-Path -PathType Leaf -Path "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Nonlinearity_File"
+$Waves_Leaf_Server          = Test-Path -PathType Leaf -Path "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Waves_File"
 $TC_verification_Leaf       = Test-Path -PathType Leaf -Path $Inst_rhid_Result\$TC_verification_File
 $MachineConfig_Leaf         = Test-Path -PathType Leaf -Path $Inst_rhid_Folder\$MachineConfig_File
 $TC_CalibrationXML_Leaf     = Test-Path -PathType Leaf -Path $Inst_rhid_Folder\$TC_CalibrationXML_File

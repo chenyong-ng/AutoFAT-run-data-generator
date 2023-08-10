@@ -8,9 +8,13 @@ $GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.
 
 If ([Bool]$MachineName -eq "True") {
     "$Loading : $StatusData_File and $GM_Analysis_File textual filtering commands "
-    $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData_File  -R | Test-path -PathType Leaf
-    $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis_File -R | Test-path -PathType Leaf
+    $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData_File  -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Test-path -PathType Leaf
+    "StatusData_leaf : True Counter : " + $StatusData_leaf.count
+    $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Test-path -PathType Leaf
+    "GM_Analysis_leaf : True Counter : " + $GM_Analysis_leaf.count
 }
+# Use | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } |
+# Commands to filter out the "Internal" Folder which is duplicate copies of Main folders to speed up the data extraction
 
 "$Loading : DannoGUIState.XML for Ambient and Humidity reading"
 $RHID_USB_Temp_Rdr = $DannoGUIStateXML | Select-Xml -XPath "//RunEndAmbientTemperatureC" | ForEach-Object { $_.node.InnerXML } | Select-Object -Last 3
@@ -95,7 +99,7 @@ IF ($GM_ILS_Score_BLANK.count -gt "0") {
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 }
 function RHID_PDF_Check {
-if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
+if ($StatusData_leaf[0] -eq "True" ) {
         $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
     Write-Host "$Full_Run : $StatusData_File $File_found" -ForegroundColor Green
         $RHID_StatusData_PDF
@@ -105,7 +109,7 @@ else { Write-host "$Full_Run : $StatusData_File $File_not_Found" -ForegroundColo
 }
 
 function RHID_GM_Analysis_Check {
-if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
+if ($GM_Analysis_leaf[0] -eq "True" ) {
         $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
     Write-Host "$Full_Run : $GM_Analysis_File $File_found" -ForegroundColor Green
         $RHID_GM_Analysis
