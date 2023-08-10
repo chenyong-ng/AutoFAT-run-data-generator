@@ -1,11 +1,11 @@
 
 if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -lt "1080")) {
-    displayswitch /external
+    DisplaySwitch.exe /external
     Start-Sleep -Seconds 5
     Set-ScreenResolutionEx -Width 1920 -Height 1080 -DeviceID 0
     Write-Host "$info : Display Resolution set to $ScreenWidth x $ScreenHeight"
-}
-else { Write-Host "$info : Display Resolution: $ScreenWidth x $ScreenHeight" }
+    } else {
+    Write-Host "$info : Display Resolution: $ScreenWidth x $ScreenHeight" }
 Write-Host "$info : Display Type: $strMonitors"
 
 $PST_TimeZone = [String]$ScriptConfig.Global.PST
@@ -29,7 +29,7 @@ If ($Debug -eq "Off") {
 }
 
 if ($Server_Internal -eq $False) {
-    mkdir $Drive\"$HostName\Internal\RapidHIT ID\Results\Data $HostName"
+    New-Item -ItemType "Directory" -Path "$Drive\$HostName\Internal\RapidHIT ID\Results\Data $HostName"
     "$info : Server path $Server_Internal sucessfully created."
 }
 elseif ($Server_Internal -eq $True) {

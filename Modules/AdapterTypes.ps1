@@ -1,3 +1,23 @@
+<#
+.Synopsis
+    List Monitors and Connection Types
+.DESCRIPTION
+    Credit goes to https://amgeneral.wordpress.com/2021/07/13/powershell-list-monitors-and-connection-types/
+.EXAMPLE
+    Run $strMonitors
+.OUTPUTS
+    SHP  (Internal)
+    DEL  (DisplayPort (external))
+.NOTES
+    Get-WmiObject is deprecated, and only available on Powershell version 5.1
+.COMPONENT
+    Part of the RHID_MiniFunctions.ps1
+.ROLE
+    Used to detect the Display type and change the resolution
+.FUNCTIONALITY
+    The functionality that best describes this cmdlet
+#>
+
 $adapterTypes = @{ #https://www.magnumdb.com/search?q=parent:D3DKMDT_VIDEO_OUTPUT_TECHNOLOGY
     '-2' = 'Unknown'
     '-1' = 'Unknown'
