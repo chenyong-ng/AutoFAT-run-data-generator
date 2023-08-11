@@ -1,4 +1,5 @@
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
+$ErrorActionPreference      = 'silentlycontinue' # Script-wide error message supression
 $HostName                   = "$env:COMPUTERNAME"
 $SystemTimeZone             = [System.TimeZoneInfo]::Local.DisplayName
 $PST_TimeZone               = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
@@ -19,6 +20,16 @@ if (($WhereGitExe -and $WhereGitFolder) -eq "True") {
     $GitCommitInfo          = "GIT : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate"
     # Get info from ScripConfig instead of probing the folder if git folder not available
 }
+$CheckLan                   = (Get-NetIPAddress -InterfaceAlias "Ethernet*" -addressfamily "IPv4").interfacealias
+                            # [Bool]((Get-NetConnectionProfile).interfacealias[0..2] -match "Ethernet")
+$CheckWifi                  = (Get-NetIPAddress -InterfaceAlias "Wi-Fi*" -addressfamily "IPv4").interfacealias
+                            # [Bool]((Get-NetConnectionProfile).interfacealias[0..2] -match "Wi-Fi")
+$CheckInternet              = [bool]((Get-NetConnectionProfile).IPv4Connectivity[0..2] -match "Internet")
+$WiFiIPaddress              = (Get-NetIPAddress -InterfaceAlias "Wi-Fi*" -addressfamily "IPv4","IPv6").ipaddress
+$LANIPaddress               = (Get-NetIPAddress -InterfaceAlias "Ethernet*" -addressfamily "IPv4","IPv6").ipaddress
+# $PingToThermo =  (ping thermo.com) -match "Loss"
+# $PingToCloudflare = (ping 1.1.1.1) -match "Loss"
+# $PingToGoogle = (ping 1.1.1.1) -match "Loss"
 $Inst_rhid_Folder           = "E:\RapidHIT ID"
 $Inst_rhid_Result           = "E:\RapidHIT ID\Results"
 $Nonlinearity_File          = "Non-linearity Calibration $MachineName.PNG"

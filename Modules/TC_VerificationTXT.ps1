@@ -1,6 +1,6 @@
 function RHID_TC_Verification {
-$TC_verificationTXT = Get-ChildItem "$serverdir","$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
-if ([bool]$TC_verificationTXT -eq "True") {
+    #$TC_verificationTXT = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
+if ($TC_verificationTXT.count -gt 0) {
     $Ambient_Probe_Str = "                        Ambient + Probe"
     $USB_Temp_Humidity = "                        Temp + Humidity"
     $TC_Probe_ID       = "                            TC Probe ID"

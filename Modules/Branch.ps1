@@ -6,6 +6,7 @@ if ($SerialRegMatch -ne "True") {
     "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
     "$Info : Pacific Time is now : $PST_TimeZone"
     "$Info : Powershell version  : $PSVersion on $HostName"
+    "$Info : Host Connected to : $CheckLan, $CheckWifi " + ",Connected to Internet?: $CheckInternet"
     If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
         Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
     }
@@ -19,8 +20,7 @@ if ($SerialRegMatch -ne "True") {
     #"$Info : Enter again to show detailed information for additional switches for various options"
     $SerialNumber           = read-host "$Info : Enter Instrument Serial Number (4 digits) with alpabets as suffix to proceed"
     $IndexedSerialNumber    = $serialNumber[0] + $serialNumber[1] + $serialNumber[2] + $serialNumber[3]
-    # add option to check additional serial numbers
-    # add function to initiate HIDAutolite with code and email for troubleshoot
+    # add option to check whether the host is using wlan or lan
     $LocalServerTestPath    = Test-Path -Path $path-$IndexedSerialNumber
     $US_ServerTestPath      = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {

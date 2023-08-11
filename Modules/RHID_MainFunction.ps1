@@ -3,7 +3,7 @@ function RHID_MainFunctions {
 . $PSScriptRoot\set-volume.ps1
 . $PSScriptRoot\Set-ScreenResolutionEx.ps1
 . $PSScriptRoot\AdapterTypes.ps1
-set-variable -name "serverdir" -value "E:\RapidHIT ID"
+Set-Variable -name "Serverdir" -value "E:\RapidHIT ID"
 Write-Host "$info : Reading from local machine $env:COMPUTERNAME folder"
 . $PSScriptRoot\RHID_MiniFunctions.ps1
 }

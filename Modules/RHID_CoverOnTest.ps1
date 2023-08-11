@@ -9,9 +9,9 @@ $GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.
 If ([Bool]$MachineName -eq "True") {
     "$Loading : $StatusData_File and $GM_Analysis_File textual filtering commands "
     $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData_File  -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Test-path -PathType Leaf
-    "StatusData_leaf : True Counter : " + $StatusData_leaf.count
+    "$Found : " + $StatusData_leaf.count + " , " + $(if ($StatusData_leaf.count -gt 0) { $StatusData_leaf[0] })
     $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Test-path -PathType Leaf
-    "GM_Analysis_leaf : True Counter : " + $GM_Analysis_leaf.count
+    "$Found : " + $GM_Analysis_leaf.count + " , " + $(if ($GM_Analysis_leaf.count -gt 0) { $GM_Analysis_leaf[0] })
 }
 # Use | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } |
 # Commands to filter out the "Internal" Folder which is duplicate copies of Main folders to speed up the data extraction
