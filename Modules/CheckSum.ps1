@@ -74,8 +74,8 @@ $File_TC_VerificationTXT,
 $File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
-MKDIR "$Env:Temp\$HostName" | Out-Null
-New-Item $ScriptMetadataTXT -ItemType File | Out-Null
+New-Item -ItemType Folder "$Env:Temp\$HostName" | Out-Null
+New-Item -ItemType File $ScriptMetadataTXT | Out-Null
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptMetadata[0..2] >> $ScriptMetadataTXT
 "

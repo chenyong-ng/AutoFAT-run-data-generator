@@ -1,4 +1,4 @@
-if ($SerialRegMatch -ne "True") {
+#if ($SerialRegMatch -ne "True") {
     $RHID_FolderList        = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
     Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
     $RHID_FolderList | Format-wide -Property name -AutoSize
@@ -25,9 +25,10 @@ if ($SerialRegMatch -ne "True") {
     $US_ServerTestPath      = Test-Path -Path $US_path-$IndexedSerialNumber
     If ($SerialNumber -eq '') {
         break
+        # Allow Instrument to check other instrument results
     }
     elseif (($LocalServerTestPath -or $US_ServerTestPath) -ne "True") {
-        Write-Error -Message "No Matchiing Serial Number $IndexedSerialNumber found in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
+        Write-Error -Message "No Matching Serial Number $IndexedSerialNumber found in Server" -ErrorAction Stop -Category ObjectNotFound -ErrorId 404
     }
     
 $Arguments = $serialNumber[4, 5, 6, 7, 8, 9, 10,11,12,13]
@@ -54,5 +55,4 @@ if ($Arguments -match 'd') {
 if ($Arguments -match 'I') {
     $NoIMGPopUp             = "True"
     Write-Host "$Info : [I] Switch Activated, Image Popup Disabled"                 -ForegroundColor Yellow
-}
 }

@@ -90,20 +90,6 @@ TC Step 4       :   °C [61.5 ± 0.25°C]
 Airleak Test    :  Passed/NA
 "
 } #for recording TC verification data
-function Help2 {
-    Write-Host "
-Enter 'e'  to search specific text,
-Enter 'd'  to show Critical Diagnostic Code,
-Enter 'v'  to show Verbose infomation of Gel Void Volume,
-Enter 'v2' to show Gel Void Volume with BEC ID,
-Enter 'p'  to show Test Progress,
-Enter 'b'  to show only Bolus test result in server,
-Enter 'b2' to show all Bolus test result,
-Enter 't'  to show temp and humidity data fron DannoGUI,
-Enter 'i'  to show HIDAuto Lite 2.9.5 for IntegenX trail license status,
-Enter 'j'  to show Boxprep SoftGenetics License activation status,
-Enter 'w'  to show Istrument hardware info, Timezone setting"
-} # to listing secondary option
 
 function BackupBeforeShipprep {
   Copy-Item -Force -Recurse -Exclude "System Volume Information", "*RECYCLE.BIN", "bootsqm.dat" "E:\*" -Destination "U:\$MachineName\Internal\"
@@ -120,8 +106,6 @@ function network {
     Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter IPEnabled=true -ComputerName . | ForEach-Object -Process { $_.InvokeMethod("EnableDHCP", $null) }
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("ReleaseDHCPLeaseAll", $null) }
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
-    Get-ComputerInfo
-    systeminfo
 }
 
 function debug {
@@ -134,32 +118,19 @@ function debug {
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
     $D = "DEBUG"
-    "[$D] Path           : $env:Path"
     "[$D] Computer Name  : $env:COMPUTERNAME"
-    "[$D] name           : $HostName" ; "[$D] Sn             : $sn"
-    "[$D] SerialRegMatch : $SerialRegMatch" 
-    "[$D] get-date       : ${get-date}"
-    "[$D] rhid           : $Inst_rhid_Folder"
-    "[$D] result         : $Inst_rhid_Result"
-    "[$D] nl             : $Nonlinearity_File"
-    "[$D] wv             : $Waves_File"
-    "[$D] tcc            : $TC_verification_File"
-    "[$D] nlc            : $Nonlinearity_Leaf"
-    "[$D] waves          : $Waves_Leaf"
-    "[$D] tc             : $TC_verification_Leaf"
-    "[$D] mcleaf         : $MachineConfig_Leaf"
-    "[$D] internal       : $Server_Internal"
-    "[$D] serverdir      : $serverdir"
-    "[$D] danno          : $danno"
     "[$D] Ram            : $Ram GB"
     "[$D] SystemDiskSize : $Disk GB"
     "[$D] SystemDiskinfo : $Disktype"
-    "[$D] exicode        : $exicode"
     "[$D] Display        : $screen_cnt"; "[$D] DIMM           : $DIMM"
     "[$D] Administrator ?: $AdminMode" ; "[$D] MalwareScanner : $RealtimeProtection"
     "[$D] Local Folder  ?: $Local"     ; "[$D] Remote Folder ?: $Remote"
-    "[$D] PSVersion     ?: " + $PSversion
-    $col_screens, $strMonitors
+    "Ping to Thermo.com DNS Server " + ((ping Thermo.com) -match "Loss")
+    "Ping to CloudFlare DNS Server " + ((ping 1.1.1.2) -match "Loss")
+    "Ping to Google DNS Server     " + ((ping 8.8.8.8) -match "Loss")
+    "Wi-Fi IP           : " + $WiFiIPaddress
+    "Ethernet IP        : " + $LANIPaddress  
+    $col_screens
 }
 
 <#
