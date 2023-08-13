@@ -10,10 +10,8 @@
     <Workstation>SGSI11-59FKK13</Workstation>
     <Drive>S:</Drive>
     <Path>S:\RHID</Path>
-    <Danno>S:\Dano Planning\Test Data\</Danno>
     <US_Drive>Y:</US_Drive>
     <US_Path>Y:\RHID</US_Path>
-    <US_danno>Y:\Dano Planning\Test Data\</US_danno>
 </Workstation>
 
 <!--  Default values for Instruments and the rest of the Workstation PCs -->
@@ -22,11 +20,11 @@
     <Workstation>Instruments</Workstation>
     <Drive>U:</Drive>
     <Path>U:\RHID</Path>
-    <Danno>U:\Dano Planning\Test Data\</Danno>
 </Default>
 
 <!-- Script-wide Variables -->
 <Global>
+    <DannoPath>Dano Planning\Test Data</DannoPath>
     <RHID_Firmware79>1001.4.79</RHID_Firmware79>
     <PST>(UTC-08:00) Pacific Time (US &amp; Canada)</PST>
     <Inst_rhid_Folder>E:\RapidHIT ID</Inst_rhid_Folder>

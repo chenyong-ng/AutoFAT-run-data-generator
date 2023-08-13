@@ -58,7 +58,7 @@ $TC_verification_Leaf       = Test-Path -PathType Leaf -Path $Inst_rhid_Result\$
 $MachineConfig_Leaf         = Test-Path -PathType Leaf -Path $Inst_rhid_Folder\$MachineConfig_File
 $TC_CalibrationXML_Leaf     = Test-Path -PathType Leaf -Path $Inst_rhid_Folder\$TC_CalibrationXML_File
 $DannoAppConfigCheck        = Test-Path -PathType Leaf -Path $Inst_rhid_Result\"Data $HostName"\$DannoAppConfigXML_File
-$DannoAppRhidCheck          = Test-Path -PathType Leaf -Path "D:\DannoGUI\DannoAppConfig.xml"
+$DannoAppRhidCheck          = Test-Path -PathType Leaf -Path "D:\DannoGUI\$DannoAppConfigXML_File"
 $OverrideSettingsXML_Leaf   = Test-Path -PathType Leaf -Path $Inst_rhid_Folder\$OverrideSettingsXML_File
     
 $Server_Internal            = Test-Path -Path "$Drive\$HostName\Internal\"

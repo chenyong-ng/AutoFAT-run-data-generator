@@ -28,17 +28,17 @@ $ScreenHeight 	= [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.He
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
 $ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 
+	$Danno 		= [String]$ScriptConfig.Global.Danno
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 	$Drive 		= [String]$ScriptConfig.Workstation.Drive
 	$Path 		= [String]$ScriptConfig.Workstation.Path
-	$Danno 		= [String]$ScriptConfig.Workstation.Danno
+	#$Danno 		= [String]$ScriptConfig.Workstation.Danno
 	$US_Drive 	= [String]$ScriptConfig.Workstation.US_Drive
 	$US_Path 	= [String]$ScriptConfig.Workstation.US_Path
-	$US_danno	= [String]$ScriptConfig.Workstation.US_danno
+	#$US_danno	= [String]$ScriptConfig.Workstation.US_danno
 } else {
 	$Drive 		= [String]$ScriptConfig.Default.Drive
 	$Path 		= [String]$ScriptConfig.Default.Path
-	$Danno		= [String]$ScriptConfig.Default.Danno
 } #RHID Workststion laptop has differnt network drive path
 
 $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
