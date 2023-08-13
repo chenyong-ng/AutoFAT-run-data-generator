@@ -38,18 +38,18 @@ $GM_Analysis_File           = "GM_Analysis.sgf"
 $TC_CalibrationXML_File     = "TC_Calibration.xml"
 $DannoAppConfigXML_File     = "DannoAppConfig.xml"
 $OverrideSettingsXML_File   = "OverrideSettings.xml"
-$TestResultXML_File         = "TestResult $MachineName.xml"
-$TestResultLOG_File         = "TestResult $MachineName.LOG"
+$TestResultXML_File         = "TestResult $MachineName[$HostName].XML"
+$TestResultLOG_File         = "TestResult $MachineName[$HostName].LOG"
 $ScriptMetadataTXT          = "$Env:Temp\$HostName\Script_Metadata.txt"
 $ScriptMetadataXML          = "$Env:Temp\$HostName\Script_Metadata.XML"
 
-$LogTimerStart              = "$LogTimer : Logging Started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"
-$LogTimerEnd                = "$LogTimer : Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
-$TestResultLOG_File         = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].LOG"
-$TestResultXML_File         = "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResult $MachineName[$HostName].XML"
-
-$TestResultLOG_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$MachineName\Internal\$TestResultLOG_File"
-$TestResultXML_Leaf         = Test-Path -PathType Leaf -Path "$Drive\$MachineName\Internal\$TestResultXML_File"
+$LogTimerStart              = "Logging Started at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")"
+$LogTimerEnd                = "Logging Ended at $(Get-Date -format "dddd dd MMMM yyyy HH:mm:ss:ms")" 
+$TestResultLOG_FullPath     = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultLOG_File"
+$TestResultXML_FullPath     = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultXML_File"
+#todo clean up duplicates and move testresultlog generator to other place
+$TestResultLOG_Leaf         = Test-Path -PathType Leaf -Path $TestResultLOG_FullPath
+$TestResultXML_Leaf         = Test-Path -PathType Leaf -Path $TestResultXML_FullPath
 $Nonlinearity_Leaf          = Test-Path -PathType Leaf -Path $Inst_rhid_Result\$Nonlinearity_File
 $Waves_Leaf                 = Test-Path -PathType Leaf -Path $Inst_rhid_Result\$Waves_File
 $Nonlinearity_Leaf_Server   = Test-Path -PathType Leaf -Path "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Nonlinearity_File"
@@ -61,12 +61,14 @@ $DannoAppConfigCheck        = Test-Path -PathType Leaf -Path $Inst_rhid_Result\"
 $DannoAppRhidCheck          = Test-Path -PathType Leaf -Path "D:\DannoGUI\DannoAppConfig.xml"
 $OverrideSettingsXML_Leaf   = Test-Path -PathType Leaf -Path $Inst_rhid_Folder\$OverrideSettingsXML_File
     
-$Server_Internal            = Test-Path -Path "U:\$HostName\Internal\"
-$USServer_Internal          = Test-Path -Path "Y:\$HostName\Internal\"
-$Danno_leaf                 = Test-Path -Path "U:\Dano Planning\Test Data\$HostName"
-$US_Danno_leaf              = Test-Path -Path "Y:\Dano Planning\Test Data\$HostName"
+$Server_Internal            = Test-Path -Path "$Drive\$HostName\Internal\"
+$USServer_Internal          = Test-Path -Path "$US_Drive\$HostName\Internal\"
+$Danno_leaf                 = Test-Path -Path "$Drive\Dano Planning\Test Data\$HostName"
+$US_Danno_leaf              = Test-Path -Path "$US_Drive\Dano Planning\Test Data\$HostName"
 
-$RealtimeProtection         = Get-MpPreference | select-object DisableRealtimeMonitoring
+$NotepadAPP                 = [String]$ScriptConfig.Apps.Notepad
+
+$RealtimeProtection         = (Get-MpPreference | select-object DisableRealtimeMonitoring).DisableRealtimeMonitoring
 
 $ConsoleWidth               = (Get-Host).UI.RawUI.buffersize.width
 $Section_Separator          = ("=" * $ConsoleWidth) # Adaptive Consoles Seperator

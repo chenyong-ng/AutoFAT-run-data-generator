@@ -81,6 +81,7 @@ $CoverOn_BEC_Reinsert = Get-ChildItem "$Path-$IndexedSerialNumber\*BEC Insertion
 $GM_Analysis_PeakTable = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result"  -I GM_Analysis_PeakTable.txt -R -ErrorAction SilentlyContinue
 #"$Found : " + $GM_Analysis_PeakTable[0] + ", Number of Instances Found : " + $GM_Analysis_PeakTable.count
 "$Found : " + $GM_Analysis_PeakTable.count + " , " + $(if ($GM_Analysis_PeakTable.count -gt 0) { $GM_Analysis_PeakTable[0] })
+# look out for SRI4
 
 "$Loading : more textual filtering commands "
     . $PSScriptRoot\RHID_MainFunction.ps1
@@ -113,7 +114,7 @@ if ($SerialRegMatch -eq "True") {
     Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date" -ForegroundColor Yellow
 }
 
-$LogTimerStart
+"$LogTimer $LogTimerStart"
 RHID_Optics
 RHID_TC
 RHID_TC_Verification
@@ -149,24 +150,25 @@ $Section_Separator
 RHID_TempHumi_Check
 $Section_Separator 
 RHID_ShipPrep_Check
-$LogTimerEnd
+"$LogTimer $LogTimerEnd"
 }
 
 IF ($QuiteMode -ne "True") {
     RHID_ReportGen
 }
 
+# add option to open the textfile if detected
 IF ($NoReport -ne "True") {
     RHID_ReportGen *> $TempLogFile
-$TestResultLOG_File
-Copy-Item -Force $TempLogFile -Destination $TestResultLOG_File
-Start-Process -WindowStyle Minimized -FilePath [String]$ScriptConfig.Apps.Notepad "$TestResultLOG_File"
+    $TestResultLOG_FullPath
+    Copy-Item -Force $TempLogFile -Destination $TestResultLOG_FullPath
+    Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultLOG_FullPath"
 }
 
 IF ($NoXML -ne "True") {
-$TestResultXML_File
-Copy-Item -Force $TempXMLFile -Destination $TestResultXML_File
-Start-Process -WindowStyle Minimized -FilePath [String]$ScriptConfig.Apps.Notepad "$TestResultXML_File"
+    $TestResultXML_FullPath
+    Copy-Item -Force $TempXMLFile -Destination $TestResultXML_FullPath
+    Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultXML_FullPath"
 }
 "$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name
 "$info : Script ended with exit code of $LASTEXITCODE"

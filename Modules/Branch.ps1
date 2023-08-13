@@ -1,13 +1,48 @@
 #if ($SerialRegMatch -ne "True") {
-    $RHID_FolderList        = Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' }
-    Write-Host "$Info : List of available RHID run folders in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
-    $RHID_FolderList | Format-wide -Property name -AutoSize
-    "$Info : For latest update, get source code from Github:"
-    "$Info : https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"
+    $RHID_FolderList        = (Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' })
+    $RHID_FolderCount = $RHID_FolderList.name.count
+    Write-Host "$Info : $RHID_FolderCount RHID folders detected in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
+    $RHID_FolderListMap = $RHID_FolderList.name.replace('RHID-','')
+switch ($MappedKey) {
+	('D1') {
+        $RHID_FolderListMap[0]
+    }
+    	('D2') {
+        $RHID_FolderListMap[1]
+    }
+    	('D3') {
+        $RHID_FolderListMap[2]
+    }
+    	('D4') {
+        $RHID_FolderListMap[3]
+    }
+    	('D5') {
+        $RHID_FolderListMap[4]
+    }
+    	('D6') {
+        $RHID_FolderListMap[5]
+    }
+    	('D7') {
+        $RHID_FolderListMap[6]
+    }
+    	('D8') {
+        $RHID_FolderListMap[7]
+    }
+    	('D9') {
+        $RHID_FolderListMap[8]
+    }
+    	('D0') {
+        $RHID_FolderListMap[9]
+    }
+    default {
+        $RHID_FolderListMap[0]
+    }
+}
+    # $RHID_FolderList | Format-wide -Property name -AutoSize # add fuction to show recent months
     "$Info : Pacific Time is now : $PST_TimeZone"
     "$Info : Powershell version  : $PSVersion on $HostName"
     "$Info : Host Connected to : $CheckLan, $CheckWifi " + ",Connected to Internet?: $CheckInternet"
-    If ($RealtimeProtection.DisableRealtimeMonitoring -match "false") {
+    If ($RealtimeProtection -match "false") {
         Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
     }
     "$Info : Only first 4 ditigs are indexed for RHID result generation"
@@ -50,7 +85,7 @@ if ($Arguments -match 'x') {
 }
 if ($Arguments -match 'd') {
     $EnableDescriptions     = "True"
-    Write-Host "$Info : [D] Switch Activated, Detailed Describion Enabled For Each Tests" -ForegroundColor Yellow
+    Write-Host "$Info : [D] Switch Activated, Detailed Describion Enabled"          -ForegroundColor Yellow
 }
 if ($Arguments -match 'I') {
     $NoIMGPopUp             = "True"
