@@ -29,19 +29,7 @@ switch ($key) {
         break
     }
     D {
-        debug
-    }
-    Q {
-        If ((Test-Path -PathType Leaf -Path $HIDAutoLitev295) -eq "True") {
-            Start-Process $HIDAutoLitev295
-            Set-Clipboard rhid-licensing@thermofisher.com
-            start-sleep 1
-            Set-Clipboard IntegenXProduction
-        } 
-        Else {
-            Write-Host "$Info : HIDAutoLite License Registration Application not found" -ForegroundColor Yellow
-            break
-        }
+        . $PSScriptRoot\RHID_Diagnostic.ps1
     }
     C {
         Clear-Host
