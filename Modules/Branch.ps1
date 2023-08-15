@@ -42,8 +42,7 @@ switch ($MappedKey) {
 #>
     # $RHID_FolderList | Format-wide -Property name -AutoSize # add fuction to show recent months
     "$Info : Pacific Time is now : $PST_TimeZone"
-    "$Info : Powershell version  : $PSVersion on $HostName"
-    "$Info : Host Connected to : $CheckLan, $CheckWifi " + ",Connected to Internet?: $CheckInternet"
+
     If ($RealtimeProtection -match "false") {
         Write-Host "$Info : Realtime AntiMalware Protection is enabled, Script performance might be affected" -ForegroundColor Yellow
     }

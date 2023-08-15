@@ -108,31 +108,6 @@ function network {
     Get-WmiObject -List | Where-Object -FilterScript { $_.Name -eq "Win32_NetworkAdapterConfiguration" } | ForEach-Object -Process { $_.InvokeMethod("RenewDHCPLeaseAll", $null) }
 }
 
-function debug {
-. $PSScriptRoot\Info_Screens.ps1
-. $PSScriptRoot\AdapterTypes.ps1
-
-    $DIMM       = [string](wmic memorychip get Manufacturer,DeviceLocator,PartNumber | Select-String "A1_DIMM0","A1_DIMM1")
-    $Ram        = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1GB
-    $currentPrincipal   = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-    $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-
-    $D = "DEBUG"
-    "[$D] Computer Name  : $env:COMPUTERNAME"
-    "[$D] Ram            : $Ram GB"
-    "[$D] SystemDiskSize : $Disk GB"
-    "[$D] SystemDiskinfo : $Disktype"
-    "[$D] Display        : $screen_cnt"; "[$D] DIMM           : $DIMM"
-    "[$D] Administrator ?: $AdminMode" ; "[$D] MalwareScanner : $RealtimeProtection"
-    "[$D] Local Folder  ?: $Local"     ; "[$D] Remote Folder ?: $Remote"
-    "Ping to Thermo.com DNS Server " + ((ping Thermo.com) -match "Loss")
-    "Ping to CloudFlare DNS Server " + ((ping 1.1.1.2) -match "Loss")
-    "Ping to Google DNS Server     " + ((ping 8.8.8.8) -match "Loss")
-    "Wi-Fi IP           : " + $WiFiIPaddress
-    "Ethernet IP        : " + $LANIPaddress  
-    $col_screens
-}
-
 <#
 ├───Internal
 │   ├───im
