@@ -3,6 +3,7 @@
     $RHID_FolderCount = $RHID_FolderList.name.count
     Write-Host "$Info : $RHID_FolderCount RHID folders detected in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
     $RHID_FolderListMap = $RHID_FolderList.name.replace('RHID-','')
+<#
 switch ($MappedKey) {
 	('D1') {
         $RHID_FolderListMap[0]
@@ -38,6 +39,7 @@ switch ($MappedKey) {
         $RHID_FolderListMap[0]
     }
 }
+#>
     # $RHID_FolderList | Format-wide -Property name -AutoSize # add fuction to show recent months
     "$Info : Pacific Time is now : $PST_TimeZone"
     "$Info : Powershell version  : $PSVersion on $HostName"
