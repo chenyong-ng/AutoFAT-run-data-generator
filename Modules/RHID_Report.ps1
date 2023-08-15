@@ -160,8 +160,9 @@ IF ($QuiteMode -ne "True") {
 # add option to open the textfile if detected
 IF ($NoReport -ne "True") {
     RHID_ReportGen *> $TempLogFile
-    $TestResultLOG_FullPath
+    $TestResultLOG_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultLOG_File"
     Copy-Item -Force $TempLogFile -Destination $TestResultLOG_FullPath
+Get-Content $TestResultLOG_FullPath | ConvertTo-Html | Out-File "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResultLOG.html"
     Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultLOG_FullPath"
 }
 

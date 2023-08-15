@@ -40,7 +40,8 @@ switch ($MappedKey) {
     }
 }
 #>
-    # $RHID_FolderList | Format-wide -Property name -AutoSize # add fuction to show recent months
+    # $RHID_FolderList | Format-wide -Property name -AutoSize 
+    # add fuction to show recent months, and danno planning folder list.
     "$Info : Pacific Time is now : $PST_TimeZone"
 
     If ($RealtimeProtection -match "false") {

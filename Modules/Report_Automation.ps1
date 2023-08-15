@@ -46,7 +46,6 @@ $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select
 . $PSScriptRoot\XML_and_Config.ps1
 . $PSScriptRoot\CheckSum.ps1
 # add option to enable/disable script pre-run check
-. $PSScriptRoot\RHID_Diagnostic.ps1
 . $PSScriptRoot\CountDown.ps1
 
 if ($EnableDescriptions -eq "True") {
