@@ -11,6 +11,12 @@ Else {
 }
 }
 
+$DisplayOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation
+    if ($DisplayOrientation -eq "Angle0") {
+    $DOI = "Landscape (0°)"
+    } elseif ($DisplayOrientation -eq "Angle270" ) {
+    $DOI = "Potrait (Flipped, 270°)" }
+
 "$Info : Powershell version  : $PSVersion on $HostName"
 "$Info : Host LAN Connection : $CheckLan"
 "$Info : Host WIFI Connection : $CheckWifi"
