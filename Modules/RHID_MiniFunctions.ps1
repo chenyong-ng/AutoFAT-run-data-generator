@@ -16,12 +16,6 @@ else {
     Write-Host "$info : System Timezone $SystemTimeZone" 
 }
 "$info : System Uptime = $SystemUptime in Hours Since Last Boot"
-If ($debug -eq "On") {
-    $SystemQuery = ((systeminfo | select-string "OS name", "Host Name").line.split(":").TrimStart())[1, -1]
-    $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
-    "$System : $Operating_System : $SystemQueryOS"
-    "$System : $Host_Name : $SystemQueryHost"
-}
 
 If ($Debug -eq "Off") {
     [audio]::Volume = 0.4

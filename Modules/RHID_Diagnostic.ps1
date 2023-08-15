@@ -15,6 +15,10 @@ Else {
 "$Info : Host LAN Connection : $CheckLan"
 "$Info : Host WIFI Connection : $CheckWifi"
 "$Info : Connected to Internet?: $CheckInternet"
+    $SystemQuery = ((systeminfo | select-string "OS name", "Host Name").line.split(":").TrimStart())[1, -1]
+    $SystemQueryOS = $SystemQuery[1] ; $SystemQueryHost = $SystemQuery[0]
+    "$System : $Operating_System : $SystemQueryOS"
+    "$System : $Host_Name : $SystemQueryHost"
 . $PSScriptRoot\Info_Screens.ps1
 . $PSScriptRoot\AdapterTypes.ps1
 
@@ -24,7 +28,6 @@ Else {
     $AdminMode  = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
     $D = "DEBUG"
-    "[$D] Computer Name  : $env:COMPUTERNAME"
     "[$D] Ram            : $Ram GB"
     "[$D] SystemDiskSize : $Disk GB"
     "[$D] SystemDiskinfo : $Disktype"

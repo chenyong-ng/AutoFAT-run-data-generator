@@ -1,4 +1,4 @@
-$htmlHeader = @"
+$htmlHeader = @'
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
@@ -389,7 +389,7 @@ $htmlHeader = @"
 </BODY>
 </HTML>
 
-"@
+'@
 
  $body = ""
  
@@ -403,5 +403,5 @@ $htmlHeader = @"
  }
  $footer = "</tbody></table></body></html>"
  $html = $htmlHeader + $body + $footer
- $html | Out-File -FilePath 'C:\ServerPerformance.html' -Force
+$html | Out-File -FilePath "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultHTML_File" -Force
  
