@@ -18,13 +18,10 @@ $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
 #>
-$ScreenWidth 	= [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
-$ScreenHeight 	= [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
-
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
 $ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 
-	$Danno 		= [String]$ScriptConfig.Global.Danno
+	$Danno 		= [String]$ScriptConfig.Global.DannoPath
 if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 	$Drive 		= [String]$ScriptConfig.Workstation.Drive
 	$Path 		= [String]$ScriptConfig.Workstation.Path
@@ -44,7 +41,6 @@ $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select
 . $PSScriptRoot\VerboseMode.ps1
 # move verbose mode to above and add option to enable/disable
 . $PSScriptRoot\XML_and_Config.ps1
-. $PSScriptRoot\CheckSum.ps1
 # add option to enable/disable script pre-run check
 . $PSScriptRoot\CountDown.ps1
 

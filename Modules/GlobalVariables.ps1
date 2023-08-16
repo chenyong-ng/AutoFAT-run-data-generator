@@ -1,5 +1,5 @@
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-$ErrorActionPreference      = 'silentlycontinue' # Script-wide error message supression
+#$ErrorActionPreference      = 'silentlycontinue' # Script-wide error message supression
 $HostName                   = "$env:COMPUTERNAME"
 $SystemTimeZone             = [System.TimeZoneInfo]::Local.DisplayName
 $PST_TimeZone               = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([DateTime]::Now, "Pacific Standard Time")
@@ -17,7 +17,7 @@ if (($WhereGitExe -and $WhereGitFolder) -eq "True") {
     $GitCommitDate          = (git.exe log -1 --date=local --format=%cd)
     $GitCommitHash          = (git.exe rev-parse --short HEAD)
     $GitCommitBranch        = (git.exe branch --show current)
-    $GitCommitInfo          = "GIT : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate"
+    $GitCommitInfo          = "[ GIT Info   ] : Git Commit branch : $GitCommitBranch, ID: $GitCommitHash , Date : $GitCommitDate"
     # Get info from ScripConfig instead of probing the folder if git folder not available
 }
 $CheckLan                   = (Get-NetIPAddress -InterfaceAlias "Ethernet*" -addressfamily "IPv4").interfacealias

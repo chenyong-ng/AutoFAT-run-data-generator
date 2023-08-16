@@ -155,7 +155,11 @@ if ($RHID_Homing_Error_Test.count -eq "0") {
     Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Homing_Error_Test | Select-String "Pass") -eq "True") {
-    Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Passed" -ForegroundColor Green 
+    $RHID_Homing_Error_Test_FL = (($storyboard | Select-String "FL:" | Select-String "(<0.35 mm)")[-1].line.split(",").TrimStart())[-1]
+    $RHID_Homing_Error_Test_PR = (($storyboard | Select-String "PR:" | Select-String "(<0.35 mm)")[-1].line.split(",").TrimStart())[-1]
+    $RHID_Homing_Error_Test_DL = (($storyboard | Select-String "DL:" | Select-String "(<0.35 mm)")[-1].line.split(",").TrimStart())[-1]
+    Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$SCI : $RHID_Homing_Error_Test_FL, $RHID_Homing_Error_Test_PR, $RHID_Homing_Error_Test_DL" -ForegroundColor White
 }
 else {
     Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Failed" -ForegroundColor Red    
@@ -258,7 +262,7 @@ if ($RHID_Syringe_Stallout_FAT.count -eq "0") {
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Syringe_Stallout_FAT | Select-String "Pass") -eq "True") {
-    $RHID_Syringe_MIN_CURRENT = (($storyboard | Select-String "Min Current" | Select-Object -Last 1).line.split(",").TrimStart())[-1]
+    $RHID_Syringe_MIN_CURRENT = (($storyboard | Select-String "Min Current")[-1].line.split(",").TrimStart())[-1]
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Stallout_FAT_Str $Test_Passed " -ForegroundColor Green
     Write-Host "$Syrg_Pmp : $RHID_Syringe_Cal : $RHID_Syringe_MIN_CURRENT" -ForegroundColor Cyan 
 }
@@ -279,7 +283,7 @@ else {
 }
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
-    $RHID_Gel_Void_First = (($storyboard | Select-String "Estimated gel void volume" | Select-Object -First 1).line.split("=").TrimStart())[-1]
+    $RHID_Gel_Void_First = (($storyboard | Select-String "Estimated gel void volume")[0].line.split("=").TrimStart())[-1]
     $RHID_BEC_ID_First = ($RHID_BEC_insert_ID.line.split(" ").TrimStart())[-1]
     Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed ; BEC_ID : $RHID_BEC_ID_First"
     Write-host "$BEC_Insertion : $RHID_First_Gel_Void : $RHID_Gel_Void_First" -ForegroundColor Cyan 
@@ -302,8 +306,8 @@ if ($RHID_HV_FAT.count -eq "0") {
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_HV_FAT | Select-String "Pass") -eq "True") {
-    $RHID_HV_FAT_Voltage = (($storyboard | Select-String "Voltage =" | Select-String "(8650/9300V)" | Select-Object -Last 1).line.split(",").TrimStart())[-1]
-    $RHID_HV_FAT_Current = (($storyboard | Select-String "Current =" | Select-String "(> 5uA)" | Select-Object -Last 1).line.split(",").TrimStart())[-1]
+    $RHID_HV_FAT_Voltage = (($storyboard | Select-String "Voltage =" | Select-String "(8650/9300V)")[0].line.split(",").TrimStart())[-1]
+    $RHID_HV_FAT_Current = (($storyboard | Select-String "Current =" | Select-String "(> 5uA)")[0].line.split(",").TrimStart())[-1]
     Write-Host "$HV : $RHID_HV_FAT_Str $Test_Passed" -ForegroundColor Green
     Write-Host "$HV : $RHID_HV_FAT_Voltage , $RHID_HV_FAT_Current" -ForegroundColor Green
 }

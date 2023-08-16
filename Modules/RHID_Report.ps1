@@ -91,6 +91,7 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
     . $PSScriptRoot\RHID_WetTest.ps1
     . $PSScriptRoot\RHID_CoverOnTest.ps1
     . $PSScriptRoot\RHID_ShipPrep.ps1
+    . $PSScriptRoot\ServerSide_FileCheck.ps1
 
 "$Searching : TC_verification $MachineName.TXT"
 $TC_verificationTXT = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
@@ -114,10 +115,11 @@ if ($SerialRegMatch -eq "True") {
     Write-Host "[ RapidHIT ID] : Result generated on $HostName Might not be up to date" -ForegroundColor Yellow
 }
 
-"$LogTimer $LogTimerStart"
+"$LogTimer : $LogTimerStart"
 RHID_Optics
 RHID_TC
 RHID_TC_Verification
+Server-side_Waves_Screenshot_Check
 $Section_Separator
 RHID_MachineConfig_check
 RHID_Firmware_Check
@@ -150,7 +152,7 @@ $Section_Separator
 RHID_TempHumi_Check
 $Section_Separator 
 RHID_ShipPrep_Check
-"$LogTimer $LogTimerEnd"
+"$LogTimer : $LogTimerEnd"
 }
 
 IF ($QuiteMode -ne "True") {
@@ -162,12 +164,11 @@ IF ($NoReport -ne "True") {
     RHID_ReportGen *> $TempLogFile
     $TestResultLOG_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultLOG_File"
     Copy-Item -Force $TempLogFile -Destination $TestResultLOG_FullPath
-Get-Content $TestResultLOG_FullPath | ConvertTo-Html | Out-File "$Drive\$MachineName\Internal\RapidHIT ID\Results\TestResultLOG.html"
     Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultLOG_FullPath"
 }
 
 IF ($NoXML -ne "True") {
-    $TestResultXML_FullPath
+    $TestResultXML_FullPath     = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultXML_File"
     Copy-Item -Force $TempXMLFile -Destination $TestResultXML_FullPath
     Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultXML_FullPath"
 }

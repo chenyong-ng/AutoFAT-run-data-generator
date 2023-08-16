@@ -10,7 +10,7 @@ $remain     = ($d - (get-date))
 while ($remain.TotalSeconds -gt 0) {
     if ([Console]::KeyAvailable) {
         $key = [Console]::ReadKey($true).Key
-        if ($key -in 'X', 'D', 'Q', 'C', 'V', 'Spacebar', 'Enter') {
+        if ($key -in 'E','X', 'D', 'Q', 'C', 'V', 'Spacebar', 'Enter') {
             break # keypress to break out from whileloop
         }
     }
@@ -26,14 +26,20 @@ Write-Host " * " -NoNewline
 
 switch ($key) {
 	('Spacebar' -or 'Enter') {
-        break
+        
+        EXIT
     }
     D {
         . $PSScriptRoot\RHID_Diagnostic.ps1
+        . $PSScriptRoot\Branch.ps1
     }
     C {
         Clear-Host
-        break
+        . $PSScriptRoot\Branch.ps1
+    }
+    E {
+        . $PSScriptRoot\CheckSum.ps1
+        . $PSScriptRoot\Branch.ps1
     }
     V {
         Start-Process "https://github.com/chenyong-ng/AutoFAT-run-data-generator/tree/stable"

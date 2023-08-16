@@ -74,26 +74,19 @@ $File_TC_VerificationTXT,
 $File_VerboseMode       ,
 $File_XML_and_Config -Algorithm SHA256).hash
 
-New-Item -ItemType Folder "$Env:Temp\$HostName" | Out-Null
+New-Item -ItemType Directory "$Env:Temp\$HostName" | Out-Null
 New-Item -ItemType File $ScriptMetadataTXT | Out-Null
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptMetadata[0..2] >> $ScriptMetadataTXT
-"
-something1
-something2
-something3
-something4
-something5
-something6
-" >> $ScriptMetadataTXT
+
 "=============================SHA256=============================" >> $ScriptMetadataTXT 
 $ScriptPreCheck[0..2] >> $ScriptMetadataTXT 
 #disable git.exe detection on instrument
 #export git info then read from file
 Add-Content -Path "$ScriptMetadataTXT" -PassThru -Value "
-$GitCommitInfo" 
+$GitCommitInfo" | Out-Null
 
-((Get-Content $ScriptMetadataTXT).replace('something1', 'something1aa').replace('something2', 'something1bb')) | out-file $ScriptMetadataTXT 
+#((Get-Content $ScriptMetadataTXT).replace('something1', 'something1aa').replace('something2', 'something1bb')) | out-file $ScriptMetadataTXT 
 
 
 # (Get-Content $PSScriptRoot\..\Config\Script_Metadata.txt)
@@ -113,4 +106,5 @@ if ($ScriptPreCheckCounter -eq 24) {
     "[ Error      ] : Scripts count $ScriptPreCheckCounter checksum failed, Script execution may not produce correct results"
 }
 
-Remove-Item -Recurse -Path "$Env:Temp\$HostName"
+start-process -WindowStyle Normal -FilePath $ScriptMetadataTXT
+# Remove-Item -Recurse -Path "$Env:Temp\$HostName"

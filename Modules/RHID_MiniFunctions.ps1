@@ -1,4 +1,7 @@
 
+$ScreenWidth 	= [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Width
+$ScreenHeight 	= [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize.Height
+
 if (($strMonitors -ne $InteralDisplay) -and ($ScreenWidth -lt "1080")) {
     DisplaySwitch.exe /external
     Start-Sleep -Seconds 5
@@ -31,29 +34,32 @@ elseif ($Server_Internal -eq $True) {
 }
 "$info : Check if Server path already created : $Server_Internal"
 
+# Local folder check
 Set-Location $Inst_rhid_Result
-if ($Nonlinearity_Leaf -eq $True) { $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) }) }
+if ($Nonlinearity_Leaf -eq $True) {
+    $NonLinearity_FileSize = (Get-Item $Inst_rhid_Result\$Nonlinearity_File | ForEach-Object { [math]::ceiling($_.length / 1KB) })
+}
 if ($Nonlinearity_Leaf -eq $False) {
-    New-Item "Non-linearity Calibration $HostName.PNG" -ItemType File
-    Write-host "$info : Created placeholder file: Non-linearity Calibration $HostName.PNG"
+    New-Item $Nonlinearity_File -ItemType File
+    Write-host "$info : Created placeholder file: $Nonlinearity_File"
 }
 elseif ($NonLinearity_FileSize -eq '0') {
-    Write-host "$Warning : Empty $Nonlinearity_File detected, reported as $NonLinearity_FileSize KB" -ForegroundColor Yellow
+    Write-host "$Warning : Empty $Nonlinearity_File, $NonLinearity_FileSize KB" -ForegroundColor Yellow
 }
 else {
-    Write-Host "$info : 'Non-linearity Calibration $HostName.PNG' already exists, size is:" $NonLinearity_FileSize KB
+    Write-Host "$info : '$Nonlinearity_File' file size is: $NonLinearity_FileSize KB" -ForegroundColor Green
 }
 
 if ($Waves_Leaf -eq $True) {
     $Waves_Filesize = (Get-Item $Inst_rhid_Result\$Waves_File | ForEach-Object { [math]::ceiling($_.length / 1KB) })
 }
 if ($Waves_Leaf -eq $False) {
-    New-Item "Waves $HostName.PNG" -ItemType File
-    Write-host "$info : Created placeholder file: Waves $HostName.PNG"
+    New-Item $Waves_File -ItemType File
+    Write-host "$info : Created placeholder file: $Waves_File"
 } elseif ($Waves_Filesize -eq '0') {
-    Write-host "$Warning : Empty $Waves_File detected, reported as $Waves_Filesize KB" -ForegroundColor Yellow
+    Write-host "$Warning : Empty $Waves_File, $Waves_Filesize KB" -ForegroundColor Yellow
 } else {
-    Write-Host "$info : 'Waves $HostName.PNG' already exists, size is:" $Waves_Filesize KB
+    Write-Host "$info : '$Waves_File' file size is: $Waves_Filesize KB" -ForegroundColor Green
 }
 
 if ($TC_CalibrationXML_Leaf -eq $False) {
