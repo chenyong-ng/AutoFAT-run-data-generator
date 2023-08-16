@@ -92,14 +92,14 @@ $RHID_Gel_Cooler_FAT_PASS = ($RHID_Gel_Cooler_FAT | Select-String "PASS" )
 $RHID_Gel_Cooler_FAT_FAIL = ($RHID_Gel_Cooler_FAT | Select-String "FAIL" )
 $RHID_Gel_Cooler_TempAvg = (($storyboard | Select-String "Temp Average:" | Select-String "(2.5/3.5C)")[-1].line.split(",").TrimStart())[-1]
 $RHID_Gel_Cooler_VoltAvg = (($storyboard | Select-String "Voltage Average:" | Select-String "(< 5V)")[-1].line.split(",").TrimStart())[-1]
-$RHID_Gel_Cooler_AmpAvg = (($storyboard | Select-String "Current Average" | Select-String "(< 1.5A)")[-1].line.split(",").TrimStart())[-1]
+$RHID_Gel_Cooler_AmpAvg = (($storyboard | Select-String "Current Average:" | Select-String "(< 1.5A)")[-1].line.split(",").TrimStart())[-1]
 function RHID_GelCooler {
 if ($RHID_Gel_Cooler_FAT.count -eq "0") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ($RHID_Gel_Cooler_FAT_PASS.Line -match "PASS") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Passed" -ForegroundColor Green 
-    Write-Host "$Gel_Cooler : $RHID_Gel_CRHID_Gel_Cooler_TempAvg, $RHID_Gel_Cooler_VoltAvg , $RHID_Gel_Cooler_AmpAvg"
+        Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_TempAvg, $RHID_Gel_Cooler_VoltAvg , $RHID_Gel_Cooler_AmpAvg"
 }
 elseif ($RHID_Gel_Cooler_FAT_FAIL.Line -match "FAIL") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    
