@@ -11,6 +11,7 @@ $RHID_Lysis_Heater2_PwmAvg  = (($storyboard | Select-String "Lysis2 PWM Average 
 
 # Master copy of the data extraction method, when the value is sandwitched between text that need to be discarded.
 # $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R -ErrorAction SilentlyContinue
+# Will be useful in the future when XML or HTML implementations are sucessfull
 $RHID_Lysis_Heater1_TempAvgVal  = (($storyboard | Select-String "Lysis1 Temp Average =" )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0]
 $RHID_Lysis_Heater1_PwmAvgVal   = (($storyboard | Select-String "Lysis1 PWM Average =" )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0]
 $RHID_Lysis_Heater2_TempAvgVal  = (($storyboard | Select-String "Lysis2 Temp Average =" )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0]

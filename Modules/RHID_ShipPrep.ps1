@@ -54,8 +54,9 @@ if ($VerboseMode -eq "True") {
 $xmlFragment                = $xmlMmat.CreateDocumentFragment()
 $xmlFragment.InnerXml       =
 @"
-<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
+<NewElement><GFE36cyclesCount>$GFE_BVCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
 "@
+#<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
 
 $null = $xmlMmat.TestReport.AppendChild($xmlFragment)
 $xmlMmat.save("$TempXMLFile")
