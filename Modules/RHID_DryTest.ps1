@@ -4,6 +4,11 @@
 function RHID_Heater_Test {
 $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | Select-String "PASS" )
 $RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | Select-String "FAIL" )
+$RHID_Lysis_Heater1_TempAvg = (($storyboard | Select-String "Lysis1 Temp Average =" | Select-String "(84.5/85.5C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_Lysis_Heater1_PwmAvg  = (($storyboard | Select-String "Lysis1 PWM Average =" | Select-String "(0/2600)")[-1].line.split(",").TrimStart())[-1]
+$RHID_Lysis_Heater2_TempAvg = (($storyboard | Select-String "Lysis2 Temp Average =" | Select-String "(84.5/85.5C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_Lysis_Heater2_PwmAvg  = (($storyboard | Select-String "Lysis2 PWM Average =" | Select-String "(0/8000)")[-1].line.split(",").TrimStart())[-1]
+
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     $Lysis_Heater_Test_Result = $Test_NA
     $LHColor = "Yellow"
@@ -20,9 +25,13 @@ if ($EnableDescriptions -eq "True") {
 }
 
 Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
+Write-Host "$Heater : $RHID_Lysis_Heater1_TempAvg , $RHID_Lysis_Heater1_PwmAvg"
+Write-Host "$Heater : $RHID_Lysis_Heater2_TempAvg , $RHID_Lysis_Heater2_PwmAvg"
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
 $RHID_DN_Heater_FAT_FAIL = ($RHID_DN_Heater_FAT | Select-String "FAIL" )
+$RHID_DN_Heater_FAT_TempAvg = (($storyboard | Select-String "Temp Average =" | Select-String "(94.5/95.5C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_DN_Heater_FAT_PwmAvg = (($storyboard | Select-String "PWM Average =" | Select-String "(< 2500)")[-1].line.split(",").TrimStart())[-1]
 if ($RHID_DN_Heater_FAT.count -eq "0") {
     $DN_Heater_Test_Result = $Test_NA
     $DNHColor = "Yellow"
@@ -35,9 +44,14 @@ if ($RHID_DN_Heater_FAT.count -eq "0") {
 }
 # ($RHID_DN_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")
 Write-Host "$Heater : $RHID_DN_Heater_str $DN_Heater_Test_Result" -ForegroundColor $DNHColor
+Write-Host "$Heater : $RHID_DN_Heater_FAT_TempAvg , $RHID_DN_Heater_FAT_PwmAvg" -ForegroundColor $DNHColor
 
 $RHID_PCR_Heater_FAT_PASS = ($RHID_PCR_Heater_FAT | Select-String "PASS" )
 $RHID_PCR_Heater_FAT_FAIL = ($RHID_PCR_Heater_FAT | Select-String "FAIL" )
+$RHID_PCR_TOP_9CAvg     = (($storyboard | Select-String "PCR Top 9C Average =" | Select-String "(8/10C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_PCR_BOT_9CAvg     = (($storyboard | Select-String "PCR Bottom 9C Average =" | Select-String "(8/10C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_PCR_TOP_98CAvg    = (($storyboard | Select-String "PCR Top 98C Average =" | Select-String "(97.5/98.5C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_PCR_BOT_98CAvg    = (($storyboard | Select-String "PCR Bottom 98C Average =" | Select-String "(97.5/98.5C)")[-1].line.split(",").TrimStart())[-1]
 if ($RHID_PCR_Heater_FAT.count -eq "0") {
     $PCR_Heater_Test_Result = $Test_NA
     $PCRColor = "Yellow"
@@ -49,9 +63,13 @@ if ($RHID_PCR_Heater_FAT.count -eq "0") {
     $PCRColor = "Red" 
 }
 Write-Host "$Heater : $RHID_PCR_Heater_str $PCR_Heater_Test_Result" -ForegroundColor $PCRColor
+Write-Host "$Heater : $RHID_PCR_TOP_9CAvg , $RHID_PCR_BOT_9CAvg"
+Write-Host "$Heater : $RHID_PCR_TOP_98CAvg , $RHID_PCR_BOT_98CAvg"
 
 $RHID_Optics_Heater_FAT_PASS = ($RHID_Optics_Heater_FAT | Select-String "PASS" )
 $RHID_Optics_Heater_FAT_FAIL = ($RHID_Optics_Heater_FAT | Select-String "FAIL" )
+$RHID_Optics_Heater_TempAvg  = (($storyboard | Select-String "Temp Average =" | Select-String "(41.5/42.5C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_Optics_Heater_PwmAvg = (($storyboard | Select-String "PWM Average =" | Select-String "(< 10500)")[-1].line.split(",").TrimStart())[-1]
 if ($RHID_Optics_Heater_FAT.count -eq "0") {
     $Optics_Heater_Test_Result = $Test_NA
     $OpticsHColor = "Yellow"
@@ -64,19 +82,24 @@ elseif ($RHID_Optics_Heater_FAT_FAIL.Line -match "FAIL") {
     $Optics_Heater_Test_Result = $Test_Failed
     $OpticsHColor = "Red"    
 }
-Write-Host "$Heater : $RHID_Optics_Heater_str $Optics_Heater_Test_Result" -ForegroundColor $OpticsHColor    
+Write-Host "$Heater : $RHID_Optics_Heater_str $Optics_Heater_Test_Result" -ForegroundColor $OpticsHColor
+Write-Host "$Heater : $RHID_Optics_Heater_TempAvg , $RHID_Optics_Heater_PwmAvg"   
 
 if ($VerboseMode -eq "True") {RHID_Heater_Verbose}
 } # End of RHID_Heater_Test function
 
 $RHID_Gel_Cooler_FAT_PASS = ($RHID_Gel_Cooler_FAT | Select-String "PASS" )
 $RHID_Gel_Cooler_FAT_FAIL = ($RHID_Gel_Cooler_FAT | Select-String "FAIL" )
+$RHID_Gel_Cooler_TempAvg = (($storyboard | Select-String "Temp Average:" | Select-String "(2.5/3.5C)")[-1].line.split(",").TrimStart())[-1]
+$RHID_Gel_Cooler_VoltAvg = (($storyboard | Select-String "Voltage Average:" | Select-String "(< 5V)")[-1].line.split(",").TrimStart())[-1]
+$RHID_Gel_Cooler_AmpAvg = (($storyboard | Select-String "Current Average" | Select-String "(< 1.5A)")[-1].line.split(",").TrimStart())[-1]
 function RHID_GelCooler {
 if ($RHID_Gel_Cooler_FAT.count -eq "0") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ($RHID_Gel_Cooler_FAT_PASS.Line -match "PASS") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Passed" -ForegroundColor Green 
+    Write-Host "$Gel_Cooler : $RHID_Gel_CRHID_Gel_Cooler_TempAvg, $RHID_Gel_Cooler_VoltAvg , $RHID_Gel_Cooler_AmpAvg"
 }
 elseif ($RHID_Gel_Cooler_FAT_FAIL.Line -match "FAIL") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    
@@ -86,13 +109,14 @@ elseif ($RHID_Gel_Cooler_FAT_FAIL.Line -match "FAIL") {
 
 $RHID_Ambient_FAT_PASS = ($RHID_Ambient_FAT | Select-String "PASS" )
 $RHID_Ambient_FAT_FAIL = ($RHID_Ambient_FAT | Select-String "FAIL" )
-
+$RHID_Ambient_TempAvg = (($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split(",").TrimStart())[-1]
 function RHID_Ambient_Sensor {
 if ($RHID_Ambient_FAT.count -eq "0") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ($RHID_Ambient_FAT_PASS.Line -match "PASS") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Passed $RHID_Ambient_Temp" -ForegroundColor Green 
+    Write-Host "$Ambient : $RHID_Ambient_TempAvg" -ForegroundColor Green
 }
 elseif ($RHID_Ambient_FAT_FAIL.Line -match "FAIL") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed $RHID_Ambient_Temp" -ForegroundColor Red    
@@ -145,7 +169,11 @@ if ($RHID_FE_Motor_Test.count -eq "0") {
     Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_FE_Motor_Test | Select-String "Pass") -eq "True") {
-    Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_Passed" -ForegroundColor Green 
+    $RHID_FE_Motor_Test_FL = (($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(",").TrimStart())[-1]
+    $RHID_FE_Motor_Test_PR = (($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(",").TrimStart())[-1]
+    $RHID_FE_Motor_Test_DL = (($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(",").TrimStart())[-1]
+    Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$SCI : $RHID_FE_Motor_Test_FL, $RHID_FE_Motor_Test_PR, $RHID_FE_Motor_Test_DL" -ForegroundColor White
 }
 else {
     Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_Failed" -ForegroundColor Red    
@@ -165,11 +193,14 @@ else {
     Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Failed" -ForegroundColor Red    
 }
 
+    $RHID_FL_Homing_Error_wCAM_FL = (($storyboard | Select-String "FL:" | Select-String "(<0.35mm)")[-1].line.split(",").TrimStart())[-1]
+    $RHID_FL_Homing_Error_wCAM_CAM5 = (($storyboard | Select-String -SimpleMatch "FL (CAM5):" | Select-String "(<0.35mm)")[-1].line.split(",").TrimStart())[-1]
 if ($RHID_FL_Homing_Error_wCAM_Test.count -eq "0") {
     Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_FL_Homing_Error_wCAM_Test | Select-String "Pass") -eq "True") {
-    Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_Passed" -ForegroundColor Green 
+    Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_Passed" -ForegroundColor Green
+    Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_FL , $RHID_FL_Homing_Error_wCAM_CAM5"
 }
 else {
     Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_Failed" -ForegroundColor Red    
