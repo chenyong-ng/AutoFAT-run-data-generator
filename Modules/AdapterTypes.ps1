@@ -48,7 +48,7 @@ $connections = Get-WmiObject WmiMonitorConnectionParams -Namespace root/wmi
 foreach ($monitor in $monitors) {
     $manufacturer = $monitor.ManufacturerName
     $name = $monitor.UserFriendlyName
-    $connectionType = ($connections | ? { $_.InstanceName -eq $monitor.InstanceName }).VideoOutputTechnology
+    $connectionType = ($connections | Where-Object { $_.InstanceName -eq $monitor.InstanceName }).VideoOutputTechnology
 
     if ($null -ne $manufacturer) { $manufacturer = [System.Text.Encoding]::ASCII.GetString($manufacturer -ne 0) }
     if ($null -ne $name) { $name = [System.Text.Encoding]::ASCII.GetString($name -ne 0) }

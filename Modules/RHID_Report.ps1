@@ -54,6 +54,7 @@ $Waves_Server          = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
 #"$Found : $Waves_Leaf_Server ? " + $Waves_File + ", Number of Instances Found : " + $Waves_Server.count
 "$Found : " + $Waves_Server.count + " , " + $(if ($Waves_Server.count -gt 0) { $Waves_Server[0] })
 
+# put them into html
 IF ($NoIMGPopUp -ne "True") {       
     If ($Waves_Leaf_Server -eq "True" ){
         Start-Process -WindowStyle Minimized "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Nonlinearity_File"
@@ -172,6 +173,15 @@ IF ($NoXML -ne "True") {
     Copy-Item -Force $TempXMLFile -Destination $TestResultXML_FullPath
     Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultXML_FullPath"
 }
+
+IF ($NoHTML -ne "True") {
+    . $PSScriptRoot\RHID_HTML.ps1
+    $TestResultHTML_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultHTML_File"
+    $html | Out-File -FilePath $TestResultHTML_FullPath -Force
+    # Copy-Item -Force $TempXMLFile -Destination $TestResultXML_FullPath
+    Start-Process -WindowStyle Minimized "$TestResultHTML_FullPath"
+}
+
 "$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name
 "$info : Script ended with exit code of $LASTEXITCODE"
 Remove-item $TempLogFile, $TempXMLFile

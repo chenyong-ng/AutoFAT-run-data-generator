@@ -54,7 +54,8 @@ if ($VerboseMode -eq "True") {
 $xmlFragment                = $xmlMmat.CreateDocumentFragment()
 $xmlFragment.InnerXml       =
 @"
-<NewElement><GFE36cyclesCount>$GFE_BVCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
+<Fullrun><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Fullrun>
+<Full2run><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Full2run>
 "@
 #<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
 

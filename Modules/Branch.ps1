@@ -97,3 +97,7 @@ if ($Arguments -match 'I') {
     $NoIMGPopUp             = "True"
     Write-Host "$Info : [I] Switch Activated, Image Popup Disabled"                 -ForegroundColor Yellow
 }
+if ($Arguments -match 'H') {
+    $NoHTML                 = "True"
+    Write-Host "$Info : [H] Switch Activated, HTML Report generation Disabled"                 -ForegroundColor Yellow
+}
