@@ -4,19 +4,6 @@
 function RHID_Heater_Test {
 $RHID_Lysis_Heater_FAT_PASS = ($RHID_Lysis_Heater_FAT | Select-String "PASS" )
 $RHID_Lysis_Heater_FAT_FAIL = ($RHID_Lysis_Heater_FAT | Select-String "FAIL" )
-$RHID_Lysis_Heater1_TempAvg = (($storyboard | Select-String "Lysis1 Temp Average =" | Select-String "(84.5/85.5C)")[-1].line.split(",").TrimStart())[-1]
-$RHID_Lysis_Heater1_PwmAvg  = (($storyboard | Select-String "Lysis1 PWM Average =" | Select-String "(0/2600)")[-1].line.split(",").TrimStart())[-1]
-$RHID_Lysis_Heater2_TempAvg = (($storyboard | Select-String "Lysis2 Temp Average =" | Select-String "(84.5/85.5C)")[-1].line.split(",").TrimStart())[-1]
-$RHID_Lysis_Heater2_PwmAvg  = (($storyboard | Select-String "Lysis2 PWM Average =" | Select-String "(0/8000)")[-1].line.split(",").TrimStart())[-1]
-
-# Master copy of the data extraction method, when the value is sandwitched between text that need to be discarded.
-# $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R -ErrorAction SilentlyContinue
-# Will be useful in the future when XML or HTML implementations are sucessfull
-$RHID_Lysis_Heater1_TempAvgVal  = (($storyboard | Select-String "Lysis1 Temp Average =" )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0]
-$RHID_Lysis_Heater1_PwmAvgVal   = (($storyboard | Select-String "Lysis1 PWM Average =" )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0]
-$RHID_Lysis_Heater2_TempAvgVal  = (($storyboard | Select-String "Lysis2 Temp Average =" )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0]
-$RHID_Lysis_Heater2_PwmAvgVal   = (($storyboard | Select-String "Lysis2 PWM Average =" )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0]
-
 if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     $Lysis_Heater_Test_Result = $Test_NA
     $LHColor = "Yellow"
@@ -27,14 +14,10 @@ if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     $Lysis_Heater_Test_Result = $Test_Failed
     $LHColor = "Red"
 }
-
 if ($EnableDescriptions -eq "True") {
-    RHID_Heater_Lysis_Details
+    RHID_Lysis_Heater_Details
 }
-
 Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
-Write-Host "$Heater : $RHID_Lysis_Heater1_TempAvg , $RHID_Lysis_Heater1_PwmAvg"
-Write-Host "$Heater : $RHID_Lysis_Heater2_TempAvg , $RHID_Lysis_Heater2_PwmAvg"
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
 $RHID_DN_Heater_FAT_FAIL = ($RHID_DN_Heater_FAT | Select-String "FAIL" )

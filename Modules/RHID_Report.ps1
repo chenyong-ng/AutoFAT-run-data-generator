@@ -55,6 +55,7 @@ $Waves_Server          = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
 "$Found : " + $Waves_Server.count + " , " + $(if ($Waves_Server.count -gt 0) { $Waves_Server[0] })
 
 # put them into html
+# look for internal and server folder as well
 IF ($NoIMGPopUp -ne "True") {       
     If ($Waves_Leaf_Server -eq "True" ){
         Start-Process -WindowStyle Minimized "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Nonlinearity_File"

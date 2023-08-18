@@ -5,10 +5,10 @@ $htmlHeader =
 <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
 <!-- Constructed with RHID Powershell Report Generation -->
 <HEAD>
-<TITLE>$MachineName Report</TITLE>
+<TITLE>$MachineName Test Report</TITLE>
 <style>
 h3 {
-  color: Green;
+  color: Black;
   font: 24px ""Helvetica Neue"", Helvetica, Arial, sans-serif;
 }
 </style>
@@ -21,33 +21,33 @@ h3 {
 <TH ALIGN=""RIGHT""><H3></H3></TH>
 </TR></TABLE><OL>
 <LI>Instrument Serial Number: $MachineName</LI>
-<!-- replace rhid prefix -->
+<!-- replace with rhid prefix, add data from tc verrification -->
+<!-- image from prime buffer, waves screenshot -->
 <LI>Product Configuration: Non-NOAV</LI>
-<LI>Instrument Version: </LI>
-<LI>Instrument Server Version: </LI>
+<LI>Instrument Version: ?ADD ABRHID VERSION?</LI>
+<LI>Instrument Server Version: ?ADD GIT VERSION? </LI>
 <LI>Host Name: $Hostname</LI>
 <LI>MTSS Version: 1.2.1</LI>
-<LI>MTSS Part Number: 100101404</LI>
-<LI>TimeStamp: 10:56:58 AM 09/12/2022</LI>
-<LI>Workstation ID: SGSI11-B6BZP73</LI>
-<LI>User Name: test</LI>
-<LI>White LED Control SN: </LI>
-<LI>White LED Control HW: </LI>
-<LI>White LED Control FW: </LI>
-<LI>White LED Control Boot: </LI>
-<LI>NearIR Control SN: </LI>
-<LI>NearIR Control HW: </LI>
-<LI>NearIR Control FW: </LI>
-<LI>NearIR Control Boot: </LI>
-<LI>Motion Control SN: </LI>
-<LI>Motion Control HW: </LI>
-<LI>Motion Control FW: </LI>
-<LI>Motion Control Boot: </LI>
-<LI>Camera SN: </LI>
-<LI>Camera HW: </LI>
-<LI>Camera FW: </LI>
-<LI>Camera Boot: </LI>
-<LI>Transillum Control SN: </LI>
+<LI>MTSS Part Number: A4XXXX/LI>
+<LI>TimeStamp: $LogTimerStart</LI>
+<LI>Workstation ID: $Hostname</LI>
+<LI>User Name: ??</LI>
+<LI>Q-mini serial number : </LI>
+<LI>Coefficients : </LI>
+<LI>Inflection Point : </LI>
+<LI>Thermocycler Calibration : </LI>
+<LI>Ambient + Probe : </LI>
+<LI>Temp + Humidity : </LI>
+<LI>TC Probe ID : </LI>
+<LI>TC Step 1 : </LI>
+<LI>TC Step 2 : </LI>
+<LI>TC Step 3 : </LI>
+<LI>TC Step 4 : </LI>
+<LI>Airleak Test : </LI>
+<LI>Non-linearity Calibration : </LI>
+<LI>CWaves RHID-0855.PNG : </LI>
+<LI>Instrument Serial : </LI>
+<LI>Hardware Version : </LI>
 <LI>Transillum Control HW: </LI>
 <LI>Transillum Control FW: </LI>
 <LI>Transillum Control Boot: </LI>
