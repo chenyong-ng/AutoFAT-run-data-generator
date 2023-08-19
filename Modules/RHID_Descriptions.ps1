@@ -144,7 +144,18 @@ Function RHID_Homing_Error_Test_Details {
 $RHID_FL_Homing_Error_wCAM_FL   = [Double](($storyboard | Select-String "FL:"                    | Select-String "(<0.35mm)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("mm")[0].trimstart()
 $RHID_FL_Homing_Error_wCAM_CAM5 = [Double](($storyboard | Select-String -SimpleMatch "FL (CAM5):" | Select-String "(<0.35mm)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("mm")[0].trimstart()
 Function RHID_FL_Homing_Error_Details {
-    "$Desc : " + "FL Motor Homing Error At:" + $RHID_FL_Homing_Error_wCAM_FL + " mm (<0.35 mm)"
-    "$Desc : " + "FL Motor CAM5 Homing Error At:" + $RHID_FL_Homing_Error_wCAM_CAM5 + " mm (<0.35 mm)"
+    "$Desc : " + "FL Motor Homing Error At:"        + $RHID_FL_Homing_Error_wCAM_FL     + " mm (<0.35 mm)"
+    "$Desc : " + "FL Motor CAM5 Homing Error At:"   + $RHID_FL_Homing_Error_wCAM_CAM5   + " mm (<0.35 mm)"
 }
 
+$Mezz_Actuator_Offset_Delta = ($storyboard | Select-String "BECInterface" | Select-String "HomeOffset Delta:").Line.split(",")[2, 5, 8, 11].split(":").split("(")[1, 4, 7,10].TrimStart()
+$Mezz_Actuator_Offset_Delta_IP = [Double]$Mezz_Actuator_Offset_Delta[0]
+$Mezz_Actuator_Offset_Delta_PB = [Double]$Mezz_Actuator_Offset_Delta[1]
+$Mezz_Actuator_Offset_Delta_WV = [Double]$Mezz_Actuator_Offset_Delta[2]
+$Mezz_Actuator_Offset_Delta_XM = [Double]$Mezz_Actuator_Offset_Delta[3]
+Function RHID_Mezz_Actuator_Offset_Details {
+    "$Desc : " + "Mezzanine Actuator IP Motor (Front Left) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_IP" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator PB Motor (Front Right) Offset Delta = "    + "$Mezz_Actuator_Offset_Delta_PB" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator WV Motor (Rear Left) Offset Delta = "      + "$Mezz_Actuator_Offset_Delta_WV" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator XM Motor (Rear Right) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_XM" + "(< 20 steps)"
+}
