@@ -84,7 +84,6 @@ if ($RHID_Gel_Cooler_FAT.count -eq "0") {
 }
 elseif ($RHID_Gel_Cooler_FAT_PASS.Line -match "PASS") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Passed" -ForegroundColor Green 
-        Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_TempAvg, $RHID_Gel_Cooler_VoltAvg , $RHID_Gel_Cooler_AmpAvg"
 }
 elseif ($RHID_Gel_Cooler_FAT_FAIL.Line -match "FAIL") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    
@@ -94,7 +93,6 @@ elseif ($RHID_Gel_Cooler_FAT_FAIL.Line -match "FAIL") {
 
 $RHID_Ambient_FAT_PASS = ($RHID_Ambient_FAT | Select-String "PASS" )
 $RHID_Ambient_FAT_FAIL = ($RHID_Ambient_FAT | Select-String "FAIL" )
-$RHID_Ambient_TempAvg = (($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split(",").TrimStart())[-1]
 function RHID_Ambient_Sensor {
 if ($RHID_Ambient_FAT.count -eq "0") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_NA"    -ForegroundColor Yellow 
@@ -154,11 +152,9 @@ if ($RHID_FE_Motor_Test.count -eq "0") {
     Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_FE_Motor_Test | Select-String "Pass") -eq "True") {
-    $RHID_FE_Motor_Test_FL = (($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(",").TrimStart())[-1]
-    $RHID_FE_Motor_Test_PR = (($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(",").TrimStart())[-1]
-    $RHID_FE_Motor_Test_DL = (($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(",").TrimStart())[-1]
+
     Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$SCI : $RHID_FE_Motor_Test_FL, $RHID_FE_Motor_Test_PR, $RHID_FE_Motor_Test_DL" -ForegroundColor White
+
 }
 else {
     Write-Host "$SCI : $RHID_FE_Motor_Test_Str $Test_Failed" -ForegroundColor Red    
@@ -168,24 +164,21 @@ if ($RHID_Homing_Error_Test.count -eq "0") {
     Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Homing_Error_Test | Select-String "Pass") -eq "True") {
-    $RHID_Homing_Error_Test_FL = (($storyboard | Select-String "FL:" | Select-String "(<0.35 mm)")[-1].line.split(",").TrimStart())[-1]
-    $RHID_Homing_Error_Test_PR = (($storyboard | Select-String "PR:" | Select-String "(<0.35 mm)")[-1].line.split(",").TrimStart())[-1]
-    $RHID_Homing_Error_Test_DL = (($storyboard | Select-String "DL:" | Select-String "(<0.35 mm)")[-1].line.split(",").TrimStart())[-1]
+
     Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$SCI : $RHID_Homing_Error_Test_FL, $RHID_Homing_Error_Test_PR, $RHID_Homing_Error_Test_DL" -ForegroundColor White
+
 }
 else {
     Write-Host "$SCI : $RHID_Homing_Error_Test_Str $Test_Failed" -ForegroundColor Red    
 }
 
-    $RHID_FL_Homing_Error_wCAM_FL = (($storyboard | Select-String "FL:" | Select-String "(<0.35mm)")[-1].line.split(",").TrimStart())[-1]
-    $RHID_FL_Homing_Error_wCAM_CAM5 = (($storyboard | Select-String -SimpleMatch "FL (CAM5):" | Select-String "(<0.35mm)")[-1].line.split(",").TrimStart())[-1]
+
 if ($RHID_FL_Homing_Error_wCAM_Test.count -eq "0") {
     Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_FL_Homing_Error_wCAM_Test | Select-String "Pass") -eq "True") {
     Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_Passed" -ForegroundColor Green
-    Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_FL , $RHID_FL_Homing_Error_wCAM_CAM5"
+
 }
 else {
     Write-Host "$SCI : $RHID_FL_Homing_Error_wCAM_Test_Str $Test_Failed" -ForegroundColor Red    
