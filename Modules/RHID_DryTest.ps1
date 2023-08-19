@@ -29,9 +29,10 @@ if ($RHID_DN_Heater_FAT.count -eq "0") {
     $DNHColor = "Green"
 } elseif ($RHID_DN_Heater_FAT_FAIL.Line -match "FAIL") {
     $DN_Heater_Test_Result = $Test_Failed
-    $DNHColor = "Red" 
+    $DNHColor = "Red"
+}
 if ($EnableDescriptions -eq "True") {
-    RHID_DN_Heater_Details}
+    RHID_DN_Heater_Details
 }
 # ($RHID_DN_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")
 Write-Host "$Heater : $RHID_DN_Heater_str $DN_Heater_Test_Result" -ForegroundColor $DNHColor
@@ -47,9 +48,9 @@ if ($RHID_PCR_Heater_FAT.count -eq "0") {
 } elseif ($RHID_PCR_Heater_FAT_FAIL.Line -match "FAIL") {
     $PCR_Heater_Test_Result = $Test_Failed
     $PCRColor = "Red" 
+}
 if ($EnableDescriptions -eq "True") {
     RHID_PCR_Heater_Details
-}
 }
 
 Write-Host "$Heater : $RHID_PCR_Heater_str $PCR_Heater_Test_Result" -ForegroundColor $PCRColor
@@ -66,18 +67,17 @@ elseif ($RHID_Optics_Heater_FAT_PASS.Line -match "PASS") {
 }
 elseif ($RHID_Optics_Heater_FAT_FAIL.Line -match "FAIL") {
     $Optics_Heater_Test_Result = $Test_Failed
-    $OpticsHColor = "Red"    
+    $OpticsHColor = "Red"
 }
 Write-Host "$Heater : $RHID_Optics_Heater_str $Optics_Heater_Test_Result" -ForegroundColor $OpticsHColor 
 
-if ($VerboseMode -eq "True") {RHID_Heater_Verbose}
+if ($EnableDescriptions -eq "True") {
+    RHID_Optics_Heater_Detail
+}
 } # End of RHID_Heater_Test function
 
 $RHID_Gel_Cooler_FAT_PASS = ($RHID_Gel_Cooler_FAT | Select-String "PASS" )
 $RHID_Gel_Cooler_FAT_FAIL = ($RHID_Gel_Cooler_FAT | Select-String "FAIL" )
-$RHID_Gel_Cooler_TempAvg = (($storyboard | Select-String "Temp Average:" | Select-String "(2.5/3.5C)")[-1].line.split(",").TrimStart())[-1]
-$RHID_Gel_Cooler_VoltAvg = (($storyboard | Select-String "Voltage Average:" | Select-String "(< 5V)")[-1].line.split(",").TrimStart())[-1]
-$RHID_Gel_Cooler_AmpAvg = (($storyboard | Select-String "Current Average:" | Select-String "(< 1.5A)")[-1].line.split(",").TrimStart())[-1]
 function RHID_GelCooler {
 if ($RHID_Gel_Cooler_FAT.count -eq "0") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_NA"    -ForegroundColor Yellow 

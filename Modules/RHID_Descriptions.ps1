@@ -115,3 +115,13 @@ Function RHID_Optics_Heater_Details {
     "$Desc : " + "Optics PWM Average    = " + "$RHID_Optics_Heater_PwmAvg"          + "(< 15000)"
     "$Desc : " + "Optics PWM SD         = " + "$RHID_Optics_Heater_PWM_SD"          + "(< 1000)"
 }
+
+$RHID_Gel_Cooler_TempAvg = [Double]((($storyboard |  Select-String "BECInterface" | Select-String "Temp Average:"    | Select-String "(2.5/3.5C)"))[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("C")[0].trimstart()
+$RHID_Gel_Cooler_VoltAvg = [Double]((($storyboard |  Select-String "BECInterface" | Select-String "Voltage Average:" | Select-String "(< 5V)"))[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("V")[0].trimstart()
+$RHID_Gel_Cooler_AmpAvg  = [Double]((($storyboard |  Select-String "BECInterface" | Select-String "Current Average:" | Select-String "(< 1.5A)"))[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("A")[0].trimstart()
+
+Function RHID_Gel_Cooler_Details {
+    "$Desc : " + "Gel Cooler Temp Average       = " + "$RHID_Gel_Cooler_TempAvg" + "C (2.5 / 3.5C)"
+    "$Desc : " + "Gel Cooler Voltage Average    = " + "$RHID_Gel_Cooler_VoltAvg" + "V (< 5V)"
+    "$Desc : " + "Gel Cooler Current Average    = " + "$RHID_Gel_Cooler_AmpAvg" + "A (< 1.5A)"
+}
