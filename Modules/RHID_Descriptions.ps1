@@ -238,4 +238,82 @@ Function RHID_Gel_Antenna_Strength_Details {
     "$Desc : " + "Gel Antenna Strength (Low): " + "$RHID_Gel_Antenna_Strength_Low" + "(>= 3)"
 }
 
- Gel Antenna Strength (High) = 7 (>= 7)
+$RHID_MezzBoard_Start_Temp      = [Double]($storyboard | Select-String "Instrument" | Select-String "Start Temp ="      )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_MezzBoard_Temp_Ramp_Rate  = [Double]($storyboard | Select-String "Instrument" | Select-String "Temp Ramp Rate ="  )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C/s")[0]
+$RHID_MezzBoard_Ramp_Start      = [Double]($storyboard | Select-String "Instrument" | Select-String "Ramp Start :"      )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_MezzBoard_Ramp_End        = [Double]($storyboard | Select-String "Instrument" | Select-String "Ramp End :"        )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_MezzBoard_Ramp_Time       = [Double]($storyboard | Select-String "Instrument" | Select-String "Ramp Time :"       )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("s")[0]
+$RHID_MezzBoard_Time_to_60C     = [Double]($storyboard | Select-String "Instrument" | Select-String "Time to 60C ="     )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("s")[0]
+$RHID_MezzBoard_Temp_Avg        = [Double]($storyboard | Select-String "Instrument" | Select-String "Temp Avg ="        )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+
+<#
+$RHID_MezzBoard_Z1_Start_Temp = 
+$RHID_MezzBoard_Z1_Temp_Ramp_Rate = 
+$RHID_MezzBoard_Z1_Ramp_Start = 
+$RHID_MezzBoard_Z1_Ramp_End = 
+$RHID_MezzBoard_Z1_Ramp_Time = 
+$RHID_MezzBoard_Z1_Time_to_60C = 
+$RHID_MezzBoard_Z1_Temp_Avg = 
+
+$RHID_MezzBoard_Z3_Start_Temp = 
+$RHID_MezzBoard_Z3_Temp_Ramp_Rate = 
+$RHID_MezzBoard_Z3_Ramp_Start = 
+$RHID_MezzBoard_Z3_Ramp_End = 
+$RHID_MezzBoard_Z3_Ramp_Time = 
+$RHID_MezzBoard_Z3_Time_to_60C = 
+$RHID_MezzBoard_Z3_Temp_Avg = 
+
+$RHID_MezzBoard_CAT_Start_Temp = 
+$RHID_MezzBoard_CAT_Temp_Ramp_Rate = 
+$RHID_MezzBoard_CAT_Ramp_Start = 
+$RHID_MezzBoard_CAT_Ramp_End = 
+$RHID_MezzBoard_CAT_Ramp_Time = 
+$RHID_MezzBoard_CAT_Time_to_60C = 
+$RHID_MezzBoard_CAT_Temp_Avg = 
+
+
+Start Temp      = 33.32C (<35 C)
+Temp Ramp Rate  = 0.333C/s
+Ramp Start      : 35C
+Ramp End        : 50C
+Ramp Time       : 45.01s
+Time to 60C     = 90.47s
+Temp Avg        = 60.01C (59.5 / 60.5 C)
+
+
+
+
+Instrument               , CAT Took: 319.27 s
+Instrument               ,    CAT Ramp Rate to 38 : 0.151 C/s
+Instrument               , Z1 Took: 90.47 s
+Instrument               ,    Z1 Ramp Rate to 50 : 0.333 C/s
+Instrument               , Z3 Took: 28.74 s
+Instrument               ,    Z3 Ramp Rate to 50 : 0.952 C/s
+
+Instrument               , ===============
+Instrument               , MezzBoard FAT: PASS
+Instrument               , Z1
+Instrument               ,      Start Temp      = 33.32C (<35 C)
+Instrument               ,      Temp Ramp Rate  = 0.333C/s
+Instrument               ,      Ramp Start      : 35C
+Instrument               ,      Ramp End        : 50C
+Instrument               ,      Ramp Time           : 45.01s
+Instrument               ,      Time to 60C     = 90.47s
+Instrument               ,      Temp Avg        = 60.01C (59.5/60.5 C)
+Instrument               , Z3
+Instrument               ,      Start Temp = 33.41C (<35 C)
+Instrument               ,      Temp Ramp Rate = 0.952C/s
+Instrument               ,          Ramp Start: 35C
+Instrument               ,          Ramp End: 50.02C
+Instrument               ,          Ramp Time: 15.77s
+Instrument               ,      Time to 60C = 28.74s
+Instrument               ,      Temp Avg = 60C (59.5/60.5 C)
+Instrument               , CAT
+Instrument               ,      Start Temp = 26.98C (<35 C)
+Instrument               ,      Temp Ramp Rate = 0.151C/s
+Instrument               ,          Ramp Start: 35C
+Instrument               ,          Ramp End: 38.02C
+Instrument               ,          Ramp Time: 20.03s
+Instrument               ,      Time to 42 C = 319.27s
+Instrument               ,      Temp Avg = 41.74C (41/43 C)"
+#>
