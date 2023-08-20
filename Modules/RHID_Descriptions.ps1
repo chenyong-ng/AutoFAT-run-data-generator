@@ -4,28 +4,28 @@
 # $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R -ErrorAction SilentlyContinue
 # Will be useful in the future when XML or HTML implementations are sucessfull
 
-$RHID_Lysis1_Ramp       = [Double]((($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Lysis1_Temp_Avg   = [Double]((($storyboard | Select-String "Lysis1 Temp Average ="    )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Lysis1_Temp_SD    = [Double]((($storyboard | Select-String "Lysis1 Temp SD ="         )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Lysis1_Pwm_Avg    = [Double]((($storyboard | Select-String "Lysis1 PWM Average ="     )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].trimstart())
-$RHID_Lysis1_PWM_SD     = [Double]((($storyboard | Select-String "Lysis1 PWM SD ="          )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].trimstart())
+$RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis1_Temp_Avg   = [Double]($storyboard | Select-String "Lysis1 Temp Average ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis1_Temp_SD    = [Double]($storyboard | Select-String "Lysis1 Temp SD ="         )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis1_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis1 PWM Average ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
+$RHID_Lysis1_PWM_SD     = [Double]($storyboard | Select-String "Lysis1 PWM SD ="          )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
 
-$RHID_Lysis2_Ramp       = [Double]((($storyboard | Select-String "Lysis2 Ramp Rate ="       )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Lysis2_Temp_Avg   = [Double]((($storyboard | Select-String "Lysis2 Temp Average ="    )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Lysis2_Temp_SD    = [Double]((($storyboard | Select-String "Lysis2 Temp SD ="         )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Lysis2_Pwm_Avg    = [Double]((($storyboard | Select-String "Lysis2 PWM Average ="     )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].trimstart())
-$RHID_Lysis2_PWM_SD     = [Double]((($storyboard | Select-String "Lysis2 PWM SD ="          )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].trimstart())
+$RHID_Lysis2_Ramp       = [Double]($storyboard | Select-String "Lysis2 Ramp Rate ="       )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis2_Temp_Avg   = [Double]($storyboard | Select-String "Lysis2 Temp Average ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis2_Temp_SD    = [Double]($storyboard | Select-String "Lysis2 Temp SD ="         )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis2_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis2 PWM Average ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
+$RHID_Lysis2_PWM_SD     = [Double]($storyboard | Select-String "Lysis2 PWM SD ="          )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
 Function RHID_Lysis_Heater_Details {
-    "$Desc : " + "Lysis1 Ramp Rate      = " + "$RHID_Lysis1_Ramp"       + "C/s"
-    "$Desc : " + "Lysis1 Temp Average   = " + "$RHID_Lysis1_Temp_Avg"   + "C (84.5 / 85.5C)"
-    "$Desc : " + "Lysis1 Temp SD        = " + "$RHID_Lysis1_Temp_SD"    + "C (< 0.25C)"
-    "$Desc : " + "Lysis1 PWM Average    = " + "$RHID_Lysis1_Pwm_Avg"    + "(0 / 2600)"
-    "$Desc : " + "Lysis1 PWM SD         = " + "$RHID_Lysis1_PWM_SD"     + "(< 1000)"
-    "$Desc : " + "Lysis2 Ramp Rate      = " + "$RHID_Lysis2_Ramp"       + "C/s"
-    "$Desc : " + "Lysis2 Temp Average   = " + "$RHID_Lysis2_Temp_Avg"   + "C (84.5 / 85.5C)"
-    "$Desc : " + "Lysis2 Temp SD        = " + "$RHID_Lysis2_Temp_SD"    + "C (< 0.25C)"
-    "$Desc : " + "Lysis2 PWM Average    = " + "$RHID_Lysis2_Pwm_Avg"    + "(0 / 8000)"
-    "$Desc : " + "Lysis2 PWM SD         = " + "$RHID_Lysis2_PWM_SD"     + "(< 1000)"
+    "$Desc : " + "Lysis1 Ramp Rate      = " + "$RHID_Lysis1_Ramp"       + " C/s"
+    "$Desc : " + "Lysis1 Temp Average   = " + "$RHID_Lysis1_Temp_Avg"   + " C (84.5 / 85.5C)"
+    "$Desc : " + "Lysis1 Temp SD        = " + "$RHID_Lysis1_Temp_SD"    + " C (< 0.25C)"
+    "$Desc : " + "Lysis1 PWM Average    = " + "$RHID_Lysis1_Pwm_Avg"    + " (0 / 2600)"
+    "$Desc : " + "Lysis1 PWM SD         = " + "$RHID_Lysis1_PWM_SD"     + " (< 1000)"
+    "$Desc : " + "Lysis2 Ramp Rate      = " + "$RHID_Lysis2_Ramp"       + " C/s"
+    "$Desc : " + "Lysis2 Temp Average   = " + "$RHID_Lysis2_Temp_Avg"   + " C (84.5 / 85.5C)"
+    "$Desc : " + "Lysis2 Temp SD        = " + "$RHID_Lysis2_Temp_SD"    + " C (< 0.25C)"
+    "$Desc : " + "Lysis2 PWM Average    = " + "$RHID_Lysis2_Pwm_Avg"    + " (0 / 8000)"
+    "$Desc : " + "Lysis2 PWM SD         = " + "$RHID_Lysis2_PWM_SD"     + " (< 1000)"
 }
 # $RHID_Ambient_Temp = (($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split(",").TrimStart())[-1]
 
@@ -141,14 +141,21 @@ Function RHID_Homing_Error_Test_Details {
     "$Desc : " + "DL Motor Homing Error At:" + $RHID_Homing_Error_Test_DL + " mm (<0.35 mm)"
 }
 
-$RHID_FL_Homing_Error_wCAM_FL   = [Double](($storyboard | Select-String "FL:"                    | Select-String "(<0.35mm)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("mm")[0].trimstart()
-$RHID_FL_Homing_Error_wCAM_CAM5 = [Double](($storyboard | Select-String -SimpleMatch "FL (CAM5):" | Select-String "(<0.35mm)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("mm")[0].trimstart()
+$RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:" | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
+$RHID_FL_Homing_Error_wCAM_CAM5 = [Double]($storyboard | Select-String -SimpleMatch "FL (CAM5):" | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
 Function RHID_FL_Homing_Error_Details {
     "$Desc : " + "FL Motor Homing Error At:"        + $RHID_FL_Homing_Error_wCAM_FL     + " mm (<0.35 mm)"
     "$Desc : " + "FL Motor CAM5 Homing Error At:"   + $RHID_FL_Homing_Error_wCAM_CAM5   + " mm (<0.35 mm)"
 }
 
-$Mezz_Actuator_Offset_Delta = ($storyboard | Select-String "BECInterface" | Select-String "HomeOffset Delta:").Line.split(",")[2, 5, 8, 11].split(":").split("(")[1, 4, 7,10].TrimStart()
+#  SCI Antenna Strength = 7 (<= 7)
+$RHID_SCI_An_Strength =  [double](($storyboard | Select-String "SCI Antenna Strength =")[-1].line.split(","))[-1].split("=")[1].split("(")[0]
+
+Function RHID_SCI_AntStrength_Details {
+    "$Desc : " + "SCI Antenna Strength = " + "$RHID_SCI_An_Strength" + "(<= 7)"
+}
+
+$Mezz_Actuator_Offset_Delta = ($storyboard | Select-String "BECInterface" | Select-String "HomeOffset Delta:").Line.split(",")[2, 5, 8, 11].split(":").split("(")[1, 4, 7,10]
 $Mezz_Actuator_Offset_Delta_IP = [Double]$Mezz_Actuator_Offset_Delta[0]
 $Mezz_Actuator_Offset_Delta_PB = [Double]$Mezz_Actuator_Offset_Delta[1]
 $Mezz_Actuator_Offset_Delta_WV = [Double]$Mezz_Actuator_Offset_Delta[2]
