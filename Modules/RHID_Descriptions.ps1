@@ -122,9 +122,19 @@ Function RHID_Ambient_Details {
     "$Desc : " + "Ambient Temp          = " + "$RHID_Ambient_TempAvg" + "C (< 40C)"
 }
 
-$RHID_FE_Motor_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
-$RHID_FE_Motor_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
-$RHID_FE_Motor_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
+$RHID_FL_FAT_HomeOffset_Delta = [Double]($storyboard | Select-String "FL FAT: HomeOffset Delta =")[-1].line.split("=")[-1]
+$RHID_DL_FAT_HomeOffset_Delta = [Double]($storyboard | Select-String "DL FAT: HomeOffset Delta =")[-1].line.split("=")[-1]
+$RHID_PR_FAT_HomeOffset_Delta = [Double]($storyboard | Select-String "PR FAT: HomeOffset Delta =")[-1].line.split("=")[-1]
+
+Function RHID_FAT_HomeOffset_Delta_Details {
+    "$Desc : " + "FL FAT: HomeOffset Delta = " + "$RHID_FL_FAT_HomeOffset_Delta" + "(< 20 steps)"
+    "$Desc : " + "DL FAT: HomeOffset Delta = " + "$RHID_DL_FAT_HomeOffset_Delta" + "(< 20 steps)"
+    "$Desc : " + "PR FAT: HomeOffset Delta = " + "$RHID_PR_FAT_HomeOffset_Delta" + "(< 20 steps)"
+}
+
+$RHID_FE_Motor_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0]
+$RHID_FE_Motor_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0]
+$RHID_FE_Motor_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0]
 Function RHID_FE_Motor_Test_Details {
     "$Desc : " + "FL Motor Tested OK At: " + $RHID_FE_Motor_Test_FL + "% (<20%)"
     "$Desc : " + "PR Motor Tested OK At: " + $RHID_FE_Motor_Test_PR + "% (<10%)"
@@ -154,14 +164,78 @@ Function RHID_SCI_AntStrength_Details {
     "$Desc : " + "SCI Antenna Strength = " + "$RHID_SCI_An_Strength" + "(<= 7)"
 }
 
-$Mezz_Actuator_Offset_Delta = ($storyboard | Select-String "BECInterface" | Select-String "HomeOffset Delta:").Line.split(",")[2, 5, 8, 11].split(":").split("(")[1, 4, 7,10]
+$Mezz_Actuator_Offset_55_Current = ($storyboard | Select-String "BECInterface" | Select-String "HomeOffset at 55% Current:").line.split(",")[2, 5, 8, 11].split(":")[1, 3, 5,7]
+$Mezz_Actuator_Offset_55_Current_IP = [Double]$Mezz_Actuator_Offset_55_Current[0]
+$Mezz_Actuator_Offset_55_Current_PB = [Double]$Mezz_Actuator_Offset_55_Current[1]
+$Mezz_Actuator_Offset_55_Current_WV = [Double]$Mezz_Actuator_Offset_55_Current[2]
+$Mezz_Actuator_Offset_55_Current_XM = [Double]$Mezz_Actuator_Offset_55_Current[3]
+Function RHID_Mezz_Actuator_Offset_55_Current_Details {
+    "$Desc : " + "Current Setting IP Motor (Front Left ) Offset = "    + "$Mezz_Actuator_Offset_55_Current_IP"
+    "$Desc : " + "Current Setting PB Motor (Front Right) Offset = "    + "$Mezz_Actuator_Offset_55_Current_PB"
+    "$Desc : " + "Current Setting WV Motor (Rear Left  ) Offset = "    + "$Mezz_Actuator_Offset_55_Current_WV"
+    "$Desc : " + "Current Setting XM Motor (Rear Right ) Offset = "    + "$Mezz_Actuator_Offset_55_Current_XM"
+}
+
+$Mezz_Actuator_Offset_35_Current = ($storyboard | Select-String "BECInterface" | Select-String "HomeOffset at 35% Current:").Line.split(",")[2, 5, 8, 11].split(":")[1, 3, 5, 7]
+    $Mezz_Actuator_Offset_35_Current_IP = [Double]$Mezz_Actuator_Offset_35_Current[0]
+    $Mezz_Actuator_Offset_35_Current_PB = [Double]$Mezz_Actuator_Offset_35_Current[1]
+    $Mezz_Actuator_Offset_35_Current_WV = [Double]$Mezz_Actuator_Offset_35_Current[2]
+    $Mezz_Actuator_Offset_35_Current_XM = [Double]$Mezz_Actuator_Offset_35_Current[3]
+Function RHID_Mezz_Actuator_Offset_35_Current_Details {
+    "$Desc : " + "Current Setting IP Motor (Front Left ) Offset = "    + "$Mezz_Actuator_Offset_35_Current_IP"
+    "$Desc : " + "Current Setting PB Motor (Front Right) Offset = "    + "$Mezz_Actuator_Offset_35_Current_PB"
+    "$Desc : " + "Current Setting WV Motor (Rear Left  ) Offset = "    + "$Mezz_Actuator_Offset_35_Current_WV"
+    "$Desc : " + "Current Setting XM Motor (Rear Right ) Offset = "    + "$Mezz_Actuator_Offset_35_Current_XM"
+}
+
+$Mezz_Actuator_Offset_Delta     = ($storyboard | Select-String "BECInterface" | Select-String "HomeOffset Delta:").Line.split(",")[2, 5, 8, 11].split(":").split("(")[1, 4, 7,10]
 $Mezz_Actuator_Offset_Delta_IP = [Double]$Mezz_Actuator_Offset_Delta[0]
 $Mezz_Actuator_Offset_Delta_PB = [Double]$Mezz_Actuator_Offset_Delta[1]
 $Mezz_Actuator_Offset_Delta_WV = [Double]$Mezz_Actuator_Offset_Delta[2]
 $Mezz_Actuator_Offset_Delta_XM = [Double]$Mezz_Actuator_Offset_Delta[3]
+
 Function RHID_Mezz_Actuator_Offset_Details {
-    "$Desc : " + "Mezzanine Actuator IP Motor (Front Left ) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_IP" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator IP Motor (Front Left ) Offset Delta = "    + "$Mezz_Actuator_Offset_Delta_IP" + "(< 20 steps)"
     "$Desc : " + "Mezzanine Actuator PB Motor (Front Right) Offset Delta = "    + "$Mezz_Actuator_Offset_Delta_PB" + "(< 20 steps)"
-    "$Desc : " + "Mezzanine Actuator WV Motor (Rear Left  ) Offset Delta = "      + "$Mezz_Actuator_Offset_Delta_WV" + "(< 20 steps)"
-    "$Desc : " + "Mezzanine Actuator XM Motor (Rear Right ) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_XM" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator WV Motor (Rear Left  ) Offset Delta = "    + "$Mezz_Actuator_Offset_Delta_WV" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator XM Motor (Rear Right ) Offset Delta = "    + "$Mezz_Actuator_Offset_Delta_XM" + "(< 20 steps)"
 }
+
+$RHID_HP_HomeOffset = [Double]($storyboard | Select-String "HP FAT: HomeOffset Delta =" | Select-String "(< 20 steps)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("steps")[0]
+Function RHID_HP_HomeOffset_Details {
+    "$Desc : " + "HP HomeOffset = " + "$RHID_HP_HomeOffset" + "(< 20 steps)"
+}
+
+$RHID_LP_HomeOffset = [Double]($storyboard | Select-String "LP FAT: HomeOffset Delta =")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("steps")[0]
+Function RHID_LP_HomeOffset_Details {
+    "$Desc : " + "LP HomeOffset = " + "$RHID_LP_HomeOffset" + "(< 20 steps)"
+}
+
+$RHID_HP_Min_Current = [Double]($storyboard | Select-String "HP FAT: Minimum Current =" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+Function RHID_HP_Current_Details {
+    "$Desc : " + "HP Minimum Current = " + "$RHID_HP_Min_Current" + "% (<25%)"
+}
+
+$RHID_LP_Min_Current = [Double]($storyboard | Select-String "LP FAT: Minimum Current =" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+Function RHID_LP_Current_Details {
+    "$Desc : " + "LP Minimum Current = " + "$RHID_LP_Min_Current" + "% (<25%)"
+}
+
+$RHID_BEC_Interlock_Top = [Double]($storyboard | Select-String "BEC Interlock (Top):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_BEC_Interlock_Bottom = [Double]($storyboard | Select-String "BEC Interlock (Bottom):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+Function RHID_BEC_Interlock_Details {
+    "$Desc : " + "BEC Interlock (Top): " + "$RHID_BEC_Interlock_Top" + "C (< 5V)"
+    "$Desc : " + "BEC Interlock (Bottom): " + "$RHID_BEC_Interlock_Bottom" + "C (< 5V)"
+}
+
+$RHID_Gel_Antenna_Strength_High = [Double]($storyboard | Select-String "Gel Antenna Strength (High):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+Function RHID_Gel_Antenna_Strength_Details {
+    "$Desc : " + "Gel Antenna Strength (High): " + "$RHID_Gel_Antenna_Strength_High" + "(>= 7)"
+}
+
+$RHID_Gel_Antenna_Strength_Low = [Double]($storyboard | Select-String "Gel Antenna Strength (Low):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+Function RHID_Gel_Antenna_Strength_Details {
+    "$Desc : " + "Gel Antenna Strength (Low): " + "$RHID_Gel_Antenna_Strength_Low" + "(>= 3)"
+}
+
+ Gel Antenna Strength (High) = 7 (>= 7)
