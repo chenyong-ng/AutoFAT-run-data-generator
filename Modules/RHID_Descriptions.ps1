@@ -86,16 +86,15 @@ Function RHID_PCR_Heater_Details {
     "$Desc : " + "PCR 98C Top / Bot Delta = " + "$RHID_PCR_98C_TopBot_Del"  + "C (< 0.5C)"
 }
 
-$RHID_Optics_Heater_TempAvg         = [Double]((($storyboard | Select-String "Optics Module" | Select-String "Temp Average ="   )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Optics_Heater_Temp_SD         = [Double]((($storyboard | Select-String "Optics Module" | Select-String "Temp SD ="        )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Optics_Heater_Temp_Ramp_Rate  = [Double]((($storyboard | Select-String "Optics Module" | Select-String "Temp Ramp Rate"   )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Optics_Heater_Ramp_Start      = [Double]((($storyboard | Select-String "Optics Module" | Select-String "Ramp Start:"      )[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("C")[0].trimstart())
+$RHID_Optics_Heater_TempAvg         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Average ="   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Optics_Heater_Temp_SD         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp SD ="        )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Optics_Heater_Temp_Ramp_Rate  = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Ramp Rate"   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Optics_Heater_Ramp_Start      = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Start:"      )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("C")[0]
 
-$RHID_Optics_Heater_Ramp_End    = [Double]((($storyboard | Select-String "Optics Module" | Select-String "Ramp End:"     )[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("C")[0].trimstart())
-$RHID_Optics_Heater_Ramp_Time   = [Double]((($storyboard | Select-String "Optics Module" | Select-String "Ramp Time:"    )[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("s")[0].trimstart())
-$RHID_Optics_Heater_PwmAvg      = [Double]((($storyboard | Select-String "Optics Module" | Select-String "PWM Average =")[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].trimstart())
-$RHID_Optics_Heater_PWM_SD      = [Double]((($storyboard | Select-String "Optics Module" | Select-String "PWM SD "      )[-1].line.split(",").TrimStart())[-1].split("=")[-1].split("(")[0].trimstart())
-
+$RHID_Optics_Heater_Ramp_End        = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp End:"      )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_Optics_Heater_Ramp_Time       = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Time:"     )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("s")[0]
+$RHID_Optics_Heater_PwmAvg          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM Average ="  )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
+$RHID_Optics_Heater_PWM_SD          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM SD "        )[-1].line.split(",")[-1].split("=")[-1].s
 Function RHID_Optics_Heater_Details {
     "$Desc : " + "Optics Temp Average   = " + "$RHID_Optics_Heater_TempAvg"         + "C (41.5/42.5C)"
     "$Desc : " + "Optics Temp SD        = " + "$RHID_Optics_Heater_Temp_SD"         + "C (< 0.1C)"
@@ -108,9 +107,9 @@ Function RHID_Optics_Heater_Details {
     "$Desc : " + "Optics PWM SD         = " + "$RHID_Optics_Heater_PWM_SD"          + "(< 1000)"
 }
 
-$RHID_Gel_Cooler_TempAvg = [Double]((($storyboard |  Select-String "BECInterface" | Select-String "Temp Average:"    | Select-String "(2.5/3.5C)" ))[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("C")[0].trimstart()
-$RHID_Gel_Cooler_VoltAvg = [Double]((($storyboard |  Select-String "BECInterface" | Select-String "Voltage Average:" | Select-String "(< 5V)"   ))[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("V")[0].trimstart()
-$RHID_Gel_Cooler_AmpAvg  = [Double]((($storyboard |  Select-String "BECInterface" | Select-String "Current Average:" | Select-String "(< 1.5A)" ))[-1].line.split(",").TrimStart())[-1].split(":")[-1].split("(")[0].split("A")[0].trimstart()
+$RHID_Gel_Cooler_TempAvg = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Temp Average:"    | Select-String "(2.5/3.5C)" )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_Gel_Cooler_VoltAvg = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Voltage Average:" | Select-String "(< 5V)"   )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("V")[0]
+$RHID_Gel_Cooler_AmpAvg  = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Current Average:" | Select-String "(< 1.5A)" )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("A")[0]
 
 Function RHID_Gel_Cooler_Details {
     "$Desc : " + "Gel Cooler Temp Average       = " + "$RHID_Gel_Cooler_TempAvg" + "C (2.5 / 3.5C)"
@@ -118,27 +117,27 @@ Function RHID_Gel_Cooler_Details {
     "$Desc : " + "Gel Cooler Current Average    = " + "$RHID_Gel_Cooler_AmpAvg"  + "A (< 1.5A)"
 }
 
-$RHID_Ambient_TempAvg = [Double](($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split("=").TrimStart())[-1].split(":")[-1].split("(")[0].split("C")[0].trimstart()
+$RHID_Ambient_TempAvg = [Double]($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split("=")[-1].split(":")[-1].split("(")[0].split("C")[0]
 Function RHID_Ambient_Details {
     "$Desc : " + "Ambient Temp          = " + "$RHID_Ambient_TempAvg" + "C (< 40C)"
 }
 
-$RHID_FE_Motor_Test_FL = [Double](($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
-$RHID_FE_Motor_Test_PR = [Double](($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
-$RHID_FE_Motor_Test_DL = [Double](($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
+$RHID_FE_Motor_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
+$RHID_FE_Motor_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
+$RHID_FE_Motor_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0].trimstart()
 Function RHID_FE_Motor_Test_Details {
-    "$Desc : " + "FL Motor Tested OK At:" + $RHID_FE_Motor_Test_FL + "% (<20%)"
-    "$Desc : " + "PR Motor Tested OK At:" + $RHID_FE_Motor_Test_PR + "% (<10%)"
-    "$Desc : " + "DL Motor Tested OK At:" + $RHID_FE_Motor_Test_DL + "% (<25%)"
+    "$Desc : " + "FL Motor Tested OK At: " + $RHID_FE_Motor_Test_FL + "% (<20%)"
+    "$Desc : " + "PR Motor Tested OK At: " + $RHID_FE_Motor_Test_PR + "% (<10%)"
+    "$Desc : " + "DL Motor Tested OK At: " + $RHID_FE_Motor_Test_DL + "% (<25%)"
 }
 
-$RHID_Homing_Error_Test_FL = [Double](($storyboard | Select-String "FL:" | Select-String "(<0.35 mm)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("mm")[0].trimstart()
-$RHID_Homing_Error_Test_PR = [Double](($storyboard | Select-String "PR:" | Select-String "(<0.35 mm)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("mm")[0].trimstart()
-$RHID_Homing_Error_Test_DL = [Double](($storyboard | Select-String "DL:" | Select-String "(<0.35 mm)")[-1].line.split(":").TrimStart())[-1].split(":")[-1].split("(")[0].split("mm")[0].trimstart()
+$RHID_Homing_Error_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
+$RHID_Homing_Error_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
+$RHID_Homing_Error_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
 Function RHID_Homing_Error_Test_Details {
-    "$Desc : " + "FL Motor Homing Error At:" + $RHID_Homing_Error_Test_FL + " mm (<0.35 mm)"
-    "$Desc : " + "PR Motor Homing Error At:" + $RHID_Homing_Error_Test_PR + " mm (<0.35 mm)"
-    "$Desc : " + "DL Motor Homing Error At:" + $RHID_Homing_Error_Test_DL + " mm (<0.35 mm)"
+    "$Desc : " + "FL Motor Homing Error At: " + $RHID_Homing_Error_Test_FL + " mm (<0.35 mm)"
+    "$Desc : " + "PR Motor Homing Error At: " + $RHID_Homing_Error_Test_PR + " mm (<0.35 mm)"
+    "$Desc : " + "DL Motor Homing Error At: " + $RHID_Homing_Error_Test_DL + " mm (<0.35 mm)"
 }
 
 $RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:" | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
@@ -149,7 +148,7 @@ Function RHID_FL_Homing_Error_Details {
 }
 
 #  SCI Antenna Strength = 7 (<= 7)
-$RHID_SCI_An_Strength =  [double](($storyboard | Select-String "SCI Antenna Strength =")[-1].line.split(","))[-1].split("=")[1].split("(")[0]
+$RHID_SCI_An_Strength =  [double]($storyboard | Select-String "SCI Antenna Strength =")[-1].line.split(",")[-1].split("=")[1].split("(")[0]
 
 Function RHID_SCI_AntStrength_Details {
     "$Desc : " + "SCI Antenna Strength = " + "$RHID_SCI_An_Strength" + "(<= 7)"
@@ -161,8 +160,8 @@ $Mezz_Actuator_Offset_Delta_PB = [Double]$Mezz_Actuator_Offset_Delta[1]
 $Mezz_Actuator_Offset_Delta_WV = [Double]$Mezz_Actuator_Offset_Delta[2]
 $Mezz_Actuator_Offset_Delta_XM = [Double]$Mezz_Actuator_Offset_Delta[3]
 Function RHID_Mezz_Actuator_Offset_Details {
-    "$Desc : " + "Mezzanine Actuator IP Motor (Front Left) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_IP" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator IP Motor (Front Left ) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_IP" + "(< 20 steps)"
     "$Desc : " + "Mezzanine Actuator PB Motor (Front Right) Offset Delta = "    + "$Mezz_Actuator_Offset_Delta_PB" + "(< 20 steps)"
-    "$Desc : " + "Mezzanine Actuator WV Motor (Rear Left) Offset Delta = "      + "$Mezz_Actuator_Offset_Delta_WV" + "(< 20 steps)"
-    "$Desc : " + "Mezzanine Actuator XM Motor (Rear Right) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_XM" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator WV Motor (Rear Left  ) Offset Delta = "      + "$Mezz_Actuator_Offset_Delta_WV" + "(< 20 steps)"
+    "$Desc : " + "Mezzanine Actuator XM Motor (Rear Right ) Offset Delta = "     + "$Mezz_Actuator_Offset_Delta_XM" + "(< 20 steps)"
 }
