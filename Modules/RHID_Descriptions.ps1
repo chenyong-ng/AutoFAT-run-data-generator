@@ -4,13 +4,13 @@
 # $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R -ErrorAction SilentlyContinue
 # Will be useful in the future when XML or HTML implementations are sucessfull
 
-$RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","")
 $RHID_Lysis1_Temp_Avg   = [Double]($storyboard | Select-String "Lysis1 Temp Average ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
 $RHID_Lysis1_Temp_SD    = [Double]($storyboard | Select-String "Lysis1 Temp SD ="         )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
 $RHID_Lysis1_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis1 PWM Average ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
 $RHID_Lysis1_PWM_SD     = [Double]($storyboard | Select-String "Lysis1 PWM SD ="          )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
 
-$RHID_Lysis2_Ramp       = [Double]($storyboard | Select-String "Lysis2 Ramp Rate ="       )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_Lysis2_Ramp       = [Double]($storyboard | Select-String "Lysis2 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","")
 $RHID_Lysis2_Temp_Avg   = [Double]($storyboard | Select-String "Lysis2 Temp Average ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
 $RHID_Lysis2_Temp_SD    = [Double]($storyboard | Select-String "Lysis2 Temp SD ="         )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
 $RHID_Lysis2_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis2 PWM Average ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
@@ -238,13 +238,17 @@ Function RHID_Gel_Antenna_Strength_Details {
     "$Desc : " + "Gel Antenna Strength (Low): " + "$RHID_Gel_Antenna_Strength_Low" + "(>= 3)"
 }
 
-$RHID_MezzBoard_Start_Temp      = [Double]($storyboard | Select-String "Instrument" | Select-String "Start Temp ="      )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-$RHID_MezzBoard_Temp_Ramp_Rate  = [Double]($storyboard | Select-String "Instrument" | Select-String "Temp Ramp Rate ="  )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C/s")[0]
-$RHID_MezzBoard_Ramp_Start      = [Double]($storyboard | Select-String "Instrument" | Select-String "Ramp Start :"      )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-$RHID_MezzBoard_Ramp_End        = [Double]($storyboard | Select-String "Instrument" | Select-String "Ramp End :"        )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-$RHID_MezzBoard_Ramp_Time       = [Double]($storyboard | Select-String "Instrument" | Select-String "Ramp Time :"       )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("s")[0]
-$RHID_MezzBoard_Time_to_60C     = [Double]($storyboard | Select-String "Instrument" | Select-String "Time to 60C ="     )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("s")[0]
-$RHID_MezzBoard_Temp_Avg        = [Double]($storyboard | Select-String "Instrument" | Select-String "Temp Avg ="        )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_MezzBoard_Start_Temp      = ($storyboard | Select-String "Instrument" | Select-String "Start Temp =" | Select-String "(<35 C)")[-3..-1].line.split("=")[1, 3, 5].split("(")[0, 2, 4].replace("C", "")
+$RHID_MezzBoard_Temp_Ramp_Rate  = ($storyboard | Select-String "Instrument" | Select-String "Temp Ramp Rate ="  )[-3..-1].line.split("=")[1, 3, 5].split("C")[0, 2, 4].replace("C/s", "")
+$RHID_MezzBoard_Ramp_Start      = ((($storyboard | Select-String "Instrument" | Select-String "Ramp Start:"      )[-3..-1].line.Split(",")) -Match "Ramp Start").split(":")
+$RHID_MezzBoard_Ramp_End        = ($storyboard | Select-String "Instrument" | Select-String "Ramp End :"        )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_MezzBoard_Ramp_Time       = ($storyboard | Select-String "Instrument" | Select-String "Ramp Time :"       )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("s")[0]
+$RHID_MezzBoard_Time_to_60C     = ($storyboard | Select-String "Instrument" | Select-String "Time to 60C ="     )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("s")[0]
+$RHID_MezzBoard_Temp_Avg        = ($storyboard | Select-String "Instrument" | Select-String "Temp Avg ="        )[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+
+$RHID_MezzBoard_Z1_Start_Temp   = [Double]$RHID_MezzBoard_Start_Temp[0]
+$RHID_MezzBoard_Z3_Start_Temp   = [Double]$RHID_MezzBoard_Start_Temp[1]
+$RHID_MezzBoard_CAT_Start_Temp  = [Double]$RHID_MezzBoard_Start_Temp[2]
 
 <#
 $RHID_MezzBoard_Z1_Start_Temp = 
