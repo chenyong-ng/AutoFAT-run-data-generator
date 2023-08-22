@@ -4,17 +4,17 @@
 # $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R -ErrorAction SilentlyContinue
 # Will be useful in the future when XML or HTML implementations are sucessfull
 
-$RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","")
-$RHID_Lysis1_Temp_Avg   = [Double]($storyboard | Select-String "Lysis1 Temp Average ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_Lysis1_Temp_SD    = [Double]($storyboard | Select-String "Lysis1 Temp SD ="         )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_Lysis1_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis1 PWM Average ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
-$RHID_Lysis1_PWM_SD     = [Double]($storyboard | Select-String "Lysis1 PWM SD ="          )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
+$RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","").line.split("=")[-1].replace("C/s","")
+$RHID_Lysis1_Temp_Avg   = [Double]($storyboard | Select-String "Lysis1 Temp Average ="    )[-1].line.split("=")[-1].replace("C (84.5/85.5C)","")
+$RHID_Lysis1_Temp_SD    = [Double]($storyboard | Select-String "Lysis1 Temp SD ="         )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
+$RHID_Lysis1_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis1 PWM Average ="     )[-1].line.split("=")[-1].replace("(0/2600)","")
+$RHID_Lysis1_PWM_SD     = [Double]($storyboard | Select-String "Lysis1 PWM SD ="          )[-1].line.split("=")[-1].replace("(< 1000)","")
 
 $RHID_Lysis2_Ramp       = [Double]($storyboard | Select-String "Lysis2 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","")
-$RHID_Lysis2_Temp_Avg   = [Double]($storyboard | Select-String "Lysis2 Temp Average ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_Lysis2_Temp_SD    = [Double]($storyboard | Select-String "Lysis2 Temp SD ="         )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_Lysis2_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis2 PWM Average ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
-$RHID_Lysis2_PWM_SD     = [Double]($storyboard | Select-String "Lysis2 PWM SD ="          )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
+$RHID_Lysis2_Temp_Avg   = [Double]($storyboard | Select-String "Lysis2 Temp Average ="    )[-1].line.split("=")[-1].replace("C (84.5/85.5C)","")
+$RHID_Lysis2_Temp_SD    = [Double]($storyboard | Select-String "Lysis2 Temp SD ="         )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
+$RHID_Lysis2_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis2 PWM Average ="     )[-1].line.split("=")[-1].replace("(0/8000)","")
+$RHID_Lysis2_PWM_SD     = [Double]($storyboard | Select-String "Lysis2 PWM SD ="          )[-1].line.split("=")[-1].replace("(< 1000)","")
 Function RHID_Lysis_Heater_Details {
     "$Desc : " + "Lysis1 Ramp Rate      = " + "$RHID_Lysis1_Ramp"       + " C/s"
     "$Desc : " + "Lysis1 Temp Average   = " + "$RHID_Lysis1_Temp_Avg"   + " C (84.5 / 85.5C)"
@@ -29,44 +29,44 @@ Function RHID_Lysis_Heater_Details {
 }
 # $RHID_Ambient_Temp = (($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split(",").TrimStart())[-1]
 
-$RHID_DN_Temp_Avg       = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp Average ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_DN_Temp_Max       = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp Max Reached =" )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_DN_Temp_Ramp_Rate_80C     = [Double]($storyboard | Select-String "Denature Heater" | Select-String -SimpleMatch "Temp Ramp Rate (80C) ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_DN_Total_Ramp_Time_80C    = [Double]($storyboard | Select-String "Denature Heater" | Select-String -SimpleMatch "Total Ramp Time (80C) ="   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("s")[0]
-$RHID_DN_Total_Ramp_Time_94C    = [Double]($storyboard | Select-String "Denature Heater" | Select-String -SimpleMatch "Total Ramp Time (94C) ="   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("s")[0]
+$RHID_DN_Temp_Avg       = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp Average ="     )[-1].line.split("=")[-1].replace("C (94.5/95.5C)","")
+$RHID_DN_Temp_Max       = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp Max Reached =" )[-1].line.split("=")[-1].replace("C (< 105C)","")
+$RHID_DN_Temp_Ramp_Rate_80C     = [Double]($storyboard | Select-String "Denature Heater" | Select-String -SimpleMatch "Temp Ramp Rate (80C) ="    )[-1].line.split("=")[-1].replace("C/s","")
+$RHID_DN_Total_Ramp_Time_80C    = [Double]($storyboard | Select-String "Denature Heater" | Select-String -SimpleMatch "Total Ramp Time (80C) ="   )[-1].line.split("=")[-1].replace("s (< 60s)","")
+$RHID_DN_Total_Ramp_Time_94C    = [Double]($storyboard | Select-String "Denature Heater" | Select-String -SimpleMatch "Total Ramp Time (94C) ="   )[-1].line.split("=")[-1].replace("s","")
 
-$RHID_DN_Max_96C        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Max to 96C ="   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("s")[0]
-$RHID_DN_Temp_SD        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp SD ="      )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_DN_Pwm_Avg        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "PWM Average ="  )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
-$RHID_DN_PWM_SD         = [Double]($storyboard | Select-String "Denature Heater" | Select-String "PWM SD ="       )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
+$RHID_DN_Max_96C        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Max to 96C ="   )[-1].line.split("=")[-1].replace("s (> 20s)","")
+$RHID_DN_Temp_SD        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp SD ="      )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
+$RHID_DN_Pwm_Avg        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "PWM Average ="  )[-1].line.split("=")[-1].replace("(< 2500)","")
+$RHID_DN_PWM_SD         = [Double]($storyboard | Select-String "Denature Heater" | Select-String "PWM SD ="       )[-1].line.split("=")[-1].replace("(< 500)","")
 Function RHID_DN_Heater_Details {
-    "$Desc : " + "DN Temp Average          = " + "$RHID_DN_Temp_Avg" + "C (94.5 / 95.5C)"
-    "$Desc : " + "DN Temp Max Reached      = " + "$RHID_DN_Temp_Max" + "C (< 105C)"
+    "$Desc : " + "DN Temp Average          = " + "$RHID_DN_Temp_Avg"            + "C (94.5 / 95.5C)"
+    "$Desc : " + "DN Temp Max Reached      = " + "$RHID_DN_Temp_Max"            + "C (< 105C)"
     "$Desc : " + "DN Temp Ramp Rate (80C)  = " + "$RHID_DN_Temp_Ramp_Rate_80C"  + "C/s"
     "$Desc : " + "DN Total Ramp Time (80C) = " + "$RHID_DN_Total_Ramp_Time_80C" + "s (< 60s)"
     "$Desc : " + "DN Total Ramp Time (94C) = " + "$RHID_DN_Total_Ramp_Time_94C" + "s"
-    "$Desc : " + "DN Max to 96C            = " + "$RHID_DN_Max_96C" + "s (> 20s)"
-    "$Desc : " + "DN Temp SD               = " + "$RHID_DN_Temp_SD" + "C (< 0.25C)"
-    "$Desc : " + "DN PWM Average           = " + "$RHID_DN_Pwm_Avg" + "(< 2500)"
-    "$Desc : " + "DN PWM SD                = " + "$RHID_DN_PWM_SD"  + "(< 500)"
+    "$Desc : " + "DN Max to 96C            = " + "$RHID_DN_Max_96C"             + "s (> 20s)"
+    "$Desc : " + "DN Temp SD               = " + "$RHID_DN_Temp_SD"             + "C (< 0.25C)"
+    "$Desc : " + "DN PWM Average           = " + "$RHID_DN_Pwm_Avg"             + "(< 2500)"
+    "$Desc : " + "DN PWM SD                = " + "$RHID_DN_PWM_SD"              + "(< 500)"
 }
 
 # PCR AMBIENT
-$RHID_PCR_Top_Amb       = [Double]($storyboard | Select-String "PCR Top Ambient ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Bot_Amb       = [Double]($storyboard | Select-String "PCR Bottom Ambient =" )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Amb_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR Ambient Top/Bot Delta ="    )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_PCR_Top_Amb       = [Double]($storyboard | Select-String "PCR Top Ambient ="    )[-1].line.split("=")[-1].replace("C","")
+$RHID_PCR_Bot_Amb       = [Double]($storyboard | Select-String "PCR Bottom Ambient =" )[-1].line.split("=")[-1].replace("C","")
+$RHID_PCR_Amb_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR Ambient Top/Bot Delta ="    )[-1].line.split("=")[-1].replace("C (< 1.5C)", "")
 # PCR LOW 9C
-$RHID_PCR_Top_9C_Avg    = [Double]($storyboard | Select-String "PCR Top 9C Average =" )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Top_SD_9C     = [Double]($storyboard | Select-String "PCR Top SD 9C ="      )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Bot_9C_Avg    = [Double]($storyboard | Select-String "PCR Bottom 9C Average =" )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Bot_SD_9C     = [Double]($storyboard | Select-String "PCR Bottom SD 9C ="   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_9C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 9C Top / Bot Delta ="        )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_PCR_Top_9C_Avg    = [Double]($storyboard | Select-String "PCR Top 9C Average =" )[-1].line.split("=")[-1].replace("C (8/10C)","")
+$RHID_PCR_Top_SD_9C     = [Double]($storyboard | Select-String "PCR Top SD 9C ="      )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
+$RHID_PCR_Bot_9C_Avg    = [Double]($storyboard | Select-String "PCR Bottom 9C Average =" )[-1].line.split("=")[-1].replace("C (8/10C)","")
+$RHID_PCR_Bot_SD_9C     = [Double]($storyboard | Select-String "PCR Bottom SD 9C ="   )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
+$RHID_PCR_9C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 9C Top / Bot Delta ="        )[-1].line.split("=")[-1].replace("C (< 1C)", "")
 # PCR HIGH 98C
-$RHID_PCR_Top_98C_Avg   = [Double]($storyboard | Select-String "PCR Top 98C Average =")[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Top_SD_98C    = [Double]($storyboard | Select-String "PCR Top SD 98C ="     )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Bot_98C_Avg   = [Double]($storyboard | Select-String "PCR Bottom 98C Average =" )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_Bot_SD_98C    = [Double]($storyboard | Select-String "PCR Bottom SD 98C ="  )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_PCR_98C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 98C Top / Bot Delta ="      )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
+$RHID_PCR_Top_98C_Avg = [Double]($storyboard | Select-String "PCR Top 98C Average =")[-1].line.split("=")[-1].replace("C (97.5/98.5C)", "")
+$RHID_PCR_Top_SD_98C    = [Double]($storyboard | Select-String "PCR Top SD 98C ="     )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
+$RHID_PCR_Bot_98C_Avg   = [Double]($storyboard | Select-String "PCR Bottom 98C Average =" )[-1].line.split("=")[-1].replace("C (97.5/98.5C)","")
+$RHID_PCR_Bot_SD_98C    = [Double]($storyboard | Select-String "PCR Bottom SD 98C ="  )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
+$RHID_PCR_98C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 98C Top / Bot Delta ="      )[-1].line.split("=")[-1].replace("C (< 0.5C)", "")
 
 Function RHID_PCR_Heater_Details {
     "$Desc : " + "PCR Top Ambient           = " + "$RHID_PCR_Top_Amb" + "C"
@@ -132,9 +132,9 @@ Function RHID_FAT_HomeOffset_Delta_Details {
     "$Desc : " + "PR FAT: HomeOffset Delta = " + "$RHID_PR_FAT_HomeOffset_Delta" + "(< 20 steps)"
 }
 
-$RHID_FE_Motor_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0]
-$RHID_FE_Motor_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0]
-$RHID_FE_Motor_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("%")[0]
+$RHID_FE_Motor_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<20%)")[-1].line.split(",")[-1].split(":")[-1].replace("% (<20%)", "")
+$RHID_FE_Motor_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<10%)")[-1].line.split(",")[-1].split(":")[-1].replace("% (<10%)", "")
+$RHID_FE_Motor_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<25%)")[-1].line.split(",")[-1].split(":")[-1].replace("% (<25%)", "")
 Function RHID_FE_Motor_Test_Details {
     "$Desc : " + "FL Motor Tested OK At: " + $RHID_FE_Motor_Test_FL + "% (<20%)"
     "$Desc : " + "PR Motor Tested OK At: " + $RHID_FE_Motor_Test_PR + "% (<10%)"
@@ -272,27 +272,27 @@ $RHID_MezzBoard_Temp_Avg_Cathode    = [Double]$RHID_MezzBoard_Temp_Avg_42C
 
 function MezzBoard_Test_Details {
     "$Desc : " + "Capillary Z1 Heater"
-    "$Desc : " + "Start Temp      = " + "$RHID_MezzBoard_Start_Temp_Z1"+"C (<35 C)"
-    "$Desc : " + "Temp Ramp Rate  = " + "$RHID_MezzBoard_Temp_Ramp_Rate_Z1" + "C/s"
-    "$Desc : " + "Ramp Start      = " + "$RHID_MezzBoard_Ramp_Start_Z1"+"C"
-    "$Desc : " + "Ramp End        = " + "$RHID_MezzBoard_Ramp_End_Z1"+"C"
-    "$Desc : " + "Ramp Time       = " + "$RHID_MezzBoard_Ramp_Time_Z1"+"s"
-    "$Desc : " + "Time to 60C     = " + "$RHID_MezzBoard_Time_to_60C_Z1"+"s"
-    "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_60C_Z1"+"C (59.5 / 60.5 C)"
+    "$Desc : " + "Start Temp      = " + "$RHID_MezzBoard_Start_Temp_Z1"     +"C (<35 C)"
+    "$Desc : " + "Temp Ramp Rate  = " + "$RHID_MezzBoard_Temp_Ramp_Rate_Z1" +"C/s"
+    "$Desc : " + "Ramp Start      = " + "$RHID_MezzBoard_Ramp_Start_Z1"     +"C"
+    "$Desc : " + "Ramp End        = " + "$RHID_MezzBoard_Ramp_End_Z1"       +"C"
+    "$Desc : " + "Ramp Time       = " + "$RHID_MezzBoard_Ramp_Time_Z1"      +"s"
+    "$Desc : " + "Time to 60C     = " + "$RHID_MezzBoard_Time_to_60C_Z1"    +"s"
+    "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_60C_Z1"   +"C (59.5 / 60.5 C)"
     "$Desc : " + "Capillary Z3 Heater"
-    "$Desc : " + "Start Temp      = " + "$RHID_MezzBoard_Start_Temp_Z3"+"C (<35 C)"
-    "$Desc : " + "Temp Ramp Rate  = " + "$RHID_MezzBoard_Temp_Ramp_Rate_Z3"+"C/s"
-    "$Desc : " + "Ramp Start      = " + "$RHID_MezzBoard_Ramp_Start_Z3"+"C"
-    "$Desc : " + "Ramp End        = " + "$RHID_MezzBoard_Ramp_End_Z3"+"C"
-    "$Desc : " + "Ramp Time       = " + "$RHID_MezzBoard_Ramp_Time_Z3"+"s"
-    "$Desc : " + "Time to 60C     = " + "$RHID_MezzBoard_Time_to_60C_Z3"+"s"
-    "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_60C_Z3"+"C (59.5 / 60.5 C)"
+    "$Desc : " + "Start Temp      = " + "$RHID_MezzBoard_Start_Temp_Z3"     +"C (<35 C)"
+    "$Desc : " + "Temp Ramp Rate  = " + "$RHID_MezzBoard_Temp_Ramp_Rate_Z3" +"C/s"
+    "$Desc : " + "Ramp Start      = " + "$RHID_MezzBoard_Ramp_Start_Z3"     +"C"
+    "$Desc : " + "Ramp End        = " + "$RHID_MezzBoard_Ramp_End_Z3"       +"C"
+    "$Desc : " + "Ramp Time       = " + "$RHID_MezzBoard_Ramp_Time_Z3"      +"s"
+    "$Desc : " + "Time to 60C     = " + "$RHID_MezzBoard_Time_to_60C_Z3"    +"s"
+    "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_60C_Z3"   +"C (59.5 / 60.5 C)"
     "$Desc : " + "Cathode Block Heater"
-    "$Desc : " + "Start Temp      = " + "$RHID_MezzBoard_Start_Temp_CAT"+"C (<35 C)"
+    "$Desc : " + "Start Temp      = " + "$RHID_MezzBoard_Start_Temp_CAT"    +"C (<35 C)"
     "$Desc : " + "Temp Ramp Rate  = " + "$RHID_MezzBoard_Temp_Ramp_Rate_CAT"+"C/s"
-    "$Desc : " + "Ramp Start      = " + "$RHID_MezzBoard_Ramp_Start_CAT"+"C"
-    "$Desc : " + "Ramp End        = " + "$RHID_MezzBoard_Ramp_End_CAT"+"C"
-    "$Desc : " + "Ramp Time       = " + "$RHID_MezzBoard_Ramp_Time_CAT"+"s"
-    "$Desc : " + "Time to 42C     = " + "$RHID_MezzBoard_Time_Cathode" + "s"
-    "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_Cathode" + "C (41/43 C)"
+    "$Desc : " + "Ramp Start      = " + "$RHID_MezzBoard_Ramp_Start_CAT"    +"C"
+    "$Desc : " + "Ramp End        = " + "$RHID_MezzBoard_Ramp_End_CAT"      +"C"
+    "$Desc : " + "Ramp Time       = " + "$RHID_MezzBoard_Ramp_Time_CAT"     +"s"
+    "$Desc : " + "Time to 42C     = " + "$RHID_MezzBoard_Time_Cathode"      +"s"
+    "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_Cathode"  +"C (41/43 C)"
 }
