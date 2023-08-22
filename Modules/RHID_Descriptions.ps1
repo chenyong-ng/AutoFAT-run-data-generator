@@ -1,7 +1,7 @@
 
 #>
 # Master copy of the data extraction method, when the value is sandwitched between text that need to be discarded.
-# $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R -ErrorAction SilentlyContinue
+# $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
 # Will be useful in the future when XML or HTML implementations are sucessfull
 
 $RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","").line.split("=")[-1].replace("C/s","")
@@ -305,16 +305,6 @@ $RHID_Bolus_Volume              = (($RHID_Bolus_Test_Result_Folder | Select-Stri
 $RHID_Bolus_Volume_Alt          = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus first detected at").line.split(",") | Select-String "Bolus first detected at").line.replace("Bolus first detected at", "")
 $RHID_Bolus_Timing              = (($RHID_Bolus_Test_Result_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing =").line.replace("Timing =", "").replace("s","")
 $RHID_Bolus_Current             = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
-# "Last 10 runs DN% :"
-# $RHID_Bolus_DN
-# $RHID_Bolus_DN_Alt
-# "Last 10 runs Bolus Vol :"
-# $RHID_Bolus_Volume
-# $RHID_Bolus_Volume_Alt
-# "Last 10 runs Bolus Timing :"
-# $RHID_Bolus_Timing
-# "Last 10 runs Bolus Current :"
-# $RHID_Bolus_Current
 
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0

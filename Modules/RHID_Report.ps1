@@ -1,5 +1,5 @@
 
-$Storyboard         = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I storyboard*.txt -R -ErrorAction SilentlyContinue
+$Storyboard         = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
 if ($Storyboard.count -eq 0) {
     Write-Host "$Info : Storyboard logfile does not exist, Select the correct Serial Number to proceed" -ForegroundColor red
     break
