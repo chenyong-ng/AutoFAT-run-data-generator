@@ -54,19 +54,19 @@ Function RHID_DN_Heater_Details {
 # PCR AMBIENT
 $RHID_PCR_Top_Amb       = [Double]($storyboard | Select-String "PCR Top Ambient ="    )[-1].line.split("=")[-1].replace("C","")
 $RHID_PCR_Bot_Amb       = [Double]($storyboard | Select-String "PCR Bottom Ambient =" )[-1].line.split("=")[-1].replace("C","")
-$RHID_PCR_Amb_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR Ambient Top/Bot Delta ="    )[-1].line.split("=")[-1].replace("C (< 1.5C)", "")
+$RHID_PCR_Amb_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR Ambient Top/Bot Delta =" )[-1].line.split("=")[-1].replace("C (< 1.5C)", "")
 # PCR LOW 9C
 $RHID_PCR_Top_9C_Avg    = [Double]($storyboard | Select-String "PCR Top 9C Average =" )[-1].line.split("=")[-1].replace("C (8/10C)","")
 $RHID_PCR_Top_SD_9C     = [Double]($storyboard | Select-String "PCR Top SD 9C ="      )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
 $RHID_PCR_Bot_9C_Avg    = [Double]($storyboard | Select-String "PCR Bottom 9C Average =" )[-1].line.split("=")[-1].replace("C (8/10C)","")
 $RHID_PCR_Bot_SD_9C     = [Double]($storyboard | Select-String "PCR Bottom SD 9C ="   )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
-$RHID_PCR_9C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 9C Top / Bot Delta ="        )[-1].line.split("=")[-1].replace("C (< 1C)", "")
+$RHID_PCR_9C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 9C Top / Bot Delta =" )[-1].line.split("=")[-1].replace("C (< 1C)", "")
 # PCR HIGH 98C
-$RHID_PCR_Top_98C_Avg = [Double]($storyboard | Select-String "PCR Top 98C Average =")[-1].line.split("=")[-1].replace("C (97.5/98.5C)", "")
+$RHID_PCR_Top_98C_Avg   = [Double]($storyboard | Select-String "PCR Top 98C Average =")[-1].line.split("=")[-1].replace("C (97.5/98.5C)", "")
 $RHID_PCR_Top_SD_98C    = [Double]($storyboard | Select-String "PCR Top SD 98C ="     )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
 $RHID_PCR_Bot_98C_Avg   = [Double]($storyboard | Select-String "PCR Bottom 98C Average =" )[-1].line.split("=")[-1].replace("C (97.5/98.5C)","")
 $RHID_PCR_Bot_SD_98C    = [Double]($storyboard | Select-String "PCR Bottom SD 98C ="  )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
-$RHID_PCR_98C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 98C Top / Bot Delta ="      )[-1].line.split("=")[-1].replace("C (< 0.5C)", "")
+$RHID_PCR_98C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 98C Top / Bot Delta =" )[-1].line.split("=")[-1].replace("C (< 0.5C)", "")
 
 Function RHID_PCR_Heater_Details {
     "$Desc : " + "PCR Top Ambient           = " + "$RHID_PCR_Top_Amb" + "C"
@@ -295,4 +295,37 @@ function MezzBoard_Test_Details {
     "$Desc : " + "Ramp Time       = " + "$RHID_MezzBoard_Ramp_Time_CAT"     +"s"
     "$Desc : " + "Time to 42C     = " + "$RHID_MezzBoard_Time_Cathode"      +"s"
     "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_Cathode"  +"C (41/43 C)"
+}
+
+$RHID_Bolus_Test_Result_Folder  = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Sort-Object LastWriteTime)
+$RHID_Bolus_Devliery_Test       = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Devliery Test #").line.Split(",") | select-string "Bolus Devliery Test #").line.replace("Bolus Devliery Test #", "").replace(": PASS", "").replace(": FAIL", "")
+$RHID_Bolus_DN                  = (($RHID_Bolus_Test_Result_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN =").line.replace("% in DN =", "").replace("%", "")
+$RHID_Bolus_DN_Alt              = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus detected" ).line.split(",") | Select-String "Bolus detected" | Select-String "into the denaturing window").line.replace("Bolus detected", "").replace("% into the denaturing window", "")
+$RHID_Bolus_Volume              = (($RHID_Bolus_Test_Result_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  =").line.replace("Volume  =", "").replace("uL", "")
+$RHID_Bolus_Volume_Alt          = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus first detected at").line.split(",") | Select-String "Bolus first detected at").line.replace("Bolus first detected at", "")
+$RHID_Bolus_Timing              = (($RHID_Bolus_Test_Result_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing =").line.replace("Timing =", "").replace("s","")
+$RHID_Bolus_Current             = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
+# "Last 10 runs DN% :"
+# $RHID_Bolus_DN
+# $RHID_Bolus_DN_Alt
+# "Last 10 runs Bolus Vol :"
+# $RHID_Bolus_Volume
+# $RHID_Bolus_Volume_Alt
+# "Last 10 runs Bolus Timing :"
+# $RHID_Bolus_Timing
+# "Last 10 runs Bolus Current :"
+# $RHID_Bolus_Current
+
+$i = $RHID_Bolus_Test_Result_Folder.count
+$i = 0
+foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
+    if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
+        "================================"
+        "Bolus Devliery Test # " + ($i+1)
+        "       % in DN = " + $RHID_Bolus_DN[$i] + "%"
+        "        Volume = " + $RHID_Bolus_Volume[$i] + "uL"
+        "        Timing = " + $RHID_Bolus_Timing[$i] + "s"
+        " Bolus Current = " + $RHID_Bolus_Current[$i] + "uA"
+        $i = $i + 1
+    }
 }
