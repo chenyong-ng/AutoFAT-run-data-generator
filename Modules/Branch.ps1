@@ -1,10 +1,10 @@
 #if ($SerialRegMatch -ne "True") {
     $RHID_FolderList        = (Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' })
     $RHID_FolderCount       = $RHID_FolderList.name.count
-    $RHID_DannoFolderList        = (Get-ChildItem "$Drive\$Danno", "$US_Drive\$Danno" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' })
+    $RHID_DannoFolderList        = (Get-ChildItem "$Drive+$Danno", "$US_Drive+$Danno" -ErrorAction SilentlyContinue | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' })
     $RHID_DannoFolderListCount   = $RHID_DannoFolderList.name.count
     Write-Host "$Info : $RHID_FolderCount RHID folders detected in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
-    Write-Host "$Info : $RHID_DannoFolderListCount RHID folders detected in Servers "$Drive\$Danno" "$US_Drive\$Danno" for checking ↑↑↑↑" -ForegroundColor Cyan
+    Write-Host "$Info : $RHID_DannoFolderListCount RHID folders detected in Servers $Drive+$Danno $US_Drive+$Danno for checking ↑↑↑↑" -ForegroundColor Cyan
 
 <#
     $RHID_FolderListMap = $RHID_FolderList.name.replace('RHID-','')

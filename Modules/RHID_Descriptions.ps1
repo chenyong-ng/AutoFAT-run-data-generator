@@ -295,13 +295,11 @@ function MezzBoard_Test_Details {
 }
 
 $RHID_Bolus_Test_Result_Folder  = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Sort-Object LastWriteTime)
-# $RHID_Bolus_Devliery_Test       = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Devliery Test #").line.Split(",") | select-string "Bolus Devliery Test #").line.replace("Bolus Devliery Test #", "").replace(": PASS", "").replace(": FAIL", "")
 $RHID_Bolus_DN                  = (($RHID_Bolus_Test_Result_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN =").line.replace("% in DN =", "").replace("%", "")
-# $RHID_Bolus_DN_Alt              = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus detected" ).line.split(",") | Select-String "Bolus detected" | Select-String "into the denaturing window").line.replace("Bolus detected", "").replace("% into the denaturing window", "")
 $RHID_Bolus_Volume              = (($RHID_Bolus_Test_Result_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  =").line.replace("Volume  =", "").replace("uL", "")
-# $RHID_Bolus_Volume_Alt          = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus first detected at").line.split(",") | Select-String "Bolus first detected at").line.replace("Bolus first detected at", "")
 $RHID_Bolus_Timing              = (($RHID_Bolus_Test_Result_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing =").line.replace("Timing =", "").replace("s","")
 $RHID_Bolus_Current             = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
+$RHID_Bolus_Test_Result_Image  = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test**" -I BolusInject_*.PNG -R | Sort-Object LastWriteTime)
 
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0
@@ -313,7 +311,9 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         "        Volume = " + $RHID_Bolus_Volume[$i] + "uL"
         "        Timing = " + $RHID_Bolus_Timing[$i] + "s"
         " Bolus Current = " + $RHID_Bolus_Current[$i] + "uA"
+        $Drive + "\" + $MachineName+"\"+($RHID_Bolus_Test_Result_Image).directory.name[$i]+"\"+($RHID_Bolus_Test_Result_Image.name)[$i]
         $i = $i + 1
+        # Generate HTML Report with Bolus testimages
     }
 }
 

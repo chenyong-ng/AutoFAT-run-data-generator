@@ -26,8 +26,7 @@ IF ([Bool]$MachineName -eq "False") {
     $Remote_Folder_Msg
     #Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
 }
-$RHID_Danno_Path
-$Drive + $Danno + $MachineName
+
 $RHID_Danno_Path            = $Drive + $Danno + $MachineName
 $RHID_US_Danno_Path         = $US_Drive + $Danno + $MachineName
 If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
@@ -55,17 +54,14 @@ if ($VerboseMode -eq "True") {
 $xmlFragment                = $xmlMmat.CreateDocumentFragment()
 $xmlFragment.InnerXml       =
 @"
-<Fullrun><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Fullrun>
+<Fullrun><GFE36cyclesCount>$GFE36cyclesC2ount</GFE36cyclesCount><GFE_BVCount>$GFE_3BVCount</GFE_BVCount></Fullrun>
 "@+
 @"
-<Full2run><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Full2run>
+<Full2run><GFE36cyclesCount>$GFE36cyclesC3ount</GFE36cyclesCount><GFE_BVCount>$GFE_B3VCount</GFE_BVCount></Full2run>
 "@+
 @"
-<Full3run><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Full3run>
+<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
 "@
-
-
-#<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
 
 $null = $xmlMmat.TestReport.AppendChild($xmlFragment)
 $xmlMmat.save("$TempXMLFile")
