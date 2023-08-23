@@ -4,7 +4,7 @@
 # $Storyboard = Get-ChildItem "U:\RHID-0855" -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
 # Will be useful in the future when XML or HTML implementations are sucessfull
 
-$RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","").line.split("=")[-1].replace("C/s","")
+$RHID_Lysis1_Ramp       = [Double]($storyboard | Select-String "Lysis1 Ramp Rate ="       )[-1].line.split("=")[-1].replace("C/s","")
 $RHID_Lysis1_Temp_Avg   = [Double]($storyboard | Select-String "Lysis1 Temp Average ="    )[-1].line.split("=")[-1].replace("C (84.5/85.5C)","")
 $RHID_Lysis1_Temp_SD    = [Double]($storyboard | Select-String "Lysis1 Temp SD ="         )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
 $RHID_Lysis1_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis1 PWM Average ="     )[-1].line.split("=")[-1].replace("(0/2600)","")
@@ -86,15 +86,15 @@ Function RHID_PCR_Heater_Details {
     "$Desc : " + "PCR 98C Top / Bot Delta = " + "$RHID_PCR_98C_TopBot_Del"  + "C (< 0.5C)"
 }
 
-$RHID_Optics_Heater_TempAvg         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Average ="   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_Optics_Heater_Temp_SD         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp SD ="        )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_Optics_Heater_Temp_Ramp_Rate  = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Ramp Rate"   )[-1].line.split(",")[-1].split("=")[-1].split("(")[0].split("C")[0]
-$RHID_Optics_Heater_Ramp_Start      = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Start:"      )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_Optics_Heater_TempAvg         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Average ="   )[-1].line.split("=")[-1].replace("C (41.5/42.5C)", "")
+$RHID_Optics_Heater_Temp_SD         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp SD ="        )[-1].line.split("=")[-1].replace("C (< 0.1C)", "")
+$RHID_Optics_Heater_Temp_Ramp_Rate  = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Ramp Rate"   )[-1].line.split("=")[-1].replace("C/s", "")
+$RHID_Optics_Heater_Ramp_Start      = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Start:"      )[-1].line.split(":")[-1].replace("C (30C)", "")
 
-$RHID_Optics_Heater_Ramp_End        = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp End:"      )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("C")[0]
-$RHID_Optics_Heater_Ramp_Time       = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Time:"     )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("s")[0]
-$RHID_Optics_Heater_PwmAvg          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM Average ="  )[-1].line.split(",")[-1].split("=")[-1].split("(")[0]
-$RHID_Optics_Heater_PWM_SD          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM SD "        )[-1].line.split(",")[-1].split("=")[-1].s
+$RHID_Optics_Heater_Ramp_End        = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp End:"      )[-1].line.split(":")[-1].replace("C (40C)", "")
+$RHID_Optics_Heater_Ramp_Time       = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Time:"     )[-1].line.split(":")[-1].replace("s (< 80s)", "")
+$RHID_Optics_Heater_PwmAvg          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM Average ="  )[-1].line.split("=")[-1].replace("(< 10500)", "")
+$RHID_Optics_Heater_PWM_SD          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM SD ="        )[-1].line.split("=")[-1].replace("(< 1000)", "")
 Function RHID_Optics_Heater_Details {
     "$Desc : " + "Optics Temp Average   = " + "$RHID_Optics_Heater_TempAvg"         + "C (41.5/42.5C)"
     "$Desc : " + "Optics Temp SD        = " + "$RHID_Optics_Heater_Temp_SD"         + "C (< 0.1C)"
@@ -107,9 +107,9 @@ Function RHID_Optics_Heater_Details {
     "$Desc : " + "Optics PWM SD         = " + "$RHID_Optics_Heater_PWM_SD"          + "(< 1000)"
 }
 
-$RHID_Gel_Cooler_TempAvg = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Temp Average:"    | Select-String "(2.5/3.5C)" )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("C")[0]
-$RHID_Gel_Cooler_VoltAvg = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Voltage Average:" | Select-String "(< 5V)"   )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("V")[0]
-$RHID_Gel_Cooler_AmpAvg  = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Current Average:" | Select-String "(< 1.5A)" )[-1].line.split(",")[-1].split(":")[-1].split("(")[0].split("A")[0]
+$RHID_Gel_Cooler_TempAvg    = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Temp Average:"    | Select-String "(2.5/3.5C)" )[-1].line.split(":")[-1].replace("C (2.5/3.5C)", "")
+$RHID_Gel_Cooler_VoltAvg    = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Voltage Average:" | Select-String "(< 5V)"   )[-1].line.split(":")[-1].replace("V (< 5V)", "")
+$RHID_Gel_Cooler_AmpAvg     = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Current Average:" | Select-String "(< 1.5A)" )[-1].line.split(":")[-1].replace("A (< 1.5A)", "")
 
 Function RHID_Gel_Cooler_Details {
     "$Desc : " + "Gel Cooler Temp Average       = " + "$RHID_Gel_Cooler_TempAvg" + "C (2.5 / 3.5C)"
@@ -117,7 +117,7 @@ Function RHID_Gel_Cooler_Details {
     "$Desc : " + "Gel Cooler Current Average    = " + "$RHID_Gel_Cooler_AmpAvg"  + "A (< 1.5A)"
 }
 
-$RHID_Ambient_TempAvg = [Double]($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split("=")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_Ambient_TempAvg = [Double]($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split("=")[-1].replace("C (< 40C)", "")
 Function RHID_Ambient_Details {
     "$Desc : " + "Ambient Temp          = " + "$RHID_Ambient_TempAvg" + "C (< 40C)"
 }
@@ -201,23 +201,20 @@ Function RHID_Mezz_Actuator_Offset_Details {
     "$Desc : " + "Mezzanine Actuator XM Motor (Rear Right ) Offset Delta = "    + "$Mezz_Actuator_Offset_Delta_XM" + "(< 20 steps)"
 }
 
-$RHID_HP_HomeOffset = [Double]($storyboard | Select-String "HP FAT: HomeOffset Delta =" | Select-String "(< 20 steps)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("steps")[0]
-Function RHID_HP_HomeOffset_Details {
-    "$Desc : " + "HP HomeOffset = " + "$RHID_HP_HomeOffset" + "(< 20 steps)"
-}
-
-$RHID_LP_HomeOffset = [Double]($storyboard | Select-String "LP FAT: HomeOffset Delta =")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("steps")[0]
+$RHID_LP_HomeOffset = [Double]($storyboard | Select-String "LP FAT: HomeOffset Delta =").line.split("=")[-1]
 Function RHID_LP_HomeOffset_Details {
     "$Desc : " + "LP HomeOffset = " + "$RHID_LP_HomeOffset" + "(< 20 steps)"
 }
 
-$RHID_HP_Min_Current = [Double]($storyboard | Select-String "HP FAT: Minimum Current =" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-Function RHID_HP_Current_Details {
-    "$Desc : " + "HP Minimum Current = " + "$RHID_HP_Min_Current" + "% (<25%)"
+$RHID_HP_HomeOffset = [Double]($storyboard | Select-String "HP FAT: HomeOffset Delta =" ).line.split("=")[-1]
+Function RHID_HP_HomeOffset_Details {
+    "$Desc : " + "HP HomeOffset = " + "$RHID_HP_HomeOffset" + "(< 20 steps)"
 }
 
-$RHID_LP_Min_Current = [Double]($storyboard | Select-String "LP FAT: Minimum Current =" | Select-String "(<25%)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-Function RHID_LP_Current_Details {
+$RHID_HP_Min_Current = [Double]($storyboard | Select-String "HP Minimum Current =" | Select-String "(<25%)")[-1].line.split("=")[-1].replace("% (<25%)", "")
+$RHID_LP_Min_Current = [Double]($storyboard | Select-String "LP Minimum Current =" | Select-String "(<25%)")[-1].line.split("=")[-1].replace("% (<25%)", "")
+Function RHID_Anode_Motor_Details {
+    "$Desc : " + "HP Minimum Current = " + "$RHID_HP_Min_Current" + "% (<25%)"
     "$Desc : " + "LP Minimum Current = " + "$RHID_LP_Min_Current" + "% (<25%)"
 }
 
@@ -298,11 +295,11 @@ function MezzBoard_Test_Details {
 }
 
 $RHID_Bolus_Test_Result_Folder  = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Sort-Object LastWriteTime)
-$RHID_Bolus_Devliery_Test       = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Devliery Test #").line.Split(",") | select-string "Bolus Devliery Test #").line.replace("Bolus Devliery Test #", "").replace(": PASS", "").replace(": FAIL", "")
+# $RHID_Bolus_Devliery_Test       = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Devliery Test #").line.Split(",") | select-string "Bolus Devliery Test #").line.replace("Bolus Devliery Test #", "").replace(": PASS", "").replace(": FAIL", "")
 $RHID_Bolus_DN                  = (($RHID_Bolus_Test_Result_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN =").line.replace("% in DN =", "").replace("%", "")
-$RHID_Bolus_DN_Alt              = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus detected" ).line.split(",") | Select-String "Bolus detected" | Select-String "into the denaturing window").line.replace("Bolus detected", "").replace("% into the denaturing window", "")
+# $RHID_Bolus_DN_Alt              = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus detected" ).line.split(",") | Select-String "Bolus detected" | Select-String "into the denaturing window").line.replace("Bolus detected", "").replace("% into the denaturing window", "")
 $RHID_Bolus_Volume              = (($RHID_Bolus_Test_Result_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  =").line.replace("Volume  =", "").replace("uL", "")
-$RHID_Bolus_Volume_Alt          = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus first detected at").line.split(",") | Select-String "Bolus first detected at").line.replace("Bolus first detected at", "")
+# $RHID_Bolus_Volume_Alt          = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus first detected at").line.split(",") | Select-String "Bolus first detected at").line.replace("Bolus first detected at", "")
 $RHID_Bolus_Timing              = (($RHID_Bolus_Test_Result_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing =").line.replace("Timing =", "").replace("s","")
 $RHID_Bolus_Current             = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
 
@@ -318,4 +315,10 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         " Bolus Current = " + $RHID_Bolus_Current[$i] + "uA"
         $i = $i + 1
     }
+}
+
+ $RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
+
+Function RHID_Piezo_FAT_Details {
+    "$Desc : " + "Mezz PCB + BEC Peizo Pump Test" + "$RHID_Piezo_FAT_Details" + "nA"
 }
