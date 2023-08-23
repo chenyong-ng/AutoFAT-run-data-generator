@@ -26,9 +26,10 @@ IF ([Bool]$MachineName -eq "False") {
     $Remote_Folder_Msg
     #Write-Host "$BoxPrep : Backup Instrument folder before Boxprep !!!" -ForegroundColor Red
 }
-
-$RHID_Danno_Path            = $danno + $MachineName
-$RHID_US_Danno_Path         = $US_danno + $MachineName
+$RHID_Danno_Path
+$Drive + $Danno + $MachineName
+$RHID_Danno_Path            = $Drive + $Danno + $MachineName
+$RHID_US_Danno_Path         = $US_Drive + $Danno + $MachineName
 If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
     $RHID_HIDAutolite       = [string](Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str)[-1].Line.Split("License number provided is")[-1].replace(".","").Trim()
     $RHID_BoxPrep_Scrshot   = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
@@ -55,8 +56,15 @@ $xmlFragment                = $xmlMmat.CreateDocumentFragment()
 $xmlFragment.InnerXml       =
 @"
 <Fullrun><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Fullrun>
+"@+
+@"
 <Full2run><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Full2run>
+"@+
+@"
+<Full3run><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></Full3run>
 "@
+
+
 #<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
 
 $null = $xmlMmat.TestReport.AppendChild($xmlFragment)
