@@ -30,7 +30,7 @@ IF ([Bool]$MachineName -eq "False") {
 $RHID_Danno_Path            = $danno + $MachineName
 $RHID_US_Danno_Path         = $US_danno + $MachineName
 If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
-    $RHID_HIDAutolite       = (Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str | Select-Object -Last 1).Line.Split(" ").TrimStart()[-1]
+    $RHID_HIDAutolite       = [string](Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str)[-1].Line.Split("License number provided is")[-1].replace(".","").Trim()
     $RHID_BoxPrep_Scrshot   = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
     Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green

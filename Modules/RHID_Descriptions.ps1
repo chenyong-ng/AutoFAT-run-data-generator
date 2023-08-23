@@ -218,20 +218,20 @@ Function RHID_Anode_Motor_Details {
     "$Desc : " + "LP Minimum Current = " + "$RHID_LP_Min_Current" + "% (<25%)"
 }
 
-$RHID_BEC_Interlock_Top = [Double]($storyboard | Select-String "BEC Interlock (Top):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-$RHID_BEC_Interlock_Bottom = [Double]($storyboard | Select-String "BEC Interlock (Bottom):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
+$RHID_BEC_Interlock_Top     = ($storyboard | Select-String -SimpleMatch "BEC Interlock (Top):")[-1].line.split("(Top):")[-1].Trim()
+ $RHID_BEC_Interlock_Bottom = ($storyboard | Select-String -SimpleMatch "BEC Insertion Interlock (Bottom)")[-1].line.split("(Bottom):")[-1].Trim()
 Function RHID_BEC_Interlock_Details {
-    "$Desc : " + "BEC Interlock (Top): " + "$RHID_BEC_Interlock_Top" + "C (< 5V)"
-    "$Desc : " + "BEC Interlock (Bottom): " + "$RHID_BEC_Interlock_Bottom" + "C (< 5V)"
+    "$Desc : " + "BEC Interlock (Top): " + "$RHID_BEC_Interlock_Top"
+    "$Desc : " + "BEC Interlock (Bottom): " + "$RHID_BEC_Interlock_Bottom"
 }
 
-$RHID_Gel_Antenna_Strength_High = [Double]($storyboard | Select-String "Gel Antenna Strength (High):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-Function RHID_Gel_Antenna_Strength_Details {
+$RHID_Gel_Antenna_Strength_High = [Double]($storyboard | Select-String -simplematch "Gel Antenna Strength (High) =")[-1].line.replace("(>= 7)", "").split("=")[-1]
+Function RHID_Gel_Antenna_Strength_High_Details {
     "$Desc : " + "Gel Antenna Strength (High): " + "$RHID_Gel_Antenna_Strength_High" + "(>= 7)"
 }
 
-$RHID_Gel_Antenna_Strength_Low = [Double]($storyboard | Select-String "Gel Antenna Strength (Low):")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("C")[0]
-Function RHID_Gel_Antenna_Strength_Details {
+$RHID_Gel_Antenna_Strength_Low = [Double]($storyboard | Select-String -SimpleMatch "Gel Antenna Strength (Low) =")[-1].line.replace("(>= 3)", "").split("=")[-1]
+Function RHID_Gel_Antenna_Strength_Low_Details {
     "$Desc : " + "Gel Antenna Strength (Low): " + "$RHID_Gel_Antenna_Strength_Low" + "(>= 3)"
 }
 
