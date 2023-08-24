@@ -28,7 +28,7 @@ $CheckInternet              = [bool]((Get-NetConnectionProfile).IPv4Connectivity
 $WiFiIPaddress              = (Get-NetIPAddress -InterfaceAlias "Wi-Fi*" -addressfamily "IPv4","IPv6").ipaddress
 $LANIPaddress               = (Get-NetIPAddress -InterfaceAlias "Ethernet*" -addressfamily "IPv4","IPv6").ipaddress
 $Inst_rhid_Folder           = "E:\RapidHIT ID"
-$Inst_rhid_Result           = "E:\RapidHIT ID\Results"
+$Inst_rhid_Result           = "$Inst_rhid_Folder\Results"
 $Nonlinearity_File          = "Non-linearity Calibration $MachineName.PNG"
 $Waves_File                 = "Waves $MachineName.PNG"
 $TC_verification_File       = "TC_verification $MachineName.TXT"
@@ -64,8 +64,10 @@ $OverrideSettingsXML_Leaf   = Test-Path -PathType Leaf -Path $Inst_rhid_Folder\$
     
 $Server_Internal            = Test-Path -Path "$Drive\$HostName\Internal\"
 $USServer_Internal          = Test-Path -Path "$US_Drive\$HostName\Internal\"
-$Danno_leaf                 = Test-Path -Path "$Drive\Dano Planning\Test Data\$HostName"
-$US_Danno_leaf              = Test-Path -Path "$US_Drive\Dano Planning\Test Data\$HostName"
+$Inst_Danno_leaf            = Test-Path -Path "$Drive\Dano Planning\Test Data\$HostName"
+$US_Inst_Danno_leaf         = Test-Path -Path "$US_Drive\Dano Planning\Test Data\$HostName"
+$Root_Danno                 = "$Drive\Dano Planning\Test Data\"
+$US_Root_Danno              = "$US_Drive\Dano Planning\Test Data\"
 
 $NotepadAPP                 = [String]$ScriptConfig.Apps.Notepad
 

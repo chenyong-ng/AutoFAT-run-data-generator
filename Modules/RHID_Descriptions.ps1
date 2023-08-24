@@ -294,28 +294,39 @@ function MezzBoard_Test_Details {
     "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_Cathode"  +"C (41/43 C)"
 }
 
-$RHID_Bolus_Test_Result_Folder  = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Sort-Object LastWriteTime)
-$RHID_Bolus_DN                  = (($RHID_Bolus_Test_Result_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN =").line.replace("% in DN =", "").replace("%", "")
-$RHID_Bolus_Volume              = (($RHID_Bolus_Test_Result_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  =").line.replace("Volume  =", "").replace("uL", "")
-$RHID_Bolus_Timing              = (($RHID_Bolus_Test_Result_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing =").line.replace("Timing =", "").replace("s","")
-$RHID_Bolus_Current             = (($RHID_Bolus_Test_Result_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
-$RHID_Bolus_Test_Result_Image  = (Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test**" -I BolusInject_*.PNG -R | Sort-Object LastWriteTime)
+Function GetBolusData {
+$Bolus_Devliery_Test_Num    = "   Bolus Devliery Test # = "
+$Result_Separator           = "################################"
+$DN_Percentage              = "         % in DN = "
+$Volume_ul                  = "       Volume uL = "
+$Timing_s                   = "        Timing s = "
+$Bolus_Current              = "Bolus Current uA = "
+$RHID_Bolus_Test_Folder         = "$Drive\$MachineName\*Bolus Delivery Test*"
+$RHID_Bolus_Test_storyboard     = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I storyboard*.txt -R | Sort-Object LastWriteTime)
+$RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
+$RHID_Bolus_DN                  = (($RHID_Bolus_Test_storyboard | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN =").line.replace("% in DN =", "").replace("%", "")
+$RHID_Bolus_Volume              = (($RHID_Bolus_Test_storyboard | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  =").line.replace("Volume  =", "").replace("uL", "")
+$RHID_Bolus_Timing              = (($RHID_Bolus_Test_storyboard | Select-String "Timing ="       ).line.split(",") | Select-String "Timing =").line.replace("Timing =", "").replace("s","")
+$RHID_Bolus_Current             = (($RHID_Bolus_Test_storyboard | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
+
 
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0
 foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
     if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
-        "================================"
-        "Bolus Devliery Test # " + ($i+1)
-        "       % in DN = " + $RHID_Bolus_DN[$i] + "%"
-        "        Volume = " + $RHID_Bolus_Volume[$i] + "uL"
-        "        Timing = " + $RHID_Bolus_Timing[$i] + "s"
-        " Bolus Current = " + $RHID_Bolus_Current[$i] + "uA"
-        $Drive + "\" + $MachineName+"\"+($RHID_Bolus_Test_Result_Image).directory.name[$i]+"\"+($RHID_Bolus_Test_Result_Image.name)[$i]
+        $Result_Separator
+        $Bolus_Devliery_Test_Num + ($i + 1)
+        $DN_Percentage + $RHID_Bolus_DN[$i]
+        $Volume_ul + $RHID_Bolus_Volume[$i]
+        $Timing_s + $RHID_Bolus_Timing[$i]
+        $Bolus_Current + $RHID_Bolus_Current[$i]
+        $Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
     }
 }
+}
+
 
  $RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
 
