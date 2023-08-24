@@ -295,7 +295,7 @@ function MezzBoard_Test_Details {
 }
 
 Function GetBolusData {
-$Bolus_Devliery_Test_Num    = "   Bolus Devliery Test # = "
+$Bolus_Delivery_Test_Num    = "  Bolus Delivery Test # = "
 $Result_Separator           = "################################"
 $DN_Percentage              = "         % in DN = "
 $Volume_ul                  = "       Volume uL = "
@@ -315,18 +315,19 @@ $i = 0
 foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
     if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
         $Result_Separator
-        $Bolus_Devliery_Test_Num + ($i + 1)
-        $DN_Percentage + $RHID_Bolus_DN[$i]
-        $Volume_ul + $RHID_Bolus_Volume[$i]
-        $Timing_s + $RHID_Bolus_Timing[$i]
-        $Bolus_Current + $RHID_Bolus_Current[$i]
-        $Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]
+        $Bolust_Image   = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\", "\\")
+        $Bolus_Delivery_Test_Num + ($i + 1)
+        $DN_Percentage  + $RHID_Bolus_DN[$i]
+        $Volume_ul      + $RHID_Bolus_Volume[$i]
+        $Timing_s       + $RHID_Bolus_Timing[$i]
+        $Bolus_Current  + $RHID_Bolus_Current[$i]
+        "Image" + " = " + $Bolust_Image
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
     }
 }
 }
-
+(GetBolusData | ConvertFrom-StringData -Delimiter '=' | select-object -skip 1)
 
  $RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
 
