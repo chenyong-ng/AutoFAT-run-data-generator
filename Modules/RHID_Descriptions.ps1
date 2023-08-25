@@ -295,12 +295,7 @@ function MezzBoard_Test_Details {
 }
 
 Function GetBolusData {
-$Result_Separator           = "################################"
-$Bolus_Delivery_Test_Num    = " Test_Counter = "
-$DN_Percentage              = "DN_Percentage = "
-$Volume_ul                  = "       Volume = "
-$Timing_s                   = "       Timing = "
-$Bolus_Current              = " BolusCurrent = "
+$Result_Separator               = "################################"
 $RHID_Bolus_Test_Folder         = "$Drive\$MachineName\*Bolus Delivery Test*"
 $RHID_Bolus_Test_storyboard     = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I storyboard*.txt -R | Sort-Object LastWriteTime)
 $RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
@@ -310,28 +305,28 @@ $RHID_Bolus_Timing              = (($RHID_Bolus_Test_storyboard | Select-String 
 $RHID_Bolus_Current             = (($RHID_Bolus_Test_storyboard | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0
-            $BolusUnit = @('Percentage','uL','Seconds','uA')
 foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
     if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
-
         $Result_Separator
-        $Bolust_Image   = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\", "\\")
-        $Bolus_Delivery_Test_Num                    + ($i + 1)
-        $DN_Percentage  + $RHID_Bolus_DN[$i]     
-        $Volume_ul      + $RHID_Bolus_Volume[$i] 
-        $Timing_s       + $RHID_Bolus_Timing[$i] 
-        $Bolus_Current  + $RHID_Bolus_Current[$i]
-        "Image" + " = " + $Bolust_Image
+        $Bolust_Image  = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\", "\\")
+        " Test_Counter = " + ($i + 1) 
+        "DN_Percentage = " + $RHID_Bolus_DN[$i]         + " = Percentage"
+        "       Volume = " + $RHID_Bolus_Volume[$i]     + " = uL"
+        "       Timing = " + $RHID_Bolus_Timing[$i]     + " = Seconds"
+        " BolusCurrent = " + $RHID_Bolus_Current[$i]    + " = uA"
+        "        Image = " + $Bolust_Image
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
     }
 }
 }
 $BolusDataArray = (GetBolusData | ConvertFrom-StringData -Delimiter '=' | select-object -skip 1)
-$BolusDataArray | Add-Member -MemberType NoteProperty -Name Unit -value (New-object System.Collections.Arraylist)
-$a = new-object -TypeName PSObject
-[System.Collections.ArrayList]$arrList = $BolusUnit
-$a | Add-Member -MemberType NoteProperty -Name Unit -value $arrlist
+$BolusDataArray | ConvertTo-Html -Charset "UTF-8" -Transitional -Property image | out-file "U:\RHID-0855\Internal\RapidHIT ID\Results\01.html" 
+
+# $BolusDataArray | Add-Member -MemberType NoteProperty -Name Unit -value (New-object System.Collections.Arraylist)
+# $BolusUnit = new-object -TypeName PSObject
+# [System.Collections.ArrayList]$arrList = (@('Percentage', 'uL', 'Seconds', 'uA'))
+# $BolusUnit | Add-Member -MemberType NoteProperty -Name Unit -value $arrlist
 
             
  $RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
