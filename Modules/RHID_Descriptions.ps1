@@ -304,9 +304,9 @@ $Bolus_Current              = "Bolus Current uA = "
 $RHID_Bolus_Test_Folder         = "$Drive\$MachineName\*Bolus Delivery Test*"
 $RHID_Bolus_Test_storyboard     = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I storyboard*.txt -R | Sort-Object LastWriteTime)
 $RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
-$RHID_Bolus_DN                  = (($RHID_Bolus_Test_storyboard | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN =").line.replace("% in DN =", "").replace("%", "")
-$RHID_Bolus_Volume              = (($RHID_Bolus_Test_storyboard | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  =").line.replace("Volume  =", "").replace("uL", "")
-$RHID_Bolus_Timing              = (($RHID_Bolus_Test_storyboard | Select-String "Timing ="       ).line.split(",") | Select-String "Timing =").line.replace("Timing =", "").replace("s","")
+$RHID_Bolus_DN                  = (($RHID_Bolus_Test_storyboard | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN ="      ).line.replace("% in DN =", ""      ).replace("%", "")
+$RHID_Bolus_Volume              = (($RHID_Bolus_Test_storyboard | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "")
+$RHID_Bolus_Timing              = (($RHID_Bolus_Test_storyboard | Select-String "Timing ="       ).line.split(",") | Select-String "Timing ="       ).line.replace("Timing =", ""       ).replace("s","")
 $RHID_Bolus_Current             = (($RHID_Bolus_Test_storyboard | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
 
 
