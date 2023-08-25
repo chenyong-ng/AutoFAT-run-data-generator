@@ -313,13 +313,19 @@ $i = 0
 
 foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
     if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
+            $BolusUnit = @(
+                [pscustomobject]@{Unit = 'Percentage' }
+                [pscustomobject]@{Unit = 'uL' }
+                [pscustomobject]@{Unit = 'Seconds' }
+                [pscustomobject]@{Unit = 'uA' }
+            )
         $Result_Separator
         $Bolust_Image   = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\", "\\")
         $Bolus_Delivery_Test_Num                    + ($i + 1)
-        $DN_Percentage  + $RHID_Bolus_DN[$i]        
-        $Volume_ul      + $RHID_Bolus_Volume[$i]    
-        $Timing_s       + $RHID_Bolus_Timing[$i]    
-        $Bolus_Current  + $RHID_Bolus_Current[$i]   
+        $DN_Percentage  + $RHID_Bolus_DN[$i]        +  " " +$BolusUnit.unit[0]
+        $Volume_ul      + $RHID_Bolus_Volume[$i]    +  " " +$BolusUnit.unit[1]
+        $Timing_s       + $RHID_Bolus_Timing[$i]    +  " " +$BolusUnit.unit[2]
+        $Bolus_Current  + $RHID_Bolus_Current[$i]   +  " " +$BolusUnit.unit[3]
         "Image" + " = " + $Bolust_Image
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
@@ -327,12 +333,6 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
 }
 }
 $BolusDataArray = (GetBolusData | ConvertFrom-StringData -Delimiter '=' | select-object -skip 1)
-            $BolusUnit = @(
-                [pscustomobject]@{Unit = 'Percentage' }
-                [pscustomobject]@{Unit = 'uL' }
-                [pscustomobject]@{Unit = 'Seconds' }
-                [pscustomobject]@{Unit = 'uA' }
-            )
             
  $RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
 
