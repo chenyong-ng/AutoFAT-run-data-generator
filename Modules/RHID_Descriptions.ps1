@@ -150,8 +150,8 @@ Function RHID_Homing_Error_Test_Details {
     "$Desc : " + "DL Motor Homing Error At: " + $RHID_Homing_Error_Test_DL + " mm (<0.35 mm)"
 }
 
-$RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:" | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
-$RHID_FL_Homing_Error_wCAM_CAM5 = [Double]($storyboard | Select-String -SimpleMatch "FL (CAM5):" | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
+$RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:"                        | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
+$RHID_FL_Homing_Error_wCAM_CAM5 = [Double]($storyboard | Select-String -SimpleMatch "FL (CAM5):"    | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
 Function RHID_FL_Homing_Error_Details {
     "$Desc : " + "FL Motor Homing Error At:"        + $RHID_FL_Homing_Error_wCAM_FL     + " mm (<0.35 mm)"
     "$Desc : " + "FL Motor CAM5 Homing Error At:"   + $RHID_FL_Homing_Error_wCAM_CAM5   + " mm (<0.35 mm)"
@@ -295,12 +295,12 @@ function MezzBoard_Test_Details {
 }
 
 Function GetBolusData {
-$Bolus_Delivery_Test_Num    = "  Bolus Delivery Test # = "
 $Result_Separator           = "################################"
-$DN_Percentage              = "         % in DN = "
-$Volume_ul                  = "       Volume uL = "
-$Timing_s                   = "        Timing s = "
-$Bolus_Current              = "Bolus Current uA = "
+$Bolus_Delivery_Test_Num    = " Test_Counter = "
+$DN_Percentage              = "DN_Percentage = "
+$Volume_ul                  = "       Volume = "
+$Timing_s                   = "       Timing = "
+$Bolus_Current              = " BolusCurrent = "
 $RHID_Bolus_Test_Folder         = "$Drive\$MachineName\*Bolus Delivery Test*"
 $RHID_Bolus_Test_storyboard     = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I storyboard*.txt -R | Sort-Object LastWriteTime)
 $RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
@@ -308,27 +308,32 @@ $RHID_Bolus_DN                  = (($RHID_Bolus_Test_storyboard | Select-String 
 $RHID_Bolus_Volume              = (($RHID_Bolus_Test_storyboard | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "")
 $RHID_Bolus_Timing              = (($RHID_Bolus_Test_storyboard | Select-String "Timing ="       ).line.split(",") | Select-String "Timing ="       ).line.replace("Timing =", ""       ).replace("s","")
 $RHID_Bolus_Current             = (($RHID_Bolus_Test_storyboard | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
-
-
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0
+
 foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
     if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
         $Result_Separator
         $Bolust_Image   = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\", "\\")
-        $Bolus_Delivery_Test_Num + ($i + 1)
-        $DN_Percentage  + $RHID_Bolus_DN[$i]
-        $Volume_ul      + $RHID_Bolus_Volume[$i]
-        $Timing_s       + $RHID_Bolus_Timing[$i]
-        $Bolus_Current  + $RHID_Bolus_Current[$i]
+        $Bolus_Delivery_Test_Num                    + ($i + 1)
+        $DN_Percentage  + $RHID_Bolus_DN[$i]        
+        $Volume_ul      + $RHID_Bolus_Volume[$i]    
+        $Timing_s       + $RHID_Bolus_Timing[$i]    
+        $Bolus_Current  + $RHID_Bolus_Current[$i]   
         "Image" + " = " + $Bolust_Image
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
     }
 }
 }
-(GetBolusData | ConvertFrom-StringData -Delimiter '=' | select-object -skip 1)
-
+$BolusDataArray = (GetBolusData | ConvertFrom-StringData -Delimiter '=' | select-object -skip 1)
+            $BolusUnit = @(
+                [pscustomobject]@{Unit = 'Percentage' }
+                [pscustomobject]@{Unit = 'uL' }
+                [pscustomobject]@{Unit = 'Seconds' }
+                [pscustomobject]@{Unit = 'uA' }
+            )
+            
  $RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
 
 Function RHID_Piezo_FAT_Details {

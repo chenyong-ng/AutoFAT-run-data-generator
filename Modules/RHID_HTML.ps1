@@ -68,7 +68,16 @@ h3 {
 <TH ALIGN=LEFT>Result</TH>
 </TR>
 <TR>
-<TD WIDTH=""100"">White Target</TD>
+<TD WIDTH=""100"">
+<OL>
+<!-- placeholder for bolus test -->
+<LI>White Target</LI>
+<LI>White Target</LI>
+<LI>White Target</LI>
+<LI>White Target</LI>
+<LI>White Target</LI>
+<LI>White Target</LI>
+</OL></TD>
 <TD WIDTH=""100"">Recipe State Update</TD>
 <TD WIDTH=""100"">TRUE</TD>
 <TD WIDTH=""100"">FIO</TD>
