@@ -294,7 +294,7 @@ function MezzBoard_Test_Details {
     "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_Cathode"  +"C (41/43 C)"
 }
 
-# function GetBolusData {
+function GetBolusData {
 $Result_Separator               = "################################"
 $RHID_Bolus_Test_Folder         = "$Drive\$MachineName\*Bolus Delivery Test*"
 $RHID_Bolus_Test_storyboard     = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I storyboard*.txt -R | Sort-Object LastWriteTime)
@@ -322,7 +322,7 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         "       Timing = " + $RHID_Bolus_Timing_Var
         " BolusCurrent = " + $RHID_Bolus_Current_Var
         "        Image = " + $Bolust_Image
-        $Bolus_HTML_Fragments =
+        # $Bolus_HTML_Fragments =
         "<TR>
         <TH ALIGN=LEFT>Test Name</TH>
         <TH ALIGN=LEFT>Parameter</TH>
@@ -335,11 +335,11 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         <TD WIDTH=""100"">
         <OL>
         <!-- placeholder for bolus test -->
-        <LI> Test_Counter</LI>
-        <LI>% in DN =</LI>
-        <LI>       Volume = </LI>
-        <LI>       Timing =</LI>
-        <LI> Bolus Current =</LI>
+        <LI ALIGN=LEFT>Test_Counter</LI>
+        <LI ALIGN=LEFT>% in DN =</LI>
+        <LI ALIGN=LEFT>Volume = </LI>
+        <LI ALIGN=LEFT>Timing =</LI>
+        <LI ALIGN=LEFT>Bolus Current =</LI>
         </OL></TD>
         <TD WIDTH=""100"">
         <OL>
@@ -354,14 +354,14 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         <TD WIDTH=""100"">
         <IMG src=""file://$Bolust_Image_HTML""/>
         </TD>
-        # <TD WIDTH=""100"">FIO</TD>
-        # <TD WIDTH=""100"">Pass</TD>
+        <TD WIDTH=""100"">FIO</TD>
+        <TD WIDTH=""100"">Pass</TD>
         </TR>"
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
     }
 }
-
+}
 
 $Bolus_HTML =
 "<!DOCTYPE html>
@@ -392,7 +392,7 @@ $Bolus_HTML_Fragments
 
 $BolusDataObj = (GetBolusData | ConvertFrom-StringData -Delimiter '=' | select-object -skip 1)
 # $BolusDataArray | ConvertTo-Html -Charset "UTF-8" -Transitional -Property image | out-file "U:\RHID-0855\Internal\RapidHIT ID\Results\01.html" 
-$Bolus_HTML | out-file "U:\RHID-0875\Internal\RapidHIT ID\Results\01.html" 
+# $Bolus_HTML | out-file "U:\RHID-0875\Internal\RapidHIT ID\Results\01.html" 
 
 # $BolusDataArray | Add-Member -MemberType NoteProperty -Name Unit -value (New-object System.Collections.Arraylist)
 # $BolusUnit = new-object -TypeName PSObject
