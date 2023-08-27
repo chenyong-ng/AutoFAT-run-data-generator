@@ -294,8 +294,8 @@ function MezzBoard_Test_Details {
     "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_Cathode"  +"C (41/43 C)"
 }
 
-function GetBolusData {
-$Result_Separator               = "################################"
+
+# $Result_Separator               = "################################"
 $RHID_Bolus_Test_Folder         = "$Drive\$MachineName\*Bolus Delivery Test*"
 $RHID_Bolus_Test_storyboard     = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I storyboard*.txt -R | Sort-Object LastWriteTime)
 $RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
@@ -305,102 +305,65 @@ $RHID_Bolus_Timing              = (($RHID_Bolus_Test_storyboard | Select-String 
 $RHID_Bolus_Current             = (($RHID_Bolus_Test_storyboard | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0
+function GetBolusData {
 foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
     if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
         #$Result_Separator
-        $Bolust_Image           = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\","\\")
+        $Bolust_Image           = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i])
         $Bolust_Image_HTML      = ($Drive + "/" + $MachineName + "/" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "/" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\","/").replace("#","%23")
         $Bolus_Test_Counter     = [Double]($i + 1)
         $RHID_Bolus_DN_Var      = [Double]$RHID_Bolus_DN[$i]
         $RHID_Bolus_Volume_Var  = [Double]$RHID_Bolus_Volume[$i]
         $RHID_Bolus_Timing_Var  = [Double]$RHID_Bolus_Timing[$i]
         $RHID_Bolus_Current_Var = [Double]$RHID_Bolus_Current[$i]
-        # $Bolust_Image
-        " Test_Counter = " + $Bolus_Test_Counter
-        "DN_Percentage = " + $RHID_Bolus_DN_Var
-        "       Volume = " + $RHID_Bolus_Volume_Var
-        "       Timing = " + $RHID_Bolus_Timing_Var
-        " BolusCurrent = " + $RHID_Bolus_Current_Var
-        "        Image = " + $Bolust_Image
-        # $Bolus_HTML_Fragments =
-        "<TR>
-        <TH ALIGN=LEFT>Test Name</TH>
-        <TH ALIGN=LEFT>Parameter</TH>
-        <TH ALIGN=LEFT>Output</TH>
-        <TH ALIGN=LEFT>Criteria</TH>
-        <TH ALIGN=LEFT>Result</TH>
-        </TR>
-        <TABLE WIDTH=""100%"">
-        <TR>
-        <TD WIDTH=""100"">
-        <OL>
-        <!-- placeholder for bolus test -->
-        <LI ALIGN=LEFT>Test_Counter</LI>
-        <LI ALIGN=LEFT>% in DN =</LI>
-        <LI ALIGN=LEFT>Volume = </LI>
-        <LI ALIGN=LEFT>Timing =</LI>
-        <LI ALIGN=LEFT>Bolus Current =</LI>
-        </OL></TD>
-        <TD WIDTH=""100"">
-        <OL>
-        <!-- placeholder for bolus test -->
-        <LI>$Bolus_Test_Counter</LI>
-        <LI>$RHID_Bolus_DN_Var</LI>
-        <LI>$RHID_Bolus_Volume_Var</LI>
-        <LI>$RHID_Bolus_Timing_Var</LI>
-        <LI>$RHID_Bolus_Current_Var</LI>
-        </OL>
-        </TD>
-        <TD WIDTH=""100"">
-        <IMG src=""file://$Bolust_Image_HTML""/>
-        </TD>
-        <TD WIDTH=""100"">FIO</TD>
-        <TD WIDTH=""100"">Pass</TD>
-        </TR>"
+        "Test_Counter,$Bolus_Test_Counter"
+        "DN_Percentage,$RHID_Bolus_DN_Var,%"
+        "Volume,$RHID_Bolus_Volume_Var,uL"
+        "Timing,$RHID_Bolus_Timing_Var,s"
+        "BolusCurrent,$RHID_Bolus_Current_Var,uA"
+        "Image,$Bolust_Image"
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
     }
 }
 }
+$BolusDataObj = (GetBolusData | ConvertFrom-String -Delimiter ',' -PropertyNames Type, Value, Unit | select-object -skip 0)
+$BolusDataObj | Out-File "$Drive\$MachineName\Internal\RapidHIT ID\Results\BolusDataObj.txt"
 
-$Bolus_HTML =
-"<!DOCTYPE html>
-<html lang=""en"">
-<meta charset=""UTF-8"">
-<meta name=""viewport"" content=""width=device-width, initial-scale=1"">
-<!-- Constructed with RHID Powershell Report Generation -->
-<HEAD>
-<TITLE>$MachineName Test Report</TITLE>
-<style>
-h3 {
-  color: Black;
-  font: 24px ""Helvetica Neue"", Helvetica, Arial, sans-serif;
+function GetBolusDataXML {
+    foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
+        if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
+            $Bolust_Image = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i])
+            $Bolus_Test_Counter     = [Double]($i + 1)
+            $RHID_Bolus_DN_Var      = [Double]$RHID_Bolus_DN[$i]
+            $RHID_Bolus_Volume_Var  = [Double]$RHID_Bolus_Volume[$i]
+            $RHID_Bolus_Timing_Var  = [Double]$RHID_Bolus_Timing[$i]
+            $RHID_Bolus_Current_Var = [Double]$RHID_Bolus_Current[$i]     
+@"
+<Bolus_Test>
+    <Counter>$Bolus_Test_Counter</Counter>
+    <Percentage>$RHID_Bolus_DN_Var</Percentage>
+    <Volume>$RHID_Bolus_Volume_Var</Volume>
+    <Timing>$RHID_Bolus_Timing_Var</Timing>
+    <Current>$RHID_Bolus_Current_Var</Current>
+    <Image>$Bolust_Image</Image>
+</Bolus_Test>
+"@
+            $i = $i + 1
+            # Generate HTML Report with Bolus testimages
+        }
+    }
 }
-</style>
-</HEAD>
-<BODY>
-<HR SIZE=""1"" WIDTH="" 100.000000%"">
-<TABLE BORDER=""1"">
-$Bolus_HTML_Fragments
-</TABLE>
-<HR SIZE=""1"" WIDTH="" 100.000000%"">
-<OL>
-<LI>Name & Sign: __________________________________</LI>
-</OL>
-</BODY>
-</HTML>"
 
-$BolusDataObj = (GetBolusData | ConvertFrom-StringData -Delimiter '=' | select-object -skip 1)
-# $BolusDataArray | ConvertTo-Html -Charset "UTF-8" -Transitional -Property image | out-file "U:\RHID-0855\Internal\RapidHIT ID\Results\01.html" 
-# $Bolus_HTML | out-file "U:\RHID-0875\Internal\RapidHIT ID\Results\01.html" 
+[XML]$xmlMmat   = (Get-Content -Encoding utf8 -Raw "$TempXMLFile")
+$xmlFragment    = $xmlMmat.CreateDocumentFragment()
+$xmlFragment.InnerXml = GetBolusDataXML
+$null   = $xmlMmat.TestReport.AppendChild($xmlFragment)
+$xmlMmat.save("$TempXMLFile")
+$xmlWriter.Flush()
+$xmlWriter.Dispose()
 
-# $BolusDataArray | Add-Member -MemberType NoteProperty -Name Unit -value (New-object System.Collections.Arraylist)
-# $BolusUnit = new-object -TypeName PSObject
-# [System.Collections.ArrayList]$arrList = (@('Percentage', 'uL', 'Seconds', 'uA'))
-# $BolusUnit | Add-Member -MemberType NoteProperty -Name Unit -value $arrlist
-
-            
- $RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
+$RHID_Piezo_FAT_Details          = $storyboard | Select-String "Bolus Current =" | Select-String "nA" 
 
 Function RHID_Piezo_FAT_Details {
     "$Desc : " + "Mezz PCB + BEC Peizo Pump Test" + "$RHID_Piezo_FAT_Details" + "nA"
