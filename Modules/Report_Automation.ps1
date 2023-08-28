@@ -44,9 +44,7 @@ $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select
 # add option to enable/disable script pre-run check
 . $PSScriptRoot\CountDown.ps1
 
-if ($EnableDescriptions -eq "True") {
-. $PSScriptRoot\RHID_Descriptions.ps1
-}
+
 # add switch to perform full backup
 # generate temp files after input to prevent create junk files
 $TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())

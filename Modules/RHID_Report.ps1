@@ -99,6 +99,10 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
 $TC_verificationTXT = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
 "$Found : " + $TC_verificationTXT.count + " , " + $(if ($TC_verificationTXT.count -gt 0) { $TC_verificationTXT[0] })
 
+if ($EnableDescriptions -eq "True") {
+    . $PSScriptRoot\RHID_Descriptions.ps1
+}
+
 IF ($VerboseMode -ne "True") {
     clear-host
     } else {

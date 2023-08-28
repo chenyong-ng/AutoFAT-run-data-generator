@@ -34,7 +34,6 @@ if ($RHID_DN_Heater_FAT.count -eq "0") {
 if ($EnableDescriptions -eq "True") {
     RHID_DN_Heater_Details
 }
-# ($RHID_DN_Heater_FAT_PASS.Line.split(":").TrimStart()[-1] -eq "PASS")
 Write-Host "$Heater : $RHID_DN_Heater_str $DN_Heater_Test_Result" -ForegroundColor $DNHColor
 
 $RHID_PCR_Heater_FAT_PASS = ($RHID_PCR_Heater_FAT | Select-String "PASS" )
@@ -72,7 +71,7 @@ elseif ($RHID_Optics_Heater_FAT_FAIL.Line -match "FAIL") {
 Write-Host "$Heater : $RHID_Optics_Heater_str $Optics_Heater_Test_Result" -ForegroundColor $OpticsHColor 
 
 if ($EnableDescriptions -eq "True") {
-    RHID_Optics_Heater_Detail
+    RHID_Optics_Heater_Details
 }
 } # End of RHID_Heater_Test function
 
@@ -88,6 +87,9 @@ elseif ($RHID_Gel_Cooler_FAT_PASS.Line -match "PASS") {
 elseif ($RHID_Gel_Cooler_FAT_FAIL.Line -match "FAIL") {
     Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor Red    
 }
+    if ($EnableDescriptions -eq "True") {
+        RHID_Gel_Cooler_Details
+    }
   #  Write-Host "$Gel_Cooler : $RHID_Gel_Cooler_str $Test_Failed" -ForegroundColor $GelColor   
 }
 
