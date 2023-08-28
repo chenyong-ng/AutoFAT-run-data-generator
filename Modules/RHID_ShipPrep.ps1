@@ -47,27 +47,6 @@ $NGM_007Count               = ($GM_ILS_Score_NGM_007.count -gt 0)
 $BLANKCount                 = ($GM_ILS_Score_BLANK.count -gt 3)
 $FullRunCounter             = $GFE36cyclesCount, $GFE_BVCount, $LadderCount, $GFE_007Count, $NGM_007Count, $BLANKCount
 
-if ($VerboseMode -eq "True") {
-    RHID_FullRunCounter_Verbose }
-
-[XML]$xmlMmat               = (Get-Content -Encoding utf8 -Raw "$TempXMLFile")
-$xmlFragment                = $xmlMmat.CreateDocumentFragment()
-$xmlFragment.InnerXml       =
-@"
-<Fullrun><GFE36cyclesCount>$GFE36cyclesC2ount</GFE36cyclesCount><GFE_BVCount>$GFE_3BVCount</GFE_BVCount></Fullrun>
-"@+
-@"
-<Full2run><GFE36cyclesCount>$GFE36cyclesC3ount</GFE36cyclesCount><GFE_BVCount>$GFE_B3VCount</GFE_BVCount></Full2run>
-"@+
-@"
-<NewElement><GFE36cyclesCount>$GFE36cyclesCount</GFE36cyclesCount><GFE_BVCount>$GFE_BVCount</GFE_BVCount></NewElement>
-"@
-
-$null = $xmlMmat.TestReport.AppendChild($xmlFragment)
-$xmlMmat.save("$TempXMLFile")
-$xmlWriter.Flush()
-$xmlWriter.Dispose()
-
 if ((($FullRunCounter -match "True").count -gt 5) -and ($SerialRegMatch -eq "True")) {
     Write-Host "$BoxPrep :   Backing Up Instrument Run data to Remote Folder" -ForegroundColor Green
 

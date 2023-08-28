@@ -99,7 +99,6 @@ if ($RHID_Ambient_FAT.count -eq "0") {
 }
 elseif ($RHID_Ambient_FAT_PASS.Line -match "PASS") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Passed $RHID_Ambient_Temp" -ForegroundColor Green 
-    Write-Host "$Ambient : $RHID_Ambient_TempAvg" -ForegroundColor Green
 }
 elseif ($RHID_Ambient_FAT_FAIL.Line -match "FAIL") {
     Write-Host "$Ambient : $RHID_Ambient_str $Test_Failed $RHID_Ambient_Temp" -ForegroundColor Red    
