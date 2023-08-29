@@ -27,7 +27,6 @@ Function RHID_Lysis_Heater_Details {
     "$Desc : " + "Lysis2 PWM Average    = " + "$RHID_Lysis2_Pwm_Avg"    + " (0 / 8000)"
     "$Desc : " + "Lysis2 PWM SD         = " + "$RHID_Lysis2_PWM_SD"     + " (< 1000)"
 }
-# $RHID_Ambient_Temp = (($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split(",").TrimStart())[-1]
 
 $RHID_DN_Temp_Avg       = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp Average ="     )[-1].line.split("=")[-1].replace("C (94.5/95.5C)","")
 $RHID_DN_Temp_Max       = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp Max Reached =" )[-1].line.split("=")[-1].replace("C (< 105C)","")
@@ -295,14 +294,14 @@ function MezzBoard_Test_Details {
 }
 
 
-# $Result_Separator               = "################################"
-$RHID_Bolus_Test_Folder         = "$Drive\$MachineName\*Bolus Delivery Test*"
-$RHID_Bolus_Test_storyboard     = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I storyboard*.txt -R | Sort-Object LastWriteTime)
-$RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$RHID_Bolus_Test_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
-$RHID_Bolus_DN                  = (($RHID_Bolus_Test_storyboard | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN ="      ).line.replace("% in DN =", ""      ).replace("%", "")
-$RHID_Bolus_Volume              = (($RHID_Bolus_Test_storyboard | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "")
-$RHID_Bolus_Timing              = (($RHID_Bolus_Test_storyboard | Select-String "Timing ="       ).line.split(",") | Select-String "Timing ="       ).line.replace("Timing =", ""       ).replace("s","")
-$RHID_Bolus_Current             = (($RHID_Bolus_Test_storyboard | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
+# $Result_Separator             = "################################"
+# $Bolus_Folder                 = "$Path-$IndexedSerialNumber\*Bolus Delivery Test*"
+# $US_Bolus_Folder              = "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*"
+$RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$Bolus_Folder", "$US_Bolus_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
+$RHID_Bolus_DN                  = (($Storyboard_Bolus_Test_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN ="      ).line.replace("% in DN =", ""      ).replace("%", "")
+$RHID_Bolus_Volume              = (($Storyboard_Bolus_Test_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "")
+$RHID_Bolus_Timing              = (($Storyboard_Bolus_Test_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing ="       ).line.replace("Timing =", ""       ).replace("s","")
+$RHID_Bolus_Current             = (($Storyboard_Bolus_Test_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0
 function GetBolusData {

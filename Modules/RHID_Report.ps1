@@ -8,6 +8,8 @@ if ($Storyboard.count -eq 0) {
     "$Found : " + $Storyboard.count + " , " + $Storyboard[0]
 }
 
+$Storyboard_Bolus_Test_Folder         = Get-ChildItem "$Path-$IndexedSerialNumber\*Bolus Delivery Test*", "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*" -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
+
 "$Searching : MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Folder" -I MachineConfig.xml -R -ErrorAction SilentlyContinue
 "$Found : " + $MachineConfigXML.count + " , " + $(if ($MachineConfigXML.count -gt 0) { $MachineConfigXML[0] ; $MachineNameXML = ([XML](Get-Content $MachineConfigXML -Encoding UTF8)).InstrumentSettings })
