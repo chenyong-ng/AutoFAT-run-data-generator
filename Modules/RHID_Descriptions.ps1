@@ -295,8 +295,8 @@ function MezzBoard_Test_Details {
 
 
 # $Result_Separator             = "################################"
-# $Bolus_Folder                 = "$Path-$IndexedSerialNumber\*Bolus Delivery Test*"
-# $US_Bolus_Folder              = "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*"
+$Bolus_Folder                 = "$Path-$IndexedSerialNumber\*Bolus Delivery Test*"
+#$US_Bolus_Folder              = "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*"
 $RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$Bolus_Folder", "$US_Bolus_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
 $RHID_Bolus_DN                  = (($Storyboard_Bolus_Test_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN ="      ).line.replace("% in DN =", ""      ).replace("%", "")
 $RHID_Bolus_Volume              = (($Storyboard_Bolus_Test_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "")

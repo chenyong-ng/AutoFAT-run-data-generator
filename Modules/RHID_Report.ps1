@@ -161,13 +161,13 @@ RHID_TempHumi_Check
 $Section_Separator 
 RHID_ShipPrep_Check
 "$LogTimer : $LogTimerEnd"
-    IF ($NoXML -ne "True") {
-        . $PSScriptRoot\RHID_XmlFragments.ps1
-        $TestResultXML_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultXML_File"
-        Copy-Item -Force $TempXMLFile -Destination $TestResultXML_FullPath
-        Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultXML_FullPath"
-    }
-
+IF ($NoXML -ne "True") {
+    . $PSScriptRoot\RHID_XmlWriter.ps1
+    . $PSScriptRoot\RHID_XmlFragments.ps1
+    $TestResultXML_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultXML_File"
+    Copy-Item -Force $TempXMLFile -Destination $TestResultXML_FullPath
+    Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultXML_FullPath"
+}
 }
 
 IF ($QuiteMode -ne "True") {

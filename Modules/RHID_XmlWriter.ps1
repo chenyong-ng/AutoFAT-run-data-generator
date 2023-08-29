@@ -9,20 +9,20 @@
 .Usage          : 
 #>
 
-$xmlsettings = New-Object System.Xml.XmlWriterSettings
-$xmlsettings.Indent = $true
-$xmlsettings.IndentChars = "	"
-
-$xmlWriter = [System.XML.XmlWriter]::Create($TempXMLFile, $xmlsettings)
-$xmlWriter.WriteStartElement("TestReport") 
-$xmlWriter.WriteAttributeString("Version", "1.0")
-$XmlWriter.WriteAttributeString("xmlns", "xsi", 
-	"http://www.w3.org/2000/xmlns/", 
-	"http://www.w3.org/2001/XMLSchema-instance");
-$XmlWriter.WriteAttributeString("xmlns","xsd",
-	"http://www.w3.org/2000/xmlns/",
-	"http://www.w3.org/2001/XMLSchema");
-$xmlWriter.WriteElementString("StartDate", $NewDate)
+# $xmlsettings = New-Object System.Xml.XmlWriterSettings
+# $xmlsettings.Indent = $true
+# $xmlsettings.IndentChars = "	"
+# 
+# $xmlWriter = [System.XML.XmlWriter]::Create($TempXMLFile, $xmlsettings)
+# xmlWriter.WriteStartElement("TestReport") 
+# xmlWriter.WriteAttributeString("Version", "1.0")
+# XmlWriter.WriteAttributeString("xmlns", "xsi", 
+# 	"http://www.w3.org/2000/xmlns/", 
+# 	"http://www.w3.org/2001/XMLSchema-instance");
+# XmlWriter.WriteAttributeString("xmlns","xsd",
+# 	"http://www.w3.org/2000/xmlns/",
+# 	"http://www.w3.org/2001/XMLSchema");
+# xmlWriter.WriteElementString("StartDate", $NewDate)
 $xmlWriter.WriteElementString("SystemTimezone", $SystemTimeZone)
 $xmlWriter.WriteElementString("SerialNumber", $env:COMPUTERNAME)
 #$xmlWriter.WriteElementString("GUID", $NewGuid)

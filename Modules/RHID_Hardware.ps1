@@ -66,12 +66,12 @@ If ([Bool]$DannoAppRhidCheck -eq "True" ) {
 "$info : DannoAppConfigCheck $DannoAppConfigCheck"
 "$info : DannoAppRhidCheck $DannoAppRhidCheck"
 "$Loading : Q-mini textual filtering commands"
-$RHID_QMini_SN                      = $storyboard | Select-String "Q-mini serial number"
-$RHID_QMini_Coeff                   = $storyboard | Select-String "Coefficients"
-$RHID_QMini_Infl                    = $storyboard | Select-String "Inflection Point"
-"$Found : " + $RHID_QMini_SN.line.split(",").TrimStart()[-1]
-"$Found : " + $RHID_QMini_Coeff.line.split(":").TrimStart()[-1]
-"$Found : " + $RHID_QMini_Infl.line.split(",").TrimStart()[-1]
+$RHID_QMini_SN                      = ($storyboard | Select-String "Q-mini serial number").line.split(":").TrimStart()[-1]
+$RHID_QMini_Coeff                   = ($storyboard | Select-String "Coefficients").line.split(":").TrimStart()[-1]
+$RHID_QMini_Infl                    = ($storyboard | Select-String "Inflection Point").line.split(":").TrimStart()[-1]
+"$Found : " + $RHID_QMini_SN
+"$Found : " + $RHID_QMini_Coeff
+"$Found : " + $RHID_QMini_Infl
 <#
 IF ($VerboseMode -eq "True") { $RHID_QMini_SN , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number" , $RHID_QMini_Coeff, $RHID_QMini_Infl }
@@ -120,22 +120,19 @@ $RHID_MachineConfig_Laser           = $MachineConfigXML  | Select-Xml -XPath "//
 
 function RHID_Optics {
 IF ($RHID_QMini_SN[-1].count -gt "0") {
-    $RHID_QMini_SN_Filter = ($RHID_QMini_SN.line.split(":").TrimStart())[-1]
-    Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN_Filter" -ForegroundColor Green
+    Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN" -ForegroundColor Green
     } Else { 
     Write-Host "$Optics : $RHID_QMini_str : $Not_Available" -ForegroundColor Yellow
     } #  Write-Host "$Optics : $RHID_QMini_str : $RHID_QMini_SN_Result" -ForegroundColor $QMini_SN_Color
 
 IF ($RHID_QMini_Coeff[-1].count -gt "0") {
-    $RHID_QMini_Coeff_Filter = ($RHID_QMini_Coeff.line.split(":").TrimStart())[-1]
-    Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff_Filter" -ForegroundColor Green
+    Write-Host "$Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff" -ForegroundColor Green
     } Else {
     Write-Host "$Optics : $RHID_Coeff_Str : $Not_Available" -ForegroundColor Yellow
     } # $Optics : $RHID_Coeff_Str : $RHID_QMini_Coeff_Result" -ForegroundColor $QMini_Coeff_Color
 
 IF ($RHID_QMini_Infl[-1].count -gt "0") {
-    $RHID_QMini_Infl_Filter = ($RHID_QMini_Infl.line.split(":").TrimStart())[-1]
-    Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Filter" -ForegroundColor Green
+    Write-Host "$Optics : $RHID_Infl_Str : $RHID_QMini_Infl" -ForegroundColor Green
     } Else {
     Write-Host "$Optics : $RHID_Infl_Str : $Not_Available" -ForegroundColor Yellow
     } # $Optics : $RHID_Infl_Str : $RHID_QMini_Infl_Result" -ForegroundColor $QMini_Infl_Color
