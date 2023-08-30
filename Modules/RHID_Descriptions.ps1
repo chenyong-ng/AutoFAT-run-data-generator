@@ -339,14 +339,14 @@ function GetBolusDataXML {
             $RHID_Bolus_Timing_Var  = [Double]$RHID_Bolus_Timing[$i]
             $RHID_Bolus_Current_Var = [Double]$RHID_Bolus_Current[$i]     
 @"
-<Bolus_Test>
+<Bolus_Test_$Bolus_Test_Counter>
     <Counter>$Bolus_Test_Counter</Counter>
     <Percentage>$RHID_Bolus_DN_Var</Percentage>
     <Volume>$RHID_Bolus_Volume_Var</Volume>
     <Timing>$RHID_Bolus_Timing_Var</Timing>
     <Current>$RHID_Bolus_Current_Var</Current>
     <Image>$Bolust_Image</Image>
-</Bolus_Test>
+</Bolus_Test_$Bolus_Test_Counter>
 "@
             $i = $i + 1
             # Generate HTML Report with Bolus testimages

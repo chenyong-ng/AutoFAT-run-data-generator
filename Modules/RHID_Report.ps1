@@ -162,7 +162,6 @@ $Section_Separator
 RHID_ShipPrep_Check
 "$LogTimer : $LogTimerEnd"
 IF ($NoXML -ne "True") {
-    . $PSScriptRoot\RHID_XmlWriter.ps1
     . $PSScriptRoot\RHID_XmlFragments.ps1
     $TestResultXML_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultXML_File"
     Copy-Item -Force $TempXMLFile -Destination $TestResultXML_FullPath
@@ -194,3 +193,6 @@ IF ($NoHTML -ne "True") {
 "$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name
 "$info : Script ended with exit code of $LASTEXITCODE"
 Remove-item $TempLogFile, $TempXMLFile
+$Transcript_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$MachineName-Transcript.txt"
+Copy-Item -Force $TempTranscriptFile -Destination $Transcript_FullPath
+Remove-item $TempLogFile, $TempXMLFile, $TempTranscriptFile -ErrorAction SilentlyContinue

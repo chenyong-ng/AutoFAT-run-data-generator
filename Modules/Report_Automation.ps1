@@ -18,6 +18,9 @@ $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
 #>
+. $PSScriptRoot\RHID_XmlWriter.ps1
+$TempTranscriptFile = Get-Item ([System.IO.Path]::GetTempFilename())
+Start-Transcript -Path $TempTranscriptFile
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
 $ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 
@@ -36,23 +39,6 @@ if ($env:COMPUTERNAME -eq "SGSI11-59FKK13") {
 
 $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select-Object -skip 0 | ConvertFrom-StringData
 
-$TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
-$xmlsettings = New-Object System.Xml.XmlWriterSettings
-$xmlsettings.Indent = $true
-$xmlsettings.IndentChars = "	"
-$xmlWriter = [System.XML.XmlWriter]::Create($TempXMLFile, $xmlsettings)
-$xmlWriter.WriteStartElement("TestReport") 
-$xmlWriter.WriteAttributeString("Version", "1.0")
-$XmlWriter.WriteAttributeString("xmlns", "xsi", 
-	"http://www.w3.org/2000/xmlns/", 
-	"http://www.w3.org/2001/XMLSchema-instance");
-$XmlWriter.WriteAttributeString("xmlns", "xsd",
-	"http://www.w3.org/2000/xmlns/",
-	"http://www.w3.org/2001/XMLSchema");
-$xmlWriter.WriteEndElement()
-$xmlWriter.Flush()
-$xmlWriter.Close()
-
 . $PSScriptRoot\GlobalVariables.ps1
 . $PSScriptRoot\RHID_Str.ps1
 . $PSScriptRoot\VerboseMode.ps1
@@ -61,9 +47,6 @@ $xmlWriter.Close()
 # add option to enable/disable script pre-run check
 . $PSScriptRoot\CountDown.ps1
 
-
-# add switch to perform full backup
-# generate temp files after input to prevent create junk files
 $TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
 
 . $PSScriptRoot\RHID_Report.ps1

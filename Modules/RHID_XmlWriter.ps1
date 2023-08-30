@@ -9,28 +9,29 @@
 .Usage          : 
 #>
 
-# $xmlsettings = New-Object System.Xml.XmlWriterSettings
-# $xmlsettings.Indent = $true
-# $xmlsettings.IndentChars = "	"
-# 
-# $xmlWriter = [System.XML.XmlWriter]::Create($TempXMLFile, $xmlsettings)
-# xmlWriter.WriteStartElement("TestReport") 
-# xmlWriter.WriteAttributeString("Version", "1.0")
-# XmlWriter.WriteAttributeString("xmlns", "xsi", 
-# 	"http://www.w3.org/2000/xmlns/", 
-# 	"http://www.w3.org/2001/XMLSchema-instance");
-# XmlWriter.WriteAttributeString("xmlns","xsd",
-# 	"http://www.w3.org/2000/xmlns/",
-# 	"http://www.w3.org/2001/XMLSchema");
-# xmlWriter.WriteElementString("StartDate", $NewDate)
+$TempXMLFile = Get-Item ([System.IO.Path]::GetTempFilename())
+$xmlsettings = New-Object System.Xml.XmlWriterSettings
+$xmlsettings.Indent = $true
+$xmlsettings.IndentChars = "	"
+
+$xmlWriter = [System.XML.XmlWriter]::Create($TempXMLFile, $xmlsettings)
+$xmlWriter.WriteStartElement("TestReport") 
+$xmlWriter.WriteAttributeString("Version", "1.0")
+$XmlWriter.WriteAttributeString("xmlns", "xsi", 
+	"http://www.w3.org/2000/xmlns/", 
+	"http://www.w3.org/2001/XMLSchema-instance");
+$XmlWriter.WriteAttributeString("xmlns","xsd",
+	"http://www.w3.org/2000/xmlns/",
+	"http://www.w3.org/2001/XMLSchema");
+$xmlWriter.WriteElementString("StartDate", $NewDate)
 $xmlWriter.WriteElementString("SystemTimezone", $SystemTimeZone)
 $xmlWriter.WriteElementString("SerialNumber", $env:COMPUTERNAME)
 #$xmlWriter.WriteElementString("GUID", $NewGuid)
 $xmlWriter.WriteStartElement("Hardware")
 $xmlWriter.WriteStartElement("Optics")
-$xmlWriter.WriteElementString("QminiSerial", $RHID_QMini_SN)
-$xmlWriter.WriteElementString("Coefficients", $RHID_QMini_Coeff)
-$xmlWriter.WriteElementString("InflectionPoints", $RHID_QMini_Infl)
+# $xmlWriter.WriteElementString("QminiSerial", $RHID_QMini_SN)
+# $xmlWriter.WriteElementString("Coefficients", $RHID_QMini_Coeff)
+# $xmlWriter.WriteElementString("InflectionPoints", $RHID_QMini_Infl)
 $xmlWriter.WriteEndElement()
 $xmlWriter.Flush()
 $xmlWriter.Close()
