@@ -3,7 +3,7 @@ $xmlFragment = $xmlMmat.CreateDocumentFragment()
 $xmlFragment.InnerXml =
 @"
 <FAT_Test>
-<LysisHeater>$Lysis_Heater_Test_Result</LysisHeater>
+<LysisHeater>$RHID_Heater_Test</LysisHeater>
 <DenatureHeater>$DN_Heater_Test_Result</DenatureHeater>
 <PCR>$PCR_Heater_Test_Result</PCR>
 <OpticsHeater>$Optics_Heater_Test_Result</OpticsHeater>

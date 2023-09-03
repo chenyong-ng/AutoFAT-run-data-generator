@@ -1,5 +1,36 @@
 
-$Storyboard         = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
+$Storyboard_Folder      =   "${Path-$IndexedSerialNumber}",
+                            "${US_Path-$IndexedSerialNumber}",
+                            "$Inst_rhid_Folder"
+$MachineConfig_Folder   =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\MachineConfig.xml",
+                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\MachineConfig.xml",
+                            "$Inst_rhid_Folder\MachineConfig.xml"
+$TC_Calibration_Folder  =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\TC_Calibration.xml",
+                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\TC_Calibration.xml", 
+                            "$Inst_rhid_Folder\TC_Calibration.xml"
+$Internal_Folder        =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "$Inst_rhid_Result\RapidHIT ID\Results\Data $MachineName"
+
+$Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
+$dataColl = @()
+Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | Sort-Object LastWriteTime | ForEach-Object {
+    $len = 0
+    Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
+    $foldername = $_.fullname
+    $foldersize = '{0:N3}' -f ($len / 1Mb)
+    $dataObject = New-Object PSObject
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
+    $dataColl += $dataObject
+}
+$dataColl.foldersize
+# Gather folders size. and filter out small folder
+
+$TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
+
+
+$Storyboard         = Get-ChildItem $Storyboard_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
 if ($Storyboard.count -eq 0) {
     Write-Host "$Info : Storyboard logfile does not exist, Select the correct Serial Number to proceed" -ForegroundColor red
     break
@@ -11,7 +42,7 @@ if ($Storyboard.count -eq 0) {
 $Storyboard_Bolus_Test_Folder         = Get-ChildItem "$Path-$IndexedSerialNumber\*Bolus Delivery Test*", "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*" -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
 
 "$Searching : MachineConfig.xml"
-$MachineConfigXML = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Folder" -I MachineConfig.xml -R -ErrorAction SilentlyContinue
+$MachineConfigXML = Get-ChildItem $MachineConfig_Folder -ErrorAction SilentlyContinue
 "$Found : " + $MachineConfigXML.count + " , " + $(if ($MachineConfigXML.count -gt 0) { $MachineConfigXML[0] ; $MachineNameXML = ([XML](Get-Content $MachineConfigXML -Encoding UTF8)).InstrumentSettings })
 
 #$MachineNameXML = ([XML](Get-Content $MachineConfigXML -Encoding UTF8)).InstrumentSettings
@@ -26,7 +57,7 @@ $MachineName        = (($Storyboard | Select-String "MachineName")[0].Line.Split
 
 
 "$Searching : TC_Calibration.xml"
-$TC_CalibrationXML  = Get-Childitem  "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Folder" -I TC_Calibration.xml -R -ErrorAction SilentlyContinue
+$TC_CalibrationXML = Get-Childitem  $TC_Calibration_Folder -ErrorAction SilentlyContinue
 #"$Found : " + $TC_CalibrationXML[0] + ", Number of Instances Found : " + $TC_CalibrationXML.count
 "$Found : " + $TC_CalibrationXML.count + " , " + $(if ($TC_CalibrationXML.count -gt 0) { $TC_CalibrationXML[0] })
 "$Searching : SampleQuality.txt"
@@ -70,7 +101,7 @@ IF ($NoIMGPopUp -ne "True") {
     }
 }
 "$Searching : DannoGUIState.xml"
-$DannoGUIStateXML   = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result"  -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
+$DannoGUIStateXML   = Get-ChildItem $Internal_Folder -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 #"$Found : " + $DannoGUIStateXML[0] + ", Number of Instances Found : " + $DannoGUIStateXML.count
 "$Found : " + $DannoGUIStateXML.count + " , " + $(if ($DannoGUIStateXML.count -gt 0) { $DannoGUIStateXML[0] })
 "$Searching : execution.log"

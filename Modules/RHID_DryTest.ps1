@@ -8,7 +8,7 @@ if ($RHID_Lysis_Heater_FAT.count -eq "0") {
     $Lysis_Heater_Test_Result = $Test_NA
     $LHColor = "Yellow"
 } elseif ($RHID_Lysis_Heater_FAT_PASS.Line -match "PASS") {
-        $global:Lysis_Heater_Test_Result = $Test_Passed
+        $Lysis_Heater_Test_Result = $Test_Passed
     $LHColor = "Green"
 } elseif ($RHID_Lysis_Heater_FAT_FAIL.Line -match "FAIL") {
     $Lysis_Heater_Test_Result = $Test_Failed
@@ -25,7 +25,7 @@ if ($RHID_DN_Heater_FAT.count -eq "0") {
     $DN_Heater_Test_Result = $Test_NA
     $DNHColor = "Yellow"
 } elseif ($RHID_DN_Heater_FAT_PASS.Line -match "PASS") {
-        $global:DN_Heater_Test_Result = $Test_Passed
+        $DN_Heater_Test_Result = $Test_Passed
     $DNHColor = "Green"
 } elseif ($RHID_DN_Heater_FAT_FAIL.Line -match "FAIL") {
     $DN_Heater_Test_Result = $Test_Failed
@@ -42,7 +42,7 @@ if ($RHID_PCR_Heater_FAT.count -eq "0") {
     $PCR_Heater_Test_Result = $Test_NA
     $PCRColor = "Yellow"
 } elseif ($RHID_PCR_Heater_FAT_PASS.Line -match  "PASS") {
-        $global:PCR_Heater_Test_Result = $Test_Passed
+        $PCR_Heater_Test_Result = $Test_Passed
     $PCRColor = "Green"
 } elseif ($RHID_PCR_Heater_FAT_FAIL.Line -match "FAIL") {
     $PCR_Heater_Test_Result = $Test_Failed
@@ -61,7 +61,7 @@ if ($RHID_Optics_Heater_FAT.count -eq "0") {
     $OpticsHColor = "Yellow"
 }
 elseif ($RHID_Optics_Heater_FAT_PASS.Line -match "PASS") {
-        $global:Optics_Heater_Test_Result = $Test_Passed
+        $Optics_Heater_Test_Result = $Test_Passed
     $OpticsHColor = "Green"
 }
 elseif ($RHID_Optics_Heater_FAT_FAIL.Line -match "FAIL") {
@@ -73,7 +73,10 @@ elseif ($RHID_Optics_Heater_FAT_FAIL.Line -match "FAIL") {
 if ($EnableDescriptions -eq "True") {
     RHID_Optics_Heater_Details
 }
+# list all the test result and declare as global3
 } # End of RHID_Heater_Test function
+$Global:RHID_Heater_Test_Result = $Lysis_Heater_Test_Result, $DN_Heater_Test_Result, $PCR_Heater_Test_Result, $Optics_Heater_Test_Result
+    $RHID_Heater_Test_Result
 
 $RHID_Gel_Cooler_FAT_PASS = ($RHID_Gel_Cooler_FAT | Select-String "PASS" )
 $RHID_Gel_Cooler_FAT_FAIL = ($RHID_Gel_Cooler_FAT | Select-String "FAIL" )
