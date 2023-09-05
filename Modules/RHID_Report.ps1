@@ -14,7 +14,7 @@ $Internal_Folder        =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\R
 
 $Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
 $dataColl = @()
-Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | where-object {$_.Length -gt 100Mb } | Sort-Object LastWriteTime | ForEach-Object {
+Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | Sort-Object LastWriteTime | ForEach-Object {
     $len = 0
     Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
     $foldername = $_.fullname
@@ -25,7 +25,24 @@ Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-
     $dataColl += $dataObject
 }
 $dataColl.foldersize
-# Gather folders size. and filter out small folder
+# Gather folders size. and filter out small folder, | where-object {$_.Length -gt 100Mb } 
+# 
+# function Get-FolderSize {
+#     [CmdletBinding()]
+#     Param (
+#         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+#         $Path
+#     )
+#     if ( (Test-Path $Path) -and (Get-Item $Path).PSIsContainer ) {
+#         $Measure = Get-ChildItem $Path -Recurse -Force -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum
+#         $Sum = '{0:N2}' -f ($Measure.Sum / 1Gb)
+#         [PSCustomObject]@{
+#             "Path"      = $Path
+#             "Size($Gb)" = $Sum
+#         }
+#     }
+# }
+# 
 
 $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
 
