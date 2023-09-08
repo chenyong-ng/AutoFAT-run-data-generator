@@ -9,22 +9,22 @@ $TC_Calibration_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml", 
                             "$Inst_rhid_Folder\TC_Calibration.xml"
 
-# $Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
-# $dataColl = @()
-# Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | where-object {$_.Length -gt 100Mb } | Sort-Object LastWriteTime | ForEach-Object {
-#     $len = 0
-#     Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
-#     $foldername = $_.fullname
-#     $foldersize = '{0:N3}' -f ($len / 1Mb)
-#     $dataObject = New-Object PSObject
-#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
-#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
-#     $dataColl += $dataObject
-# }
-# $dataColl.foldersize
-# # Gather folders size. and filter out small folder
-# 
-# $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
+$Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
+$dataColl = @()
+Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | where-object {$_.Length -gt 100Mb } | Sort-Object LastWriteTime | ForEach-Object {
+    $len = 0
+    Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
+    $foldername = $_.fullname
+    $foldersize = '{0:N3}' -f ($len / 1Mb)
+    $dataObject = New-Object PSObject
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
+    $dataColl += $dataObject
+}
+$dataColl.foldersize
+# Gather folders size. and filter out small folder
+
+$TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
 
 
 $Storyboard         = Get-ChildItem $Storyboard_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
