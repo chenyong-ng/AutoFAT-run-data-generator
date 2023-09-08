@@ -1,33 +1,30 @@
 
-$Storyboard_Folder      =   "${Path-$IndexedSerialNumber}",
-                            "${US_Path-$IndexedSerialNumber}",
+$Storyboard_Folder      =   "$Path-$IndexedSerialNumber",
+                            "$US_Path-$IndexedSerialNumber",
                             "$Inst_rhid_Folder"
-$MachineConfig_Folder   =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\MachineConfig.xml",
-                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\MachineConfig.xml",
+$MachineConfig_Folder   =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
                             "$Inst_rhid_Folder\MachineConfig.xml"
-$TC_Calibration_Folder  =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\TC_Calibration.xml",
-                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\TC_Calibration.xml", 
+$TC_Calibration_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml", 
                             "$Inst_rhid_Folder\TC_Calibration.xml"
-$Internal_Folder        =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName",
-                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName",
-                            "$Inst_rhid_Result\RapidHIT ID\Results\Data $MachineName"
 
-$Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
-$dataColl = @()
-Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | where-object {$_.Length -gt 100Mb } | Sort-Object LastWriteTime | ForEach-Object {
-    $len = 0
-    Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
-    $foldername = $_.fullname
-    $foldersize = '{0:N3}' -f ($len / 1Mb)
-    $dataObject = New-Object PSObject
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
-    $dataColl += $dataObject
-}
-$dataColl.foldersize
-# Gather folders size. and filter out small folder
-
-$TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
+# $Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
+# $dataColl = @()
+# Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | where-object {$_.Length -gt 100Mb } | Sort-Object LastWriteTime | ForEach-Object {
+#     $len = 0
+#     Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
+#     $foldername = $_.fullname
+#     $foldersize = '{0:N3}' -f ($len / 1Mb)
+#     $dataObject = New-Object PSObject
+#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
+#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
+#     $dataColl += $dataObject
+# }
+# $dataColl.foldersize
+# # Gather folders size. and filter out small folder
+# 
+# $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
 
 
 $Storyboard         = Get-ChildItem $Storyboard_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
@@ -100,6 +97,11 @@ IF ($NoIMGPopUp -ne "True") {
         Start-Process -WindowStyle Minimized $BufferPrimeScreenShot[-1]
     }
 }
+
+$Internal_Folder        =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "$Inst_rhid_Result\RapidHIT ID\Results\Data $MachineName"
+                            
 "$Searching : DannoGUIState.xml"
 $DannoGUIStateXML   = Get-ChildItem $Internal_Folder -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 #"$Found : " + $DannoGUIStateXML[0] + ", Number of Instances Found : " + $DannoGUIStateXML.count
