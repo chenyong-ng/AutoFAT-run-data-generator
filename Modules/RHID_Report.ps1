@@ -9,37 +9,20 @@ $TC_Calibration_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml", 
                             "$Inst_rhid_Folder\TC_Calibration.xml"
 
-# $Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
-# $dataColl = @()
-# Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | Sort-Object LastWriteTime | ForEach-Object {
-#     $len = 0
-#     Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
-#     $foldername = $_.fullname
-#     $foldersize = '{0:N3}' -f ($len / 1Mb)
-#     $dataObject = New-Object PSObject
-#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
-#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
-#     $dataColl += $dataObject
-# }
-# $dataColl.foldersize
-# Gather folders size. and filter out small folder, | where-object {$_.Length -gt 100Mb } 
-# 
-# function Get-FolderSize {
-#     [CmdletBinding()]
-#     Param (
-#         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
-#         $Path
-#     )
-#     if ( (Test-Path $Path) -and (Get-Item $Path).PSIsContainer ) {
-#         $Measure = Get-ChildItem $Path -Recurse -Force -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum
-#         $Sum = '{0:N2}' -f ($Measure.Sum / 1Gb)
-#         [PSCustomObject]@{
-#             "Path"      = $Path
-#             "Size($Gb)" = $Sum
-#         }
-#     }
-# }
-# 
+$Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
+$dataColl = @()
+Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | where-object {$_.Length -gt 100Mb } | Sort-Object LastWriteTime | ForEach-Object {
+    $len = 0
+    Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
+    $foldername = $_.fullname
+    $foldersize = '{0:N3}' -f ($len / 1Mb)
+    $dataObject = New-Object PSObject
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
+    $dataColl += $dataObject
+}
+$dataColl.foldersize
+# Gather folders size. and filter out small folder
 
 $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
 
@@ -126,6 +109,11 @@ IF ($NoIMGPopUp -ne "True") {
         Start-Process -WindowStyle Minimized $BufferPrimeScreenShot[-1]
     }
 }
+
+$Internal_Folder        =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "$Inst_rhid_Result\RapidHIT ID\Results\Data $MachineName"
+                            
 "$Searching : DannoGUIState.xml"
 $DannoGUIStateXML   = Get-ChildItem $Internal_Folder -I DannoGUIState.xml -R -ErrorAction SilentlyContinue
 #"$Found : " + $DannoGUIStateXML[0] + ", Number of Instances Found : " + $DannoGUIStateXML.count
@@ -154,13 +142,12 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
     . $PSScriptRoot\RHID_ShipPrep.ps1
     . $PSScriptRoot\ServerSide_FileCheck.ps1
 
-$TC_verification_File = "TC_verification $MachineName.TXT"
-$TC_Calibration_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml",
-                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml", 
-                            "$Inst_rhid_Folder\TC_Calibration.xml"
-    
-"$Searching : TC_verification $MachineName.TXT"
-$TC_verificationTXT = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
+$TC_verification_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\$TC_verification_File",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\$TC_verification_File", 
+                            "$Inst_rhid_Folder\$TC_verification_File"
+
+"$Searching : $TC_verification_File"
+$TC_verificationTXT = Get-ChildItem $TC_verification_Folder -ErrorAction SilentlyContinue
 "$Found : " + $TC_verificationTXT.count + " , " + $(if ($TC_verificationTXT.count -gt 0) { $TC_verificationTXT[0] })
 
 if ($EnableDescriptions -eq "True") {
