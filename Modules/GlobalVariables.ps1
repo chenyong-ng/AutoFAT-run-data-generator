@@ -31,7 +31,7 @@ $Inst_rhid_Folder           = "E:\RapidHIT ID"
 $Inst_rhid_Result           = "$Inst_rhid_Folder\Results"
 $Nonlinearity_File          = "Non-linearity Calibration $MachineName.PNG"
 $Waves_File                 = "Waves $MachineName.PNG"
-$TC_verification_File       = "TC_verification $MachineName.TXT"
+
 $MachineConfig_File         = "MachineConfig.xml"
 $StatusData_File            = "StatusData_Graphs.pdf"
 $GM_Analysis_File           = "GM_Analysis.sgf"

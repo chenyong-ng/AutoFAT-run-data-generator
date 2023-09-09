@@ -295,9 +295,9 @@ function MezzBoard_Test_Details {
 
 
 # $Result_Separator             = "################################"
-$Bolus_Folder                 = "$Path-$IndexedSerialNumber\*Bolus Delivery Test*"
-#$US_Bolus_Folder              = "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*"
-$RHID_Bolus_Test_Result_Image   = (Get-ChildItem "$Bolus_Folder", "$US_Bolus_Folder" -I BolusInject_*.png -R | Sort-Object LastWriteTime)
+$Bolus_Folder                   = "$Path-$IndexedSerialNumber\*Bolus Delivery Test*", "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*"
+$Storyboard_Bolus_Test_Folder   = Get-ChildItem $Bolus_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
+$RHID_Bolus_Test_Result_Image   = (Get-ChildItem $Bolus_Folder -I BolusInject_*.png -R | Sort-Object LastWriteTime)
 $RHID_Bolus_DN                  = (($Storyboard_Bolus_Test_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN ="      ).line.replace("% in DN =", ""      ).replace("%", "")
 $RHID_Bolus_Volume              = (($Storyboard_Bolus_Test_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "")
 $RHID_Bolus_Timing              = (($Storyboard_Bolus_Test_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing ="       ).line.replace("Timing =", ""       ).replace("s","")
@@ -318,7 +318,7 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         "Test_Counter,$Bolus_Test_Counter"
         "DN_Percentage,$RHID_Bolus_DN_Var,%"
         "Volume,$RHID_Bolus_Volume_Var,uL"
-        "Timing,$RHID_Bolus_Timing_Var,s"
+        "Timing,$RHID_Bolus_Timing_Var"
         "BolusCurrent,$RHID_Bolus_Current_Var,uA"
         "Image,$Bolust_Image"
         $i = $i + 1
@@ -327,8 +327,8 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
 }
 }
 $BolusDataObj = (GetBolusData | ConvertFrom-String -Delimiter ',' -PropertyNames Type, Value, Unit | select-object -skip 0)
-$BolusDataObj | Out-File "$Drive\$MachineName\Internal\RapidHIT ID\Results\BolusDataObj.txt"
-
+# $BolusDataObj | Out-File "$Drive\$MachineName\Internal\RapidHIT ID\Results\BolusDataObj.txt"
+# Dont write anyting yet.
 function GetBolusDataXML {
     foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {

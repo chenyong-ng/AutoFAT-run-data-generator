@@ -36,8 +36,6 @@ if ($Storyboard.count -eq 0) {
     "$Found : " + $Storyboard.count + " , " + $Storyboard[0]
 }
 
-$Storyboard_Bolus_Test_Folder         = Get-ChildItem "$Path-$IndexedSerialNumber\*Bolus Delivery Test*", "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*" -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
-
 "$Searching : MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem $MachineConfig_Folder -ErrorAction SilentlyContinue
 "$Found : " + $MachineConfigXML.count + " , " + $(if ($MachineConfigXML.count -gt 0) { $MachineConfigXML[0] ; $MachineNameXML = ([XML](Get-Content $MachineConfigXML -Encoding UTF8)).InstrumentSettings })
@@ -142,10 +140,11 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
     . $PSScriptRoot\RHID_ShipPrep.ps1
     . $PSScriptRoot\ServerSide_FileCheck.ps1
 
-$TC_verification_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\$TC_verification_File",
-                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\$TC_verification_File", 
-                            "$Inst_rhid_Folder\$TC_verification_File"
-
+$TC_verification_File   =   "TC_verification $MachineName.TXT"
+$TC_verification_Folder =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\$TC_verification_File",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\$TC_verification_File", 
+                            "$Inst_rhid_Folder\Results\$TC_verification_File"
+$TC_verification_Folder
 "$Searching : $TC_verification_File"
 $TC_verificationTXT = Get-ChildItem $TC_verification_Folder -ErrorAction SilentlyContinue
 "$Found : " + $TC_verificationTXT.count + " , " + $(if ($TC_verificationTXT.count -gt 0) { $TC_verificationTXT[0] })
@@ -239,9 +238,8 @@ IF ($NoHTML -ne "True") {
     Start-Process -WindowStyle Minimized "$TestResultHTML_FullPath"
 }
 
-"$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name
+"$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name +' '+ $TempTranscriptFile.name
 "$info : Script ended with exit code of $LASTEXITCODE"
-Remove-item $TempLogFile, $TempXMLFile
 $Transcript_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$MachineName-Transcript.txt"
 Copy-Item -Force $TempTranscriptFile -Destination $Transcript_FullPath
 Remove-item $TempLogFile, $TempXMLFile, $TempTranscriptFile -ErrorAction SilentlyContinue
