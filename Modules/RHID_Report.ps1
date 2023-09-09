@@ -130,8 +130,12 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
     . $PSScriptRoot\RHID_ShipPrep.ps1
     . $PSScriptRoot\ServerSide_FileCheck.ps1
 
-"$Searching : TC_verification $MachineName.TXT"
-$TC_verificationTXT = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
+$TC_verification_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\$TC_verification_File",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\$TC_verification_File", 
+                            "$Inst_rhid_Folder\$TC_verification_File"
+
+"$Searching : $TC_verification_File"
+$TC_verificationTXT = Get-ChildItem $TC_verification_Folder -ErrorAction SilentlyContinue
 "$Found : " + $TC_verificationTXT.count + " , " + $(if ($TC_verificationTXT.count -gt 0) { $TC_verificationTXT[0] })
 
 if ($EnableDescriptions -eq "True") {
