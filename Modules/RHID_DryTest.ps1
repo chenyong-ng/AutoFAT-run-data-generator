@@ -294,6 +294,9 @@ elseif ([bool] ($RHID_Mezzboard_FAT | Select-String "Pass") -eq "True") {
 else {
     Write-Host "$Mezz_PCBA : $RHID_Mezzboard_FAT_STR $Test_Failed" -ForegroundColor Red    
 }
+    if ($EnableDescriptions -eq "True") {
+        MezzBoard_Test_Details
+    }
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
     $RHID_Gel_Void_First = (($storyboard | Select-String "Estimated gel void volume")[0].line.split("=").TrimStart())[-1]

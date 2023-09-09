@@ -1,30 +1,27 @@
 
-$Storyboard_Folder      =   "${Path-$IndexedSerialNumber}",
-                            "${US_Path-$IndexedSerialNumber}",
+$Storyboard_Folder      =   "$Path-$IndexedSerialNumber",
+                            "$US_Path-$IndexedSerialNumber",
                             "$Inst_rhid_Folder"
-$MachineConfig_Folder   =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\MachineConfig.xml",
-                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\MachineConfig.xml",
+$MachineConfig_Folder   =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
                             "$Inst_rhid_Folder\MachineConfig.xml"
-$TC_Calibration_Folder  =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\TC_Calibration.xml",
-                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\TC_Calibration.xml", 
+$TC_Calibration_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml", 
                             "$Inst_rhid_Folder\TC_Calibration.xml"
-$Internal_Folder        =   "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName",
-                            "${US_Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName",
-                            "$Inst_rhid_Result\RapidHIT ID\Results\Data $MachineName"
 
-$Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
-$dataColl = @()
-Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | Sort-Object LastWriteTime | ForEach-Object {
-    $len = 0
-    Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
-    $foldername = $_.fullname
-    $foldersize = '{0:N3}' -f ($len / 1Mb)
-    $dataObject = New-Object PSObject
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
-    $dataColl += $dataObject
-}
-$dataColl.foldersize
+# $Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
+# $dataColl = @()
+# Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | Sort-Object LastWriteTime | ForEach-Object {
+#     $len = 0
+#     Get-ChildItem -recurse -force $_.fullname -ErrorAction SilentlyContinue | ForEach-Object { $len += $_.length }
+#     $foldername = $_.fullname
+#     $foldersize = '{0:N3}' -f ($len / 1Mb)
+#     $dataObject = New-Object PSObject
+#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldername” -value $foldername
+#     Add-Member -inputObject $dataObject -memberType NoteProperty -name “foldersize” -value $foldersize
+#     $dataColl += $dataObject
+# }
+# $dataColl.foldersize
 # Gather folders size. and filter out small folder, | where-object {$_.Length -gt 100Mb } 
 # 
 # function Get-FolderSize {
@@ -72,6 +69,18 @@ $MachineName        = (($Storyboard | Select-String "MachineName")[0].Line.Split
 "$Found : " + ($Storyboard | Select-String "MachineName").count + " , " + ($Storyboard | Select-String "MachineName")[0].line
 #$HostName and SerialRegMatch? : $SerialRegMatch " + $(if ($MachineName -eq $HostName) { "Yes" } else { "No" } )
 
+$Internal_Folder        =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\Data $MachineName",
+                            "$Inst_rhid_Result\RapidHIT ID\Results\Data $MachineName"
+
+"Storyboard_Folder Array : "
+$Storyboard_Folder
+"MachineConfig_Folder Array : "
+$MachineConfig_Folder
+"TC_Calibration_Folder Array : "
+$TC_Calibration_Folder
+"Internal_Folder Array : "
+$Internal_Folder
 
 "$Searching : TC_Calibration.xml"
 $TC_CalibrationXML = Get-Childitem  $TC_Calibration_Folder -ErrorAction SilentlyContinue
@@ -145,6 +154,11 @@ $GM_Analysis_PeakTable = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-
     . $PSScriptRoot\RHID_ShipPrep.ps1
     . $PSScriptRoot\ServerSide_FileCheck.ps1
 
+$TC_verification_File = "TC_verification $MachineName.TXT"
+$TC_Calibration_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml", 
+                            "$Inst_rhid_Folder\TC_Calibration.xml"
+    
 "$Searching : TC_verification $MachineName.TXT"
 $TC_verificationTXT = Get-ChildItem "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Result" -I "TC_verification $MachineName.TXT" -R -ErrorAction SilentlyContinue
 "$Found : " + $TC_verificationTXT.count + " , " + $(if ($TC_verificationTXT.count -gt 0) { $TC_verificationTXT[0] })
