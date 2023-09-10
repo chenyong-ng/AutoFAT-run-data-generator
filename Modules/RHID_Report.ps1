@@ -22,6 +22,22 @@ Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-
     $dataColl += $dataObject
 }
 $dataColl.foldersize
+
+Function Get-FolderSize {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        $Path
+    )
+    if ( (Test-Path $Path) -and (Get-Item $Path).PSIsContainer ) {
+        $Measure = Get-ChildItem $Path -Recurse -Force -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum
+        $Sum = '{0:N2}' -f ($Measure.Sum / 1Gb)
+        [PSCustomObject]@{
+            "Path"      = $Path
+            "Size($Gb)" = $Sum
+        }
+    }
+}
 # Gather folders size. and filter out small folder
 
 $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
