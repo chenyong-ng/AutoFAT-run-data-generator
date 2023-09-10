@@ -301,7 +301,7 @@ $RHID_Bolus_Test_Result_Image   = (Get-ChildItem $Bolus_Folder -I BolusInject_*.
 $RHID_Bolus_DN                  = (($Storyboard_Bolus_Test_Folder | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN ="      ).line.replace("% in DN =", ""      ).replace("%", "")
 $RHID_Bolus_Volume              = (($Storyboard_Bolus_Test_Folder | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "")
 $RHID_Bolus_Timing              = (($Storyboard_Bolus_Test_Folder | Select-String "Timing ="       ).line.split(",") | Select-String "Timing ="       ).line.replace("Timing =", ""       ).replace("s","")
-$RHID_Bolus_Current             = (($Storyboard_Bolus_Test_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =").line.replace("Bolus Current =", "").replace("uA", "")
+$RHID_Bolus_Current             = (($Storyboard_Bolus_Test_Folder | Select-String "Bolus Current =").line.split(",") | Select-String "Bolus Current =" | Select-String "uA").line.replace("Bolus Current =", "").replace("uA", "")
 $i = $RHID_Bolus_Test_Result_Folder.count
 $i = 0
 function GetBolusData {
@@ -318,7 +318,7 @@ foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         "Test_Counter,$Bolus_Test_Counter"
         "DN_Percentage,$RHID_Bolus_DN_Var,%"
         "Volume,$RHID_Bolus_Volume_Var,uL"
-        "Timing,$RHID_Bolus_Timing_Var"
+        "Timing,$RHID_Bolus_Timing_Var,S"
         "BolusCurrent,$RHID_Bolus_Current_Var,uA"
         "Image,$Bolust_Image"
         $i = $i + 1
