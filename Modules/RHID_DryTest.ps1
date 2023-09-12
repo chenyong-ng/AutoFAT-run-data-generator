@@ -299,8 +299,8 @@ else {
     }
 
 If ([Bool]$RHID_BEC_Reinsert_First -eq "True") {
-    $RHID_Gel_Void_First = (($storyboard | Select-String "Estimated gel void volume")[0].line.split("=").TrimStart())[-1]
-    $RHID_BEC_ID_First = ($RHID_BEC_insert_ID.line.split(" ").TrimStart())[-1]
+    $RHID_Gel_Void_First = ((Get-ChildItem $CvOff_BEC_Insert_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Select-String "Estimated gel void volume")[0].line.split("=").TrimStart())[-1]
+    $RHID_BEC_ID_First = (($RHID_BEC_insert_ID.line.split(" ").TrimStart())).replace("BEC_#", "").replace("'", "")[-1]
     Write-host "$BEC_Insertion : $RHID_CoverOff_BEC_Reinsert : Completed ; BEC_ID : $RHID_BEC_ID_First"
     Write-host "$BEC_Insertion : $RHID_First_Gel_Void : $RHID_Gel_Void_First" -ForegroundColor Cyan 
 }

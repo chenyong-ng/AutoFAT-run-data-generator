@@ -19,8 +19,8 @@ $ini.path
 "profile 1 : "+$ini.Profile[1]
 #>
 . $PSScriptRoot\RHID_XmlWriter.ps1
-$TempTranscriptFile = Get-Item ([System.IO.Path]::GetTempFilename())
-Start-Transcript -Path $TempTranscriptFile
+# $TempTranscriptFile = Get-Item ([System.IO.Path]::GetTempFilename())
+# Start-Transcript -Path $TempTranscriptFile
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
 $ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 

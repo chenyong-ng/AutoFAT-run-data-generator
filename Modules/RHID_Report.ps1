@@ -1,6 +1,6 @@
 
-$Storyboard_Folder      =   "$Path-$IndexedSerialNumber",
-                            "$US_Path-$IndexedSerialNumber",
+$Storyboard_Folder      =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\",
                             "$Inst_rhid_Folder"
 $MachineConfig_Folder   =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
@@ -8,8 +8,10 @@ $MachineConfig_Folder   =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\Mac
 $TC_Calibration_Folder  =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml",
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\TC_Calibration.xml", 
                             "$Inst_rhid_Folder\TC_Calibration.xml"
-$BEC_Insertion_Folder   =   "$Path-$IndexedSerialNumber\*BEC Insertion BEC_*" , "$US_Path-$IndexedSerialNumber\*BEC Insertion BEC_*"
-
+$CvrON_BEC_Inserr_Folder =  "$Path-$IndexedSerialNumber\*BEC Insertion BEC_*",
+                            "$US_Path-$IndexedSerialNumber\*BEC Insertion BEC_*"
+$CvOff_BEC_Insert_Folder =  "$Path-$IndexedSerialNumber\*BEC Insertion",
+                            "$US_Path-$IndexedSerialNumber\*BEC Insertion"
 # for execution.log and GM_Analysis_PeakTable.txt
 $FullRun_Folder         =   "$Path-$IndexedSerialNumber\*GFE-300uL*",
                             "$Path-$IndexedSerialNumber\*GFE-BV*",
@@ -22,7 +24,8 @@ $FullRun_Folder         =   "$Path-$IndexedSerialNumber\*GFE-300uL*",
                             "$US_Path-$IndexedSerialNumber\*NGM_007",
                             "$US_Path-$IndexedSerialNumber\*BLANK*",
                             "$Inst_rhid_Result"
-
+$Bolus_Folder           =   "$Path-$IndexedSerialNumber\*Bolus Delivery Test*",
+                            "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*"
 # $Internal_FolderList = "${Path-$IndexedSerialNumber}\Internal\RapidHIT ID\Results\Data $MachineName"
 # $dataColl = @()
 # Get-ChildItem -force $Internal_FolderList -ErrorAction SilentlyContinue | Where-Object { $_ -is [io.directoryinfo] } | where-object {$_.Length -gt 100Mb } | Sort-Object LastWriteTime | ForEach-Object {
@@ -76,7 +79,7 @@ $MachineNameXML_SN = [String]$MachineNameXML.MachineName
 
 "$Searching : MachineName"
 #get fom machineconfigXML if it exists
-$MachineName        = ((Get-ChildItem "$Path-$IndexedSerialNumber\*BEC Insertion" , "$US_Path-$IndexedSerialNumber\*BEC Insertion"  -I storyboard*.txt -R -ErrorAction SilentlyContinue | Select-String "MachineName")[0].Line.Split(":").TrimStart())[-1]
+$MachineName        = ((Get-ChildItem $CvOff_BEC_Insert_Folder  -I storyboard*.txt -R -ErrorAction SilentlyContinue | Select-String "MachineName")[0].Line.Split(":").TrimStart())[-1]
 "$Found : " + $MachineName.count + " , " + $MachineName
 #$HostName and SerialRegMatch? : $SerialRegMatch " + $(if ($MachineName -eq $HostName) { "Yes" } else { "No" } )
 
@@ -138,7 +141,7 @@ $ExecutionLOG       = Get-ChildItem  $FullRun_Folder  -I execution.log -R -Error
 #"$Found : " + $ExecutionLOG[0] + ", Number of Instances Found : " + $ExecutionLOG.count
 "$Found : " + $ExecutionLOG.count + " , " + $(if ($ExecutionLOG.count -gt 0) { $ExecutionLOG[0] })
 "$Searching : BEC Insertion Storyboard.txt" 
-$CoverOn_BEC_Reinsert = Get-ChildItem $BEC_Insertion_Folder -I storyboard*.* -R -ErrorAction SilentlyContinue | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'ABORTED' }
+$CoverOn_BEC_Reinsert = Get-ChildItem $CvrON_BEC_Inserr_Folder -I storyboard*.* -R -ErrorAction SilentlyContinue | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'ABORTED' }
 #"$Found : " + $CoverOn_BEC_Reinsert[0] + ", Number of Instances Found : " + $CoverOn_BEC_Reinsert.count
 "$Found : " + $CoverOn_BEC_Reinsert.count + " , " + $(if ($CoverOn_BEC_Reinsert.count -gt 0) { $CoverOn_BEC_Reinsert[0] })
 "$Searching : GM_Analysis_PeakTable.txt" 
