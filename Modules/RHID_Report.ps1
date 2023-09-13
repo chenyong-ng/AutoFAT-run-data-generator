@@ -58,7 +58,17 @@ $Bolus_Folder           =   "$Path-$IndexedSerialNumber\*Bolus Delivery Test*",
 # # Gather folders size. and filter out small folder
 # 
 # $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
-
+$name = $Storyboard.name
+ $dir = $Storyboard.directory.name
+$i = $Storyboard.count
+    $i = 0
+foreach ($name in $dir) {
+    if ( $Storyboard.count -gt 0) {
+         $dir[$i]
+        $name[$i]
+    $i = $i + 1
+    }
+}
 
 $Storyboard         = Get-ChildItem $Storyboard_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
 if ($Storyboard.count -eq 0) {
@@ -242,12 +252,12 @@ IF ($QuiteMode -ne "True") {
 }
 
 # add option to open the textfile if detected
-IF ($NoReport -ne "True") {
-    RHID_ReportGen *> $TempLogFile
-    $TestResultLOG_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultLOG_File"
-    Copy-Item -Force $TempLogFile -Destination $TestResultLOG_FullPath
-    Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultLOG_FullPath"
-}
+# IF ($NoReport -ne "True") {
+#     RHID_ReportGen *> $TempLogFile
+#     $TestResultLOG_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$TestResultLOG_File"
+#     Copy-Item -Force $TempLogFile -Destination $TestResultLOG_FullPath
+#     Start-Process -WindowStyle Minimized $NotepadAPP "$TestResultLOG_FullPath"
+# }
 
 
 IF ($NoHTML -ne "True") {
@@ -260,6 +270,8 @@ IF ($NoHTML -ne "True") {
 
 "$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name +' '+ $TempTranscriptFile.name
 "$info : Script ended with exit code of $LASTEXITCODE"
-$Transcript_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$MachineName-Transcript.txt"
-Copy-Item -Force $TempTranscriptFile -Destination $Transcript_FullPath
-Remove-item $TempLogFile, $TempXMLFile, $TempTranscriptFile -ErrorAction SilentlyContinue
+If ($NoTranscription -ne "True") {
+    $Transcript_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$MachineName-Transcript.txt"
+    Copy-Item -Force $TempTranscriptFile -Destination $Transcript_FullPath
+}
+Remove-item $TempXMLFile, $TempTranscriptFile -ErrorAction SilentlyContinue

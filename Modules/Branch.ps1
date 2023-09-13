@@ -74,21 +74,25 @@ switch ($MappedKey) {
     
 $Arguments = $serialNumber[4, 5, 6, 7, 8, 9, 10,11,12,13]
 if ($Arguments -match 'v') {
+    . $PSScriptRoot\VerboseMode.ps1
     $VerboseMode            = "True"
     Write-Host "$Info : [V] Swtich Activated, VerboseMode Enabled"              -ForegroundColor Yellow
-}
+    }
 if ($Arguments -match 'q') {
     $QuiteMode              = "True"
     Write-Host "$Info : [Q] Switch Activated, Quiet Mode Enabled"               -ForegroundColor Yellow
 }
-if ($Arguments -match 'r') {
-    $NoReport               = "True"
-    Write-Host "$Info : [R] Switch Activated, Report Log Generation Disabled"   -ForegroundColor Yellow
-}
+# if ($Arguments -match 'r') {
+#     $NoReport               = "True"
+#     Write-Host "$Info : [R] Switch Activated, Report Log Generation Disabled"   -ForegroundColor Yellow
+# }
 if ($Arguments -match 'x') {
     $NoXML                  = "True"
     Write-Host "$Info : [X] Switch Activated, XML Generation Disable"           -ForegroundColor Yellow
-}
+    } Else {
+    . $PSScriptRoot\RHID_XmlWriter.ps1
+    Write-Host "$Info : XML Writer PSscript started"           -ForegroundColor Green
+    }
 if ($Arguments -match 'd') {
     $EnableDescriptions     = "True"
     Write-Host "$Info : [D] Switch Activated, Detailed Describion Enabled"      -ForegroundColor Yellow
@@ -102,7 +106,9 @@ if ($Arguments -match 'H') {
     Write-Host "$Info : [H] Switch Activated, HTML Report generation Disabled"  -ForegroundColor Yellow
 }
 if ($Arguments -match 'T') {
-    Write-Host "$Info : [T] Switch Activated, Transcription Enabled"            -ForegroundColor Yellow
+    $NoTranscription             = "True"
+    Write-Host "$Info : [T] Switch Activated, Transcription Disabled"            -ForegroundColor Yellow
+    } else {
     $TempTranscriptFile = Get-Item ([System.IO.Path]::GetTempFilename())
     Start-Transcript -Path $TempTranscriptFile
 }

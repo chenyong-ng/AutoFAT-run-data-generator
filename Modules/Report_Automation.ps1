@@ -18,9 +18,7 @@ $ini.path
 "profile 0 : "+$ini.Profile[0]
 "profile 1 : "+$ini.Profile[1]
 #>
-. $PSScriptRoot\RHID_XmlWriter.ps1
-# $TempTranscriptFile = Get-Item ([System.IO.Path]::GetTempFilename())
-# Start-Transcript -Path $TempTranscriptFile
+
 $ScriptConfigXML = "$PSScriptRoot\..\config\ScriptConfig.xml"
 $ScriptConfig 	= ([XML](Get-Content $ScriptConfigXML -Encoding UTF8)).ScriptConfig
 
@@ -41,13 +39,11 @@ $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select
 
 . $PSScriptRoot\GlobalVariables.ps1
 . $PSScriptRoot\RHID_Str.ps1
-. $PSScriptRoot\VerboseMode.ps1
+
 # move verbose mode to above and add option to enable/disable
 . $PSScriptRoot\XML_and_Config.ps1
 # add option to enable/disable script pre-run check
 . $PSScriptRoot\CountDown.ps1
-
-$TempLogFile = Get-Item ([System.IO.Path]::GetTempFilename())
 
 . $PSScriptRoot\RHID_Report.ps1
 
