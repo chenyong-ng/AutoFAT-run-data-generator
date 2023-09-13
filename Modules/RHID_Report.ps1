@@ -58,17 +58,16 @@ $Bolus_Folder           =   "$Path-$IndexedSerialNumber\*Bolus Delivery Test*",
 # # Gather folders size. and filter out small folder
 # 
 # $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
-$name = $Storyboard.name
- $dir = $Storyboard.directory.name
+$fullname = $Storyboard.FullName
 $i = $Storyboard.count
-    $i = 0
-foreach ($name in $dir) {
+$i = 0
+foreach ($Storyboard in $fullname) {
     if ( $Storyboard.count -gt 0) {
-         $dir[$i]
-        $name[$i]
+        $Filesize = Get-Item $fullname[$i] | ForEach-Object { [math]::ceiling($_.length / 1KB) }
+        $Filesize
     $i = $i + 1
     }
-}
+} 
 
 $Storyboard         = Get-ChildItem $Storyboard_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
 if ($Storyboard.count -eq 0) {
