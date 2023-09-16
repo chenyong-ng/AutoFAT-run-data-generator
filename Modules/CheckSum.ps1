@@ -90,7 +90,7 @@ $ScriptPreCheck[0..2] >> $ScriptMetadataTXT
 Add-Content -Path "$PSScriptRoot\..\Config\Script_Metadata.TXT" -PassThru -Value "
 [ ScriptInfo ] : Git Commit brach : $GitCommitBranch, ID: $GitCommitHash , & Date : $GitCommitDate" 
 
-((Get-Content $ScriptMetadataTXT).replace('something1', 'something1aa').replace('something2', 'something1bb')) | out-file $ScriptMetadataTXT 
+# ((Get-Content $ScriptMetadataTXT).replace('something1', 'something1aa').replace('something2', 'something1bb')) | out-file $ScriptMetadataTXT 
 
 
 # (Get-Content $PSScriptRoot\..\Config\Script_Metadata.txt)
