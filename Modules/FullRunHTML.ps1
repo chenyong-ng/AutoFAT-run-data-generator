@@ -23,12 +23,12 @@ $html = @"
         img
         /* Height disabled */
         {
-            width: 33%;
+            width: 45%;
         }
             table, th, td, Caption
         {
             border: 1px solid black;
-            font-family: "Lucida Console", "Cascadia Code";
+            font-family: "Lucida Console";
             font-size: 12px;
             Font-Weight: Bold;
         }
@@ -41,6 +41,7 @@ $html = @"
         </caption>
             <tr>
                 <th scope=""col"">Name</th>
+                <th scope=""col"">Name2</th>
             </tr>
 "@
 

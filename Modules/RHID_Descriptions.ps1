@@ -15,6 +15,21 @@ $RHID_Lysis2_Temp_Avg   = [Double]($storyboard | Select-String "Lysis2 Temp Aver
 $RHID_Lysis2_Temp_SD    = [Double]($storyboard | Select-String "Lysis2 Temp SD ="         )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
 $RHID_Lysis2_Pwm_Avg    = [Double]($storyboard | Select-String "Lysis2 PWM Average ="     )[-1].line.split("=")[-1].replace("(0/8000)","")
 $RHID_Lysis2_PWM_SD     = [Double]($storyboard | Select-String "Lysis2 PWM SD ="          )[-1].line.split("=")[-1].replace("(< 1000)","")
+
+$LysisHeaterInfo = @()
+    $LysisObject = New-Object PSObject
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis1_Ramp_Rate"      -value $RHID_Lysis1_Ramp
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis1_Temp_Average"   -value $RHID_Lysis1_Temp_Avg
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis1_Temp_SD"        -value $RHID_Lysis1_Temp_SD
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis1_PWM_Average"    -value $RHID_Lysis1_Pwm_Avg
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis1_PWM_SD"         -value $RHID_Lysis1_PWM_SD
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis2_Ramp_Rate"      -value $RHID_Lysis2_Ramp
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis2_Temp_Average"   -value $RHID_Lysis2_Temp_Avg
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis2_Temp_SD"        -value $RHID_Lysis2_Temp_SD
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis2_PWM_Average"    -value $RHID_Lysis2_Pwm_Avg
+    Add-Member -inputObject $LysisObject -memberType NoteProperty -name "Lysis2_PWM_SD"         -value $RHID_Lysis2_PWM_SD
+    $LysisHeaterInfo += $LysisObject
+
 Function RHID_Lysis_Heater_Details {
     "$Desc : " + "Lysis1 Ramp Rate      = " + "$RHID_Lysis1_Ramp"       + " C/s"
     "$Desc : " + "Lysis1 Temp Average   = " + "$RHID_Lysis1_Temp_Avg"   + " C (84.5 / 85.5C)"
@@ -38,6 +53,20 @@ $RHID_DN_Max_96C        = [Double]($storyboard | Select-String "Denature Heater"
 $RHID_DN_Temp_SD        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp SD ="      )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
 $RHID_DN_Pwm_Avg        = [Double]($storyboard | Select-String "Denature Heater" | Select-String "PWM Average ="  )[-1].line.split("=")[-1].replace("(< 2500)","")
 $RHID_DN_PWM_SD         = [Double]($storyboard | Select-String "Denature Heater" | Select-String "PWM SD ="       )[-1].line.split("=")[-1].replace("(< 500)","")
+
+$DNHeaterInfo = @()
+    $DNHeaterObject = New-Object PSObject
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Temp_Avg"    -value $RHID_DN_Temp_Avg
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Temp_Max"    -value $RHID_DN_Temp_Max
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Temp_Ramp_Rate_80C"  -value $RHID_DN_Temp_Ramp_Rate_80C
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Total_Ramp_Time_80C" -value $RHID_DN_Total_Ramp_Time_80C
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Total_Ramp_Time_94C" -value $RHID_DN_Total_Ramp_Time_94C
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Max_96C"     -value $RHID_DN_Max_96C
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Temp_SD"     -value $RHID_DN_Temp_SD
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_Pwm_Avg"     -value $RHID_DN_Pwm_Avg
+    Add-Member -inputObject $DNHeaterObject -memberType NoteProperty -name "DN_PWM_SD"      -value $RHID_DN_PWM_SD
+    $DNHeaterInfo += $DNHeaterObject
+
 Function RHID_DN_Heater_Details {
     "$Desc : " + "DN Temp Average          = " + "$RHID_DN_Temp_Avg"            + "C (94.5 / 95.5C)"
     "$Desc : " + "DN Temp Max Reached      = " + "$RHID_DN_Temp_Max"            + "C (< 105C)"
@@ -67,6 +96,26 @@ $RHID_PCR_Bot_98C_Avg   = [Double]($storyboard | Select-String "PCR Bottom 98C A
 $RHID_PCR_Bot_SD_98C    = [Double]($storyboard | Select-String "PCR Bottom SD 98C ="  )[-1].line.split("=")[-1].replace("C (< 0.25C)","")
 $RHID_PCR_98C_TopBot_Del = [Double]($storyboard | Select-String -SimpleMatch "PCR 98C Top / Bot Delta =" )[-1].line.split("=")[-1].replace("C (< 0.5C)", "")
 
+$PCRHeaterInfo = @()
+    $PCRHeaterObject = New-Object PSObject
+    # PCR AMBIENT
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Top_Amb"  -value $RHID_PCR_Top_Amb
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Bot_Amb"  -value $RHID_PCR_Bot_Amb
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Amb_TopBot_Del"   -value $RHID_PCR_Amb_TopBot_Del
+    # PCR LOW 9C
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Top_9C_Avg"   -value $RHID_PCR_Top_9C_Avg
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Top_SD_9C"    -value $RHID_PCR_Top_SD_9C
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Bot_9C_Avg"   -value $RHID_PCR_Bot_9C_Avg
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Bot_SD_9C"    -value $RHID_PCR_Bot_SD_9C
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_9C_TopBot_Del" -value $RHID_PCR_9C_TopBot_Del
+    # PCR HIGH 98C
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Top_98C_Avg"  -value $RHID_PCR_Top_98C_Avg
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Top_SD_98C"   -value $RHID_PCR_Top_SD_98C
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Bot_98C_Avg"  -value $RHID_PCR_Bot_98C_Avg
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_Bot_SD_98C"   -value $RHID_PCR_Bot_SD_98C
+    Add-Member -inputObject $PCRHeaterObject -memberType NoteProperty -name "PCR_98C_TopBot_Del" -value $RHID_PCR_98C_TopBot_Del
+    $PCRHeaterInfo += $PCRHeaterObject
+
 Function RHID_PCR_Heater_Details {
     "$Desc : " + "PCR Top Ambient           = " + "$RHID_PCR_Top_Amb" + "C"
     "$Desc : " + "PCR Bottom Ambient        = " + "$RHID_PCR_Bot_Amb" + "C"
@@ -85,15 +134,29 @@ Function RHID_PCR_Heater_Details {
     "$Desc : " + "PCR 98C Top / Bot Delta = " + "$RHID_PCR_98C_TopBot_Del"  + "C (< 0.5C)"
 }
 
-$RHID_Optics_Heater_TempAvg         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Average ="   )[-1].line.split("=")[-1].replace("C (41.5/42.5C)", "")
-$RHID_Optics_Heater_Temp_SD         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp SD ="        )[-1].line.split("=")[-1].replace("C (< 0.1C)", "")
-$RHID_Optics_Heater_Temp_Ramp_Rate  = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Ramp Rate"   )[-1].line.split("=")[-1].replace("C/s", "")
-$RHID_Optics_Heater_Ramp_Start      = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Start:"      )[-1].line.split(":")[-1].replace("C (30C)", "")
+$RHID_Optics_Heater_TempAvg         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Average ="     )[-1].line.split("=")[-1].replace("C (41.5/42.5C)", "")
+$RHID_Optics_Heater_Temp_SD         = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp SD ="          )[-1].line.split("=")[-1].replace("C (< 0.1C)", "")
+$RHID_Optics_Heater_Temp_Ramp_Rate  = [Double]($storyboard | Select-String "Optics Module" | Select-String "Temp Ramp Rate"     )[-1].line.split("=")[-1].replace("C/s", "")
+$RHID_Optics_Heater_Ramp_Start      = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Start:"        )[-1].line.split(":")[-1].replace("C (30C)", "")
 
-$RHID_Optics_Heater_Ramp_End        = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp End:"      )[-1].line.split(":")[-1].replace("C (40C)", "")
-$RHID_Optics_Heater_Ramp_Time       = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Time:"     )[-1].line.split(":")[-1].replace("s (< 80s)", "")
-$RHID_Optics_Heater_PwmAvg          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM Average ="  )[-1].line.split("=")[-1].replace("(< 10500)", "")
-$RHID_Optics_Heater_PWM_SD          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM SD ="        )[-1].line.split("=")[-1].replace("(< 1000)", "")
+$RHID_Optics_Heater_Ramp_End        = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp End:"          )[-1].line.split(":")[-1].replace("C (40C)", "")
+$RHID_Optics_Heater_Ramp_Time       = [Double]($storyboard | Select-String "Optics Module" | Select-String "Ramp Time:"         )[-1].line.split(":")[-1].replace("s (< 80s)", "")
+$RHID_Optics_Heater_PwmAvg          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM Average ="      )[-1].line.split("=")[-1].replace("(< 10500)", "")
+$RHID_Optics_Heater_PWM_SD          = [Double]($storyboard | Select-String "Optics Module" | Select-String "PWM SD ="           )[-1].line.split("=")[-1].replace("(< 1000)", "")
+
+$OptcisHeaterInfo = @()
+    $OptcisHeaterObject = New-Object PSObject
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_TempAvg"      -value $RHID_Optics_Heater_TempAvg
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_Temp_SD"      -value $RHID_Optics_Heater_Temp_SD
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_Temp_Ramp_Rate" -value $RHID_Optics_Heater_Temp_Ramp_Rate
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_Ramp_Start"   -value $RHID_Optics_Heater_Ramp_Start
+
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_Ramp_End"     -value $RHID_Optics_Heater_Ramp_End
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_Ramp_Time"    -value $RHID_Optics_Heater_Ramp_Time
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_PwmAvg"       -value $RHID_Optics_Heater_PwmAvg
+    Add-Member -inputObject $OptcisHeaterObject -memberType NoteProperty -name "Optics_Heater_PWM_SD"       -value $RHID_Optics_Heater_PWM_SD
+    $OptcisHeaterInfo += $OptcisHeaterObject
+
 Function RHID_Optics_Heater_Details {
     "$Desc : " + "Optics Temp Average   = " + "$RHID_Optics_Heater_TempAvg"         + "C (41.5/42.5C)"
     "$Desc : " + "Optics Temp SD        = " + "$RHID_Optics_Heater_Temp_SD"         + "C (< 0.1C)"
@@ -110,6 +173,13 @@ $RHID_Gel_Cooler_TempAvg    = [Double]($storyboard |  Select-String "BECInterfac
 $RHID_Gel_Cooler_VoltAvg    = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Voltage Average:" | Select-String "(< 5V)"   )[-1].line.split(":")[-1].replace("V (< 5V)", "")
 $RHID_Gel_Cooler_AmpAvg     = [Double]($storyboard |  Select-String "BECInterface" | Select-String "Current Average:" | Select-String "(< 1.5A)" )[-1].line.split(":")[-1].replace("A (< 1.5A)", "")
 
+$GelCoolerInfo = @()
+    $GelCoolerObject = New-Object PSObject
+    Add-Member -inputObject $GelCoolerObject -memberType NoteProperty -name "Gel_Cooler_TempAvg"    -value $RHID_Gel_Cooler_TempAvg
+    Add-Member -inputObject $GelCoolerObject -memberType NoteProperty -name "Gel_Cooler_VoltAvg"    -value $RHID_Gel_Cooler_VoltAvg
+    Add-Member -inputObject $GelCoolerObject -memberType NoteProperty -name "Gel_Cooler_AmpAvg"     -value $RHID_Gel_Cooler_AmpAvg
+    $GelCoolerInfo += $OptcisHeaterObject
+
 Function RHID_Gel_Cooler_Details {
     "$Desc : " + "Gel Cooler Temp Average       = " + "$RHID_Gel_Cooler_TempAvg" + "C (2.5 / 3.5C)"
     "$Desc : " + "Gel Cooler Voltage Average    = " + "$RHID_Gel_Cooler_VoltAvg" + "V (< 5V)"
@@ -117,6 +187,12 @@ Function RHID_Gel_Cooler_Details {
 }
 
 $RHID_Ambient_TempAvg = [Double]($storyboard | Select-String "Ambient Temp =" | Select-String "(< 40C)")[-1].line.split("=")[-1].replace("C (< 40C)", "")
+
+$Ambient_TempAvgInfo = @()
+$AmbientTempObject = New-Object PSObject
+Add-Member -inputObject $AmbientTempObject -memberType NoteProperty -name "Ambient_TempAvg"    -value $RHID_Ambient_TempAvg
+$Ambient_TempAvgInfo += $AmbientTempObject
+
 Function RHID_Ambient_Details {
     "$Desc : " + "Ambient Temp          = " + "$RHID_Ambient_TempAvg" + "C (< 40C)"
 }
