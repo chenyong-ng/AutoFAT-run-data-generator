@@ -216,17 +216,17 @@ Function RHID_FE_Motor_Test_Details {
     "$Desc : " + "DL Motor Tested OK At: " + $RHID_FE_Motor_Test_DL + "% (<25%)"
 }
 
-$RHID_Homing_Error_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
-$RHID_Homing_Error_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
-$RHID_Homing_Error_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
+$RHID_Homing_Error_Test_FL = [Double]($storyboard | Select-String "FL:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].replace("mm (<0.35 mm)","")
+$RHID_Homing_Error_Test_PR = [Double]($storyboard | Select-String "PR:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].replace("mm (<0.35 mm)","")
+$RHID_Homing_Error_Test_DL = [Double]($storyboard | Select-String "DL:" | Select-String "(<0.35 mm)")[-1].line.split(":")[-1].replace("mm (<0.35 mm)","")
 Function RHID_Homing_Error_Test_Details {
     "$Desc : " + "FL Motor Homing Error At: " + $RHID_Homing_Error_Test_FL + " mm (<0.35 mm)"
     "$Desc : " + "PR Motor Homing Error At: " + $RHID_Homing_Error_Test_PR + " mm (<0.35 mm)"
     "$Desc : " + "DL Motor Homing Error At: " + $RHID_Homing_Error_Test_DL + " mm (<0.35 mm)"
 }
 
-$RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:"                        | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
-$RHID_FL_Homing_Error_wCAM_CAM5 = [Double]($storyboard | Select-String -SimpleMatch "FL (CAM5):"    | Select-String "(<0.35mm)")[-1].line.split(":")[-1].split(":")[-1].split("(")[0].split("mm")[0]
+$RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:"                        | Select-String "(<0.35mm)")[-1].line.split(":")[-1].replace("mm (<0.35 mm)","")
+$RHID_FL_Homing_Error_wCAM_CAM5 = [Double]($storyboard | Select-String -SimpleMatch "FL (CAM5):"    | Select-String "(<0.35mm)")[-1].line.split(":")[-1].replace("mm (<0.35 mm)","")
 Function RHID_FL_Homing_Error_Details {
     "$Desc : " + "FL Motor Homing Error At:"        + $RHID_FL_Homing_Error_wCAM_FL     + " mm (<0.35 mm)"
     "$Desc : " + "FL Motor CAM5 Homing Error At:"   + $RHID_FL_Homing_Error_wCAM_CAM5   + " mm (<0.35 mm)"
