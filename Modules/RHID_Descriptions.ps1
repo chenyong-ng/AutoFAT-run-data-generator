@@ -31,16 +31,16 @@ $LysisHeaterInfo = @()
     $LysisHeaterInfo += $LysisObject
 
 Function RHID_Lysis_Heater_Details {
-    "$Desc : " + "Lysis1 Ramp Rate      = " + "$RHID_Lysis1_Ramp"       + " C/s"
-    "$Desc : " + "Lysis1 Temp Average   = " + "$RHID_Lysis1_Temp_Avg"   + " C (84.5 / 85.5C)"
-    "$Desc : " + "Lysis1 Temp SD        = " + "$RHID_Lysis1_Temp_SD"    + " C (< 0.25C)"
-    "$Desc : " + "Lysis1 PWM Average    = " + "$RHID_Lysis1_Pwm_Avg"    + " (0 / 2600)"
-    "$Desc : " + "Lysis1 PWM SD         = " + "$RHID_Lysis1_PWM_SD"     + " (< 1000)"
-    "$Desc : " + "Lysis2 Ramp Rate      = " + "$RHID_Lysis2_Ramp"       + " C/s"
-    "$Desc : " + "Lysis2 Temp Average   = " + "$RHID_Lysis2_Temp_Avg"   + " C (84.5 / 85.5C)"
-    "$Desc : " + "Lysis2 Temp SD        = " + "$RHID_Lysis2_Temp_SD"    + " C (< 0.25C)"
-    "$Desc : " + "Lysis2 PWM Average    = " + "$RHID_Lysis2_Pwm_Avg"    + " (0 / 8000)"
-    "$Desc : " + "Lysis2 PWM SD         = " + "$RHID_Lysis2_PWM_SD"     + " (< 1000)"
+    "$Desc : Lysis1 Ramp Rate      = $RHID_Lysis1_Ramp"     + "C/s"
+    "$Desc : Lysis1 Temp Average   = $RHID_Lysis1_Temp_Avg" + "C (84.5 / 85.5C)"
+    "$Desc : Lysis1 Temp SD        = $RHID_Lysis1_Temp_SD"  + "C (< 0.25C)"
+    "$Desc : Lysis1 PWM Average    = $RHID_Lysis1_Pwm_Avg"  + "(0 / 2600)"
+    "$Desc : Lysis1 PWM SD         = $RHID_Lysis1_PWM_SD"   + "(< 1000)"
+    "$Desc : Lysis2 Ramp Rate      = $RHID_Lysis2_Ramp"     + "C/s"
+    "$Desc : Lysis2 Temp Average   = $RHID_Lysis2_Temp_Avg" + "C (84.5 / 85.5C)"
+    "$Desc : Lysis2 Temp SD        = $RHID_Lysis2_Temp_SD"  + "C (< 0.25C)"
+    "$Desc : Lysis2 PWM Average    = $RHID_Lysis2_Pwm_Avg"  + "(0 / 8000)"
+    "$Desc : Lysis2 PWM SD         = $RHID_Lysis2_PWM_SD"   + "(< 1000)"
 }
 
 $RHID_DN_Temp_Avg       = [Double]($storyboard | Select-String "Denature Heater" | Select-String "Temp Average ="     )[-1].line.split("=")[-1].replace("C (94.5/95.5C)","")
