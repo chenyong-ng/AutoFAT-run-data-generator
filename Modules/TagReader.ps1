@@ -5,7 +5,6 @@ $Cart_ID_Number         = (($Storyboard | Select-String "ID Number:").line.Split
 $Cart_Manufacture_Date  = (($Storyboard | Select-String "Manufacture Date:").line.Split(",")| select-string "Manufacture Date:").line.replace("Manufacture Date:", "").trim()
 $Cart_Expiration_Date   = (($Storyboard | Select-String "Expiration Date:").line.Split(",") | select-string "Expiration Date:").line.replace("Expiration Date:", "").trim()
 $Cart_Use_Counter       = (($Storyboard | Select-String "Use Counter:").line.Split(",")     | select-string "Use Counter:").line.replace("Use Counter:","").trim()
-
 $Cart_Last_Use_Date     = (($Storyboard | Select-String "Last Use Date:").line.Split(",")   | select-string "Last Use Date:").line.replace("Last Use Date:","").trim()
 #BEC exclusive
 $Cart_Instrument        = [string]((($Storyboard | Select-String "Instrument:").line.Split(",")      | select-string "Instrument:").line.replace("Instrument:","").trim())
@@ -34,14 +33,14 @@ $Cart_Last_Use_Date_Gel     = $Cart_Last_Use_Date[1]
 #Typical usage in production
 $TagReaderInfo = @()
     $dataObject = New-Object PSObject
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cartridge_Type" -value $Cart_Cartridge_Type
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_ID_Number" -value $Cart_ID_Number
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Manufacture_Date" -value $Cart_Manufacture_Date
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Expiration_Date" -value $Cart_Expiration_Date
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Use_Counter" -value $Cart_Use_Counter
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Last_Use_Date" -value $Cart_Last_Use_Date
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Instrument" -value $Cart_Instrument
-    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Is_Primed" -value $Cart_Is_Primed
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cartridge_Type"         -value $Cart_Cartridge_Type
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_ID_Number"         -value $Cart_ID_Number
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Manufacture_Date"  -value $Cart_Manufacture_Date
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Expiration_Date"   -value $Cart_Expiration_Date
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Use_Counter"       -value $Cart_Use_Counter
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Last_Use_Date"     -value $Cart_Last_Use_Date
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Instrument"        -value $Cart_Instrument
+    Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Is_Primed"         -value $Cart_Is_Primed
     Add-Member -inputObject $dataObject -memberType NoteProperty -name "Cart_Primary_Cartridge" -value $Cart_Primary_Cartridge
     $TagReaderInfo += $dataObject
 

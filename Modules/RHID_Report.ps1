@@ -267,7 +267,7 @@ IF ($NoHTML -ne "True") {
     Start-Process -WindowStyle Minimized "$TestResultHTML_FullPath"
 }
 
-"$info : Clearing up temp files " + $TempLogFile.name +' '+ $TempXMLFile.name +' '+ $TempTranscriptFile.name
+"$info : Clearing up temp files " + ' '+ $TempXMLFile.name +' '+ $TempTranscriptFile.name
 "$info : Script ended with exit code of $LASTEXITCODE"
 If ($NoTranscription -ne "True") {
     $Transcript_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$MachineName-Transcript.txt"
