@@ -7,17 +7,17 @@ $Cart_Expiration_Date   = (($Storyboard | Select-String "Expiration Date:").line
 $Cart_Use_Counter       = (($Storyboard | Select-String "Use Counter:").line.Split(",")     | select-string "Use Counter:").line.replace("Use Counter:","").trim()
 $Cart_Last_Use_Date     = (($Storyboard | Select-String "Last Use Date:").line.Split(",")   | select-string "Last Use Date:").line.replace("Last Use Date:","").trim()
 #BEC exclusive
-$Cart_Instrument        = [string]((($Storyboard | Select-String "Instrument:").line.Split(",")      | select-string "Instrument:").line.replace("Instrument:","").trim())
+$Cart_Instrument        = ((($Storyboard | Select-String "Instrument:").line.Split(",")      | select-string "Instrument:").line.replace("Instrument:","").trim())
 $Cart_Is_Primed         = [string]((($Storyboard | Select-String "Is Primed:").line.Split(",")       | select-string "Is Primed:").line.replace("Is Primed:","").trim())
 #Gel Syringe exclusive
-$Cart_Primary_Cartridge = [int]((($Storyboard | Select-String "Primary Cartridge:").line.Split(",") | select-string "Primary Cartridge:").line.replace("Primary Cartridge:", "").trim())
+$Cart_Primary_Cartridge = (($Storyboard | Select-String "Primary Cartridge:").line.Split(",") | select-string "Primary Cartridge:").line.replace("Primary Cartridge:", "").trim()
 
 $Cartridge_Type_Sample  = [string]$Cart_Cartridge_Type[0]
 $Cartridge_Type_BEC     = [string]$Cart_Cartridge_Type[1]
 $Cartridge_Type_Gel     = [string]$Cart_Cartridge_Type[2]
 $Cart_ID_Number_Sample  = [int]$Cart_ID_Number[0]
-$Cart_ID_Number_BEC     = [int]$Cart_ID_Number[1]    
-$Cart_ID_Number_Gel     = [int]$Cart_ID_Number[2]    
+$Cart_ID_Number_BEC     = [int]$Cart_ID_Number[1]
+$Cart_ID_Number_Gel     = [int]$Cart_ID_Number[2]
 $Cart_Manufacture_Date_Sample = $Cart_Manufacture_Date[0]
 $Cart_Manufacture_Date_BEC  = $Cart_Manufacture_Date[1]
 $Cart_Manufacture_Date_Gel  = $Cart_Manufacture_Date[2]
@@ -27,6 +27,8 @@ $Cart_Expiration_Date_Gel   = $Cart_Expiration_Date[2]
 $Cart_Use_Counter_Sample    = [int]$Cart_Use_Counter[0]
 $Cart_Use_Counter_BEC       = [int]$Cart_Use_Counter[1]
 $Cart_Use_Counter_Gel       = [int]$Cart_Use_Counter[2]
+$Cart_Instrument_Sample     = [string]$Cart_Instrument[0]
+$Cart_Instrument_BEC        = [string]$Cart_Instrument[1]
 $Cart_Last_Use_Date_BEC     = $Cart_Last_Use_Date[0]
 $Cart_Last_Use_Date_Gel     = $Cart_Last_Use_Date[1]
 
@@ -50,6 +52,7 @@ $Cartridge_Information = "Sample Cartridge Data :
    Manufacture Date:   $Cart_Manufacture_Date_Sample
    Expiration Date:    $Cart_Expiration_Date_Sample
    Use Counter:        $Cart_Use_Counter_Sample
+   Instrument:         $Cart_Instrument_Sample
 BEC Data :
    Cartridge Type:     $Cartridge_Type_BEC
    ID Number:          $Cart_ID_Number_BEC
@@ -57,7 +60,7 @@ BEC Data :
    Expiration Date:    $Cart_Expiration_Date_BEC
    Use Counter:        $Cart_Use_Counter_BEC
    Last Use Date:      $Cart_Last_Use_Date_BEC
-   Instrument:         $Cart_Instrument
+   Instrument:         $Cart_Instrument_BEC
    Is Primed:          $Cart_Is_Primed
 Gel Syringe Data :
    Cartridge Type:     $Cartridge_Type_Gel
