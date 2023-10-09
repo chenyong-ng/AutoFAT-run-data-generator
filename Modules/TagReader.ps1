@@ -1,5 +1,6 @@
 
 # Common Cartridge Information
+$storyboard             = Get-ChildItem "U:\RHID-0897\*Bolus Delivery*" -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
 $Cart_Cartridge_Type    = (($Storyboard | Select-String "Cartridge Type:").line.Split(",")  | select-string "Cartridge Type:").line.replace("Cartridge Type:","").trim()
 $Cart_ID_Number         = (($Storyboard | Select-String "ID Number:").line.Split(",")       | select-string "ID Number:").line.replace("ID Number:","").trim()
 $Cart_Manufacture_Date  = (($Storyboard | Select-String "Manufacture Date:").line.Split(",")| select-string "Manufacture Date:").line.replace("Manufacture Date:", "").trim()
@@ -15,6 +16,20 @@ If (($Storyboard | Select-String "Primary Cartridge:").count -gt 0) {
 $Cart_Primary_Cartridge = (($Storyboard | Select-String "Primary Cartridge:").line.Split(",") | select-string "Primary Cartridge:").line.replace("Primary Cartridge:", "").trim()
 }
 
+$SampleCartridgeType = @{}
+$SampleCartridgeType = @{
+   GFE            = "RHID_GFESampleCartridgePLUS"
+   GFE_Neg_Ctrl   = "RHID_GFE_ACE_NEGCTRL"
+   GFE_Pos_Ctrl   = "RHID_GFE_ACE_POSCTRL"
+   NGM_Sample     = "RHID_NGMSampleCartridgePLUS"
+   GFE_Ladder     = "RHID_GFEControlCartridgePLUS"
+   BEC            = "RHID_PrimaryCartridge_V4"
+   Gel            = "RHID_GelSyringe"
+}
+
+$Folder_LastWriteTime   = $Storyboard.directory.lastwritetime
+$Folder_Name            = $Storyboard.directory.name
+$Storyboard_Fullpath    = $Storyboard.FullName
 $Cartridge_Type_Sample  = [string]$Cart_Cartridge_Type[0]
 $Cartridge_Type_BEC     = [string]$Cart_Cartridge_Type[1]
 $Cartridge_Type_Gel     = [string]$Cart_Cartridge_Type[2]
@@ -35,18 +50,22 @@ $Cart_Last_Use_Date_BEC     = $Cart_Last_Use_Date[1]
 $Cart_Last_Use_Date_Gel     = $Cart_Last_Use_Date[2]
 
 #Typical usage in production
+# add folder name
 $TagReaderInfo = @()
-    $TagObject = New-Object PSObject
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type"         -value $Cart_Cartridge_Type
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_ID_Number"         -value $Cart_ID_Number
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Manufacture_Date"  -value $Cart_Manufacture_Date
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Expiration_Date"   -value $Cart_Expiration_Date
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Use_Counter"       -value $Cart_Use_Counter
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Last_Use_Date"     -value $Cart_Last_Use_Date
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Instrument"        -value $Cart_Instrument
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Is_Primed"         -value $Cart_Is_Primed
-    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Primary_Cartridge" -value $Cart_Primary_Cartridge
-    $TagReaderInfo += $TagObject
+   $TagObject = New-Object PSObject
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Folder_LastWriteTime"     -value $Folder_LastWriteTime  
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Folder_Name"              -value $Folder_Name           
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Storyboard_Fullpath"      -value $Storyboard_Fullpath   
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type"           -value $Cart_Cartridge_Type
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_ID_Number"           -value $Cart_ID_Number
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Manufacture_Date"    -value $Cart_Manufacture_Date
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Expiration_Date"     -value $Cart_Expiration_Date
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Use_Counter"         -value $Cart_Use_Counter
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Last_Use_Date"       -value $Cart_Last_Use_Date
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Instrument"          -value $Cart_Instrument
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Is_Primed"           -value $Cart_Is_Primed
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Primary_Cartridge"   -value $Cart_Primary_Cartridge
+   $TagReaderInfo += $TagObject
 
 $Cartridge_Information = "Sample Cartridge Data :
    Cartridge Type:     $Cartridge_Type_Sample
@@ -73,4 +92,6 @@ Gel Syringe Data :
    Use Counter:        $Cart_Use_Counter_Gel
    Last Use Date:      $Cart_Last_Use_Date_Gel
    Primary Cartridge:  $Cart_Primary_Cartridge
+Bolus Test Time: $Folder_LastWriteTime
+Test Folder: $Folder_Name 
 "
