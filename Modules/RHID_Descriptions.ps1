@@ -387,8 +387,8 @@ $BolusTestInfo = @()
     Add-Member -inputObject $BolusObject -memberType NoteProperty -name "Bolus_Volume"     -value $RHID_Bolus_Volume
     Add-Member -inputObject $BolusObject -memberType NoteProperty -name "Bolus_Timing"     -value $RHID_Bolus_Timing
     Add-Member -inputObject $BolusObject -memberType NoteProperty -name "Bolus_Current"    -value $RHID_Bolus_Current
-    Add-Member -inputObject $BolusObject -memberType NoteProperty -name "Bolus_Test_Result_Image"      -value $RHID_Bolus_Test_Result_Image
-    Add-Member -inputObject $BolusObject -memberType NoteProperty -name "Bolus_Test_Result_ImageHTML"      -value $RHID_Bolust_Image_HTML
+    Add-Member -inputObject $BolusObject -memberType NoteProperty -name "Bolus_Test_Result_Image"       -value $RHID_Bolus_Test_Result_Image
+    Add-Member -inputObject $BolusObject -memberType NoteProperty -name "Bolus_Test_Result_ImageHTML"   -value $RHID_Bolust_Image_HTML
     $BolusTestInfo += $BolusObject
 
 $i = $RHID_Bolus_Test_Result_Folder.count
