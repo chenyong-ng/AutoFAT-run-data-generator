@@ -396,13 +396,13 @@ $i = 0
 $BolusData = foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
     if ( $RHID_Bolus_Test_Result_Folder.count -gt 0) {
         #$Result_Separator
-        $Global:Bolust_Image           = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i])
-        $Global:Bolust_Image_HTML      = ($Drive + "/" + $MachineName + "/" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "/" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\","/").replace("#","%23")
-        $Global:Bolus_Test_Counter     = [Double]($i + 1)
-        $Global:RHID_Bolus_DN_Var      = [Double]$RHID_Bolus_DN[$i]
-        $Global:RHID_Bolus_Volume_Var  = [Double]$RHID_Bolus_Volume[$i]
-        $Global:RHID_Bolus_Timing_Var  = [Double]$RHID_Bolus_Timing[$i]
-        $Global:RHID_Bolus_Current_Var = [Double]$RHID_Bolus_Current[$i]
+        #$Bolust_Image           = ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i])
+        #$Bolust_Image_HTML      = ($Drive + "/" + $MachineName + "/" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "/" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\","/").replace("#","%23")
+        $Bolus_Test_Counter     = [Double]($i + 1)
+        $RHID_Bolus_DN_Var      = [Double]$RHID_Bolus_DN[$i]
+        $RHID_Bolus_Volume_Var  = [Double]$RHID_Bolus_Volume[$i]
+        $RHID_Bolus_Timing_Var  = [Double]$RHID_Bolus_Timing[$i]
+        $RHID_Bolus_Current_Var = [Double]$RHID_Bolus_Current[$i]
         # "Test_Counter,$Bolus_Test_Counter"
         # "DN_Percentage,$RHID_Bolus_DN_Var,%"
         # "Volume,$RHID_Bolus_Volume_Var,uL"
@@ -415,6 +415,14 @@ $BolusData = foreach ($RHID_Bolus_Test_Result_Folder in $RHID_Bolus_DN) {
         $RHID_Bolus_Timing_Var
         $RHID_Bolus_Current_Var
         $Bolust_Image
+        $BolusHash = [ordered]@{}
+            [hashtable]$BolusHash = [ordered]@{
+            "Bolus_Test_Counter"     = $Bolus_Test_Counter
+            "RHID_Bolus_DN_Var"      = $RHID_Bolus_DN
+            "RHID_Bolus_Volume_Var"  = $RHID_Bolus_Volume
+            "RHID_Bolus_Timing_Var"  = $RHID_Bolus_Timing
+            "RHID_Bolus_Current_Var" = $RHID_Bolus_Current
+            }
         $i = $i + 1
         # Generate HTML Report with Bolus testimages
     }
