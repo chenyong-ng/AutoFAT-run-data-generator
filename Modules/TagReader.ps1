@@ -1,6 +1,6 @@
 
 # Common Cartridge Information
-$storyboard             = Get-ChildItem "U:\RHID-0897\*Bolus Delivery*" -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
+$storyboard             = Get-ChildItem "U:\RHID-0486\*BEC Insertion*" -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
 $Cart_Cartridge_Type    = (($Storyboard | Select-String "Cartridge Type:").line.Split(",")  | select-string "Cartridge Type:").line.replace("Cartridge Type:","").trim()
 $Cart_ID_Number         = (($Storyboard | Select-String "ID Number:").line.Split(",")       | select-string "ID Number:").line.replace("ID Number:","").trim()
 $Cart_Manufacture_Date  = (($Storyboard | Select-String "Manufacture Date:").line.Split(",")| select-string "Manufacture Date:").line.replace("Manufacture Date:", "").trim()
@@ -16,9 +16,9 @@ If (($Storyboard | Select-String "Primary Cartridge:").count -gt 0) {
 $Cart_Primary_Cartridge = (($Storyboard | Select-String "Primary Cartridge:").line.Split(",") | select-string "Primary Cartridge:").line.replace("Primary Cartridge:", "").trim()
 }
 
-$SampleCartridgeType = @{}
-$SampleCartridgeType = @{
-   GFE            = "RHID_GFESampleCartridgePLUS"
+$CartridgeType = @{}
+$CartridgeType = @{
+   GFE_Sample     = "RHID_GFESampleCartridgePLUS"
    GFE_Neg_Ctrl   = "RHID_GFE_ACE_NEGCTRL"
    GFE_Pos_Ctrl   = "RHID_GFE_ACE_POSCTRL"
    NGM_Sample     = "RHID_NGMSampleCartridgePLUS"
@@ -30,9 +30,14 @@ $SampleCartridgeType = @{
 $Folder_LastWriteTime   = $Storyboard.directory.lastwritetime
 $Folder_Name            = $Storyboard.directory.name
 $Storyboard_Fullpath    = $Storyboard.FullName
-$Cartridge_Type_Sample  = [string]$Cart_Cartridge_Type[0]
-$Cartridge_Type_BEC     = [string]$Cart_Cartridge_Type[1]
-$Cartridge_Type_Gel     = [string]$Cart_Cartridge_Type[2]
+$Cartridge_Type_Utility = ($Cart_Cartridge_Type -match "RHID_UtilityCartridge")
+$Cartridge_Type_GFE_Sample    = ($Cart_Cartridge_Type -match "RHID_GFESampleCartridgePLUS")
+$Cartridge_Type_GFE_NegCtrl   = $Cart_Cartridge_Type -match "RHID_GFE_ACE_NEGCTRL"
+$Cartridge_Type_GFE_PosCtrl   = $Cart_Cartridge_Type -match "RHID_GFE_ACE_POSCTRL"
+$Cartridge_Type_GFE_Ladder    = $Cart_Cartridge_Type -match "RHID_GFEControlCartridgePLUS"
+$Cartridge_Type_NGM_Sample    = $Cart_Cartridge_Type -match "RHID_NGMSampleCartridgePLUS"
+$Cartridge_Type_BEC     = $Cart_Cartridge_Type -match "RHID_PrimaryCartridge_V4"
+$Cartridge_Type_Gel     = $Cart_Cartridge_Type -match "RHID_GelSyringe"
 $Cart_ID_Number_Sample  = [int]$Cart_ID_Number[0]
 $Cart_ID_Number_BEC     = [int]$Cart_ID_Number[1]
 $Cart_ID_Number_Gel     = [int]$Cart_ID_Number[2]
@@ -55,8 +60,15 @@ $TagReaderInfo = @()
    $TagObject = New-Object PSObject
    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Folder_LastWriteTime"     -value $Folder_LastWriteTime  
    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Folder_Name"              -value $Folder_Name           
-   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Storyboard_Fullpath"      -value $Storyboard_Fullpath   
-   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type"           -value $Cart_Cartridge_Type
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Storyboard_Fullpath"      -value $Storyboard_Fullpath
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_Utility"   -value $Cartridge_Type_Utility
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_GFE_Sample" -value $Cartridge_Type_GFE_Sample
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_GFE_NegCtrl" -value $Cartridge_Type_GFE_NegCtrl
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_GFE_PosCtrl" -value $Cartridge_Type_GFE_PosCtrl
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_GFE_Ladder" -value $Cartridge_Type_GFE_Ladder
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_NGM_Sample" -value $Cartridge_Type_NGM_Sample
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_BEC"       -value $Cartridge_Type_BEC
+   Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cartridge_Type_Gel"       -value $Cartridge_Type_Gel
    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_ID_Number"           -value $Cart_ID_Number
    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Manufacture_Date"    -value $Cart_Manufacture_Date
    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Expiration_Date"     -value $Cart_Expiration_Date
@@ -67,31 +79,30 @@ $TagReaderInfo = @()
    Add-Member -inputObject $TagObject -memberType NoteProperty -name "Cart_Primary_Cartridge"   -value $Cart_Primary_Cartridge
    $TagReaderInfo += $TagObject
 
-$Cartridge_Information = "Sample Cartridge Data :
-   Cartridge Type:     $Cartridge_Type_Sample
-   ID Number:          $Cart_ID_Number_Sample
-   Manufacture Date:   $Cart_Manufacture_Date_Sample
-   Expiration Date:    $Cart_Expiration_Date_Sample
-   Use Counter:        $Cart_Use_Counter_Sample
-   Last Use Date:      $Cart_Last_Use_Date_Sample
-   Instrument:         $Cart_Instrument
-BEC Data :
-   Cartridge Type:     $Cartridge_Type_BEC
-   ID Number:          $Cart_ID_Number_BEC
-   Manufacture Date:   $Cart_Manufacture_Date_BEC
-   Expiration Date:    $Cart_Expiration_Date_BEC
-   Use Counter:        $Cart_Use_Counter_BEC
-   Last Use Date:      $Cart_Last_Use_Date_BEC
-   Instrument:         $Cart_Instrument
-   Is Primed:          $Cart_Is_Primed
-Gel Syringe Data :
-   Cartridge Type:     $Cartridge_Type_Gel
-   ID Number:          $Cart_ID_Number_Gel
-   Manufacture Date:   $Cart_Manufacture_Date_Gel
-   Expiration Date:    $Cart_Expiration_Date_Gel
-   Use Counter:        $Cart_Use_Counter_Gel
-   Last Use Date:      $Cart_Last_Use_Date_Gel
-   Primary Cartridge:  $Cart_Primary_Cartridge
-Bolus Test Time: $Folder_LastWriteTime
-Test Folder: $Folder_Name 
-"
+"Sample Cartridge Data :"
+"  Cartridge Type:    " + $Cartridge_Type_GFE_Sample[0]
+"  ID Number:         " + $Cart_ID_Number_Sample
+"  Manufacture Date:  " + $Cart_Manufacture_Date_Sample
+"  Expiration Date:   " + $Cart_Expiration_Date_Sample
+"  Use Counter:       " + $Cart_Use_Counter_Sample
+"  Last Use Date:     " + $Cart_Last_Use_Date_Sample
+"  Instrument:        " + $Cart_Instrument
+"BEC Data :"
+"   Cartridge Type:   " + $Cartridge_Type_BEC[0]
+"   ID Number:        " + $Cart_ID_Number_BEC
+"   Manufacture Date: " + $Cart_Manufacture_Date_BEC
+"   Expiration Date:  " + $Cart_Expiration_Date_BEC
+"   Use Counter:      " + $Cart_Use_Counter_BEC
+"   Last Use Date:    " + $Cart_Last_Use_Date_BEC
+"   Instrument:       " + $Cart_Instrument
+"   Is Primed:        " + $Cart_Is_Primed
+"Gel Syringe Data :"
+"   Cartridge Type:   " + $Cartridge_Type_Gel[0]
+"   ID Number:        " + $Cart_ID_Number_Gel
+"   Manufacture Date: " + $Cart_Manufacture_Date_Gel
+"   Expiration Date:  " + $Cart_Expiration_Date_Gel
+"   Use Counter:      " + $Cart_Use_Counter_Gel
+"   Last Use Date:    " + $Cart_Last_Use_Date_Gel
+"   Primary Cartridge:" + $Cart_Primary_Cartridge
+"Bolus Test Time:     " + $Folder_LastWriteTime
+"Test Folder:         " + $Folder_Name
