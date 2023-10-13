@@ -1,9 +1,20 @@
 
-# Get-ChildItem "U:\RHID-0486\*BEC Insertion*" -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
+$Drive      = "U:"
+$Inst_SN    = "RHID-0485"
+#"$Drive\$Inst_SN\*GFE-300uL*",
+             # "$Drive\$Inst_SN\*GFE-BV*",
+             # "$Drive\$Inst_SN\*BEC Insertion*",
+             # "$Drive\$Inst_SN\*GFE-BV Allelic Ladder*",
+             # "$Drive\$Inst_SN\*GFE_007*",
+             # "$Drive\$Inst_SN\*NMG_007*",
+             # "$Drive\$Inst_SN\*BLANK*",
+         $RunFolder  =      "$Drive\$Inst_SN\*2308095*"
+
+$TargetFolder = (Get-ChildItem $RunFolder | Sort-Object LastWriteTime -ErrorAction SilentlyContinue).FullName
 # get list of full path,
 
 # Common Cartridge Information
-$storyboard             = Get-ChildItem "U:\RHID-0477\RHID-0477_2021-11-24_(16.47) NGM_007_LN2105017_BEC001433_CVRON" -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
+$storyboard             = Get-ChildItem $TargetFolder -I storyboard*.txt -R | Sort-Object LastWriteTime -ErrorAction SilentlyContinue
 $Cart_Cartridge_Type    = (($Storyboard | Select-String "Cartridge Type:").line.Split(",")  | select-string "Cartridge Type:").line.replace("Cartridge Type:","").trim()
 $Cart_ID_Number         = (($Storyboard | Select-String "ID Number:").line.Split(",")       | select-string "ID Number:").line.replace("ID Number:","").trim()
 $Cart_Manufacture_Date  = (($Storyboard | Select-String "Manufacture Date:").line.Split(",")| select-string "Manufacture Date:").line.replace("Manufacture Date:", "").trim()
@@ -114,4 +125,4 @@ Gel Syringe Data :
    Last Use Date:      $Cart_Last_Use_Date_Gel
    Primary Cartridge:  $Cart_Primary_Cartridge
 Bolus Test Time:       $Folder_LastWriteTime
-Test Folder:           $Folder_Name"
+Test Folder:           $Storyboard_Fullpath"
