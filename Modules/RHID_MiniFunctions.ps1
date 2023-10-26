@@ -109,3 +109,8 @@ if (($Waves_Filesize -eq 0) -or ($NonLinearity_FileSize -eq 0)) {
         Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.GuiSec
     }
 }
+
+<#
+"C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\DataCheck.exe" 7C0469C3-1269-42C8-B779-4FB6E8D0F527 35
+"C:\Program Files (x86)\SoftGenetics\HIDAutoLite\V2.95 for IntegenX\AutoAnalyser" 1
+#>

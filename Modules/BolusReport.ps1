@@ -62,6 +62,9 @@ $Cartridge_Type_GFE_NegCtrl     = $Cart_Cartridge_Type -match "RHID_GFE_ACE_NEGC
 $Cartridge_Type_GFE_PosCtrl     = $Cart_Cartridge_Type -match "RHID_GFE_ACE_POSCTRL"
 $Cartridge_Type_GFE_Ladder      = $Cart_Cartridge_Type -match "RHID_GFEControlCartridgePLUS"
 $Cartridge_Type_NGM_Sample      = $Cart_Cartridge_Type -match "RHID_NGMSampleCartridgePLUS"
+$Cartridge_Type_SCI             = $Cartridge_Type_Utility, $Cartridge_Type_GFE_Sample,
+                                    $Cartridge_Type_GFE_NegCtrl, $Cartridge_Type_GFE_PosCtrl,
+                                    $Cartridge_Type_GFE_Ladder, $Cartridge_Type_NGM_Sample      
 $Cartridge_Type_BEC             = $Cart_Cartridge_Type -match "RHID_PrimaryCartridge_V4"
 $Cartridge_Type_Gel             = $Cart_Cartridge_Type -match "RHID_GelSyringe"
 $Cart_ID_Number_Sample          = [int]$Cart_ID_Number[0]
