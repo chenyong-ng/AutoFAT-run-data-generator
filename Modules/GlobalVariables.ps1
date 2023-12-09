@@ -38,6 +38,11 @@ $GM_Analysis_File           = "GM_Analysis.sgf"
 $TC_CalibrationXML_File     = "TC_Calibration.xml"
 $DannoAppConfigXML_File     = "DannoAppConfig.xml"
 $OverrideSettingsXML_File   = "OverrideSettings.xml"
+$PostRun_Analysis_File      = "PostRun_Analysis.log"
+<#
+Check for ILS count
+"The count of ILS is wrong (supposed to be 36): GM_ILS_Found = 37"
+#>
 $TestResultHTML_File        = "TestResult $MachineName($HostName).HTML"
 $TestResultXML_File         = "TestResult $MachineName[$HostName].XML"
 $TestResultLOG_File         = "TestResult $MachineName[$HostName].LOG"
