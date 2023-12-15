@@ -47,3 +47,5 @@ $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select
 
 . $PSScriptRoot\RHID_Report.ps1
 
+# create report aggregation
+# . $PSScriptRoot\RHID_Report_Aggregate.ps1
