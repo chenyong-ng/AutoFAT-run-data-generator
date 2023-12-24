@@ -49,3 +49,6 @@ $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select
 
 # create report aggregation
 # . $PSScriptRoot\RHID_Report_Aggregate.ps1
+
+# display brief progress of the instrument test progress
+# . $PSScriptRoot\RHID_Progress.ps1
