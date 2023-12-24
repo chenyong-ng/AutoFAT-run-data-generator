@@ -52,3 +52,6 @@ $ScriptConfigINI = Get-Content $PSScriptRoot\..\config\ScriptConfig.ini | Select
 
 # display brief progress of the instrument test progress
 # . $PSScriptRoot\RHID_Progress.ps1
+
+# add option to reset DannoGUI password
+# . $PSScriptRoot\RHID_DannoGUI.ps1
