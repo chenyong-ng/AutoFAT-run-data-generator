@@ -95,7 +95,7 @@ RHID_ShipPrep_Check
 }
 
 IF ($QuiteMode -ne "True") {
-    RHID_ReportGen | Out-GridView
+    RHID_ReportGen
 }
 
 IF ($NoReport -ne "True") {
