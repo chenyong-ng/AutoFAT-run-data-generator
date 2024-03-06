@@ -109,7 +109,7 @@ else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    
 }
 
-$RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
+    $RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*", "$US_Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
 if ($RHID_Bolus.count -gt 1) {
     Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_Bolus.count -ForegroundColor Green
 }
@@ -136,6 +136,7 @@ Cover Off GFE 36 cycles 300ul Tests
 IF ($GM_ILS_Score_GFE_36cycles[-1].count -gt "0") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
     $serverdir36cycles = "$Drive\$MachineName\*GFE-300uL-36cycles*"
+    <#Add US drive path#>
     $DxCode = Get-ChildItem $serverdir36cycles -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir36cycles -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
