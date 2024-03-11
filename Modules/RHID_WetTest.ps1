@@ -140,10 +140,16 @@ $Section_Separator
 <#
 Cover Off GFE 36 cycles 300ul Tests
 #>
+If ((Test-Path -Path "$Drive\$MachineName\*GFE-300uL-36cycles*") -eq "True") {
+    $serverdir36cycles_leaf = "$Drive\$MachineName\*GFE-300uL-36cycles*"
+    }
+If ((Test-Path -Path "$US_Drive\$MachineName\*GFE-300uL-36cycles*") -eq "True") {
+    $US_serverdir36cycles_leaf = "$US_Drive\$MachineName\*GFE-300uL-36cycles*"
+    }
+$serverdir36cycles = $serverdir36cycles_leaf + $US_serverdir36cycles_leaf
+
 IF ($GM_ILS_Score_GFE_36cycles[-1].count -gt "0") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
-    $serverdir36cycles = "$Drive\$MachineName\*GFE-300uL-36cycles*"
-    <#Add US drive path#>
     $DxCode = Get-ChildItem $serverdir36cycles -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir36cycles -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
@@ -158,9 +164,16 @@ $Section_Separator
 <#
 Cover Off Blank Tests
 #>
+If ((Test-Path -Path "$Drive\$MachineName\*GFE-BV_*") -eq "True") {
+    $serverdir_GFE_BV_leaf = "$Drive\$MachineName\*GFE-BV_*"
+    }
+If ((Test-Path -Path "$US_Drive\$MachineName\*GFE-BV_*") -eq "True") {
+    $US_serverdir_GFE_BV_leaf = "$US_Drive\$MachineName\*GFE-BV_*"
+    }
+$serverdir_GFE_BV = $serverdir_GFE_BV_leaf + $US_serverdir_GFE_BV_leaf
+
 IF ($GM_ILS_Score_GFE_BV[-1].count -gt "0") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
-    $serverdir_GFE_BV = "$Drive\$MachineName\*GFE-BV_*"
     $DxCode = Get-ChildItem $serverdir_GFE_BV -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_GFE_BV -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
