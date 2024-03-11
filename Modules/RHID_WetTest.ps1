@@ -109,7 +109,14 @@ else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    
 }
 
-    $RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*", "$US_Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
+If ((Test-Path -Path "$Drive\$MachineName\*Bolus Delivery Test*") -eq "True") {
+    $Bolus_leaf = "$Drive\$MachineName\*Bolus Delivery Test*"
+    }
+If ((Test-Path -Path "$US_Drive\$MachineName\*Bolus Delivery Test*") -eq "True") {
+    $US_Bolus_leaf = "$US_Drive\$MachineName\*Bolus Delivery Test*"
+    }
+$Bolus_Delivery_Folder = $Bolus_leaf + $US_Bolus_leaf
+$RHID_Bolus = Get-ChildItem $Bolus_Delivery_Folder -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
 if ($RHID_Bolus.count -gt 1) {
     Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_Bolus.count -ForegroundColor Green
 }
