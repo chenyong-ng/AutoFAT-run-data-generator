@@ -8,8 +8,8 @@ $GM_ILS_Score_BLANK = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.
 
 If ([Bool]$MachineName -eq "True") {
     "$Loading : $StatusData_File and $GM_Analysis_File textual filtering commands "
-    $StatusData_leaf = Get-ChildItem $Drive\$MachineName -I $StatusData_File  -R | Test-path -PathType Leaf
-    $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName -I $GM_Analysis_File -R | Test-path -PathType Leaf
+    $StatusData_leaf = Get-ChildItem $Drive\$MachineName , $US_Drive\$MachineName -I $StatusData_File  -R | Test-path -PathType Leaf
+    $GM_Analysis_leaf = Get-ChildItem $Drive\$MachineName ,$US_Drive\$MachineName -I $GM_Analysis_File -R | Test-path -PathType Leaf
 }
 
 "$Loading : DannoGUIState.XML for Ambient and Humidity reading"
@@ -103,7 +103,7 @@ If ((Test-Path -Path "$Drive\$MachineName\*BLANK*") -eq "True") {
 If ((Test-Path -Path "$US_Drive\$MachineName\*BLANK*") -eq "True") {
     $US_serverdir_BLANK_leaf = "$US_Drive\$MachineName\*BLANK*"
     }
-$serverdir_BLANK = $serverdir_BLANK_leaf + $US_serverdir_BLANK_leaf
+$serverdir_BLANK = $serverdir_BLANK_leaf , $US_serverdir_BLANK_leaf
 
 IF ($GM_ILS_Score_BLANK[-1].count -gt "0") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
@@ -133,7 +133,7 @@ If ((Test-Path -Path "$Drive\$MachineName") -eq "True") {
 If ((Test-Path -Path "$US_Drive\$MachineName") -eq "True") {
     $US_MachineFolder_leaf = "$US_Drive\$MachineName"
 }
-$MachineFolder = $MachineFolder_leaf + $US_MachineFolder_leaf
+$MachineFolder = $MachineFolder_leaf , $US_MachineFolder_leaf
 
 function RHID_PDF_Check {
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
