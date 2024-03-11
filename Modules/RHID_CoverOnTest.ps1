@@ -20,9 +20,17 @@ function RHID_CoverOn_FullRun {
 <#
 Cover On Allelic Ladder Tests
 #>
+
+If ((Test-Path -Path "$Drive\$MachineName\*GFE-BV Allelic Ladder*") -eq "True") {
+    $serverdir_Ladder_leaf = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
+    }
+If ((Test-Path -Path "$US_Drive\$MachineName\*GFE-BV Allelic Ladder*") -eq "True") {
+    $US_serverdir_Ladder_leaf = "$US_Drive\$MachineName\*GFE-BV Allelic Ladder*"
+    }
+$serverdir_Ladder = $serverdir_Ladder_leaf + $US_serverdir_Ladder_leaf
+
 IF ($GM_ILS_Score_Allelic_Ladder[-1].count -gt "0") {
     $GM_ILS_Score_Allelic_Ladder_Score = $GM_ILS_Score_Allelic_Ladder.Line.Split("	") | Select-Object -Last 1
-    $serverdir_Ladder = "$Drive\$MachineName\*GFE-BV Allelic Ladder*"
     $DxCode = Get-ChildItem $serverdir_Ladder -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_Ladder -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
@@ -36,9 +44,17 @@ $Section_Separator
 <#
 Cover On GFE Tests
 #>
+
+If ((Test-Path -Path "$Drive\$MachineName\*GFE_007*") -eq "True") {
+    $serverdir_GFE_007_leaf = "$Drive\$MachineName\*GFE_007*"
+    }
+If ((Test-Path -Path "$US_Drive\$MachineName\*GFE_007*") -eq "True") {
+    $US_serverdir_GFE_007_leaf = "$US_Drive\$MachineName\*GFE_007*"
+    }
+$serverdir_GFE_007 = $serverdir_GFE_007_leaf + $US_serverdir_GFE_007_leaf
+
 IF ($GM_ILS_Score_GFE_007[-1].count -gt "0") {
     $GM_ILS_Score_GFE_007_Score = $GM_ILS_Score_GFE_007.Line.Split("	") | Select-Object -Last 1
-    $serverdir_GFE_007 = "$Drive\$MachineName\*GFE_007*"
     $DxCode = Get-ChildItem $serverdir_GFE_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_GFE_007 -I RunSummary.csv -R
     . $PSScriptRoot\RunSummaryCSV.ps1
@@ -54,9 +70,17 @@ $Section_SeparatoR
 Cover On NGM Tests, to be retired after NGM Catridges runs out of supply after May of 2023
 Keeping codes for checking test results for older instruments
 #>
+
+If ((Test-Path -Path "$Drive\$MachineName\*NGM_007") -eq "True") {
+    $serverdir_NGM_007_leaf = "$Drive\$MachineName\*NGM_007*"
+    }
+If ((Test-Path -Path "$US_Drive\$MachineName\*NGM_007*") -eq "True") {
+    $US_serverdir_NGM_007_leaf = "$US_Drive\$MachineName\*NGM_007*"
+    }
+$serverdir_NGM_007 = $serverdir_NGM_007_leaf + $US_serverdir_NGM_007_leaf
+
 IF ($GM_ILS_Score_NGM_007[-1].count -gt "0") {
     $GM_ILS_Score_NGM_007_Score = $GM_ILS_Score_NGM_007.Line.Split("	") | Select-Object -Last 1
-    $serverdir_NGM_007 = "$Drive\$MachineName\*NGM_007*"
     $DxCode = Get-ChildItem $serverdir_NGM_007 -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_NGM_007 -I RunSummary.csv -R
     $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis_File -R
@@ -72,9 +96,17 @@ $Section_Separator
 <#
 Cover On Blank Tests
 #>
+
+If ((Test-Path -Path "$Drive\$MachineName\*BLANK*") -eq "True") {
+    $serverdir_BLANK_leaf = "$Drive\$MachineName\*BLANK*"
+    }
+If ((Test-Path -Path "$US_Drive\$MachineName\*BLANK*") -eq "True") {
+    $US_serverdir_BLANK_leaf = "$US_Drive\$MachineName\*BLANK*"
+    }
+$serverdir_BLANK = $serverdir_BLANK_leaf + $US_serverdir_BLANK_leaf
+
 IF ($GM_ILS_Score_BLANK[-1].count -gt "0") {
     $GM_ILS_Score_BLANK_Score = $GM_ILS_Score_BLANK.Line.Split("	") | Select-Object -Last 1
-    $serverdir_BLANK = "$Drive\$MachineName\*BLANK*"
     $DxCode = Get-ChildItem $serverdir_BLANK -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
     $RunSummaryCSV = Get-ChildItem $serverdir_BLANK -I RunSummary.csv -R
     $BlankRunCounter = Get-ChildItem $serverdir_BLANK -I $GM_Analysis_File -R
@@ -94,9 +126,18 @@ IF ($GM_ILS_Score_BLANK[-1].count -gt "0") {
 }
 Else { Write-Host "$GM_ILS : $BLANK_Trace_Str : N/A" -ForegroundColor Yellow }
 }
+
+If ((Test-Path -Path "$Drive\$MachineName") -eq "True") {
+    $MachineFolder_leaf = "$Drive\$MachineName"
+}
+If ((Test-Path -Path "$US_Drive\$MachineName") -eq "True") {
+    $US_MachineFolder_leaf = "$US_Drive\$MachineName"
+}
+$MachineFolder = $MachineFolder_leaf + $US_MachineFolder_leaf
+
 function RHID_PDF_Check {
 if ([Bool] ($StatusData_leaf | Select-Object -First 1) -eq "True" ) {
-        $RHID_StatusData_PDF = Get-ChildItem -path "$Drive\$MachineName" -I $StatusData_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
+    $RHID_StatusData_PDF = Get-ChildItem -path $MachineFolder -I $StatusData_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
     Write-Host "$Full_Run : $StatusData_File $File_found" -ForegroundColor Green
         $RHID_StatusData_PDF
 }
@@ -106,7 +147,7 @@ else { Write-host "$Full_Run : $StatusData_File $File_not_Found" -ForegroundColo
 
 function RHID_GM_Analysis_Check {
 if ([Bool] ($GM_Analysis_leaf | Select-Object -First 1) -eq "True" ) {
-        $RHID_GM_Analysis = Get-ChildItem -path "$Drive\$MachineName" -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
+    $RHID_GM_Analysis = Get-ChildItem -path $MachineFolder -I $GM_Analysis_File -R |  Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | Format-table Directory -Autosize -wrap -HideTableHeaders
     Write-Host "$Full_Run : $GM_Analysis_File $File_found" -ForegroundColor Green
         $RHID_GM_Analysis
         # Disabled: Size Call Failed (anatlysis failed)
