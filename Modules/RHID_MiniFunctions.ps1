@@ -107,6 +107,7 @@ if (($Waves_Filesize -eq 0) -or ($NonLinearity_FileSize -eq 0)) {
         Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.SnippingTool
         Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.Broadcom_Waves
         Start-Process -WindowStyle Normal -FilePath [String]$ScriptConfig.Apps.GuiSec
+        # add option to open E:\RapidHIT ID folder and copy the path
     }
 }
 
