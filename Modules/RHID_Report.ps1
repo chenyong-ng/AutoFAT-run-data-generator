@@ -12,6 +12,20 @@ $CvrON_BEC_Inserr_Folder =  "$Path-$IndexedSerialNumber\*BEC Insertion BEC_*",
                             "$US_Path-$IndexedSerialNumber\*BEC Insertion BEC_*"
 $CvOff_BEC_Insert_Folder =  "$Path-$IndexedSerialNumber\*BEC Insertion",
                             "$US_Path-$IndexedSerialNumber\*BEC Insertion"
+
+$serverdir36cycles       =  "$Path-$IndexedSerialNumber\*GFE-300uL-36cycles*",
+                            "$US_Path-$IndexedSerialNumber\*GFE-300uL-36cycles*"
+$serverdir_GFE_BV        =  "$Path-$IndexedSerialNumber\*GFE-BV_*",
+                            "$US_Path-$IndexedSerialNumber\*GFE-BV_*"
+$serverdir_Ladder        =  "$Path-$IndexedSerialNumber\*GFE-BV Allelic Ladder*",
+                            "$US_Path-$IndexedSerialNumber\*GFE-BV Allelic Ladder*"
+$serverdir_GFE_007       =  "$Path-$IndexedSerialNumber\*GFE_007*",
+                            "$US_Path-$IndexedSerialNumber\*GFE_007*"
+$serverdir_NGM_007       =  "$Path-$IndexedSerialNumber\*NGM_007*",
+                            "$US_Path-$IndexedSerialNumber\*NGM_007*"
+$serverdir_BLANK         =  "$Path-$IndexedSerialNumber\*BLANK*",
+                            "$US_Path-$IndexedSerialNumber\*BLANK*"
+
 # for execution.log and GM_Analysis_PeakTable.txt
 $FullRun_Folder         =   "$Path-$IndexedSerialNumber\*GFE-300uL*",
                             "$Path-$IndexedSerialNumber\*GFE-BV*",
