@@ -1,11 +1,12 @@
 #if ($SerialRegMatch -ne "True") {
+clear-host
 $RHID_FolderList        = (Get-ChildItem "$Drive\", "$US_Drive" | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' })
 $RHID_FolderCount       = $RHID_FolderList.name.count
 $RHID_DannoFolderList        = (Get-ChildItem "$Root_Danno", "$US_Root_Danno" -ErrorAction SilentlyContinue | Where-Object { $_.PSIsContainer -and $_.Name -Match 'RHID-\d\d\d\d' })
 $RHID_DannoFolderListCount   = $RHID_DannoFolderList.name.count
-
+"==========     RHID Folder List    =========="
 $RHID_FolderList | Format-wide -Property name -AutoSize
-"========== RHID BoxPrep List=========="
+"==========     RHID BoxPrep List   =========="
 $RHID_DannoFolderList | Format-wide -Property name -AutoSize
 Write-Host "$Info : $RHID_FolderCount RHID folders detected in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
 Write-Host "$Info : $RHID_DannoFolderListCount RHID folders detected in Servers $Root_Danno, $US_Root_Danno for checking ↑↑↑↑" -ForegroundColor Cyan

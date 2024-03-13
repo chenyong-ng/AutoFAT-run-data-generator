@@ -26,17 +26,13 @@ $serverdir_NGM_007       =  "$Path-$IndexedSerialNumber\*NGM_007*",
 $serverdir_BLANK         =  "$Path-$IndexedSerialNumber\*BLANK*",
                             "$US_Path-$IndexedSerialNumber\*BLANK*"
 
+$Internal_Backup        =   "$Path-$IndexedSerialNumber\Internal\",
+                            "$US_Path-$IndexedSerialNumber\Internal\"
+$Local_Folder           =   "E:\RapidHIT ID"
+
 # for execution.log and GM_Analysis_PeakTable.txt
-$FullRun_Folder         =   "$Path-$IndexedSerialNumber\*GFE-300uL*",
-                            "$Path-$IndexedSerialNumber\*GFE-BV*",
-                            "$Path-$IndexedSerialNumber\*GFE_007*",
-                            "$Path-$IndexedSerialNumber\*NMG_007*",
-                            "$Path-$IndexedSerialNumber\*BLANK*",
-                            "$US_Path-$IndexedSerialNumber\*GFE-300uL*",
-                            "$US_Path-$IndexedSerialNumber\*GFE-BV*",
-                            "$US_Path-$IndexedSerialNumber\*GFE_007",
-                            "$US_Path-$IndexedSerialNumber\*NGM_007",
-                            "$US_Path-$IndexedSerialNumber\*BLANK*",
+$FullRun_Folder         =   $serverdir36cycles + $serverdir_GFE_BV + $serverdir_Ladder +
+                            $serverdir_GFE_007 + $serverdir_NGM_007 + $serverdir_BLANK + 
                             "$Inst_rhid_Result"
 $Bolus_Folder           =   "$Path-$IndexedSerialNumber\*Bolus Delivery Test*",
                             "$US_Path-$IndexedSerialNumber\*Bolus Delivery Test*"
