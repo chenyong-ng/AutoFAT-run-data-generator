@@ -1,11 +1,11 @@
 
 function RHID_ShipPrep_Check {
 # ignore folder with 0 size
-$Remote                     = Get-ChildItem -force "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue
+$Remote                     = Get-ChildItem -force $Internal_Backup  -Recurse -ErrorAction SilentlyContinue
 $Local                      = Get-ChildItem -force "E:\RapidHIT ID"             -Recurse -ErrorAction SilentlyContinue
 $RemoteSize                 = "{0:N4} GB" -f (($Remote | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Gb)
 $LocalSize                  = "{0:N4} GB" -f (( $Local | Measure-Object Length -sum ).sum / 1Gb)
-$RemoteFileCount            = (Get-ChildItem "$Drive\$MachineName\Internal\"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
+$RemoteFileCount            = (Get-ChildItem $Internal_Backup  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
 $localFileCount             = (Get-ChildItem "E:\RapidHIT ID"  -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count 
 
 $RHID_Shipping_BEC          = $storyboard | Select-String "Shipping BEC engaged"
@@ -29,9 +29,9 @@ IF ([Bool]$MachineName -eq "False") {
 
 $RHID_Danno_Path            = $Drive + $Danno + $MachineName
 $RHID_US_Danno_Path         = $US_Drive + $Danno + $MachineName
-If ((Test-Path -Path "$RHID_Danno_Path") -eq "True") {
-    $RHID_HIDAutolite       = [string](Get-ChildItem $RHID_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str)[-1].Line.Split("License number provided is")[-1].replace(".","").Trim()
-    $RHID_BoxPrep_Scrshot   = Get-ChildItem -Path $RHID_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
+If ((Test-Path -Path "$RHID_US_Danno_Path") -or (Test-Path -Path "$RHID_Danno_Path") -eq "True") {
+    $RHID_HIDAutolite       = [string](Get-ChildItem $RHID_Danno_Path , $RHID_US_Danno_Path -I *BoxPrepLog_RHID* -R -ErrorAction SilentlyContinue -Exclude "*.log" | Select-String $RHID_HIDAutolite_Str).Line.Split("is")[-1].replace(".","").Trim()
+    $RHID_BoxPrep_Scrshot   = Get-ChildItem -Path $RHID_Danno_Path\Screenshots , $RHID_US_Danno_Path\Screenshots *.PNG -ErrorAction SilentlyContinue
     Write-Host $BoxPrep : $Danno_SS_Count : $RHID_BoxPrep_Scrshot.Name.Count -ForegroundColor Green
     Write-Host "$HIDAutolite : $RHID_HIDAutolite_Str : $RHID_HIDAutolite" -ForegroundColor Green
     } elseif ($RHID_BoxPrep_Scrshot.Name.Count -eq "0") {

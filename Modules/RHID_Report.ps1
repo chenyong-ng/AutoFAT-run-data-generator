@@ -123,8 +123,10 @@ $BufferPrimeScreenShot = Get-ChildItem $Internal_Folder -I BufferPrime*.png -R -
 
 $Nonlinearity_File          = "Non-linearity Calibration $MachineName.PNG"
 $Waves_File                 = "Waves $MachineName.PNG"
-$Nonlinearity_FullPath      = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Nonlinearity_File"
-$Waves_FullPath             = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Waves_File"
+$Nonlinearity_FullPath      = "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\$Nonlinearity_File",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\$Nonlinearity_File"
+$Waves_FullPath             = "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\$Waves_File",
+                            "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\Results\$Waves_File"
 $Nonlinearity_Leaf_Server   = Test-Path -PathType Leaf -Path $Nonlinearity_FullPath
 $Waves_Leaf_Server          = Test-Path -PathType Leaf -Path $Waves_FullPath
 $Nonlinearity_Server   = Get-ChildItem  "$Path-$IndexedSerialNumber", "$US_Path-$IndexedSerialNumber", "$Inst_rhid_Folder" -I $Nonlinearity_File  -R -ErrorAction SilentlyContinue
@@ -277,10 +279,13 @@ IF ($NoHTML -ne "True") {
     Start-Process -WindowStyle Minimized "$TestResultHTML_FullPath"
 }
 
-"$info : Clearing up temp files " + ' '+ $TempXMLFile.name +' '+ $TempTranscriptFile.name
-"$info : Script ended with exit code of $LASTEXITCODE"
+
 If ($NoTranscription -ne "True") {
     $Transcript_FullPath = "$Drive\$MachineName\Internal\RapidHIT ID\Results\$MachineName-Transcript.txt"
     Copy-Item -Force $TempTranscriptFile -Destination $Transcript_FullPath
 }
-Remove-item $TempXMLFile, $TempTranscriptFile -ErrorAction SilentlyContinue
+if (($TempXMLFile.count -or $TempTranscriptFile.count) -gt 0 ) {
+    "$info : Clearing up temp files " + ' ' + $TempXMLFile.name + ' ' + $TempTranscriptFile.name
+    "$info : Script ended with exit code of $LASTEXITCODE"
+    Remove-item $TempXMLFile, $TempTranscriptFile -ErrorAction SilentlyContinue
+}

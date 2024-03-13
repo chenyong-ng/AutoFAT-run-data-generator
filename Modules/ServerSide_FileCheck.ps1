@@ -1,7 +1,7 @@
 # Server-side file checks
 Function Server-side_Waves_Screenshot_Check {
 if ($Nonlinearity_Leaf_Server -eq $True) { 
-    $NonLinearity_FileSize_Server = (Get-Item "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Nonlinearity_File" | ForEach-Object { [math]::ceiling($_.length / 1KB) })
+    $NonLinearity_FileSize_Server = (Get-Item $Nonlinearity_FullPath -ErrorAction SilentlyContinue | ForEach-Object { [math]::ceiling($_.length / 1KB) })
 }
 if ($Nonlinearity_Leaf_Server -eq $False) {
     Write-host "$info : $Nonlinearity_File Not Backed to Server" -ForegroundColor Yellow
@@ -13,7 +13,7 @@ elseif ($NonLinearity_FileSize_Server -eq '0') {
 }
 
 if ($Waves_Leaf_Server -eq $True) {
-    $Waves_Filesize_Server = (Get-Item "$Drive\$MachineName\Internal\RapidHIT ID\Results\$Waves_File" | ForEach-Object { [math]::ceiling($_.length / 1KB) })
+    $Waves_Filesize_Server = (Get-Item $Waves_FullPath -ErrorAction SilentlyContinue| ForEach-Object { [math]::ceiling($_.length / 1KB) })
 }
 if ($Waves_Leaf_Server -eq $False) {
     Write-host "$info : $Waves_File Not Backed to Server" -ForegroundColor Yellow

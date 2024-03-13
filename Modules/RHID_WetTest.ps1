@@ -92,7 +92,7 @@ else {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_Failed" -ForegroundColor Red    
 }
 
-$RHID_Bolus = Get-ChildItem "$Drive\$MachineName\*Bolus Delivery Test*" -I storyboard*.* -R | Select-String "Bolus Devliery Test" | select-string "PASS"
+$RHID_Bolus = Get-ChildItem $Bolus_Folder  -I storyboard*.* -R -ErrorAction SilentlyContinue| Select-String "Bolus Devliery Test" | select-string "PASS"
 if ($RHID_Bolus.count -gt 1) {
     Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_Bolus.count -ForegroundColor Green
 }
@@ -118,9 +118,8 @@ Cover Off GFE 36 cycles 300ul Tests
 #>
 IF ($GM_ILS_Score_GFE_36cycles[-1].count -gt "0") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
-    $serverdir36cycles = "$Drive\$MachineName\*GFE-300uL-36cycles*"
-    $DxCode = Get-ChildItem $serverdir36cycles -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
-    $RunSummaryCSV = Get-ChildItem $serverdir36cycles -I RunSummary.csv -R
+    $DxCode = Get-ChildItem $serverdir36cycles -I DxCode.xml -R -ErrorAction SilentlyContinue | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem $serverdir36cycles -I RunSummary.csv -R -ErrorAction SilentlyContinue
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score $DxCode" -ForegroundColor Green
     "$Date_Time : [2/1] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
@@ -135,9 +134,8 @@ Cover Off Blank Tests
 #>
 IF ($GM_ILS_Score_GFE_BV[-1].count -gt "0") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
-    $serverdir_GFE_BV = "$Drive\$MachineName\*GFE-BV_*"
-    $DxCode = Get-ChildItem $serverdir_GFE_BV -I DxCode.xml -R | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
-    $RunSummaryCSV = Get-ChildItem $serverdir_GFE_BV -I RunSummary.csv -R
+    $DxCode = Get-ChildItem $serverdir_GFE_BV -I DxCode.xml -R -ErrorAction SilentlyContinue | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RunSummaryCSV = Get-ChildItem $serverdir_GFE_BV -I RunSummary.csv -R -ErrorAction SilentlyContinue
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score $DxCode"-ForegroundColor Green
     "$Date_Time : [2/2] $RHID_Date_Time ; $Bolus_Timing : $RHID_Bolus_Timing"
