@@ -10,47 +10,6 @@ $RHID_FolderList | Format-wide -Property name -AutoSize
 $RHID_DannoFolderList | Format-wide -Property name -AutoSize
 Write-Host "$Info : $RHID_FolderCount RHID folders detected in Servers $Drive $US_Drive for checking ↑↑↑↑" -ForegroundColor Cyan
 Write-Host "$Info : $RHID_DannoFolderListCount RHID folders detected in Servers $Root_Danno, $US_Root_Danno for checking ↑↑↑↑" -ForegroundColor Cyan
-
-<#
-    $RHID_FolderListMap = $RHID_FolderList.name.replace('RHID-','')
-switch ($MappedKey) {
-	('D1') {
-        $RHID_FolderListMap[0]
-    }
-    	('D2') {
-        $RHID_FolderListMap[1]
-    }
-    	('D3') {
-        $RHID_FolderListMap[2]
-    }
-    	('D4') {
-        $RHID_FolderListMap[3]
-    }
-    	('D5') {
-        $RHID_FolderListMap[4]
-    }
-    	('D6') {
-        $RHID_FolderListMap[5]
-    }
-    	('D7') {
-        $RHID_FolderListMap[6]
-    }
-    	('D8') {
-        $RHID_FolderListMap[7]
-    }
-    	('D9') {
-        $RHID_FolderListMap[8]
-    }
-    	('D0') {
-        $RHID_FolderListMap[9]
-    }
-    default {
-        $RHID_FolderListMap[0]
-    }
-}
-#>
-    # $RHID_FolderList | Format-wide -Property name -AutoSize 
-    # add fuction to show recent months, and danno planning folder list.
     "$Info : Pacific Time is now : $PST_TimeZone"
 
     If ($RealtimeProtection -match "false") {
