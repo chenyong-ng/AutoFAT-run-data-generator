@@ -18,7 +18,7 @@ $GM_ILS_Score_GFE_36cycles  = ( $SampleQuality | Where-Object { $_.PsIsContainer
 $GM_ILS_Score_GFE_BV        = ( $SampleQuality | Where-Object { $_.PsIsContainer -or $_.FullName -notmatch 'Internal' } | select-string -NotMatch "Current" | Select-String "Trace__GFE-BV")
 
 function RHID_WetTest {
-if ($RHID_Water_Prime.count -eq "0") {
+if ($RHID_Water_Prime.count -eq 0) {
     Write-Host "$WetTest : $RHID_Water_Prime_Str $Test_NA" -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Water_Prime | Select-String "Pass") -eq "True") {
@@ -40,7 +40,7 @@ else {
     Write-Host "$WetTest : $RHID_Lysis_Prime_Str $Test_Failed" -ForegroundColor Red    
 }
 
-if (($RHID_Buffer_Prime).count -eq "") {
+if ($RHID_Buffer_Prime.count -eq 0) {
     Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Buffer_Prime | Select-String "Pass") -eq "True") {
@@ -50,7 +50,7 @@ else {
     Write-Host "$WetTest : $RHID_Buffer_Prime_Str $Test_Failed" -ForegroundColor Red    
 }
 
-if (($RHID_Lysis_Dispense).count -eq "") {
+if ($RHID_Lysis_Dispense.count -eq 0) {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Lysis_Dispense | Select-String "Pass") -eq "True") {
@@ -62,7 +62,7 @@ else {
     Write-Host "$WetTest : $RHID_Lysis_Dispense_Str $Test_Failed" -ForegroundColor Red    
 }
 
-if (($RHID_Lysate_Pull).count -eq "") {
+if ($RHID_Lysate_Pull.count -eq 0) {
     Write-Host "$WetTest : $RHID_Lystate_Pull_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Lysate_Pull | Select-String "Pass") -eq "True") {
@@ -72,7 +72,7 @@ else {
     Write-Host "$WetTest : $RHID_Lystate_Pull_Str $Test_Failed" -ForegroundColor Red    
 }
 
-if (($RHID_Capillary_Gel_Prime).count -eq "") {
+if ($RHID_Capillary_Gel_Prime.count -eq 0) {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Capillary_Gel_Prime | Select-String "Completed") -eq "True") {
@@ -82,7 +82,7 @@ else {
     Write-Host "$WetTest : $RHID_Capillary_Gel_Prime_Str $Test_Failed" -ForegroundColor Red    
 }
 
-if (($RHID_Raman).count -eq "") {
+if (($RHID_Raman).count -eq 0) {
     Write-Host "$Laser : $RHID_Verify_Raman_Str $Test_NA"    -ForegroundColor Yellow 
 }
 elseif ([bool] ($RHID_Raman | Select-String "Pass") -eq "True") {
@@ -93,7 +93,7 @@ else {
 }
 
 $RHID_Bolus = Get-ChildItem $Bolus_Folder  -I storyboard*.* -R -ErrorAction SilentlyContinue| Select-String "Bolus Devliery Test" | select-string "PASS"
-if ($RHID_Bolus.count -gt 1) {
+if ($RHID_Bolus.count -gt 0) {
     Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_Bolus.count -ForegroundColor Green
 }
 else {

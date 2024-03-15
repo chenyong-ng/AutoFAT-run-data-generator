@@ -225,8 +225,8 @@ Function RHID_Homing_Error_Test_Details {
     "$Desc : " + "DL Motor Homing Error At: " + $RHID_Homing_Error_Test_DL + " mm (<0.35 mm)"
 }
 
-$RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:"                        | Select-String "(<0.35mm)")[-1].line.split(":")[-1].replace("mm (<0.35 mm)","")
-$RHID_FL_Homing_Error_wCAM_CAM5 = [Double]($storyboard | Select-String -SimpleMatch "FL (CAM5):"    | Select-String "(<0.35mm)")[-1].line.split(":")[-1].replace("mm (<0.35 mm)","")
+$RHID_FL_Homing_Error_wCAM_FL   = [Double]($storyboard | Select-String "FL:"                        | Select-String "(<0.35mm)")[-1].line.split(":")[-1].replace("(<0.35mm)","")
+$RHID_FL_Homing_Error_wCAM_CAM5 = [Double]($storyboard | Select-String -SimpleMatch "FL (CAM5):"    | Select-String "(<0.35mm)")[-1].line.split(":")[-1].replace("(<0.35mm)","")
 Function RHID_FL_Homing_Error_Details {
     "$Desc : " + "FL Motor Homing Error At:"        + $RHID_FL_Homing_Error_wCAM_FL     + " mm (<0.35 mm)"
     "$Desc : " + "FL Motor CAM5 Homing Error At:"   + $RHID_FL_Homing_Error_wCAM_CAM5   + " mm (<0.35 mm)"
