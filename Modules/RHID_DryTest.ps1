@@ -8,16 +8,16 @@ if ($RHID_Lysis_Heater_FAT.count -eq 0) {
     $Lysis_Heater_Test_Result = $Test_NA
     $LHColor = "Yellow"
 } elseif ($RHID_Lysis_Heater_FAT_PASS.Line -match "PASS") {
-        $Lysis_Heater_Test_Result = $Test_Passed
-    $LHColor = "Green"
+        $Global:Lysis_Heater_Test_Result = $Global:Test_Passed
+    $Global:LHColor = "Green"
 } elseif ($RHID_Lysis_Heater_FAT_FAIL.Line -match "FAIL") {
-    $Lysis_Heater_Test_Result = $Test_Failed
-    $LHColor = "Red"
+    $Global:Lysis_Heater_Test_Result = $Global:Test_Failed
+    $Global:LHColor = "Red"
 }
 if ($EnableDescriptions -eq "True") {
     RHID_Lysis_Heater_Details
 }
-    Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
+    #Write-Host "$Heater : $RHID_Lysis_Heater_str $Lysis_Heater_Test_Result" -ForegroundColor $LHColor
 
 $RHID_DN_Heater_FAT_PASS = ($RHID_DN_Heater_FAT | Select-String "PASS" )
 $RHID_DN_Heater_FAT_FAIL = ($RHID_DN_Heater_FAT | Select-String "FAIL" )
