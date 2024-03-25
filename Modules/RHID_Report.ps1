@@ -1,7 +1,10 @@
 
 $Storyboard_Folder      =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\",
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\",
-                            "$Inst_rhid_Folder"
+                            "$Inst_rhid_Folder",
+                            # try to exclude internal folder
+                            "$US_Path-$IndexedSerialNumber",
+                            "$Path-$IndexedSerialNumber"
 $MachineConfig_Folder   =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
                             "$Inst_rhid_Folder\MachineConfig.xml"
@@ -21,6 +24,7 @@ $serverdir_Ladder        =  "$Path-$IndexedSerialNumber\*GFE-BV Allelic Ladder*"
                             "$US_Path-$IndexedSerialNumber\*GFE-BV Allelic Ladder*"
 $serverdir_GFE_007       =  "$Path-$IndexedSerialNumber\*GFE_007*",
                             "$US_Path-$IndexedSerialNumber\*GFE_007*"
+                            # Try looking fo Protocol:GFE-BV and "*007*" if folder name typed incorrectly 
 $serverdir_NGM_007       =  "$Path-$IndexedSerialNumber\*NGM_007*",
                             "$US_Path-$IndexedSerialNumber\*NGM_007*"
 $serverdir_BLANK         =  "$Path-$IndexedSerialNumber\*BLANK*",
@@ -68,16 +72,6 @@ $Bolus_Folder           =   "$Path-$IndexedSerialNumber\*Bolus Delivery Test*",
 # # Gather folders size. and filter out small folder
 # 
 # $TotalMemory          = "{0:N0} MB" -f ((get-childitem "U:\RHID-0855\Internal\RapidHIT ID\Results\Data RHID-0855\" -R -Force -ErrorAction SilentlyContinue | Measure-Object Length -sum -ErrorAction SilentlyContinue ).sum / 1Mb)
-$fullname = $Storyboard.FullName
-$i = $Storyboard.count
-$i = 0
-foreach ($Storyboard in $fullname) {
-    if ( $Storyboard.count -gt 0) {
-        $Filesize = Get-Item $fullname[$i] | ForEach-Object { [math]::ceiling($_.length / 1KB) }
-        $Filesize
-    $i = $i + 1
-    }
-} 
 
 $Storyboard         = Get-ChildItem $Storyboard_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
 if ($Storyboard.count -eq 0) {
@@ -87,6 +81,19 @@ if ($Storyboard.count -eq 0) {
     "$Searching : Storyboard*.txt"
     "$Found : " + $Storyboard.count + " , " + $Storyboard[0]
 }
+
+<#
+$fullname = $Storyboard.FullName
+$i = $Storyboard.count
+$i = 0
+foreach ($Storyboard in $fullname) {
+    if ( $Storyboard.count -gt 0) {
+        $Filesize = (Get-Item $fullname[$i] | ForEach-Object { [math]::ceiling($_.length / 1KB) })
+        "$Filesize KB" 
+        $i = $i + 1
+    }
+} 
+#>
 
 "$Searching : MachineConfig.xml"
 $MachineConfigXML = Get-ChildItem $MachineConfig_Folder -ErrorAction SilentlyContinue

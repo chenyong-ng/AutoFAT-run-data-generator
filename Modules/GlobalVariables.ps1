@@ -22,6 +22,7 @@ if (($WhereGitExe -and $WhereGitFolder) -eq "True") {
 }
 $CheckLan                   = (Get-NetIPAddress -InterfaceAlias "Ethernet*" -addressfamily "IPv4").interfacealias
                             # [Bool]((Get-NetConnectionProfile).interfacealias[0..2] -match "Ethernet")
+                            #  netsh lan/wlan show interface to display extensive information
 $CheckWifi                  = (Get-NetIPAddress -InterfaceAlias "Wi-Fi*" -addressfamily "IPv4").interfacealias
                             # [Bool]((Get-NetConnectionProfile).interfacealias[0..2] -match "Wi-Fi")
 $CheckInternet              = [bool]((Get-NetConnectionProfile).IPv4Connectivity[0..2] -match "Internet")

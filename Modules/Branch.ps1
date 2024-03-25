@@ -18,6 +18,7 @@ Write-Host "$Info : $RHID_DannoFolderListCount RHID folders detected in Servers 
     "$Info : Only first 4 ditigs are indexed for RHID result generation"
     "$Info : Extra alphanumeric characters are passed as arguments"
     "$Info : Press Ctrl+C to Abort Script Execution"
+    "$Info : Powershell version  : $PSVersion on $HostName"
     "$Info : Usage : enter 0477xv to enable Verbose mode but disable report generation, space are optional"
     "$Info : Enter V to enable VerboseMode, Q to anable Quiet Mode on console"
     "$Info :	R to disable Report Log Generation, X to disable XML Generation"

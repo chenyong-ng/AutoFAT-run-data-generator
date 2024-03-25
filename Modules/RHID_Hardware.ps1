@@ -68,10 +68,16 @@ If ([Bool]$DannoAppRhidCheck -eq "True" ) {
 "$Loading : Q-mini textual filtering commands"
 $RHID_QMini_SN                      = ($storyboard | Select-String "Q-mini serial number").line.split(":").TrimStart()[-1]
 $RHID_QMini_Coeff                   = ($storyboard | Select-String "Coefficients").line.split(":").TrimStart()[-1]
+# If Log show "This unit has no (or an invalid) non-linear calibration", the Qmini will not working properly on Full test
+# QMINI FAT: FAIL ==> Check Calibration and Retry
 $RHID_QMini_Infl                    = ($storyboard | Select-String "Inflection Point").line.split(":").TrimStart()[-1]
-"$Found : " + $RHID_QMini_SN
-"$Found : " + $RHID_QMini_Coeff
-"$Found : " + $RHID_QMini_Infl
+# Inflection Points will not show until unit has performed first BEC Insertion
+"$Found : " + $RHID_QMini_SN + ", Instances Found : " + ($storyboard | Select-String "Q-mini serial number").count
+"First Instance Fount at : " + ($storyboard | Select-String "Q-mini serial number")[0]
+"$Found : " + $RHID_QMini_Coeff + ", Instances Found : " + ($storyboard | Select-String "Coefficients").count
+"First Instance Found at : " + ($storyboard | Select-String "Coefficients")[0]
+"$Found : " + $RHID_QMini_Infl + ", Instances Found : " + ($storyboard | Select-String "Inflection Point").count
+"First Instance Found at : " + ($storyboard | Select-String "Inflection Point")[0]
 <#
 IF ($VerboseMode -eq "True") { $RHID_QMini_SN , $RHID_QMini_Coeff, $RHID_QMini_Infl }
 IF ($HistoryMode -eq "True") { $storyboard | Select-String "Q-mini serial number" , $RHID_QMini_Coeff, $RHID_QMini_Infl }

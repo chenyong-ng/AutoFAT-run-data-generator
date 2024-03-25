@@ -95,9 +95,9 @@ else {
 $Bolus_Folder_Storyboard = Get-ChildItem $Bolus_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue
 $RHID_BolusPass = $Bolus_Folder_Storyboard | select-string "PASS"
 $RHID_BolusFail = $Bolus_Folder_Storyboard | select-string "FAIL"
-$RHID_BolusPassingRate = "Passing Rate {0:P2}" -f ([Double]($RHID_BolusPass.count) / ($Bolus_Folder_Storyboard.count))
+$RHID_BolusPassingRate = "Passing Rate : {0:P2}" -f ([Double]($RHID_BolusPass.count) / ($Bolus_Folder_Storyboard.count))
 if ($Bolus_Folder.count -gt 0) {
-    Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_BolusPass.count "," $RHID_BolusPassingRate -ForegroundColor Green
+    Write-host "$Bolus : $Bolus_Test_count_Str" : $RHID_BolusPass.count "/" $Bolus_Folder_Storyboard.count "," $RHID_BolusPassingRate -ForegroundColor Green
 }
 else {
     Write-host "$Bolus : $Bolus_Test_count_Str : N/A" -ForegroundColor Yellow
