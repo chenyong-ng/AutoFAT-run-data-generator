@@ -99,4 +99,4 @@ $Allelic_Ladder_Trace_Str = "[1/3]      Allelic Ladder Trace Quality" ; $GFE_007
 $NGM_007_Trace_Str        = "[1/5]             NGM_007 Trace Quality" ; $BLANK_Trace_Str          = "[1/6]               BLANK Trace Quality"
 $GM_ILS           = "[ GeneMarker ]" ; $SampleName       = "[ Sample Name]" ; $RunCounter       = "[ Run Counter]"
 $Cartridge_Type   = "[ Ctrg. Info ]" ; $Protocol_Setting = "[ Protocol   ]" ; $DebugStr         = "[ DebugMode  ]"
-$Bolus_Timing     = "[Bolus_Timing]" ; $Date_Time        = "[ Run Date   ]" 
+$Bolus_Timing     = "[Bolus_Timing]" ; $Date_Time        = "[ Run Date   ]" ; $Gel_Syringe      = "[ Gel Record ]"

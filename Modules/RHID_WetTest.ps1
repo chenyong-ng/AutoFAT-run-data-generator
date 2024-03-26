@@ -122,6 +122,7 @@ Cover Off GFE 36 cycles 300ul Tests
 IF ($GM_ILS_Score_GFE_36cycles[-1].count -gt "0") {
     $GM_ILS_Score_GFE_36cycles_Score = $GM_ILS_Score_GFE_36cycles.Line.Split("	") | Select-Object -Last 1
     $DxCode = Get-ChildItem $serverdir36cycles -I DxCode.xml -R -ErrorAction SilentlyContinue | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RHID_GelSyringe_record = (Get-ChildItem $serverdir36cycles -I Storyboard*.txt -R -ErrorAction SilentlyContinue | Select-String "Gel syringe record").line.split(",")[-1].replace("Gel syringe record:", "").replace("mL", "").Trim()
     $RunSummaryCSV = Get-ChildItem $serverdir36cycles -I RunSummary.csv -R -ErrorAction SilentlyContinue
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : $GM_ILS_Score_GFE_36cycles_Score $DxCode" -ForegroundColor Green
@@ -129,6 +130,7 @@ IF ($GM_ILS_Score_GFE_36cycles[-1].count -gt "0") {
     "$SampleName : [3/1] $RHID_SampleName"
     "$Cartridge_Type : [4/1] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
     "$Protocol_Setting : [5/1] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
+    "$Gel_Syringe : [6/1] $RHID_GelSyringe_record [mL]"
 }
 Else { Write-Host "$GM_ILS : $GFE_36cycles_Trace_Str : N/A" -ForegroundColor Yellow }
 $Section_Separator
@@ -138,6 +140,7 @@ Cover Off Blank Tests
 IF ($GM_ILS_Score_GFE_BV[-1].count -gt "0") {
     $GM_ILS_Score_GFE_BV_Score = $GM_ILS_Score_GFE_BV.Line.Split("	") | Select-Object -Last 1
     $DxCode = Get-ChildItem $serverdir_GFE_BV -I DxCode.xml -R -ErrorAction SilentlyContinue | Select-Xml -XPath "//DxCode" | ForEach-Object { $_.node.InnerXML }
+    $RHID_GelSyringe_record = (Get-ChildItem $serverdir_GFE_BV -I Storyboard*.txt -R -ErrorAction SilentlyContinue | Select-String "Gel syringe record").line.split(",")[-1].replace("Gel syringe record:", "").replace("mL", "").Trim()
     $RunSummaryCSV = Get-ChildItem $serverdir_GFE_BV -I RunSummary.csv -R -ErrorAction SilentlyContinue
     . $PSScriptRoot\RunSummaryCSV.ps1
     Write-Host "$GM_ILS : $GFE_BV_Trace_Str : $GM_ILS_Score_GFE_BV_Score $DxCode"-ForegroundColor Green
@@ -145,6 +148,7 @@ IF ($GM_ILS_Score_GFE_BV[-1].count -gt "0") {
     "$SampleName : [3/2] $RHID_SampleName"
     "$Cartridge_Type : [4/2] $RHID_Cartridge_Type ; [Type] : $RHID_RunType"
     "$Protocol_Setting : [5/2] $RHID_Protocol_Setting [LN]$RHID_Cartridge_ID [BEC]$RHID_BEC_ID"
+    "$Gel_Syringe : [6/2] $RHID_GelSyringe_record [mL]"
 }
 Else { Write-Host "$GM_ILS : $GFE_BV_Trace_Str : N/A" -ForegroundColor Yellow }
 }

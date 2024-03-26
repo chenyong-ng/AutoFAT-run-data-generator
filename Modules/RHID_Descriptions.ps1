@@ -369,13 +369,12 @@ function MezzBoard_Test_Details {
     "$Desc : " + "Temp Avg        = " + "$RHID_MezzBoard_Temp_Avg_Cathode"  +"C (41/43 C)"
 }
 
-
 $Result_Separator             = "################################"
-#$Bolus_Folder           =   "U:\RHID-0890\*Bolus Delivery Test*"
+$Bolus_Folder           =   "U:\RHID-0977\*Bolus Delivery Test*"
 $Bolus_Folder_Storyboard        = Get-ChildItem $Bolus_Folder -I storyboard*.txt -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime
 $RHID_Bolus_Test_Result_Image   = (Get-ChildItem $Bolus_Folder -I BolusInject_*.png -R -ErrorAction SilentlyContinue | Sort-Object LastWriteTime).Fullname
-# $RHID_Bolus_Quality             = (($Bolus_Folder_Storyboard | Select-String "Bolus Quality ==>"      ).line.split(",") | Select-String "Bolus Quality ==>"      ).line.replace("Bolus Quality ==>", ""      ).Trim()
-# $RHID_Bolus_Diag                = (($Bolus_Folder_Storyboard | Select-String "Diagnostics code").line.split(",") | Select-String "Diagnostics code"      ).line.replace("Diagnostics code", ""      ).replace("set", "").Trim()
+$RHID_Bolus_Quality             = (($Bolus_Folder_Storyboard | Select-String "Bolus Quality ==>"      ).line.split(",") | Select-String "Bolus Quality ==>"      ).line.replace("Bolus Quality ==>", ""      ).Trim()
+$RHID_Bolus_Diag                = (($Bolus_Folder_Storyboard | Select-String "Diagnostics code").line.split(",") | Select-String "Diagnostics code"      ).line.replace("Diagnostics code", ""      ).replace("set", "").Trim()
 # Script is working but it's incorrectly added to sequence
 $RHID_Bolus_DN                  = (($Bolus_Folder_Storyboard | Select-String "% in DN ="      ).line.split(",") | Select-String "% in DN ="      ).line.replace("% in DN =", ""      ).replace("%", "").Trim()
 $RHID_Bolus_Volume              = (($Bolus_Folder_Storyboard | Select-String "Volume  ="      ).line.split(",") | Select-String "Volume  ="      ).line.replace("Volume  =", ""      ).replace("uL", "").Trim()
@@ -399,14 +398,18 @@ $BolusTestInfo = @()
 
 $i = $Bolus_Folder_Storyboard.count
 $i = 0
-$BolusData = foreach ($Bolus_Folder_Storyboard in $Bolus_Folder_Storyboard) {
+$BolusData = foreach ($Bolus_Folder_Storyboard in $RHID_Bolus_DN) {
     if ( $Bolus_Folder_Storyboard.count -gt 0) {
         $Result_Separator
+        
+        #$RHID_Bolus_Quality = (($Bolus_Folder_Storyboard | Select-String "Bolus Quality ==>"      ).line.split(",") | Select-String "Bolus Quality ==>"      ).line.replace("Bolus Quality ==>", ""      ).Trim()
+        #$RHID_Bolus_Diag = (($Bolus_Folder_Storyboard | Select-String "Diagnostics code").line.split(",") | Select-String "Diagnostics code"      ).line.replace("Diagnostics code", ""      ).replace("set", "").Trim()
+        #
         # ($Drive + "\" + $MachineName + "\" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "\" + $RHID_Bolus_Test_Result_Image.name[$i])
         #$Bolust_Image_HTML      = ($Drive + "/" + $MachineName + "/" + $RHID_Bolus_Test_Result_Image.directory.name[$i] + "/" + $RHID_Bolus_Test_Result_Image.name[$i]).replace("\","/").replace("#","%23")
         $Bolus_Test_Counter     = "Bolus Test Counter   : #"+ [Double]($i + 1)
-        # $RHID_Bolus_Quality_Var = "Bolus Quality        : " + $RHID_Bolus_Quality[$i]
-        # $RHID_Bolus_Diag_Var    = "Bolus Diagnostic     : " + $RHID_Bolus_Diag[$i]
+        $RHID_Bolus_Quality_Var = "Bolus Quality        : " + $RHID_Bolus_Quality[$i]
+        $RHID_Bolus_Diag_Var    = "Bolus Diagnostic     : " + $RHID_Bolus_Diag[$i]
         $RHID_Bolus_DN_Var      = "Bolus DN Volume      : " + [Double]$RHID_Bolus_DN[$i] + " %"
         $RHID_Bolus_Volume_Var  = "Bolus Volume         : " + [Double]$RHID_Bolus_Volume[$i] + " μL"
         $RHID_Bolus_Timing_Var  = "Bolus Timing         : " + [Double]$RHID_Bolus_Timing[$i] + " Seconds"
@@ -420,8 +423,8 @@ $BolusData = foreach ($Bolus_Folder_Storyboard in $Bolus_Folder_Storyboard) {
         # "BolusCurrent,$RHID_Bolus_Current_Var,uA"
         # "Image,$Bolust_Image"
         $Bolus_Test_Counter
-        # $RHID_Bolus_Quality_Var
-        # $RHID_Bolus_Diag_Var
+        $RHID_Bolus_Quality_Var
+        $RHID_Bolus_Diag_Var
         $RHID_Bolus_DN_Var
         $RHID_Bolus_Volume_Var
         $RHID_Bolus_Timing_Var

@@ -1,10 +1,10 @@
 
 $Storyboard_Folder      =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\",
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\",
-                            "$Inst_rhid_Folder",
+                            "$Inst_rhid_Folder"
                             # try to exclude internal folder
-                            "$US_Path-$IndexedSerialNumber",
-                            "$Path-$IndexedSerialNumber"
+                            #"$US_Path-$IndexedSerialNumber",
+                            #"$Path-$IndexedSerialNumber"
 $MachineConfig_Folder   =   "$Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
                             "$US_Path-$IndexedSerialNumber\Internal\RapidHIT ID\MachineConfig.xml",
                             "$Inst_rhid_Folder\MachineConfig.xml"
